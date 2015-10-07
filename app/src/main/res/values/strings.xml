@@ -3,4 +3,8 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_check">Sprawdzanie</string>
+    <string name="action_OK">✔</string>
+    <string name="alert_pass">Udało Ci się przetłumaczyć.</string>
+    <string name="alert_fail">Podałeś nie poprawny wyraz. Poprawnie to </string>
 </resources>
