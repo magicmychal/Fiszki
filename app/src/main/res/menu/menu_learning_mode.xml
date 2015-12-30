@@ -1,8 +1,0 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="eu.qm.fiszki.activity.LearningModeActivity">
-    <item android:id="@+id/action_OK" android:title="@string/action_OK" android:icon="@drawable/check"
-        android:orderInCategory="2" app:showAsAction="ifRoom" />
-
-</menu>

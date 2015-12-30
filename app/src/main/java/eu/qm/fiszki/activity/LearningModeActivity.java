@@ -35,6 +35,7 @@ public class LearningModeActivity extends AppCompatActivity {
     Checker check;
     Alert message;
     Context context;
+    Cursor c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,8 @@ public class LearningModeActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        algorith();
         keyboardAction();
     }
 
@@ -83,7 +86,7 @@ public class LearningModeActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_learning_mode, menu);
+        getMenuInflater().inflate(R.menu.menu_exam_mode, menu);
         return true;
     }
 
@@ -97,7 +100,7 @@ public class LearningModeActivity extends AppCompatActivity {
                 startActivity(getIntent());
             } else {
                 enteredWord.setText("");
-                message.fail(this, expectedWord, getString(R.string.alert_message_fail),getString(R.string.alert_message_tryagain) ,getString(R.string.alert_title_fail), getString(R.string.alert_nameButton_OK));
+                message.fail(this, expectedWord, getString(R.string.alert_message_fail),getString(R.string.alert_message_tryagain) ,getString(R.string.alert_title_fail), getString(R.string.button_action_ok));
 
             }
         } else if (id == android.R.id.home) {
@@ -112,14 +115,12 @@ public class LearningModeActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if(actionId== EditorInfo.IME_ACTION_DONE){
 
-                        if (check.Check(expectedWord, enteredWord.getText().toString())) {
-                            Intent intent = new Intent(context, LearningModeActivity.class);
-                            context.startActivity(intent);
-                            ((Activity) context).finish();
-                        } else {
-                            enteredWord.setText("");
-                            message.fail(LearningModeActivity.this, expectedWord, getString(R.string.alert_message_fail), getString(R.string.alert_message_tryagain), getString(R.string.alert_title_fail), getString(R.string.alert_nameButton_OK));
-                        }
+                    if (check.Check(expectedWord, enteredWord.getText().toString())) {
+                        algorith();
+                    } else {
+                        enteredWord.setText("");
+                        message.fail(LearningModeActivity.this, expectedWord, getString(R.string.alert_message_fail), getString(R.string.alert_message_tryagain), getString(R.string.alert_title_fail), getString(R.string.button_action_ok));
+                    }
 
                     enteredWord.postDelayed(new Runnable() {
                         @Override
@@ -135,4 +136,34 @@ public class LearningModeActivity extends AppCompatActivity {
             }
         });
     }
+    public void algorith(){
+
+            enteredWord.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    keyboard.showSoftInput(enteredWord, 0);
+                }
+            }, 0);
+            c = myDb.getAllRows();
+            enteredWord.setText("");
+            enteredWord.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+            word.setText("");
+            int cCount = c.getCount();
+            int cPosition = myDb.intRowValue(DBModel.SETTINGS_NAME, "cursorPosition");
+            if (cPosition < cCount) {
+                c.move(cPosition);
+                cPosition++;
+                myDb.updateRow("cursorPosition", cPosition);
+            } else {
+                cPosition = 1;
+                myDb.updateRow("cursorPosition", cPosition);
+            }
+
+            wordFromData = c.getString(c.getColumnIndex(DBModel.KEY_WORD));
+            word.append(wordFromData);
+            expectedWord = c.getString(c.getColumnIndex(DBModel.KEY_TRANSLATION));
+            enteredWord.requestFocus();
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello_world">Witaj świecie!</string>
+    <string name="main_activity_empty_base_main_layout">Nie dodałeś jeszcze żadnego słówka. Aby
+        dodać kliknij przycisk z plusem</string>
+    <string name="main_activity_button_edit">Edytuj</string>
+    <string name="main_activity_button_delete">Usuń</string>
+    <string name="main_activity_dialog_edit_item">Edycja Fiszki</string>
+    <string name="main_activity_edit_record">Edytuj</string>
+    <string name="main_activity_delete_record">Usuń</string>
+    <string name="main_activity_done_record">Wróć</string>
+    <string name="main_activity_title_seleced_record">Wybrano</string>
+
+
+</resources>

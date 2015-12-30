@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="1"
     android:screenOrientation="portrait">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.03">
 
         <TextView
             android:layout_width="403dp"
@@ -19,7 +13,8 @@
             android:id="@+id/translation"
             android:layout_below="@+id/word"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -30,6 +25,7 @@
         android:textStyle="bold"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-    </RelativeLayout>
-</LinearLayout>
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp" />
+
+</RelativeLayout>

@@ -10,3 +10,9 @@
 sc.iml
 app/app.iml
 Fiszki.iml
+/app/build
+!/app/build/outputs/apk/
+
+
+
+

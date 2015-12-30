@@ -17,6 +17,8 @@ public class ItemAdapter extends CursorAdapter
 {
     DBAdapter newAdapter;
     MainActivity newActivity;
+    TextView word, translation, rowId;
+    String wordString, translationString;
 
     public ItemAdapter(Context context ,Cursor c, DBAdapter myDB, MainActivity mainActivity)
     {
@@ -33,18 +35,18 @@ public class ItemAdapter extends CursorAdapter
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        TextView word = (TextView) view.findViewById(R.id.word);
-        TextView translation = (TextView) view.findViewById(R.id.translation);
+        word = (TextView) view.findViewById(R.id.word);
+        translation = (TextView) view.findViewById(R.id.translation);
 
-        String wordString = cursor.getString(cursor.getColumnIndexOrThrow(DBModel.KEY_WORD));
-        String translationString = cursor.getString(cursor.getColumnIndexOrThrow(DBModel.KEY_TRANSLATION));
+        wordString = cursor.getString(cursor.getColumnIndexOrThrow(DBModel.KEY_WORD));
+        translationString = cursor.getString(cursor.getColumnIndexOrThrow(DBModel.KEY_TRANSLATION));
+
+        if (cursor.getInt(3) == 5)
+        {
+            view.setBackgroundResource(R.color.LearningGreen);
+        }
 
         word.setText(wordString);
         translation.setText(translationString);
-    }
-
-    public void refreshList()
-    {
-        newActivity.populateListView();
     }
 }

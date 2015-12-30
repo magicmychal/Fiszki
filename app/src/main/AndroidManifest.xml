@@ -16,19 +16,21 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.CheckActivity"
-            android:label="@string/title_activity_check"
+            android:label="@string/check_activity_title"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
 
-        <receiver android:name=".AlarmReceiver"
+        <receiver
+            android:name=".AlarmReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
         <activity
-            android:name=".activity.LearningModeActivity"
-            android:label="@string/title_activity_learning_mode"
+            android:name=".activity.ExamModeActivity"
+            android:label="@string/exam_mode_title"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MainActivity"
@@ -43,8 +45,17 @@
         </activity>
         <activity
             android:name=".activity.SettingsActivity"
-            android:label="@string/title_activity_sett"
-            android:screenOrientation="portrait"></activity>
+            android:label="@string/settings_title"
+            android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".activity.LearningModeActivity"
+            android:label="@string/learning_mode_title"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="add_new_word_title">Dodaj nowe słowo: </string>
+
+    <string name="add_new_word_toast">Nowe słówko zostało dodane</string>
+    <string name="add_new_word_word">Słówko</string>
+    <string name="add_new_word_info">Tłumaczenie</string>
+
+</resources>

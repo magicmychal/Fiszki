@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.support.v7.app.ActionBar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 
 import eu.qm.fiszki.AlarmReceiver;
@@ -39,7 +40,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity
     public DBStatus openDataBase = new DBStatus();
     public int time = 15;
     public Alert alert;
-    public String Position = "notification_time";
+    public String notificationPosition = "notification_time";
     public String notificationStatus = "notification";
     private AlertDialog.Builder builder;
 
@@ -79,10 +80,23 @@ public class SettingsActivity extends AppCompatPreferenceActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            ((Activity) this).finish();
+            Intent home = new Intent(this,MainActivity.class);
+            startActivity(home);
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK)
+            {
+                Intent home = new Intent(this,MainActivity.class);
+                startActivity(home);
+                finish();
+            }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void setupActionBar() {
@@ -105,7 +119,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity
                     alarm.close(manager, context, pendingIntent);
                     time = 0;
                     pref.setSummary(listPref.getEntry());
-                    myDb.updateRow(Position, 0);
+                    myDb.updateRow(notificationPosition, 0);
                     myDb.updateRow(notificationStatus, 0);
                 }else
                 //FOR 1 min
@@ -114,7 +128,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity
                     alarm.close(manager, context, pendingIntent);
                     time = 1;
                     pref.setSummary(listPref.getEntry());
-                    myDb.updateRow(Position, 1);
+                    myDb.updateRow(notificationPosition, 1);
                     myDb.updateRow(notificationStatus, 1);
                     alarm.start(manager, context, pendingIntent, time);
                 } else
@@ -124,7 +138,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity
                     alarm.close(manager, context, pendingIntent);
                     time = 5;
                     pref.setSummary(listPref.getEntry());
-                    myDb.updateRow(Position, 2);
+                    myDb.updateRow(notificationPosition, 2);
                     myDb.updateRow(notificationStatus, 1);
                     alarm.start(manager, context, pendingIntent, time);
                 } else
@@ -134,7 +148,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity
                     alarm.close(manager, context, pendingIntent);
                     time = 15;
                     pref.setSummary(listPref.getEntry());
-                    myDb.updateRow(Position, 3);
+                    myDb.updateRow(notificationPosition, 3);
                     myDb.updateRow(notificationStatus, 1);
                     alarm.start(manager, context, pendingIntent, time);
                 } else
@@ -144,14 +158,14 @@ public class SettingsActivity extends AppCompatPreferenceActivity
                     alarm.close(manager, context, pendingIntent);
                     time = 15;
                     pref.setSummary(listPref.getEntry());
-                    myDb.updateRow(Position, 4);
+                    myDb.updateRow(notificationPosition, 4);
                     myDb.updateRow(notificationStatus, 1);
                     alarm.start(manager, context, pendingIntent, time);
                 } else {
                     alert.buildAlert(
-                            context.getString(R.string.notification_change_title),
-                            context.getString(R.string.notification_change_message),
-                            context.getString(R.string.action_OK),
+                            context.getString(R.string.alert_notification_change_title),
+                            context.getString(R.string.alert_notification_change_message),
+                            context.getString(R.string.button_action_ok),
                             SettingsActivity.this);
                     listPref.setValue(getResources().getString(R.string.frequency_0));
                 }
@@ -162,19 +176,19 @@ public class SettingsActivity extends AppCompatPreferenceActivity
         //Notification
         pref = findPreference(getResources().getString(R.string.settings_key_notification));
         ListPreference listPref = (ListPreference) pref;
-        if (myDb.intRowValue(DBModel.SETTINGS_NAME, Position) == 0) {
+        if (myDb.intRowValue(DBModel.SETTINGS_NAME, notificationPosition) == 0) {
             listPref.setValueIndex(0);
             pref.setSummary(listPref.getEntry());
         }
-        if (myDb.intRowValue(DBModel.SETTINGS_NAME, Position) == 1) {
+        if (myDb.intRowValue(DBModel.SETTINGS_NAME, notificationPosition) == 1) {
             listPref.setValueIndex(1);
             pref.setSummary(listPref.getEntry());
         }
-        if (myDb.intRowValue(DBModel.SETTINGS_NAME, Position) == 2) {
+        if (myDb.intRowValue(DBModel.SETTINGS_NAME, notificationPosition) == 2) {
             listPref.setValueIndex(2);
             pref.setSummary(listPref.getEntry());
         }
-        if (myDb.intRowValue(DBModel.SETTINGS_NAME, Position) == 3) {
+        if (myDb.intRowValue(DBModel.SETTINGS_NAME, notificationPosition) == 3) {
             listPref.setValueIndex(3);
             pref.setSummary(listPref.getEntry());
         }
@@ -190,23 +204,30 @@ public class SettingsActivity extends AppCompatPreferenceActivity
         }
         String version = info.versionName;
         pref.setSummary(version);
+
+        //Clear database
+        cleanerDataBase = findPreference(getResources().getString(R.string.settings_key_data_base));
+        if(myDb.getAllRows().getCount()>0){
+            cleanerDataBase.setEnabled(true);
+        }else{
+            cleanerDataBase.setEnabled(false);
+        }
     }
 
     public void clearDataBase() {
-        cleanerDataBase = findPreference(getResources().getString(R.string.settings_key_data_base));
         cleanerDataBase.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
 
                 builder = new AlertDialog.Builder(SettingsActivity.this);
-                builder.setMessage(R.string.delete_db_records)
-                        .setPositiveButton(R.string.action_OK, new DialogInterface.OnClickListener() {
+                builder.setMessage(R.string.alert_clear_database_settings)
+                        .setPositiveButton(R.string.button_action_yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 deleteDbRows();
 
                             }
                         })
-                        .setNegativeButton(R.string.action_NO, new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.button_action_no, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                             }
                         }).show();
@@ -222,7 +243,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity
        startActivity(refresh);
        finish();
         alarm.close(manager,context,pendingIntent);
-        myDb.updateRow(Position,0);
+        myDb.updateRow(notificationPosition,0);
         myDb.updateRow(notificationStatus,0);
     }
 }

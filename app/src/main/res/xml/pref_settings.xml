@@ -17,6 +17,7 @@
         android:key="@string/settings_key_data_base"
         android:title="@string/settings_title_data_base"
         android:summary="@string/settings_summary_data_base"
+        android:enabled="false"
         />
  <PreferenceCategory
         android:title="@string/settings_category_about"

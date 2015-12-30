@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="notification_title">Tłumaczenia czas nastał</string>
+    <string name="notification_message">Odkryj efekt szybkiego nauczania,
+        zdenerwował tym wszystkich nauczycieli</string>
+    <string name="notification_on">Powiadomienia włączone</string>
+    <string name="notification_off">Powiadomienia wyłączone</string>
+
+</resources>

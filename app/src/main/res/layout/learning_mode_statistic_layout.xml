@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="129dp"
+            android:id="@+id/statistic_title"
+            android:layout_weight="0.13"
+            android:text="@string/statistic_title"
+            android:textAlignment="center"
+            android:textSize="60dp"
+            android:textStyle="bold|italic"
+            android:typeface="serif"
+            android:gravity="center_vertical|center"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="center_horizontal|top" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/statistic_subtitle"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_weight="0.13"
+            android:gravity="center_vertical|center"
+            android:textSize="25dp"
+            android:layout_marginTop="110dp" />
+
+        <TextView
+            android:layout_width="190dp"
+            android:layout_height="40dp"
+            android:text="@string/statistic_properly"
+            android:id="@+id/statistic_true"
+            android:layout_below="@+id/statistic_subtitle"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="50dp"
+            android:gravity="center_vertical|center" />
+
+        <TextView
+            android:layout_width="190dp"
+            android:layout_height="40dp"
+            android:text="@string/statistic_wrongly"
+            android:id="@+id/statistic_false"
+            android:layout_below="@+id/statistic_subtitle"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="20dp"
+            android:gravity="center_vertical|center" />
+
+        <TextView
+            android:layout_width="190dp"
+            android:layout_height="40dp"
+            android:text="@string/statistic_total"
+            android:id="@+id/statistic_total"
+            android:layout_below="@+id/statistic_subtitle"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="50dp"
+            android:foregroundGravity="center_vertical|center"
+            android:gravity="center|center_horizontal" />
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/numberOfTrue"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginBottom="50dp"
+            android:gravity="center|center_horizontal"
+            android:layout_marginLeft="200dp"
+            android:textStyle="bold"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/numberOfFalse"
+            android:layout_gravity="left|center_vertical"
+            android:gravity="center|center_horizontal"
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="200dp"
+            android:textStyle="bold"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/numberOfTotal"
+            android:layout_gravity="left|center_vertical"
+            android:gravity="center|center_horizontal"
+            android:layout_marginLeft="200dp"
+            android:layout_marginTop="50dp"
+            android:textStyle="bold"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="190dp"
+            android:layout_height="40dp"
+            android:text="@string/statistic_procent"
+            android:id="@+id/statistic_procent"
+            android:layout_below="@+id/statistic_subtitle"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="center_horizontal|bottom"
+            android:foregroundGravity="center_vertical|center"
+            android:gravity="center|center_horizontal"
+            android:layout_marginBottom="125dp"
+            android:layout_marginRight="40dp" />
+
+        <TextView
+            android:layout_width="125dp"
+            android:layout_height="70dp"
+            android:id="@+id/numberOfProcent"
+            android:layout_gravity="center_horizontal|bottom"
+            android:gravity="center|center_horizontal"
+            android:layout_marginBottom="110dp"
+            android:layout_marginLeft="50dp"
+            android:textSize="50dp"
+            android:textStyle="bold" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:id="@+id/repeate"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginLeft="0dp"
+            android:layout_marginBottom="30dp"
+            android:text="@string/statistic_repeat"/>
+
+    </FrameLayout>
+
+</LinearLayout>

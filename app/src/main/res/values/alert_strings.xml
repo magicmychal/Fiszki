@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="alert_message_pass">You were able to translate.</string>
+
+    <string name="alert_message_fail">Incorrect word, correctly </string>
+
+    <string name="alert_title_fail">Unfortunately</string>
+
+    <string name="alert_title_pass">Congratulations!</string>
+
+    <string name="alert_title">Alert!</string>
+
+    <string name="alert_message_onRecordExist">This position is already in the list.</string>
+
+    <string name="alert_message_onEmptyFields">Fields can\'t be empty.</string>
+
+    <string name="alert_notification_change_title">Attention</string>
+
+    <string name="alert_notification_change_message">You haven\'t added word yet.
+        Notifications will turn on automaticly after you add first word.</string>
+
+    <string name="alert_add_first_word_message">You\'ve added your first word.Notifications turned
+        on automaticly and default time after they show up is 15 minutes. You can change it in
+        settings.</string>
+
+    <string name="alert_message_tryagain">Write it again.</string>
+
+    <string name="alert_learningmode_emptybase">Before you start learning, add some new words to
+        the list.</string>
+
+    <string name="alert_clear_database_settings">Are you want delete all words ?</string>
+
+    <string name="alert_delete_record">Are you want delete this word?</string>
+
+
+</resources>

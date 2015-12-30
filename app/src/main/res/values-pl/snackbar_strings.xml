@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="snackbar_returnword_message">Usunięto słowo.</string>
+    <string name="snackbar_returnword_button">Cofnij</string>
+
+</resources>

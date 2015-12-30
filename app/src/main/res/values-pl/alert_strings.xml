@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="alert_message_pass">Udało Ci się przetłumaczyć.</string>
+
+    <string name="alert_message_fail">Podałeś niepoprawny wyraz. Poprawnie to:</string>
+
+    <string name="alert_title_fail">Niestety</string>
+
+    <string name="alert_title_pass">Gratulacje</string>
+
+    <string name="alert_title">Uwaga!</string>
+
+    <string name="alert_message_onRecordExist">Pozycja znajduje się już na liście</string>
+
+    <string name="alert_message_onEmptyFields">Pola nie mogą być puste</string>
+
+    <string name="alert_notification_change_title">UWAGA</string>
+
+    <string name="alert_notification_change_message">Jeszcze nie dodałeś żadnego słówka.
+        Powiadomienia włączą się automatycznie po dodaniu pierwszego słowka</string>
+
+    <string name="alert_add_first_word_message">Dodałeś pierwsze słówko. Powiadomienia włączyły się
+        automatycznie, domyślny czas powtórzeń to 15min. Czas możesz zmienić w ustawieniach.</string>
+
+    <string name="alert_message_tryagain">Napisz go ponownie.</string>
+
+    <string name="alert_learningmode_emptybase">Zanim zaczniesz naukę, dodaj słówka do listy.</string>
+
+    <string name="alert_clear_database_settings">Czy napewno chcesz usunąć wszystkie słówka?</string>
+
+    <string name="alert_delete_record">Czy napewno chcesz usunąć to słowo?</string>
+
+</resources>

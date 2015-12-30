@@ -1,6 +1,8 @@
 package eu.qm.fiszki.activity;
 
 import android.content.Context;
+import android.app.ActionBar;
+import android.app.Dialog;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,9 +15,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import java.util.Random;
-
 import eu.qm.fiszki.Alert;
 import eu.qm.fiszki.Checker;
 import eu.qm.fiszki.database.DBAdapter;
@@ -30,6 +30,7 @@ public class CheckActivity extends AppCompatActivity {
     DBAdapter myDb = new DBAdapter(this);
     DBStatus OpenDataBase = new DBStatus();
     Alert alert;
+    Context context;
 
     String wordFromData;
     String expectedWord;
@@ -41,36 +42,55 @@ public class CheckActivity extends AppCompatActivity {
     int id;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check);
         OpenDataBase.openDB(myDb);
         Cursor c = myDb.getAllRows();
         alert = new Alert();
+        context = this;
 
+        if (myDb.getAllRows().getCount() <= 0) {
+            alert.emptyBase(context, getString(R.string.main_activity_empty_base_main_layout), getString(R.string.alert_title_fail), getString(R.string.button_action_ok));
 
-        if(myDb.getAllRows().getCount()>0) {
-            wordFromData = c.getString(c.getColumnIndex(DBModel.KEY_WORD));
-            expectedWord = c.getString(c.getColumnIndex(DBModel.KEY_TRANSLATION));
-            rowId = c.getInt(c.getColumnIndex(DBModel.KEY_ROWID));
-            rowPriority = c.getInt(c.getColumnIndex(DBModel.KEY_PRIORITY));
-            enteredWord = (EditText) findViewById(R.id.EnteredWord);
-            enteredWord.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-            enteredWord.setText("");
-            word = (TextView) findViewById(R.id.textView3);
-            word.append(wordFromData);
-            enteredWord.requestFocus();
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-            keyboardAction();
-        }else {
-            alert.emptyBase(this,getString(R.string.empty_base_check),getString(R.string.alert_title_fail),getString(R.string.action_OK));
+        } else {
+
+            int cCount = c.getCount();
+            int cPosition = myDb.intRowValue(DBModel.SETTINGS_NAME, "cursorPosition");
+            if (cPosition < cCount) {
+                c.move(cPosition);
+                cPosition++;
+                myDb.updateRow("cursorPosition", cPosition);
+            } else {
+                cPosition = 1;
+                myDb.updateRow("cursorPosition", cPosition);
+            }
+
+            if (myDb.getAllRows().getCount() > 0) {
+                wordFromData = c.getString(c.getColumnIndex(DBModel.KEY_WORD));
+                expectedWord = c.getString(c.getColumnIndex(DBModel.KEY_TRANSLATION));
+                rowId = c.getInt(c.getColumnIndex(DBModel.KEY_ROWID));
+                rowPriority = c.getInt(c.getColumnIndex(DBModel.KEY_PRIORITY));
+                enteredWord = (EditText) findViewById(R.id.EnteredWord);
+                enteredWord.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+                enteredWord.setText("");
+                word = (TextView) findViewById(R.id.textView3);
+                word.append(wordFromData);
+                enteredWord.requestFocus();
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                keyboardAction();
+            } else {
+                alert.emptyBase(this, getString(R.string.main_activity_empty_base_main_layout), getString(R.string.alert_title_fail), getString(R.string.button_action_ok));
+            }
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        if(myDb.getAllRows().getCount()>0) {
+            enteredWord.setText("");
+        }
         }
 
     @Override
@@ -97,7 +117,7 @@ public class CheckActivity extends AppCompatActivity {
         {
            if(check.Check(expectedWord, enteredWord.getText().toString()))
            {
-               message.pass(this, getString(R.string.alert_message_pass), getString(R.string.alert_title_pass), getString(R.string.alert_nameButton_OK));
+               message.pass(this, getString(R.string.alert_message_pass), getString(R.string.alert_title_pass), getString(R.string.button_action_ok));
 
                if(rowPriority<5 && firstTry) {
                    myDb.updateFlashcardPriority(rowId, rowPriority + 1);
@@ -108,7 +128,7 @@ public class CheckActivity extends AppCompatActivity {
                enteredWord.setText("");
                enteredWord.requestFocus();
             message.fail(this, expectedWord, getString(R.string.alert_message_fail),
-                    getString(R.string.alert_message_tryagain), getString(R.string.alert_title_fail), getString(R.string.alert_nameButton_OK));
+                    getString(R.string.alert_message_tryagain), getString(R.string.alert_title_fail), getString(R.string.button_action_ok));
                firstTry = false;
 
              myDb.updateFlashcardPriority(rowId, 1);

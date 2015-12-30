@@ -5,4 +5,9 @@
     <color name="TheBlackestBlack">#FFF</color>
     <color name="White">#ffffff</color>
     <color name="SettingSector">#EEEEEE</color>
+    <color name="LearningGreen">#CDDC39</color>
+    <color name="pressed_color">#4d90fe</color>
+    <color name="default_color">#ffffff</color>
+    <color name="seleced_Adapter">#F44336</color>
+    <color name="edit_button">#FF6D00</color>
 </resources>

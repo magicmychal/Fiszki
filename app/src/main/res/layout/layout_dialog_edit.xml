@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="1">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="214dp"
+        android:background="@color/White">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editOrginal"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="0dp"
+            android:maxLines="1"
+            android:inputType="textImeMultiLine"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTranslate"
+            android:text=""
+            android:layout_below="@+id/editOrginal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginLeft="24dp"
+            android:maxLines="1"
+            android:inputType="textImeMultiLine"/>
+
+        <Button
+            android:layout_width="50dp"
+            android:background="@color/White"
+            android:layout_height="36dp"
+            android:text="@string/button_action_ok"
+            android:id="@+id/editButton"
+            android:clickable="false"
+            android:textColor="@color/edit_button"
+            android:layout_below="@+id/editTranslate"
+            android:layout_marginTop="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="8dp"
+            android:textSize="20sp"/>
+    </RelativeLayout>
+</LinearLayout>

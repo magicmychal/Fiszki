@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="D:\RST\Fiszki\library\src\main\res"><file name="empty_drawable" path="D:\RST\Fiszki\library\src\main\res\drawable\empty_drawable.xml" qualifiers="" type="drawable"/><file path="D:\RST\Fiszki\library\src\main\res\values\strings.xml" qualifiers=""><string name="app_name">fab-toolbar</string></file><file path="D:\RST\Fiszki\library\src\main\res\values\styles.xml" qualifiers=""><declare-styleable name="FABToolbarLayout">
+        <attr format="integer" name="showDuration"/>
+        <attr format="integer" name="hideDuration"/>
+        <attr format="dimension" name="bottomMargin"/>
+        <attr format="dimension" name="rightMargin"/>
+        <attr format="dimension" name="fadeInPivotX"/>
+        <attr format="dimension" name="fadeInPivotY"/>
+        <attr format="float" name="fadeInFraction"/>
+        <attr format="reference" name="fabId"/>
+        <attr format="reference" name="containerId"/>
+        <attr format="reference" name="fabToolbarId"/>
+        <attr format="boolean" name="fabDrawableAnimationEnabled"/>
+    </declare-styleable></file></source><source path="D:\RST\Fiszki\library\build\generated\res\rs\release"/><source path="D:\RST\Fiszki\library\build\generated\res\resValues\release"/></dataSet><dataSet config="release"><source path="D:\RST\Fiszki\library\src\release\res"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="FABToolbarLayout"><attr format="integer" name="showDuration"/><attr format="integer" name="hideDuration"/><attr format="dimension" name="bottomMargin"/><attr format="dimension" name="rightMargin"/><attr format="dimension" name="fadeInPivotX"/><attr format="dimension" name="fadeInPivotY"/><attr format="float" name="fadeInFraction"/><attr format="reference" name="fabId"/><attr format="reference" name="containerId"/><attr format="reference" name="fabToolbarId"/><attr format="boolean" name="fabDrawableAnimationEnabled"/></declare-styleable></configuration></mergedItems></merger>

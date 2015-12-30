@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="learning_mode_title">Tryb Nauki</string>
+    <string name="learning_mode_repeat_number">Ilość powtórzeń:</string>
+
+</resources>

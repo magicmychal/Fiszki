@@ -4,7 +4,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -68,9 +67,9 @@ public class AddWordActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.action_add_new_word) {
             if (inputWord.getText().toString().isEmpty() || inputTranslation.getText().toString().isEmpty()) {
-                alert.buildAlert(getString(R.string.alert_title), getString(R.string.alert_message_onEmptyFields), getString(R.string.action_OK), AddWordActivity.this);
+                alert.buildAlert(getString(R.string.alert_title), getString(R.string.alert_message_onEmptyFields), getString(R.string.button_action_ok), AddWordActivity.this);
             } else if (myDb.getRowValue(DBModel.KEY_WORD, inputWord.getText().toString()) == true) {
-                alert.buildAlert(getString(R.string.alert_title), getString(R.string.alert_message_onRecordExist), getString(R.string.alert_nameButton_OK), AddWordActivity.this);
+                alert.buildAlert(getString(R.string.alert_title), getString(R.string.alert_message_onRecordExist), getString(R.string.button_action_ok), AddWordActivity.this);
                 inputWord.setText(null);
                 inputTranslation.setText(null);
                 inputWord.requestFocus();
@@ -79,18 +78,18 @@ public class AddWordActivity extends AppCompatActivity {
                     !TextUtils.isEmpty(inputTranslation.getText().toString())) {
                 myDb.insertRow(inputWord.getText().toString(), inputTranslation.getText().toString(),1);
                 Toast.makeText(AddWordActivity.this,
-                        getString(R.string.onNewPositionAdd), Toast.LENGTH_SHORT).show();
+                        getString(R.string.add_new_word_toast), Toast.LENGTH_SHORT).show();
                 inputWord.setText(null);
                 inputTranslation.setText(null);
                 inputWord.requestFocus();
                 if (myDb.getAllRows().getCount() == 1) {
                     settings.alarm.start(settings.manager, settings.context, settings.pendingIntent, settings.time);
-                    myDb.updateRow(settings.Position, 3);
+                    myDb.updateRow(settings.notificationPosition, 3);
                     myDb.updateRow(settings.notificationStatus,1);
                     alert.buildAlert(
                             this.getString(R.string.alert_title_pass),
-                            this.getString(R.string.add_first_word_message),
-                            this.getString(R.string.alert_nameButton_OK),
+                            this.getString(R.string.alert_add_first_word_message),
+                            this.getString(R.string.button_action_ok),
                             this);
                 }
             }
@@ -107,9 +106,9 @@ public class AddWordActivity extends AppCompatActivity {
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if(actionId == EditorInfo.IME_ACTION_DONE){
                 if (inputWord.getText().toString().isEmpty() || inputTranslation.getText().toString().isEmpty()) {
-                    alert.buildAlert(getString(R.string.alert_title), getString(R.string.alert_message_onEmptyFields), getString(R.string.action_OK), AddWordActivity.this);
+                    alert.buildAlert(getString(R.string.alert_title), getString(R.string.alert_message_onEmptyFields), getString(R.string.button_action_ok), AddWordActivity.this);
                 } else if (myDb.getRowValue(DBModel.KEY_WORD, inputWord.getText().toString())) {
-                    alert.buildAlert(getString(R.string.alert_title), getString(R.string.alert_message_onRecordExist), getString(R.string.alert_nameButton_OK), AddWordActivity.this);
+                    alert.buildAlert(getString(R.string.alert_title), getString(R.string.alert_message_onRecordExist), getString(R.string.button_action_ok), AddWordActivity.this);
                     inputWord.setText(null);
                     inputTranslation.setText(null);
                     inputWord.requestFocus();
@@ -118,18 +117,18 @@ public class AddWordActivity extends AppCompatActivity {
                         !TextUtils.isEmpty(inputTranslation.getText().toString())) {
                     myDb.insertRow(inputWord.getText().toString(), inputTranslation.getText().toString(),1);
                     Toast.makeText(AddWordActivity.this,
-                            getString(R.string.onNewPositionAdd), Toast.LENGTH_SHORT).show();
+                            getString(R.string.add_new_word_toast), Toast.LENGTH_SHORT).show();
                     inputWord.setText(null);
                     inputTranslation.setText(null);
                     inputWord.requestFocus();
                     if (myDb.getAllRows().getCount() == 1) {
                         settings.alarm.start(settings.manager, settings.context, settings.pendingIntent, settings.time);
-                        myDb.updateRow(settings.Position, 3);
+                        myDb.updateRow(settings.notificationPosition, 3);
                         myDb.updateRow(settings.notificationStatus, 1);
                         alert.buildAlert(
                                 getString(R.string.alert_title_pass),
-                                getString(R.string.add_first_word_message),
-                                getString(R.string.alert_nameButton_OK),
+                                getString(R.string.alert_add_first_word_message),
+                                getString(R.string.button_action_ok),
                                 AddWordActivity.this);
                     }
                 }

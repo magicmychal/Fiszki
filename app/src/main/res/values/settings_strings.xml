@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="settings_title">Settings</string>
+
     <string name="settings_category_notification">Notification</string>
-    <string name="settings_category_date_base">Data base</string>
+    <string name="settings_category_date_base">Database</string>
     <string name="settings_category_about">About application </string>
     <string name="settings_title_notification">Frequency of notification</string>
     <string name="settings_title_vibration">Vibration</string>
-    <string name="settings_title_data_base">Clear data base</string>
+    <string name="settings_title_data_base">Clear database</string>
     <string name="settings_summary_data_base">Delete all words in data base</string>
     <string name="settings_title_version">Version</string>
+
+
     </resources>

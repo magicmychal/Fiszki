@@ -16,6 +16,12 @@ Dzięki aplikacji Fiszki nie trzeba spędzać ani 5 minut na naukę, ponieważ u
 Daje to świetne rezultaty i nie zajmuje czasu! 
 Wszystko co musisz zrobić, to wpisać słowa, których chcesz się nauczyć</p>
 
+Funkcje w wersji <a href="http://d-h.st/xl0u">v1.3</a>:
+<ul><li>Edycja wprowadzonych słówek</li>
+<li>Usuwanie pojedynczych słówek</li>
+<li>Nowy tryb - "Sprawdź się!" wraz ze statystykami poprawności odpowiedzi</li>
+<li>Poprawka błędów i małe usprawnienia</li></ul>
+
 Funkcje w wersji <a href="http://d-h.st/pfRl">v1.2</a>:
 <ul><li>Wprowadzenie algorytmu ułatwiającego naukę</li>
 <li>Nowy wygląd ustawień</li>

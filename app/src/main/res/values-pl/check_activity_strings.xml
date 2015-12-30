@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="check_activity_title">Sprawdzanie</string>
+
+    <string name="check_activity_translate">Przetłumacz to: </string>
+
+</resources>

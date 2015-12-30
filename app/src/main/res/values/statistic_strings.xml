@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="statistic_title">Statistic</string>
+    <string name="statistic_fantastic_answer">Fantastic!</string>
+    <string name="statistic_nice_answer">Wow! Nice!</string>
+    <string name="statistic_barely_answer">Barely, barely...</string>
+    <string name="statistic_properly">Good answers:</string>
+    <string name="statistic_wrongly">Wrong answers:</string>
+    <string name="statistic_total">In total:</string>
+    <string name="statistic_procent">Percent</string>
+    <string name="statistic_needwork_answer">You still need to work!</string>
+    <string name="statistic_repeat">Repeat</string>
+    <string name="statistic_good">Quite good.</string>
+
+</resources>
