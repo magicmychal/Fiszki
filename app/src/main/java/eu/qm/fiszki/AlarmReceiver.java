@@ -24,13 +24,13 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         long[] vibrate = new long[] {0,100,0,100};
-        Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+        Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_stat_f);
         PendingIntent pi = PendingIntent.getActivity(context, 69, new Intent(context,
                 CheckActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
         Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
         mBuilder.setLargeIcon(icon);
-        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        mBuilder.setSmallIcon(R.mipmap.ic_stat_f);
         mBuilder.setSound(sound);
         mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(context.getString(R.string.notification_message)));
         mBuilder.setContentTitle(context.getString(R.string.notification_title));
