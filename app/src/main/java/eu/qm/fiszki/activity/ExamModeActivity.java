@@ -20,12 +20,14 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import eu.qm.fiszki.Alert;
 import eu.qm.fiszki.Algorithm;
+import eu.qm.fiszki.MultiSelectionSpinner;
 import eu.qm.fiszki.R;
 import eu.qm.fiszki.Rules;
 import eu.qm.fiszki.database.DBAdapter;
@@ -34,6 +36,7 @@ import eu.qm.fiszki.model.Category;
 import eu.qm.fiszki.model.CategoryManagement;
 import eu.qm.fiszki.model.Flashcard;
 import eu.qm.fiszki.model.FlashcardManagement;
+
 
 public class ExamModeActivity extends AppCompatActivity {
 
@@ -67,10 +70,13 @@ public class ExamModeActivity extends AppCompatActivity {
     AlertDialog dialog;
     ArrayAdapter<String> dataAdapter;
     private Spinner spinner;
-    private Context context;
+    public Context context;
     private CategoryManagement categoryManagement;
     private EditText categoryName;
     private Button addCategoryButton;
+    List<String> items;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +85,12 @@ public class ExamModeActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        context = this;
+
+        String[] array = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"};
+        MultiSelectionSpinner multiSelectionSpinner = (MultiSelectionSpinner) findViewById(R.id.mySpinner);
+        multiSelectionSpinner.setItems(array);
+        multiSelectionSpinner.setSelection(new int[]{2, 6});
 
         message = new Alert();
         rules = new Rules();
