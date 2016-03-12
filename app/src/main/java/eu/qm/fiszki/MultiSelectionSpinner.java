@@ -8,7 +8,6 @@ import android.util.AttributeSet;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -17,20 +16,12 @@ import java.util.List;
 public class MultiSelectionSpinner extends Spinner implements
         OnMultiChoiceClickListener {
 
-    public interface OnMultipleItemsSelectedListener {
-        void selectedIndices(List<Integer> indices);
-
-        void selectedStrings(List<String> strings);
-    }
-
-    private OnMultipleItemsSelectedListener listener;
-
     String[] _items = null;
     boolean[] mSelection = null;
     boolean[] mSelectionAtStart = null;
     String _itemsAtStart = null;
-
     ArrayAdapter<String> simple_adapter;
+    private OnMultipleItemsSelectedListener listener;
 
     public MultiSelectionSpinner(Context context) {
         super(context);
@@ -234,5 +225,11 @@ public class MultiSelectionSpinner extends Spinner implements
             }
         }
         return sb.toString();
+    }
+
+    public interface OnMultipleItemsSelectedListener {
+        void selectedIndices(List<Integer> indices);
+
+        void selectedStrings(List<String> strings);
     }
 }

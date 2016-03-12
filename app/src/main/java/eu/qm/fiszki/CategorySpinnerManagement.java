@@ -16,7 +16,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.qm.fiszki.database.DBHelper;
 import eu.qm.fiszki.model.Category;
 import eu.qm.fiszki.model.CategoryManagement;
 
@@ -25,12 +24,12 @@ import eu.qm.fiszki.model.CategoryManagement;
  */
 public class CategorySpinnerManagement {
 
+    ArrayAdapter<String> dataAdapter;
     private Spinner spinner;
     private Context context;
     private CategoryManagement categoryManagement;
     private EditText categoryName;
     private Button addCategoryButton;
-    ArrayAdapter<String> dataAdapter;
 
     public CategorySpinnerManagement(Spinner spinner, Context context) {
         this.spinner = spinner;
@@ -43,16 +42,16 @@ public class CategorySpinnerManagement {
         List<String> list = new ArrayList<String>();
         int x = 0;
         do {
-            if (categories.get(x).getId()==1) {
+            if (categories.get(x).getId() == 1) {
                 list.add(context.getString(R.string.add_new_word_no_category));
-            } else if (categories.get(x).getId()==2) {
+            } else if (categories.get(x).getId() == 2) {
                 list.add(context.getString(R.string.add_new_word_add_category));
             } else {
                 list.add(categories.get(x).getCategory());
             }
             x++;
         } while (x != categories.size());
-        dataAdapter = new ArrayAdapter<String>(context,android.R.layout.simple_spinner_item, list);
+        dataAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, list);
         spinner.setAdapter(dataAdapter);
     }
 
@@ -109,12 +108,12 @@ public class CategorySpinnerManagement {
         });
     }
 
-    public int getSelectedCategoryID(){
-        if(spinner.getSelectedItemPosition()==0){
+    public int getSelectedCategoryID() {
+        if (spinner.getSelectedItemPosition() == 0) {
             return 1;
         }
         String categoryNameFromSpinner = spinner.getSelectedItem().toString();
         Category category = categoryManagement.getCategoryByName(categoryNameFromSpinner);
-       return category.getId();
+        return category.getId();
     }
 }

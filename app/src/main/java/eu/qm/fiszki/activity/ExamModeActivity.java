@@ -20,7 +20,6 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +39,7 @@ import eu.qm.fiszki.model.FlashcardManagement;
 
 public class ExamModeActivity extends AppCompatActivity {
 
+    public Context context;
     FlashcardManagement flashcardManagement;
     Algorithm algorithm;
     TextView word;
@@ -69,14 +69,12 @@ public class ExamModeActivity extends AppCompatActivity {
     Button button;
     AlertDialog dialog;
     ArrayAdapter<String> dataAdapter;
+    List<String> items;
+    ArrayAdapter arrayadapter;
     private Spinner spinner;
-    public Context context;
     private CategoryManagement categoryManagement;
     private EditText categoryName;
     private Button addCategoryButton;
-    List<String> items;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,12 +83,12 @@ public class ExamModeActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        context = this;
+        categoryManagement = new CategoryManagement(context);
 
-        String[] array = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"};
+        context = this;
         MultiSelectionSpinner multiSelectionSpinner = (MultiSelectionSpinner) findViewById(R.id.mySpinner);
-        multiSelectionSpinner.setItems(array);
-        multiSelectionSpinner.setSelection(new int[]{2, 6});
+        multiSelectionSpinner.setItems(getCategoryStrings());
+
 
         message = new Alert();
         rules = new Rules();
@@ -128,14 +126,14 @@ public class ExamModeActivity extends AppCompatActivity {
             }
         });
     }
-    //Todo: - multi choice spinner for category, delete ✔, add strings, reformat code
-    public List<String> getCategoryStrings() {
-        ArrayList<Category> categories = categoryManagement.getAllCategory();
-        List<String> list = new ArrayList<String>();
-        for (Category category : categories) {
-            list.add(category.getCategory());
+
+    public String[] getCategoryStrings() {
+        ArrayList<Category> categories = categoryManagement.getUserCategory();
+        String[] giveCategories = new String[categories.size()];
+        for (int x = 0; x < categories.size(); x++) {
+            giveCategories[x] = categories.get(x).getCategory();
         }
-        return list;
+        return giveCategories;
     }
 
     @Override
