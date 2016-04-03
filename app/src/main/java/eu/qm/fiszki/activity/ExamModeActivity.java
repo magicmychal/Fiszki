@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -26,7 +27,7 @@ import java.util.List;
 
 import eu.qm.fiszki.Alert;
 import eu.qm.fiszki.Algorithm;
-import eu.qm.fiszki.MultiSelectionSpinner;
+import eu.qm.fiszki.ChoosenCategoryAdapter;
 import eu.qm.fiszki.R;
 import eu.qm.fiszki.Rules;
 import eu.qm.fiszki.database.DBAdapter;
@@ -76,6 +77,7 @@ public class ExamModeActivity extends AppCompatActivity {
     private EditText categoryName;
     private Button addCategoryButton;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,9 +88,6 @@ public class ExamModeActivity extends AppCompatActivity {
         categoryManagement = new CategoryManagement(context);
 
         context = this;
-        MultiSelectionSpinner multiSelectionSpinner = (MultiSelectionSpinner) findViewById(R.id.mySpinner);
-        multiSelectionSpinner.setItems(getCategoryStrings());
-
 
         message = new Alert();
         rules = new Rules();
@@ -107,6 +106,9 @@ public class ExamModeActivity extends AppCompatActivity {
                 if (checkedId == R.id.radioButton3) {
                     numberOfRepeat = 50;
                 }
+                if (checkedId == R.id.radioButton4) {
+                    numberOfRepeat = -1;
+                }
             }
         });
         button = (Button) findViewById(R.id.button2);
@@ -123,17 +125,17 @@ public class ExamModeActivity extends AppCompatActivity {
                 if (selectedId == R.id.radioButton3) {
                     runActivityCheck();
                 }
+                if (selectedId == R.id.radioButton4) {
+                    runActivityCheck();
+                }
             }
         });
-    }
 
-    public String[] getCategoryStrings() {
-        ArrayList<Category> categories = categoryManagement.getUserCategory();
-        String[] giveCategories = new String[categories.size()];
-        for (int x = 0; x < categories.size(); x++) {
-            giveCategories[x] = categories.get(x).getCategory();
-        }
-        return giveCategories;
+        ListView listView = (ListView)findViewById(R.id.listView);
+        ChoosenCategoryAdapter choosenCategoryAdapter = new ChoosenCategoryAdapter(context, R.layout.layout_adapter, categoryManagement.getUserCategory());
+        listView.setAdapter(choosenCategoryAdapter);
+
+
     }
 
     @Override

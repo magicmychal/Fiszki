@@ -11,7 +11,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="43dp"
-        android:text="Wybierz kategorie do nauki:"
+        android:text="@string/exam_mode_select_category"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -21,7 +21,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:text="Ile losowan?"
+        android:text="@string/exam_mode_repeat_number"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <RadioGroup
@@ -40,7 +40,7 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/textView9"
             android:checked="false"
-            android:text="10" />
+            android:text="@string/exam_mode_10" />
 
         <RadioButton
             android:id="@+id/radioButton2"
@@ -50,7 +50,7 @@
             android:layout_alignStart="@+id/radioButton"
             android:layout_below="@+id/radioButton"
             android:checked="false"
-            android:text="20" />
+            android:text="@string/exam_mode_20" />
 
         <RadioButton
             android:id="@+id/radioButton3"
@@ -60,7 +60,17 @@
             android:layout_alignStart="@+id/radioButton2"
             android:layout_below="@+id/radioButton2"
             android:checked="false"
-            android:text="50" />
+            android:text="@string/exam_mode_50" />
+
+        <RadioButton
+            android:id="@+id/radioButton4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/radioButton3"
+            android:layout_alignStart="@+id/radioButton3"
+            android:layout_below="@+id/radioButton3"
+            android:checked="false"
+            android:text="@string/exam_mode_infinity" />
 
     </RadioGroup>
 
@@ -73,12 +83,12 @@
         android:layout_centerHorizontal="true"
         android:text="start" />
 
-    <eu.qm.fiszki.MultiSelectionSpinner
-        android:id="@+id/mySpinner"
-        android:layout_width="match_parent"
+    <ListView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/textView8"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_above="@+id/textView9" />
 
 </RelativeLayout>

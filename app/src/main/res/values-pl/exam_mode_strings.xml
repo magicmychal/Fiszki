@@ -3,6 +3,11 @@
 
     <string name="exam_mode_title">Sprawdź co potrafisz!</string>
     <string name="exam_mode_repeat_number">Ilość powtórzeń:</string>
+    <string name="exam_mode_select_category">Wybierz kategorie do nauki:</string>
+    <string name="exam_mode_10">10</string>
+    <string name="exam_mode_20">20</string>
+    <string name="exam_mode_50">50</string>
+    <string name="exam_mode_infinity">\u221e</string>
 
 
 </resources>

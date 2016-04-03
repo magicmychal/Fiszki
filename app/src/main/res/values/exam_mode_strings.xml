@@ -3,5 +3,10 @@
 
     <string name="exam_mode_title">Test yourself</string>
     <string name="exam_mode_repeat_number">The number of repetitions:</string>
+    <string name="exam_mode_select_category">Pick category to study:</string>
+    <string name="exam_mode_10">10</string>
+    <string name="exam_mode_20">20</string>
+    <string name="exam_mode_50">50</string>
+    <string name="exam_mode_infinity">\u221e</string>
 
 </resources>
