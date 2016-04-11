@@ -12,7 +12,10 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="43dp"
         android:text="@string/exam_mode_select_category"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="9dp" />
 
     <TextView
         android:id="@+id/textView9"
@@ -22,7 +25,10 @@
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:text="@string/exam_mode_repeat_number"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="9dp" />
 
     <RadioGroup
         android:id="@+id/myRadioGroup"
@@ -40,7 +46,8 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/textView9"
             android:checked="false"
-            android:text="@string/exam_mode_10" />
+            android:text="@string/exam_mode_10"
+            android:layout_marginLeft="9dp" />
 
         <RadioButton
             android:id="@+id/radioButton2"
@@ -50,7 +57,8 @@
             android:layout_alignStart="@+id/radioButton"
             android:layout_below="@+id/radioButton"
             android:checked="false"
-            android:text="@string/exam_mode_20" />
+            android:text="@string/exam_mode_20"
+            android:layout_marginLeft="9dp" />
 
         <RadioButton
             android:id="@+id/radioButton3"
@@ -60,7 +68,8 @@
             android:layout_alignStart="@+id/radioButton2"
             android:layout_below="@+id/radioButton2"
             android:checked="false"
-            android:text="@string/exam_mode_50" />
+            android:text="@string/exam_mode_50"
+            android:layout_marginLeft="9dp" />
 
         <RadioButton
             android:id="@+id/radioButton4"
@@ -70,7 +79,8 @@
             android:layout_alignStart="@+id/radioButton3"
             android:layout_below="@+id/radioButton3"
             android:checked="false"
-            android:text="@string/exam_mode_infinity" />
+            android:text="@string/exam_mode_infinity"
+            android:layout_marginLeft="9dp" />
 
     </RadioGroup>
 
@@ -89,6 +99,7 @@
         android:id="@+id/listView"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/textView8"
-        android:layout_above="@+id/textView9" />
+        android:layout_above="@+id/textView9"
+        android:layout_marginLeft="5dp" />
 
 </RelativeLayout>
