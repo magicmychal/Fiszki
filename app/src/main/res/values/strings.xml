@@ -24,7 +24,6 @@
     <string name="title_activity_exam_results" translatable="false">ExamResultsActivity</string>
     <string name="title_activity_exam_bad_answer" translatable="false">ExamBadAnswerActivity</string>
 
-    <string name="banner_ad_unit_id">ca-app-pub-8148281006844656/7625653527</string>
-
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-8148281006844656/7625653527</string>
 </resources>
 

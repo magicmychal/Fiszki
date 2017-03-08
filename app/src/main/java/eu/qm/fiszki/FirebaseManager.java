@@ -27,7 +27,7 @@ public class FirebaseManager {
 
     public static class Params {
 
-        public static final boolean DEVELOP = true;
+        public static final boolean DEVELOP = false;
 
         public final static String NOTYFI_ON = "NOTYFI_ON";
         public final static String NOTYFI_OFF = "NOTYFI_OFF";

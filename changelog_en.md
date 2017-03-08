@@ -1,3 +1,10 @@
+v1.9:
+<ul>
+<li>Add ads</li>
+<li>Fix bugs</li>
+</ul>
+<br>
+
 v1.8:
 <ul>
 <li>Add statistic to flashcards</li>

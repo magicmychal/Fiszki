@@ -21,17 +21,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <com.google.android.gms.ads.AdView
-                android:id="@+id/adView1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                ads:adSize="BANNER"
-                ads:adUnitId="@string/banner_ad_unit_id"
-                android:foregroundGravity="center|top"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true">
-            </com.google.android.gms.ads.AdView>
-
             <android.support.v7.widget.CardView
                 android:id="@+id/my_words_card"
                 android:layout_width="match_parent"
@@ -126,18 +115,6 @@
                         android:textColor="@color/black"/>
                 </FrameLayout>
             </android.support.v7.widget.CardView>
-
-            <com.google.android.gms.ads.AdView
-                android:id="@+id/adView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                ads:adSize="BANNER"
-                ads:adUnitId="@string/banner_ad_unit_id"
-                android:foregroundGravity="center|top"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="16dp">
-            </com.google.android.gms.ads.AdView>
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

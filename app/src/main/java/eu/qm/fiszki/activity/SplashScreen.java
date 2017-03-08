@@ -5,8 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
-
+import io.fabric.sdk.android.Fabric;
 import java.util.Timer;
 
 import eu.qm.fiszki.R;

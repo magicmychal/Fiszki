@@ -43,19 +43,11 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton mFab;
     private CategoryRepository mCategoryRepository;
     private FlashcardRepository mFlashcardRepository;
-    private AdView mAdView1;
-    private AdView mAdView2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mAdView1 = (AdView) findViewById(R.id.adView1);
-        mAdView2 = (AdView) findViewById(R.id.adView2);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView1.loadAd(adRequest);
-        mAdView2.loadAd(adRequest);
 
         if(!FirebaseManager.Params.DEVELOP) {
             new FirebaseManager(this);

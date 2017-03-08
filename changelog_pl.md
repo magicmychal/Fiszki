@@ -1,3 +1,10 @@
+v1.9:
+<ul>
+<li>Dodano reklamy</li>
+<li>Naprawiono b³êdy</li>
+</ul>
+<br>
+
 v1.8:
 <ul>
 <li>Dodanie statystyk fiszek</li>
