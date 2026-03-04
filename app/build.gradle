@@ -11,7 +11,7 @@ android {
     compileSdk 35
     defaultConfig {
         applicationId "eu.qm.fiszki"
-        minSdk 21
+        minSdk 31
         targetSdk 35
         versionCode 15
         versionName "1.11"

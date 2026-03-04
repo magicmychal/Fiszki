@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import androidx.core.app.NotificationCompat;
 
 import eu.qm.fiszki.activity.CheckActivity;
@@ -59,18 +58,16 @@ public class AlarmReceiver extends BroadcastReceiver {
     }
 
     private void createNotificationChannel(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    CHANNEL_ID,
-                    context.getString(R.string.notification_title),
-                    NotificationManager.IMPORTANCE_DEFAULT);
-            channel.setDescription(context.getString(R.string.notification_message));
-            channel.enableVibration(true);
-            channel.setVibrationPattern(new long[]{0, 100, 0, 100});
-            NotificationManager nm =
-                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            nm.createNotificationChannel(channel);
-        }
+        NotificationChannel channel = new NotificationChannel(
+                CHANNEL_ID,
+                context.getString(R.string.notification_title),
+                NotificationManager.IMPORTANCE_DEFAULT);
+        channel.setDescription(context.getString(R.string.notification_message));
+        channel.enableVibration(true);
+        channel.setVibrationPattern(new long[]{0, 100, 0, 100});
+        NotificationManager nm =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.createNotificationChannel(channel);
     }
 
     private int timeSetter(Activity activity){
