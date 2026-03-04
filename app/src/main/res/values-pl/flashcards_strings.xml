@@ -30,7 +30,7 @@
     <string name="action_confirm">Zatwierdź</string>
     <string name="action_remove_confirm_message">Czy na pewno chcesz usunąć tę fiszkę?</string>
     <string name="nav_flashcards">Fiszki</string>
-    <string name="nav_learning_mode">Nauka</string>
+    <string name="nav_learning_mode">Ćwiczenia</string>
     <string name="nav_exam">Egzamin</string>
 
 </resources>

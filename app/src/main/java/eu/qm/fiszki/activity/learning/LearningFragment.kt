@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.graphics.Color
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.ChangeActivityManager
+import eu.qm.fiszki.activity.FiszkiTheme
 import eu.qm.fiszki.dialogs.learning.ByCategoryLearningDialog
 import eu.qm.fiszki.dialogs.learning.ByLanguageLearningDialog
 import eu.qm.fiszki.model.flashcard.FlashcardRepository
@@ -22,59 +24,61 @@ class LearningFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.activity_learning, container, false)
+        return ComposeView(requireContext())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mFlashcardRepository = FlashcardRepository(requireActivity())
-        buildComposeContent(view)
+        buildComposeContent(view as ComposeView)
     }
 
-    private fun buildComposeContent(view: View) {
-        val composeView = view.findViewById<ComposeView>(R.id.compose_view)
+    private fun buildComposeContent(composeView: ComposeView) {
         val activity = requireActivity()
 
-        val shapes = listOf(
-            ShapeItem(
-                label = getString(R.string.learning_try_all),
-                color = Color(0xFF6750A4),
-                shapeType = ShapeType.BLOB,
-                onClick = {
-                    ChangeActivityManager(activity).goToLearningCheck(mFlashcardRepository.getAllFlashcards())
-                }
-            ),
-            ShapeItem(
-                label = getString(R.string.learning_by_language),
-                color = Color(0xFF625B71),
-                shapeType = ShapeType.ARROW,
-                onClick = {
-                    ByLanguageLearningDialog(activity).show()
-                }
-            ),
-            ShapeItem(
-                label = getString(R.string.learning_by_category),
-                color = Color(0xFF7D5260),
-                shapeType = ShapeType.FLOWER,
-                onClick = {
-                    ByCategoryLearningDialog(activity).show()
-                }
-            ),
-            ShapeItem(
-                label = getString(R.string.learning_chat),
-                color = Color(0xFFD0BCFF),
-                shapeType = ShapeType.HEART,
-                onClick = {
-                    ChangeActivityManager(activity).goToChatMode(mFlashcardRepository.getAllFlashcards())
-                }
-            )
-        )
-
         composeView.setContent {
-            LearningScreen(
-                title = getString(R.string.learning_title),
-                shapes = shapes
-            )
+            FiszkiTheme {
+                val colors = MaterialTheme.colorScheme
+                val shapes = listOf(
+                    ShapeItem(
+                        label = getString(R.string.learning_try_all),
+                        color = colors.primary,
+                        shapeType = ShapeType.BLOB,
+                        onClick = {
+                            ChangeActivityManager(activity).goToLearningCheck(mFlashcardRepository.getAllFlashcards())
+                        }
+                    ),
+                    ShapeItem(
+                        label = getString(R.string.learning_by_language),
+                        color = colors.secondary,
+                        shapeType = ShapeType.ARROW,
+                        onClick = {
+                            ByLanguageLearningDialog(activity).show()
+                        }
+                    ),
+                    ShapeItem(
+                        label = getString(R.string.learning_by_category),
+                        color = colors.tertiary,
+                        shapeType = ShapeType.FLOWER,
+                        onClick = {
+                            ByCategoryLearningDialog(activity).show()
+                        }
+                    ),
+                    ShapeItem(
+                        label = getString(R.string.learning_chat),
+                        color = colors.primaryContainer,
+                        shapeType = ShapeType.HEART,
+                        onClick = {
+                            ChangeActivityManager(activity).goToChatMode(mFlashcardRepository.getAllFlashcards())
+                        }
+                    )
+                )
+
+                LearningScreen(
+                    title = getString(R.string.learning_title),
+                    shapes = shapes
+                )
+            }
         }
     }
 }

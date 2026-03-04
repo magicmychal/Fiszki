@@ -7,7 +7,8 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,9 +19,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -28,10 +36,13 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
@@ -40,7 +51,8 @@ data class ShapeItem(
     val label: String,
     val color: Color,
     val shapeType: ShapeType,
-    val onClick: () -> Unit
+    val onClick: () -> Unit,
+    val tooltip: String? = null
 )
 
 enum class ShapeType { BLOB, ARROW, FLOWER, HEART }
@@ -52,17 +64,41 @@ fun LearningScreen(
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
+    // Split title into words, preserving separator positions
+    val tokens = mutableListOf<Pair<String, Char>>() // word to separator-after
+    var wordStart = 0
+    for (i in title.indices) {
+        if (title[i] == ' ' || title[i] == '\n') {
+            if (i > wordStart) {
+                tokens.add(title.substring(wordStart, i) to title[i])
+            }
+            wordStart = i + 1
+        }
+    }
+    if (wordStart < title.length) {
+        tokens.add(title.substring(wordStart) to ' ')
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
     ) {
+        // Multi-font title: each word gets its own Figma-specified font style
         Text(
-            text = title,
+            text = buildAnnotatedString {
+                tokens.forEachIndexed { index, (word, separator) ->
+                    withStyle(buildTitleSpanStyle(index)) {
+                        append(word)
+                    }
+                    if (index < tokens.size - 1) {
+                        append(if (separator == '\n') "\n" else " ")
+                    }
+                }
+            },
             fontSize = 57.sp,
-            fontWeight = FontWeight.Medium,
-            color = Color.Black,
-            lineHeight = 52.sp,
+            color = MaterialTheme.colorScheme.onSurface,
+            lineHeight = 64.sp,
             modifier = Modifier.padding(start = 24.dp, top = 48.dp, end = 24.dp, bottom = 24.dp)
         )
         shapes.forEach { shape ->
@@ -75,6 +111,7 @@ fun LearningScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 private fun ShapeButton(item: ShapeItem, modifier: Modifier = Modifier) {
     val transition = rememberInfiniteTransition(label = "morph")
@@ -88,25 +125,55 @@ private fun ShapeButton(item: ShapeItem, modifier: Modifier = Modifier) {
         label = "morph"
     )
 
-    Box(modifier = modifier.clickable { item.onClick() }, contentAlignment = Alignment.Center) {
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            val s = Size(size.width * 0.85f, size.height * 0.85f)
-            val o = Offset((size.width - s.width) / 2, (size.height - s.height) / 2)
-            when (item.shapeType) {
-                ShapeType.BLOB -> drawMorphBlob(item.color, s, o, morphProgress)
-                ShapeType.ARROW -> drawMorphArrow(item.color, s, o, morphProgress)
-                ShapeType.FLOWER -> drawMorphFlower(item.color, s, o, morphProgress)
-                ShapeType.HEART -> drawMorphHeart(item.color, s, o, morphProgress)
+    val tooltipState = rememberTooltipState()
+    val scope = rememberCoroutineScope()
+
+    val content: @Composable () -> Unit = {
+        Box(
+            modifier = modifier.combinedClickable(
+                onClick = { item.onClick() },
+                onLongClick = if (item.tooltip != null) {
+                    { scope.launch { tooltipState.show() } }
+                } else null
+            ),
+            contentAlignment = Alignment.Center
+        ) {
+            Canvas(modifier = Modifier.fillMaxSize()) {
+                val s = Size(size.width * 0.85f, size.height * 0.85f)
+                val o = Offset((size.width - s.width) / 2, (size.height - s.height) / 2)
+                when (item.shapeType) {
+                    ShapeType.BLOB -> drawMorphBlob(item.color, s, o, morphProgress)
+                    ShapeType.ARROW -> drawMorphArrow(item.color, s, o, morphProgress)
+                    ShapeType.FLOWER -> drawMorphFlower(item.color, s, o, morphProgress)
+                    ShapeType.HEART -> drawMorphHeart(item.color, s, o, morphProgress)
+                }
             }
+            Text(
+                text = item.label,
+                color = Color.White,
+                fontSize = 48.sp,
+                lineHeight = 56.sp,
+                fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.widthIn(max = 200.dp)
+            )
         }
-        Text(
-            text = item.label,
-            color = Color.White,
-            fontSize = 48.sp,
-            fontWeight = FontWeight.Medium,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.widthIn(max = 200.dp)
-        )
+    }
+
+    if (item.tooltip != null) {
+        TooltipBox(
+            positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+            tooltip = {
+                PlainTooltip {
+                    Text(item.tooltip)
+                }
+            },
+            state = tooltipState
+        ) {
+            content()
+        }
+    } else {
+        content()
     }
 }
 

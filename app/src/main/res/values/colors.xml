@@ -57,20 +57,43 @@
     <color name="colorSurfaceNight">#1C1B1F</color>
     <color name="colorOnSurfaceNight">#E6E1E5</color>
 
-    <!-- Yellow/Amber M3 palette -->
+    <!-- Yellow/Amber M3 palette (light) -->
     <color name="colorPrimaryYellow">#7C5800</color>
     <color name="colorOnPrimaryYellow">#FFFFFF</color>
     <color name="colorPrimaryContainerYellow">#FFDEA1</color>
     <color name="colorOnPrimaryContainerYellow">#271900</color>
     <color name="colorSecondaryYellow">#6D5D3F</color>
+    <color name="colorOnSecondaryYellow">#FFFFFF</color>
     <color name="colorSecondaryContainerYellow">#F8E0BB</color>
+    <color name="colorOnSecondaryContainerYellow">#261A04</color>
+    <color name="colorTertiaryYellow">#4E6544</color>
+    <color name="colorOnTertiaryYellow">#FFFFFF</color>
+    <color name="colorTertiaryContainerYellow">#D0EBC1</color>
     <color name="colorSurfaceYellow">#FFFBFF</color>
+    <color name="colorOnSurfaceYellow">#1E1B16</color>
+    <color name="colorSurfaceVariantYellow">#EDE1CF</color>
+    <color name="colorOnSurfaceVariantYellow">#4D4639</color>
     <color name="colorSurfaceContainerYellow">#F5EFE7</color>
+    <color name="colorSurfaceContainerHighYellow">#EFE9E1</color>
+    <color name="colorOutlineYellow">#7F7667</color>
+    <color name="colorOutlineVariantYellow">#D0C5B4</color>
 
-    <!-- Yellow night palette -->
+    <!-- Yellow/Amber M3 palette (dark) -->
     <color name="colorPrimaryYellowNight">#F5BF48</color>
     <color name="colorOnPrimaryYellowNight">#422D00</color>
+    <color name="colorPrimaryContainerYellowNight">#5E4200</color>
+    <color name="colorOnPrimaryContainerYellowNight">#FFDEA1</color>
+    <color name="colorSecondaryYellowNight">#DAC4A0</color>
+    <color name="colorOnSecondaryYellowNight">#3D2E16</color>
+    <color name="colorSecondaryContainerYellowNight">#55442A</color>
+    <color name="colorOnSecondaryContainerYellowNight">#F8E0BB</color>
+    <color name="colorTertiaryYellowNight">#B5CFA7</color>
     <color name="colorSurfaceYellowNight">#1E1B16</color>
+    <color name="colorOnSurfaceYellowNight">#E9E1D9</color>
+    <color name="colorSurfaceVariantYellowNight">#4D4639</color>
+    <color name="colorOnSurfaceVariantYellowNight">#D0C5B4</color>
+    <color name="colorSurfaceContainerYellowNight">#2B2720</color>
+    <color name="colorOutlineYellowNight">#999080</color>
 
     <!-- Colors previously provided by apptentive/material-dialogs libraries -->
     <color name="apptentive_transparency">#00000000</color>

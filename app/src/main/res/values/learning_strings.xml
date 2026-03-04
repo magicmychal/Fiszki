@@ -21,7 +21,7 @@
 
     <string name="learning_by_lang_dialog_title">Select language to learn</string>
     <string name="learning_by_lang_dialog_from_text">From:</string>
-    <string name="learning_by_lang_dialog_on_text">On:</string>
+    <string name="learning_by_lang_dialog_on_text">To:</string>
     <string name="learning_by_lang_whichever">Any</string>
     <string name="learning_by_lang_tost_empty_chose">This configuration does not exist or is empty.</string>
 

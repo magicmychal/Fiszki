@@ -7,6 +7,12 @@
     <string name="learning_card_category_name">Po kategoriach</string>
     <string name="learning_card_lang_name">Po językach</string>
 
+    <string name="learning_title">Czas na\nćwiczenia!</string>
+    <string name="learning_try_all">spróbuj\nwszystko</string>
+    <string name="learning_by_language">po języku</string>
+    <string name="learning_by_category">po kategorii</string>
+    <string name="learning_chat">czat</string>
+
     <string name="learning_by_category_dialog_title">Wybierz kategorie do nauki</string>
     <string name="learning_by_category_dialog_btn_to_learning">Do nauki!</string>
     <string name="learning_by_category_dialog_btn_back">Wroć</string>
