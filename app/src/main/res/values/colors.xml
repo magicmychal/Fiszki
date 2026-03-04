@@ -29,6 +29,29 @@
     <color name="statistic_35_0">#d7263d</color>
     <color name="primary_text_default_material_light">#55ffffff</color>
 
+    <!-- Material 3 Purple/Lavender palette -->
+    <color name="colorPrimaryNew">#6750A4</color>
+    <color name="colorOnPrimaryNew">#FFFFFF</color>
+    <color name="colorPrimaryContainerNew">#EADDFF</color>
+    <color name="colorOnPrimaryContainerNew">#21005D</color>
+    <color name="colorSecondaryNew">#625B71</color>
+    <color name="colorSecondaryContainerNew">#E8DEF8</color>
+    <color name="colorSurfaceNew">#FFFBFE</color>
+    <color name="colorSurfaceVariantNew">#E7E0EC</color>
+    <color name="colorOnSurfaceNew">#1C1B1F</color>
+    <color name="colorOnSurfaceVariantNew">#49454F</color>
+    <color name="colorOutlineNew">#79747E</color>
+    <color name="heroGradientStart">#6750A4</color>
+    <color name="heroGradientEnd">#EADDFF</color>
+    <color name="starYellow">#FFB800</color>
+    <color name="starEmpty">#E0D6EB</color>
+
+    <!-- Night mode purple palette -->
+    <color name="colorPrimaryNight">#D0BCFF</color>
+    <color name="colorOnPrimaryNight">#381E72</color>
+    <color name="colorSurfaceNight">#1C1B1F</color>
+    <color name="colorOnSurfaceNight">#E6E1E5</color>
+
     <!-- Colors previously provided by apptentive/material-dialogs libraries -->
     <color name="apptentive_transparency">#00000000</color>
     <color name="md_red_A700">#D50000</color>

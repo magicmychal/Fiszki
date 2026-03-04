@@ -20,4 +20,26 @@
     <string name="settings_tutorial_info">Ucz się z nami już dziś!</string>
     <string name="settings_toolbar_title">Ustawienia</string>
 
+    <!-- Notification settings -->
+    <string name="settings_section_notifications">Powiadomienia</string>
+    <string name="settings_section_general">Ogólne</string>
+    <string name="settings_notification_enable">Codzienne przypomnienie</string>
+    <string name="settings_notification_enable_summary">Przypominaj o nauce fiszek</string>
+    <string name="settings_notification_time">Godzina przypomnienia</string>
+    <string name="settings_notification_days">Dni przypomnienia</string>
+    <string name="settings_notification_days_everyday">Codziennie</string>
+    <string name="settings_language">Język</string>
+    <string name="settings_language_summary">Zmień język aplikacji</string>
+    <string name="settings_permission_notifications">Wymagane uprawnienie do powiadomień</string>
+    <string name="settings_permission_exact_alarm">Wymagane uprawnienie do dokładnych alarmów</string>
+
+    <!-- Day names -->
+    <string name="day_monday">Pon</string>
+    <string name="day_tuesday">Wt</string>
+    <string name="day_wednesday">Śr</string>
+    <string name="day_thursday">Czw</string>
+    <string name="day_friday">Pt</string>
+    <string name="day_saturday">Sob</string>
+    <string name="day_sunday">Ndz</string>
+
 </resources>
