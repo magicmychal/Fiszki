@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
+import eu.qm.fiszki.activity.SettingsActivity
 import eu.qm.fiszki.activity.exam.ExamActivity
 import eu.qm.fiszki.activity.learning.LearningActivity
 import eu.qm.fiszki.dialogs.category.AddCategoryDialog
@@ -79,6 +80,11 @@ class CategoryActivity : AppCompatActivity() {
                 }
                 R.id.nav_exam -> {
                     startActivity(Intent(mActivity, ExamActivity::class.java))
+                    finish()
+                    true
+                }
+                R.id.nav_settings -> {
+                    startActivity(Intent(mActivity, SettingsActivity::class.java))
                     finish()
                     true
                 }

@@ -15,6 +15,7 @@ import com.google.android.material.button.MaterialButton
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.ChangeActivityManager
+import eu.qm.fiszki.activity.SettingsActivity
 import eu.qm.fiszki.activity.exam.ExamActivity
 import eu.qm.fiszki.activity.learning.LearningActivity
 import eu.qm.fiszki.activity.myWords.CategoryManagerSingleton
@@ -149,6 +150,11 @@ class FlashcardsActivity : AppCompatActivity() {
                 }
                 R.id.nav_exam -> {
                     startActivity(Intent(mActivity, ExamActivity::class.java))
+                    finish()
+                    true
+                }
+                R.id.nav_settings -> {
+                    startActivity(Intent(mActivity, SettingsActivity::class.java))
                     finish()
                     true
                 }
