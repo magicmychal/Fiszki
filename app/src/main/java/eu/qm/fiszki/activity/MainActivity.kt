@@ -14,9 +14,6 @@ import com.mikepenz.materialdrawer.widget.MaterialDrawerSliderView
 import eu.qm.fiszki.Alert
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
-import eu.qm.fiszki.activity.exam.ExamActivity
-import eu.qm.fiszki.activity.learning.LearningActivity
-import eu.qm.fiszki.activity.myWords.category.CategoryActivity
 import eu.qm.fiszki.dialogs.flashcard.QuicklyAddFlashcardDialog
 import eu.qm.fiszki.drawer.DrawerMain
 import eu.qm.fiszki.model.category.CategoryRepository
@@ -112,14 +109,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun myWordsCardClick(view: View) {
-        mActivity.startActivity(Intent(this, CategoryActivity::class.java))
+        startActivity(Intent(this, NavHostActivity::class.java).apply {
+            putExtra(NavHostActivity.EXTRA_TAB, R.id.nav_flashcards)
+        })
     }
 
     fun learningCardClick(view: View) {
         if (mFlashcardRepository.countFlashcards() == 0) {
             Alert().addFiszkiToFeature(mActivity).show()
         } else {
-            startActivity(Intent(this, LearningActivity::class.java))
+            startActivity(Intent(this, NavHostActivity::class.java).apply {
+                putExtra(NavHostActivity.EXTRA_TAB, R.id.nav_learning)
+            })
         }
     }
 
@@ -127,7 +128,9 @@ class MainActivity : AppCompatActivity() {
         if (mFlashcardRepository.countFlashcards() == 0) {
             Alert().addFiszkiToFeature(mActivity).show()
         } else {
-            startActivity(Intent(this, ExamActivity::class.java))
+            startActivity(Intent(this, NavHostActivity::class.java).apply {
+                putExtra(NavHostActivity.EXTRA_TAB, R.id.nav_exam)
+            })
         }
     }
 }

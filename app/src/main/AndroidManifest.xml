@@ -40,6 +40,11 @@
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.NavHostActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop" />
+        <activity
             android:name=".tutorial.TutorialActivity"
             android:screenOrientation="portrait" />
         <activity

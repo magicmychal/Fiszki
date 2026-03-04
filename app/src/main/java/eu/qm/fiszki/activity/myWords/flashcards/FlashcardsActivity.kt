@@ -1,7 +1,6 @@
 package eu.qm.fiszki.activity.myWords.flashcards
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -10,16 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.ChangeActivityManager
-import eu.qm.fiszki.activity.SettingsActivity
-import eu.qm.fiszki.activity.exam.ExamActivity
-import eu.qm.fiszki.activity.learning.LearningActivity
 import eu.qm.fiszki.activity.myWords.CategoryManagerSingleton
-import eu.qm.fiszki.activity.myWords.category.CategoryActivity
 import eu.qm.fiszki.dialogs.category.EditCategoryBottomSheet
 import eu.qm.fiszki.dialogs.flashcard.AddFlashcardDialog
 import eu.qm.fiszki.dialogs.flashcard.TransformFlashcardDialog
@@ -44,7 +38,6 @@ class FlashcardsActivity : AppCompatActivity() {
         buildHeroHeader()
         buildActionChips()
         buildListView()
-        buildBottomNav()
     }
 
     private fun init() {
@@ -63,9 +56,8 @@ class FlashcardsActivity : AppCompatActivity() {
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-        mActivity.startActivity(Intent(mActivity, CategoryActivity::class.java))
-        mActivity.finish()
-        mActivity.overridePendingTransition(R.anim.right_out, R.anim.left_in)
+        finish()
+        overridePendingTransition(R.anim.right_out, R.anim.left_in)
     }
 
     private fun buildHeroHeader() {
@@ -134,33 +126,6 @@ class FlashcardsActivity : AppCompatActivity() {
             }
         }
         ItemTouchHelper(swipeHandler).attachToRecyclerView(mRecycleView)
-    }
-
-    private fun buildBottomNav() {
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        bottomNav.selectedItemId = R.id.nav_flashcards
-
-        bottomNav.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_flashcards -> true
-                R.id.nav_learning -> {
-                    startActivity(Intent(mActivity, LearningActivity::class.java))
-                    finish()
-                    true
-                }
-                R.id.nav_exam -> {
-                    startActivity(Intent(mActivity, ExamActivity::class.java))
-                    finish()
-                    true
-                }
-                R.id.nav_settings -> {
-                    startActivity(Intent(mActivity, SettingsActivity::class.java))
-                    finish()
-                    true
-                }
-                else -> false
-            }
-        }
     }
 
     private fun updateListView() {

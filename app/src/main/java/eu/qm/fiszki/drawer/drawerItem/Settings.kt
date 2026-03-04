@@ -6,7 +6,7 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.interfaces.withIcon
 import com.mikepenz.materialdrawer.model.interfaces.withName
 import eu.qm.fiszki.R
-import eu.qm.fiszki.activity.SettingsActivity
+import eu.qm.fiszki.activity.NavHostActivity
 
 class Settings(activity: Activity) : PrimaryDrawerItem() {
 
@@ -14,7 +14,9 @@ class Settings(activity: Activity) : PrimaryDrawerItem() {
         withName(R.string.drawer_settings_name)
         withIcon(R.drawable.ic_settings_black_24px)
         withOnDrawerItemClickListener { _, _, _ ->
-            activity.startActivity(Intent(activity, SettingsActivity::class.java))
+            activity.startActivity(Intent(activity, NavHostActivity::class.java).apply {
+                putExtra(NavHostActivity.EXTRA_TAB, R.id.nav_settings)
+            })
             false
         }
     }

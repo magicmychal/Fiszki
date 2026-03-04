@@ -4,10 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.chat.ChatActivity
-import eu.qm.fiszki.activity.exam.ExamActivity
-import eu.qm.fiszki.activity.exam.ExamBadAnswerActivity
 import eu.qm.fiszki.activity.exam.ExamCheckActivity
-import eu.qm.fiszki.activity.learning.LearningActivity
+import eu.qm.fiszki.activity.exam.ExamBadAnswerActivity
 import eu.qm.fiszki.activity.learning.LearningCheckActivity
 import eu.qm.fiszki.model.flashcard.Flashcard
 
@@ -29,7 +27,11 @@ class ChangeActivityManager(private val activity: Activity) {
     }
 
     fun exitLearningCheck() {
-        activity.startActivity(Intent(activity, LearningActivity::class.java))
+        val intent = Intent(activity, NavHostActivity::class.java).apply {
+            putExtra(NavHostActivity.EXTRA_TAB, R.id.nav_learning)
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        }
+        activity.startActivity(intent)
         activity.finish()
         activity.overridePendingTransition(R.anim.right_out, R.anim.left_in)
     }
@@ -48,7 +50,11 @@ class ChangeActivityManager(private val activity: Activity) {
     }
 
     fun exitExamCheck() {
-        activity.startActivity(Intent(activity, ExamActivity::class.java))
+        val intent = Intent(activity, NavHostActivity::class.java).apply {
+            putExtra(NavHostActivity.EXTRA_TAB, R.id.nav_exam)
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        }
+        activity.startActivity(intent)
         activity.finish()
         activity.overridePendingTransition(R.anim.right_out, R.anim.left_in)
     }
@@ -63,7 +69,11 @@ class ChangeActivityManager(private val activity: Activity) {
     }
 
     fun exitExamBadAnswer() {
-        activity.startActivity(Intent(activity, ExamActivity::class.java))
+        val intent = Intent(activity, NavHostActivity::class.java).apply {
+            putExtra(NavHostActivity.EXTRA_TAB, R.id.nav_exam)
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        }
+        activity.startActivity(intent)
         activity.finish()
         activity.overridePendingTransition(R.anim.right_out, R.anim.left_in)
     }
@@ -78,7 +88,11 @@ class ChangeActivityManager(private val activity: Activity) {
     }
 
     fun exitChatMode() {
-        activity.startActivity(Intent(activity, LearningActivity::class.java))
+        val intent = Intent(activity, NavHostActivity::class.java).apply {
+            putExtra(NavHostActivity.EXTRA_TAB, R.id.nav_learning)
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        }
+        activity.startActivity(intent)
         activity.finish()
         activity.overridePendingTransition(R.anim.right_out, R.anim.left_in)
     }
