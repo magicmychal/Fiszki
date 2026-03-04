@@ -1,7 +1,7 @@
 package eu.qm.fiszki.dialogs.learning;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;

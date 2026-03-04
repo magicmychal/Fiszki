@@ -2,14 +2,14 @@ package eu.qm.fiszki.dialogs.category;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.rengwuxian.materialedittext.MaterialAutoCompleteTextView;
-import com.rengwuxian.materialedittext.MaterialEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputEditText;
 
 import eu.qm.fiszki.FirebaseManager;
 import eu.qm.fiszki.R;
@@ -20,7 +20,7 @@ import eu.qm.fiszki.model.category.ValidationCategory;
 public class AddCategoryDialog extends MaterialDialog.Builder {
 
     private CategoryRepository mCategoryRepository;
-    private MaterialEditText mCategoryNameET;
+    private TextInputEditText mCategoryNameET;
     private MaterialAutoCompleteTextView mCategoryLangFrom;
     private MaterialAutoCompleteTextView mCategoryLangOn;
     private Activity mActivity;
@@ -41,7 +41,7 @@ public class AddCategoryDialog extends MaterialDialog.Builder {
     }
 
     private void init() {
-        mCategoryNameET = (MaterialEditText) customView.findViewById(R.id.add_category_dialog_et_name);
+        mCategoryNameET = (TextInputEditText) customView.findViewById(R.id.add_category_dialog_et_name);
         mCategoryLangFrom = (MaterialAutoCompleteTextView) customView.findViewById(R.id.add_category_dialog_lang_from);
         mCategoryLangOn = (MaterialAutoCompleteTextView) customView.findViewById(R.id.add_category_dialog_lang_on);
         mCategoryRepository = new CategoryRepository(mActivity);

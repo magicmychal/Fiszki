@@ -3,11 +3,11 @@ package eu.qm.fiszki.activity.myWords.flashcards;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
@@ -90,7 +90,7 @@ public class FlashcardsActivity extends AppCompatActivity {
 
     private void buildToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.md_nav_back);
+        toolbar.setNavigationIcon(R.drawable.ic_exit_to_app_24px);
         if (mCurrentCategory.getCategory() == null) {
             toolbar.setTitle(R.string.flashcard_toolbar_null_category);
         } else {

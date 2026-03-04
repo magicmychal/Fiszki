@@ -1,71 +1,62 @@
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
-
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
-    }
-}
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 repositories {
-    maven { url 'https://maven.fabric.io/public' }
-    maven { url 'http://dl.bintray.com/dodola/maven' }
-    maven { url "https://jitpack.io" }
+    google()
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    namespace "eu.qm.fiszki"
+    compileSdkVersion 33
     defaultConfig {
         applicationId "eu.qm.fiszki"
-        minSdkVersion 15
-        targetSdkVersion 23
+        minSdkVersion 21
+        targetSdkVersion 33
         versionCode 15
         versionName "1.11"
-
     }
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     productFlavors {
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs/ORMLite')
+    implementation fileTree(include: ['*.jar'], dir: 'libs/ORMLite')
 
-    compile('com.mikepenz:materialdrawer:5.3.3@aar') {
+    implementation('com.mikepenz:materialdrawer:8.4.5') {
         transitive = true
     }
 
-    compile('com.crashlytics.sdk.android:crashlytics:2.5.6@aar') {
-        transitive = true;
-    }
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:support-v4:23.4.0'
-    compile 'com.android.support:design:23.4.0'
-    compile 'com.google.android.gms:play-services-appindexing:9.6.1'
-    compile 'com.apptentive:apptentive-android:2.1.3'
-    compile 'com.cleveroad:slidingtutorial:0.9.4'
-    compile 'com.android.support:percent:23.4.0'
-    compile 'com.afollestad.material-dialogs:core:0.8.6.1'
-    compile 'com.rengwuxian.materialedittext:library:2.1.4'
-    compile 'com.chauthai.overscroll:overscroll-bouncy:0.1.0'
-    compile 'com.jaredrummler:material-spinner:1.1.0'
-    compile 'com.google.firebase:firebase-core:9.6.1'
-    compile 'com.google.firebase:firebase-crash:9.6.1'
-    compile 'com.google.firebase:firebase-ads:9.6.1'
-    testCompile 'junit:junit:4.12'
+    // Firebase (replaces Fabric Crashlytics)
+    implementation platform('com.google.firebase:firebase-bom:32.2.0')
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
 
-    compile('io.fabric.sdk.android:fabric:1.3.10@aar') {
-        transitive = true;
-    }
+    // AndroidX (replaces android.support)
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.core:core:1.10.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.viewpager:viewpager:1.0.0'
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
+    implementation 'androidx.preference:preference:1.2.1'
+
+    implementation 'com.cleveroad:slidingtutorial:1.0.6'
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+    implementation 'com.jaredrummler:material-spinner:1.3.1'
+
+    testImplementation 'junit:junit:4.13.2'
 }
-
-apply plugin: 'com.google.gms.google-services'

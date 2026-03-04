@@ -48,13 +48,19 @@
         android:layout_below="@+id/learning_check_word_text"
         android:layout_centerHorizontal="true" />
 
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/learning_check_edit_text"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_learning_check_edit_text"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="32sp"
         android:layout_below="@+id/learning_check_category_text"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:singleLine="true" />
+        android:layout_alignParentStart="true">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/learning_check_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="32sp"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
 </RelativeLayout>

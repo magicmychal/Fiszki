@@ -1,7 +1,7 @@
 package eu.qm.fiszki.activity.myWords.flashcards;
 
 import android.app.Activity;
-import android.support.design.widget.FloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import eu.qm.fiszki.R;
 

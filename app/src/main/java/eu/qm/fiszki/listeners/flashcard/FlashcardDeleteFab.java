@@ -3,7 +3,7 @@ package eu.qm.fiszki.listeners.flashcard;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.support.design.widget.Snackbar;
+import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
 
 import java.util.ArrayList;

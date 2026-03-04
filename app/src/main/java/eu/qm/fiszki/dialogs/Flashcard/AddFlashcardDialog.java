@@ -1,7 +1,7 @@
 package eu.qm.fiszki.dialogs.flashcard;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.rengwuxian.materialedittext.MaterialEditText;
+import com.google.android.material.textfield.TextInputEditText;
 
 import eu.qm.fiszki.FirebaseManager;
 import eu.qm.fiszki.R;
@@ -25,8 +25,8 @@ public class AddFlashcardDialog extends MaterialDialog.Builder {
 
     private int mCategoryId;
     private Activity mActivity;
-    private MaterialEditText mWordEt;
-    private MaterialEditText mTranslateEt;
+    private TextInputEditText mWordEt;
+    private TextInputEditText mTranslateEt;
     private FlashcardRepository mFlashcardRepository;
     private ValidationFlashcards mValidationFlashcards;
 
@@ -59,8 +59,8 @@ public class AddFlashcardDialog extends MaterialDialog.Builder {
     }
 
     private void init() {
-        mWordEt = (MaterialEditText) customView.findViewById(R.id.add_flashcard_et_word);
-        mTranslateEt = (MaterialEditText) customView.findViewById(R.id.add_flashcard_et_translation);
+        mWordEt = (TextInputEditText) customView.findViewById(R.id.add_flashcard_et_word);
+        mTranslateEt = (TextInputEditText) customView.findViewById(R.id.add_flashcard_et_translation);
         mValidationFlashcards = new ValidationFlashcards(context);
         mFlashcardRepository = new FlashcardRepository(context);
     }

@@ -2,17 +2,25 @@ package eu.qm.fiszki.drawer;
 
 import android.app.Activity;
 
-import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.holder.ImageHolder;
+import com.mikepenz.materialdrawer.widget.AccountHeaderView;
 
 import eu.qm.fiszki.R;
 
 /**
  * Created by Siusiacz on 06.07.2016.
  */
-public class DrawerHeader extends AccountHeaderBuilder {
+public class DrawerHeader {
+
+    private final Activity mActivity;
 
     public DrawerHeader(Activity activity) {
-        this.withActivity(activity);
-        this.withHeaderBackground(R.drawable.header_background);
+        this.mActivity = activity;
+    }
+
+    public AccountHeaderView build() {
+        AccountHeaderView headerView = new AccountHeaderView(mActivity);
+        headerView.setHeaderBackground(new ImageHolder(R.drawable.header_background));
+        return headerView;
     }
 }

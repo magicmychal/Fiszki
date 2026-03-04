@@ -1,13 +1,16 @@
 package eu.qm.fiszki.drawer.drawerItem;
 
 import android.app.Activity;
-import android.provider.Settings;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.interfaces.OnCheckedChangeListener;
 import com.mikepenz.materialdrawer.model.SwitchDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.CheckableKt;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IconableKt;
+import com.mikepenz.materialdrawer.model.interfaces.NameableKt;
+import com.mikepenz.materialdrawer.model.interfaces.SelectableKt;
 
 import eu.qm.fiszki.LocalSharedPreferences;
 import eu.qm.fiszki.NightModeController;
@@ -24,27 +27,23 @@ public class NightMode extends SwitchDrawerItem {
     public NightMode(final Activity activity) {
         nightModeController = new NightModeController(activity);
 
-        this.withName(R.string.drawer_nightmode);
-        this.withIcon(R.drawable.ic_weather_night);
-        this.withCheckable(false);
-        this.withSelectable(false);
+        NameableKt.withName(this, R.string.drawer_nightmode);
+        IconableKt.withIcon(this, R.drawable.ic_weather_night);
+        CheckableKt.withCheckable(this, false);
+        SelectableKt.withSelectable(this, false);
 
-        //Sync switch position
-        if (nightModeController.getStatus() == 0) {
-            this.withChecked(false);
-        } else {
-            this.withChecked(true);
-        }
+        // Sync switch position
+        CheckableKt.withChecked(this, nightModeController.getStatus() != 0);
 
         this.withOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(IDrawerItem drawerItem, CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    Toast.makeText(activity,activity.getString(R.string.drawer_nightmode_toast_on),Toast.LENGTH_SHORT).show();
+            public void onCheckedChanged(IDrawerItem<?> drawerItem, CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Toast.makeText(activity, activity.getString(R.string.drawer_nightmode_toast_on), Toast.LENGTH_SHORT).show();
                     nightModeController.on();
                     new ChangeActivityManager(activity).resetMain();
-                }else{
-                    Toast.makeText(activity,activity.getString(R.string.drawer_nightmode_toast_off),Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(activity, activity.getString(R.string.drawer_nightmode_toast_off), Toast.LENGTH_SHORT).show();
                     nightModeController.off();
                     new ChangeActivityManager(activity).resetMain();
                 }

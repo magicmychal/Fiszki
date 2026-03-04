@@ -1,62 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_weight="0.05"
     android:orientation="vertical"
-    android:weightSum="1">
+    android:padding="16dp">
 
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/add_category_dialog_et_name"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_add_category_name"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_category_dialog_et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/category_dialog_et_name"
+            android:windowSoftInputMode="stateAlwaysVisible" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_add_category_lang_from"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:hint="@string/category_dialog_et_name"
-        android:windowSoftInputMode="stateAlwaysVisible"
-        app:met_floatingLabel="highlight"
-        app:met_floatingLabelTextSize="20dp"
-        app:met_primaryColor="@color/ColorPrimaryDark"
-        app:met_singleLineEllipsis="true"
-        app:met_textColor="?android:attr/textColorPrimary"/>
+        android:layout_marginTop="8dp">
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/add_category_dialog_lang_from"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/category_dialog_lang_from"
+            android:imeOptions="actionDone" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <com.rengwuxian.materialedittext.MaterialAutoCompleteTextView
-        android:id="@+id/add_category_dialog_lang_from"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_add_category_lang_on"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/category_dialog_lang_from"
-        android:imeOptions="actionDone"
-        app:met_floatingLabel="highlight"
-        app:met_floatingLabelTextSize="20dp"
-        app:met_primaryColor="@color/ColorPrimaryDark"
-        app:met_singleLineEllipsis="true"
-        android:layout_below="@+id/add_category_dialog_et_name"
-        android:layout_alignLeft="@+id/add_category_dialog_et_name"
-        android:layout_alignStart="@+id/add_category_dialog_et_name"
-        android:layout_alignRight="@+id/add_category_dialog_et_name"
-        android:layout_alignEnd="@+id/add_category_dialog_et_name"
-        app:met_textColor="?android:attr/textColorPrimary"/>
+        android:layout_marginTop="8dp">
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/add_category_dialog_lang_on"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/category_dialog_lang_on"
+            android:imeOptions="actionDone" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <com.rengwuxian.materialedittext.MaterialAutoCompleteTextView
-        android:id="@+id/add_category_dialog_lang_on"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/category_dialog_lang_on"
-        android:imeOptions="actionDone"
-        app:met_floatingLabel="highlight"
-        app:met_floatingLabelTextSize="20dp"
-        app:met_primaryColor="@color/ColorPrimaryDark"
-        app:met_singleLineEllipsis="true"
-        android:layout_below="@+id/add_category_dialog_lang_from"
-        android:layout_alignRight="@+id/add_category_dialog_lang_from"
-        android:layout_alignEnd="@+id/add_category_dialog_lang_from"
-        android:layout_alignLeft="@+id/add_category_dialog_lang_from"
-        android:layout_alignStart="@+id/add_category_dialog_lang_from"
-        app:met_textColor="?android:attr/textColorPrimary"/>
-</RelativeLayout>
-
-
+</LinearLayout>

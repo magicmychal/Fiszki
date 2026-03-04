@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_cancel_flashcard"
         android:layout_width="wrap_content"
         android:src="@drawable/ic_close"
@@ -18,7 +18,7 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/fab_margin" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_delete_flashcard"
         android:layout_width="wrap_content"
         android:src="@drawable/ic_delete_white_48dp"
@@ -32,7 +32,7 @@
         android:layout_toLeftOf="@+id/fab_cancel_flashcard"
         android:layout_toStartOf="@+id/fab_cancel_flashcard" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_transform_flashcard"
         android:layout_width="wrap_content"
         android:src="@drawable/ic_transform"

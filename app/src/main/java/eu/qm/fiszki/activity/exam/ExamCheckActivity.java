@@ -3,16 +3,16 @@ package eu.qm.fiszki.activity.exam;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
-import com.rengwuxian.materialedittext.MaterialEditText;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 
@@ -36,7 +36,7 @@ public class ExamCheckActivity extends AppCompatActivity {
     private TextView mRepreatCunter;
     private Category mDrawnCategory;
     private Flashcard mDrawnFlashcard;
-    private MaterialEditText mTranslate;
+    private TextInputEditText mTranslate;
     private ArrayList<Flashcard> mGoodAnswer;
     private ArrayList<Flashcard> mFlashcardPools;
 
@@ -78,14 +78,14 @@ public class ExamCheckActivity extends AppCompatActivity {
         this.mRepreatCunter = (TextView) mActivity.findViewById(R.id.exam_check_cunt_repeat);
         this.mLang = (TextView) mActivity.findViewById(R.id.exam_check_lang);
         this.mWord = (TextView) mActivity.findViewById(R.id.exam_check_word);
-        this.mTranslate = (MaterialEditText) mActivity.findViewById(R.id.exam_check_edit_text);
+        this.mTranslate = (TextInputEditText) mActivity.findViewById(R.id.exam_check_edit_text);
         this.mTranslate.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
     }
 
     private void buildToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.exam_check_toolbar_title);
-        toolbar.setNavigationIcon(R.drawable.md_nav_back);
+        toolbar.setNavigationIcon(R.drawable.ic_exit_to_app_24px);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

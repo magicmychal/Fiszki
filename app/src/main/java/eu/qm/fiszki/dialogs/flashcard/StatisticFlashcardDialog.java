@@ -1,7 +1,7 @@
 package eu.qm.fiszki.dialogs.flashcard;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.Html;
 
 import com.afollestad.materialdialogs.DialogAction;
