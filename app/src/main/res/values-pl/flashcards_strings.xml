@@ -24,4 +24,13 @@
     <string name="flashcard_statistic_dialog_fail">Niepoprawne odpowiedzi:</string>
     <string name="flashcard_statistic_dialog_reset">WYZERUJ</string>
 
+    <string name="action_add_new_card">Dodaj fiszkę</string>
+    <string name="action_start_review">Rozpocznij naukę</string>
+    <string name="action_remove">Usuń</string>
+    <string name="action_confirm">Zatwierdź</string>
+    <string name="action_remove_confirm_message">Czy na pewno chcesz usunąć tę fiszkę?</string>
+    <string name="nav_flashcards">Fiszki</string>
+    <string name="nav_learning_mode">Nauka</string>
+    <string name="nav_exam">Egzamin</string>
+
 </resources>

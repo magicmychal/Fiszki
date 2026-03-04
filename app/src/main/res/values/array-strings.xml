@@ -1,13 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="frequency_1">1 min</string>
-    <string name="frequency_5">5 min</string>
-    <string name="frequency_15">15 min</string>
-    <string name="frequency_30">30 min</string>
-    <string-array name="notification_frequency">
-        <item>@string/frequency_1</item>
-        <item>@string/frequency_5</item>
-        <item>@string/frequency_15</item>
-        <item>@string/frequency_30</item>
-    </string-array>
 </resources>

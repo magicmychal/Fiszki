@@ -4,19 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="24dp">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_add_flashcard_word"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:boxStrokeColor="@color/colorPrimaryNew"
+        app:hintTextColor="@color/colorPrimaryNew">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/add_flashcard_et_word"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/add_new_flashcard_word"
-            android:windowSoftInputMode="stateAlwaysVisible" />
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -24,13 +26,16 @@
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="16dp"
+        app:boxStrokeColor="@color/colorPrimaryNew"
+        app:hintTextColor="@color/colorPrimaryNew">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/add_flashcard_et_translation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/add_new_flashcard_translation"
-            android:windowSoftInputMode="stateAlwaysVisible" />
+            android:imeOptions="actionDone"
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
 </LinearLayout>

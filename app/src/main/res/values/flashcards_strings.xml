@@ -24,5 +24,13 @@
     <string name="flashcard_statistic_dialog_fail">Wrong answer:</string>
     <string name="flashcard_statistic_dialog_reset">RESET</string>
 
+    <string name="action_add_new_card">Add new card</string>
+    <string name="action_start_review">Start review</string>
+    <string name="action_remove">Remove</string>
+    <string name="action_confirm">Confirm</string>
+    <string name="action_remove_confirm_message">Are you sure you want to remove this flashcard?</string>
+    <string name="nav_flashcards">Flashcards</string>
+    <string name="nav_learning_mode">Learning</string>
+    <string name="nav_exam">Exam</string>
 
 </resources>
