@@ -7,6 +7,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.exam.ExamFragment
+import eu.qm.fiszki.model.category.CategoryRepository
 import eu.qm.fiszki.activity.learning.LearningFragment
 import eu.qm.fiszki.activity.myWords.category.CategoryFragment
 
@@ -40,13 +41,14 @@ class NavHostActivity : AppCompatActivity() {
             }
         }
 
+        CategoryRepository(this).addSystemCategory()
+
         if (savedInstanceState == null) {
             val tabId = intent.getIntExtra(EXTRA_TAB, 0)
             if (tabId != 0) {
                 bottomNav.selectedItemId = tabId
             } else {
-                // Show categories fragment but don't highlight any tab
-                showFragment(getOrCreateCategoryFragment())
+                bottomNav.selectedItemId = R.id.nav_flashcards
             }
         }
     }

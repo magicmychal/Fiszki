@@ -7,7 +7,7 @@ import android.content.Intent
 import android.text.Html
 import com.afollestad.materialdialogs.GravityEnum
 import com.afollestad.materialdialogs.MaterialDialog
-import eu.qm.fiszki.activity.MainActivity
+import eu.qm.fiszki.activity.NavHostActivity
 
 class Alert {
 
@@ -57,7 +57,7 @@ class Alert {
             setCancelable(false)
             setMessage(Html.fromHtml(message, Html.FROM_HTML_MODE_LEGACY))
             setButton(nameButton) { _, _ ->
-                val intent = Intent(context, MainActivity::class.java)
+                val intent = Intent(context, NavHostActivity::class.java)
                 context.startActivity(intent)
                 (context as Activity).finish()
             }

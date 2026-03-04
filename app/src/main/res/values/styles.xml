@@ -69,7 +69,7 @@
         <item name="colorSurfaceContainer">@color/colorSurfaceContainerYellowNight</item>
         <item name="colorOutline">@color/colorOutlineYellowNight</item>
         <item name="android:windowBackground">@color/colorSurfaceYellowNight</item>
-        <item name="android:statusBarColor">@color/colorOnPrimaryYellowNight</item>
+        <item name="android:statusBarColor">@color/colorPrimaryYellowNight</item>
         <item name="android:navigationBarColor">@color/colorSurfaceContainerYellowNight</item>
     </style>
 
@@ -78,7 +78,7 @@
         <item name="colorPrimaryDark">@color/colorOnPrimaryNight</item>
         <item name="colorAccent">@color/colorPrimaryNight</item>
         <item name="android:windowBackground">@color/colorSurfaceNight</item>
-        <item name="android:statusBarColor">@color/colorOnPrimaryNight</item>
+        <item name="android:statusBarColor">@color/colorPrimaryNight</item>
         <item name="android:navigationBarColor">@color/colorSurfaceNight</item>
     </style>
 
