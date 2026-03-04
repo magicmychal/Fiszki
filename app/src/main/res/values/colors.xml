@@ -34,4 +34,5 @@
     <color name="md_red_A700">#D50000</color>
     <color name="md_green_A700">#00C853</color>
     <color name="md_black_1000">#000000</color>
+    <color name="divider">#1F000000</color>
 </resources>

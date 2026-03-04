@@ -6,14 +6,11 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.util.MaterialDrawerSliderViewExtensionsKt;
 import com.mikepenz.materialdrawer.widget.MaterialDrawerSliderView;
 
-import eu.qm.fiszki.drawer.drawerItem.ClearDataBase;
-import eu.qm.fiszki.drawer.drawerItem.Contact;
 import eu.qm.fiszki.drawer.drawerItem.Exit;
 import eu.qm.fiszki.drawer.drawerItem.Frequenc;
-import eu.qm.fiszki.drawer.drawerItem.NightMode;
 import eu.qm.fiszki.drawer.drawerItem.SelectCategory;
+import eu.qm.fiszki.drawer.drawerItem.Settings;
 import eu.qm.fiszki.drawer.drawerItem.SwitchNotyfication;
-import eu.qm.fiszki.drawer.drawerItem.Tutorial;
 import eu.qm.fiszki.drawer.drawerItem.Version;
 
 public class DrawerMain {
@@ -29,12 +26,8 @@ public class DrawerMain {
         MaterialDrawerSliderViewExtensionsKt.addItems(slider,
                 new Frequenc(mActivity),
                 new SelectCategory(mActivity),
-                new ClearDataBase(mActivity),
                 new DividerDrawerItem(),
-                new NightMode(mActivity),
-                new DividerDrawerItem(),
-                new Contact(mActivity),
-                new Tutorial(mActivity),
+                new Settings(mActivity),
                 new Exit(mActivity),
                 new Version(mActivity)
         );

@@ -18,5 +18,6 @@
     <string name="settings_choose_category_empty">Wybrane kategorie są puste</string>
     <string name="settings_click_unClicable">Nie ma kategorii albo są puste</string>
     <string name="settings_tutorial_info">Ucz się z nami już dziś!</string>
+    <string name="settings_toolbar_title">Ustawienia</string>
 
 </resources>
