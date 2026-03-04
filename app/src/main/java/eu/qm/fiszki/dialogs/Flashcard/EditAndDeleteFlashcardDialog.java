@@ -2,15 +2,15 @@ package eu.qm.fiszki.dialogs.flashcard;
 
 import android.app.Activity;
 import android.content.DialogInterface;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.appcompat.app.AlertDialog;
 import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.rengwuxian.materialedittext.MaterialEditText;
+import com.google.android.material.textfield.TextInputEditText;
 
 import eu.qm.fiszki.R;
 import eu.qm.fiszki.model.flashcard.Flashcard;
@@ -25,8 +25,8 @@ public class EditAndDeleteFlashcardDialog extends MaterialDialog.Builder {
 
     private Activity mActivity;
     private Flashcard mFlashcard;
-    private MaterialEditText mWordET;
-    private MaterialEditText mTranslateET;
+    private TextInputEditText mWordET;
+    private TextInputEditText mTranslateET;
     private FlashcardRepository mFlashcardRepository;
     private ValidationFlashcards mValidationFlashcards;
 
@@ -53,8 +53,8 @@ public class EditAndDeleteFlashcardDialog extends MaterialDialog.Builder {
     }
 
     private void init() {
-        mTranslateET = (MaterialEditText) customView.findViewById(R.id.edit_flashcard_et_translation);
-        mWordET = (MaterialEditText) customView.findViewById(R.id.edit_flashcard_et_word);
+        mTranslateET = (TextInputEditText) customView.findViewById(R.id.edit_flashcard_et_translation);
+        mWordET = (TextInputEditText) customView.findViewById(R.id.edit_flashcard_et_word);
         mValidationFlashcards = new ValidationFlashcards(context);
         mFlashcardRepository = new FlashcardRepository(context);
     }

@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     tools:ignore="ContentDescription"
     tools:background="@color/pressed_color"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+>
 
     <ImageView
         android:id="@+id/TutSecondImage"
@@ -33,9 +33,6 @@
         android:textColor="@android:color/white"
         android:textSize="30sp"
 
-        app:layout_heightPercent="35%"
-        app:layout_marginBottomPercent="9%"
-        app:layout_widthPercent="100%"
         android:layout_marginBottom="87dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"

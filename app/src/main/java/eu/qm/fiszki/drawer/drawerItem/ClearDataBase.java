@@ -3,11 +3,11 @@ package eu.qm.fiszki.drawer.drawerItem;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.view.View;
 
-import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.DescribableKt;
+import com.mikepenz.materialdrawer.model.interfaces.IconableKt;
+import com.mikepenz.materialdrawer.model.interfaces.NameableKt;
 
 import eu.qm.fiszki.AlarmReceiver;
 import eu.qm.fiszki.LocalSharedPreferences;
@@ -27,26 +27,23 @@ public class ClearDataBase extends PrimaryDrawerItem {
         this.mActivity = activity;
         localSharedPreferences = new LocalSharedPreferences(activity);
 
-        this.withName(R.string.drawer_clear_name);
-        this.withIcon(R.drawable.broom);
-        this.withDescription(R.string.drawer_clear_sub);
-        this.withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-            @Override
-            public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                builder.setMessage(R.string.alert_clear_database_settings)
-                        .setPositiveButton(R.string.button_action_yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                deleteDbRows();
-                                new CategoryRepository(mActivity).addSystemCategory();
-                            }
-                        })
-                        .setNegativeButton(R.string.button_action_no, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                            }
-                        }).show();
-                return false;
-            }
+        NameableKt.withName(this, R.string.drawer_clear_name);
+        IconableKt.withIcon(this, R.drawable.broom);
+        DescribableKt.withDescription(this, R.string.drawer_clear_sub);
+        this.withOnDrawerItemClickListener((view, drawerItem, position) -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            builder.setMessage(R.string.alert_clear_database_settings)
+                    .setPositiveButton(R.string.button_action_yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            deleteDbRows();
+                            new CategoryRepository(mActivity).addSystemCategory();
+                        }
+                    })
+                    .setNegativeButton(R.string.button_action_no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    }).show();
+            return false;
         });
     }
 
@@ -62,4 +59,3 @@ public class ClearDataBase extends PrimaryDrawerItem {
         localSharedPreferences.setNotificationStatus(0);
     }
 }
-

@@ -3,12 +3,13 @@ package eu.qm.fiszki.tutorial.page;
 /**
  * Created by bgood on 2016-04-14.
  */
-import com.cleveroad.slidingtutorial.PageFragment;
+import com.cleveroad.slidingtutorial.PageSupportFragment;
+import com.cleveroad.slidingtutorial.Direction;
 import com.cleveroad.slidingtutorial.TransformItem;
 
 import eu.qm.fiszki.R;
 
-public class ThirdPage extends PageFragment {
+public class ThirdPage extends PageSupportFragment {
 
     @Override
     protected int getLayoutResId() {
@@ -16,9 +17,9 @@ public class ThirdPage extends PageFragment {
     }
 
     @Override
-    protected TransformItem[] provideTransformItems() {
+    protected TransformItem[] getTransformItems() {
         return new TransformItem[]{
-                new TransformItem(R.id.TutThirdImage, true, 20),
+                TransformItem.create(R.id.TutThirdImage, Direction.LEFT_TO_RIGHT, 20),
         };
     }
 }

@@ -2,8 +2,8 @@ package eu.qm.fiszki.activity.learning;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
@@ -11,7 +11,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.rengwuxian.materialedittext.MaterialEditText;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 
@@ -35,7 +35,7 @@ public class LearningCheckActivity extends AppCompatActivity {
     private Algorithm mAlgorithm;
     private Category mDrawnCategory;
     private Flashcard mDrawnFlashcard;
-    private MaterialEditText mTranslate;
+    private TextInputEditText mTranslate;
     private ArrayList<Flashcard> mFlashcardsPool;
     private CategoryRepository mCategoryRepository;
     private FlashcardRepository mFlashcardRepository;
@@ -64,7 +64,7 @@ public class LearningCheckActivity extends AppCompatActivity {
         mLang = (TextView) mActivity.findViewById(R.id.learning_check_lang_text);
         mWord = (TextView) mActivity.findViewById(R.id.learning_check_word_text);
         mCategory = (TextView) mActivity.findViewById(R.id.learning_check_category_text);
-        mTranslate = (MaterialEditText) mActivity.findViewById(R.id.learning_check_edit_text);
+        mTranslate = (TextInputEditText) mActivity.findViewById(R.id.learning_check_edit_text);
         mTranslate.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         mFlashcardsPool = (ArrayList<Flashcard>) this.getIntent()
                 .getSerializableExtra(ChangeActivityManager.FLASHCARDS_KEY_INTENT);
@@ -73,7 +73,7 @@ public class LearningCheckActivity extends AppCompatActivity {
     private void buildToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.learning_check_toolbar_title);
-        toolbar.setNavigationIcon(mActivity.getResources().getDrawable(R.drawable.md_nav_back));
+        toolbar.setNavigationIcon(R.drawable.ic_exit_to_app_24px);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -1,13 +1,11 @@
 package eu.qm.fiszki.drawer.drawerItem;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.os.Build;
-import android.view.View;
 
-import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.DescribableKt;
+import com.mikepenz.materialdrawer.model.interfaces.IconableKt;
+import com.mikepenz.materialdrawer.model.interfaces.NameableKt;
 
 import java.util.ArrayList;
 
@@ -34,20 +32,16 @@ public class SelectCategory extends PrimaryDrawerItem {
         categoryToPopulate.add(categoryRepository.getCategoryByID(1));
         categoryToPopulate.addAll(categoryRepository.getUserCategory());
 
-        this.withName(R.string.drawer_select_name);
-        this.withDescription(R.string.drawer_select_sub);
-        this.withIcon(R.drawable.ic_category_select);
-        this.withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                if (flashcardRepository.getAllFlashcards().isEmpty()) {
-                    new Alert().addFiszkiToFeature(activity).show();
-                } else {
-                    new SelectCategoryDialog(activity,categoryToPopulate).show();
-                }
-                return false;
+        NameableKt.withName(this, R.string.drawer_select_name);
+        DescribableKt.withDescription(this, R.string.drawer_select_sub);
+        IconableKt.withIcon(this, R.drawable.ic_category_select);
+        this.withOnDrawerItemClickListener((view, drawerItem, position) -> {
+            if (flashcardRepository.getAllFlashcards().isEmpty()) {
+                new Alert().addFiszkiToFeature(activity).show();
+            } else {
+                new SelectCategoryDialog(activity, categoryToPopulate).show();
             }
+            return false;
         });
     }
 }

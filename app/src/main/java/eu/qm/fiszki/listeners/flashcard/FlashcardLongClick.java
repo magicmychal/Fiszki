@@ -2,7 +2,7 @@ package eu.qm.fiszki.listeners.flashcard;
 
 import android.app.Activity;
 import android.content.res.Resources;
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 import android.util.TypedValue;
 import android.view.View;
 

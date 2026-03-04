@@ -2,7 +2,7 @@ package eu.qm.fiszki;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 

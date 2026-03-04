@@ -1,10 +1,10 @@
 package eu.qm.fiszki.drawer;
 
 import android.app.Activity;
-import android.support.v7.widget.Toolbar;
 
-import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.util.MaterialDrawerSliderViewExtensionsKt;
+import com.mikepenz.materialdrawer.widget.MaterialDrawerSliderView;
 
 import eu.qm.fiszki.drawer.drawerItem.ClearDataBase;
 import eu.qm.fiszki.drawer.drawerItem.Contact;
@@ -16,25 +16,30 @@ import eu.qm.fiszki.drawer.drawerItem.SwitchNotyfication;
 import eu.qm.fiszki.drawer.drawerItem.Tutorial;
 import eu.qm.fiszki.drawer.drawerItem.Version;
 
-public class DrawerMain extends DrawerBuilder {
+public class DrawerMain {
 
-    public DrawerMain(Activity activity, Toolbar toolbar) {
-        this.withActivity(activity);
-        this.withToolbar(toolbar);
-        this.withAccountHeader(new DrawerHeader(activity).build());
-        this.withSelectedItem(-1);
-        this.addDrawerItems(new Frequenc(activity));
-        this.addDrawerItems(new SelectCategory(activity));
-        this.addDrawerItems(new ClearDataBase(activity));
-        this.addDrawerItems(new DividerDrawerItem());
-        this.addDrawerItems(new NightMode(activity));
-        this.addDrawerItems(new DividerDrawerItem());
-        this.addDrawerItems(new Contact(activity));
-        this.addDrawerItems(new Tutorial(activity));
-        this.addDrawerItems(new Exit(activity));
-        this.addDrawerItems(new Version(activity));
-        this.addStickyDrawerItems(new SwitchNotyfication(activity));
+    private final Activity mActivity;
+
+    public DrawerMain(Activity activity) {
+        this.mActivity = activity;
     }
 
-
+    public void setup(MaterialDrawerSliderView slider) {
+        slider.setAccountHeader(new DrawerHeader(mActivity).build());
+        MaterialDrawerSliderViewExtensionsKt.addItems(slider,
+                new Frequenc(mActivity),
+                new SelectCategory(mActivity),
+                new ClearDataBase(mActivity),
+                new DividerDrawerItem(),
+                new NightMode(mActivity),
+                new DividerDrawerItem(),
+                new Contact(mActivity),
+                new Tutorial(mActivity),
+                new Exit(mActivity),
+                new Version(mActivity)
+        );
+        MaterialDrawerSliderViewExtensionsKt.addStickyDrawerItems(slider,
+                new SwitchNotyfication(mActivity)
+        );
+    }
 }

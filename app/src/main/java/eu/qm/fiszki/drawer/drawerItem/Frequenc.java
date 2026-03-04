@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IconableKt;
+import com.mikepenz.materialdrawer.model.interfaces.NameableKt;
 
 import eu.qm.fiszki.AlarmReceiver;
 import eu.qm.fiszki.LocalSharedPreferences;
@@ -24,26 +24,23 @@ public class Frequenc extends PrimaryDrawerItem {
         localSharedPreferences = new LocalSharedPreferences(activity);
         alarmReceiver = new AlarmReceiver();
 
-        this.withName(R.string.drawer_freqenc_name);
-        this.withIcon(R.drawable.clock_alert);
-        this.withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-            @Override
-            public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                new MaterialDialog.Builder(activity)
-                        .title(R.string.drawer_freqenc_name)
-                        .items(R.array.notification_frequency)
-                        .itemsCallbackSingleChoice(getSelectedFreq(), new MaterialDialog.ListCallbackSingleChoice() {
-                            @Override
-                            public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
-                                RBClick(which+1, activity);
-                                return false;
-                            }
-                        })
-                        .positiveText(R.string.button_action_ok)
-                        .cancelable(false)
-                        .show();
-                return false;
-            }
+        NameableKt.withName(this, R.string.drawer_freqenc_name);
+        IconableKt.withIcon(this, R.drawable.clock_alert);
+        this.withOnDrawerItemClickListener((view, drawerItem, position) -> {
+            new MaterialDialog.Builder(activity)
+                    .title(R.string.drawer_freqenc_name)
+                    .items(R.array.notification_frequency)
+                    .itemsCallbackSingleChoice(getSelectedFreq(), new MaterialDialog.ListCallbackSingleChoice() {
+                        @Override
+                        public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                            RBClick(which + 1, activity);
+                            return false;
+                        }
+                    })
+                    .positiveText(R.string.button_action_ok)
+                    .cancelable(false)
+                    .show();
+            return false;
         });
     }
 

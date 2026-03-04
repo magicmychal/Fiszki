@@ -6,7 +6,11 @@ import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.interfaces.OnCheckedChangeListener;
 import com.mikepenz.materialdrawer.model.SwitchDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.CheckableKt;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IconableKt;
+import com.mikepenz.materialdrawer.model.interfaces.NameableKt;
+import com.mikepenz.materialdrawer.model.interfaces.SelectableKt;
 
 import eu.qm.fiszki.AlarmReceiver;
 import eu.qm.fiszki.FirebaseManager;
@@ -30,36 +34,26 @@ public class SwitchNotyfication extends SwitchDrawerItem {
         this.mLocalSharedPreferences = new LocalSharedPreferences(activity);
         this.mFlashcardRepository = new FlashcardRepository(activity);
 
-        this.withName(R.string.drawer_notyfication_switch_name);
-        this.withIcon(R.drawable.ic_notifications_black_24dp);
-        this.withCheckable(false);
-        this.withSelectable(false);
+        NameableKt.withName(this, R.string.drawer_notyfication_switch_name);
+        IconableKt.withIcon(this, R.drawable.ic_notifications_black_24dp);
+        CheckableKt.withCheckable(this, false);
+        SelectableKt.withSelectable(this, false);
 
-        if (!mFlashcardRepository.getAllFlashcards().isEmpty()) {
-            this.withSwitchEnabled(true);
-        } else {
-            this.withSwitchEnabled(false);
-        }
+        this.withSwitchEnabled(!mFlashcardRepository.getAllFlashcards().isEmpty());
 
-        //Sync switch position
-        if (mLocalSharedPreferences.getNotificationStatus() == 0) {
-            this.withChecked(false);
-        } else {
-            this.withChecked(true);
-        }
+        // Sync switch position
+        CheckableKt.withChecked(this, mLocalSharedPreferences.getNotificationStatus() != 0);
 
-        //Add event if move switch
         this.withOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(IDrawerItem drawerItem, CompoundButton buttonView, boolean isChecked) {
+            public void onCheckedChanged(IDrawerItem<?> drawerItem, CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     mAlarmReceiver.close(activity);
                     mAlarmReceiver.start(activity);
                     mLocalSharedPreferences.setNotificationStatus(1);
-                    if(mLocalSharedPreferences.getNotificationPosition()==0){
+                    if (mLocalSharedPreferences.getNotificationPosition() == 0) {
                         mLocalSharedPreferences.setNotificationPosition(3);
                     }
-
                     Toast.makeText(activity.getBaseContext(), activity.getString(R.string.drawer_notyfication_switch_toast_on), Toast.LENGTH_SHORT).show();
                     new FirebaseManager(mActivity).sendEvent(FirebaseManager.Params.NOTYFI_ON);
                 } else {

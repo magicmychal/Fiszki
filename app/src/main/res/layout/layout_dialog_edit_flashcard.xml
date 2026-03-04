@@ -10,36 +10,40 @@
         android:layout_height="327dp"
         android:background="@color/White">
 
-        <com.rengwuxian.materialedittext.MaterialEditText
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_editOrginal"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editOrginal"
-            android:hint="@string/add_new_flashcard_word"
-            app:met_floatingLabel="highlight"
-            app:met_singleLineEllipsis="true"
-            app:met_primaryColor="@color/ColorPrimaryDark"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            app:met_floatingLabelTextSize="17dp"
+            android:layout_alignParentTop="true"
             android:layout_marginTop="8dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp" />
+            android:layout_marginRight="16dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editOrginal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/add_new_flashcard_word" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-
-        <com.rengwuxian.materialedittext.MaterialEditText
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_editTranslate"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTranslate"
-            android:hint="@string/add_new_flashcard_translation"
-            app:met_floatingLabel="highlight"
-            app:met_singleLineEllipsis="true"
-            app:met_primaryColor="@color/ColorPrimaryDark"
-            app:met_floatingLabelTextSize="17dp"
-            android:layout_below="@+id/editOrginal"
+            android:layout_below="@+id/til_editOrginal"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp" />
+            android:layout_marginRight="16dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTranslate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/add_new_flashcard_translation" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:layout_width="wrap_content"
@@ -76,7 +80,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/add_new_flashcard_category"
             android:id="@+id/textView5"
-            android:layout_below="@+id/editTranslate"
+            android:layout_below="@+id/til_editTranslate"
             android:layout_alignLeft="@+id/editFlashcardSpinner"
             android:layout_alignStart="@+id/editFlashcardSpinner"
             android:textSize="17dp" />

@@ -12,7 +12,7 @@
     android:background="?android:attr/colorBackground">
 
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <android.support.v7.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/my_words_card"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
@@ -51,9 +51,9 @@
                         android:textColor="@color/black"/>
 
                 </FrameLayout>
-            </android.support.v7.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <android.support.v7.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/lerning_mode_card"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
@@ -84,9 +84,9 @@
                         android:textColor="@color/black"
                         />
                 </FrameLayout>
-            </android.support.v7.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <android.support.v7.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/exam_mode_card"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
@@ -114,9 +114,9 @@
                         android:textStyle="bold|italic"
                         android:textColor="@color/black"/>
                 </FrameLayout>
-            </android.support.v7.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </RelativeLayout>
