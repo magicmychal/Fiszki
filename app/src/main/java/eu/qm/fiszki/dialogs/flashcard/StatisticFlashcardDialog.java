@@ -1,13 +1,12 @@
 package eu.qm.fiszki.dialogs.flashcard;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.Html;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import eu.qm.fiszki.FirebaseManager;
 import eu.qm.fiszki.R;
 import eu.qm.fiszki.model.flashcard.Flashcard;
 import eu.qm.fiszki.model.flashcard.FlashcardRepository;
@@ -54,8 +53,6 @@ public class StatisticFlashcardDialog extends MaterialDialog.Builder {
             @Override
             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                 new FlashcardRepository(activity).resetFlashcardStatistic(flashcard);
-                new FirebaseManager(activity)
-                        .sendEvent(FirebaseManager.Params.FLASHCARD_STATISTIC_RESET);
                 dialog.dismiss();
             }
         };

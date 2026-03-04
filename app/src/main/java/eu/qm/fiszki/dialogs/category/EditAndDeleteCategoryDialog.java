@@ -3,15 +3,15 @@ package eu.qm.fiszki.dialogs.category;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
+import androidx.annotation.NonNull;
+import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.rengwuxian.materialedittext.MaterialAutoCompleteTextView;
-import com.rengwuxian.materialedittext.MaterialEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 
@@ -31,7 +31,7 @@ public class EditAndDeleteCategoryDialog extends MaterialDialog.Builder {
     private Activity mActivity;
     private Category mCategory;
     private ArrayList<Flashcard> mFlashcards;
-    private MaterialEditText mCategoryNameET;
+    private TextInputEditText mCategoryNameET;
     private ValidationCategory mValidationCategory;
     private CategoryRepository mCategoryRepository;
     private FlashcardRepository mFlashcardRepository;
@@ -67,7 +67,7 @@ public class EditAndDeleteCategoryDialog extends MaterialDialog.Builder {
     }
 
     public void init() {
-        mCategoryNameET = (MaterialEditText) customView.findViewById(R.id.add_category_dialog_et_name);
+        mCategoryNameET = (TextInputEditText) customView.findViewById(R.id.add_category_dialog_et_name);
         mCategoryLangFrom = (MaterialAutoCompleteTextView) customView.findViewById(R.id.add_category_dialog_lang_from);
         mCategoryLangOn = (MaterialAutoCompleteTextView) customView.findViewById(R.id.add_category_dialog_lang_on);
         mValidationCategory = new ValidationCategory(context);

@@ -2,13 +2,12 @@ package eu.qm.fiszki.dialogs.check;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.Html;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import eu.qm.fiszki.FirebaseManager;
 import eu.qm.fiszki.R;
 import eu.qm.fiszki.activity.learning.LearningCheckActivity;
 import eu.qm.fiszki.model.flashcard.Flashcard;

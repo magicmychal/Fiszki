@@ -3,7 +3,6 @@ package eu.qm.fiszki.listeners.flashcard;
 import android.app.Activity;
 import android.view.View;
 
-import eu.qm.fiszki.FirebaseManager;
 import eu.qm.fiszki.dialogs.flashcard.StatisticFlashcardDialog;
 import eu.qm.fiszki.model.flashcard.Flashcard;
 
@@ -23,6 +22,5 @@ public class FlashcardStatisticClick implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         new StatisticFlashcardDialog(mActivity,mFlashcard).show();
-        new FirebaseManager(mActivity).sendEvent(FirebaseManager.Params.FLASHCARD_STATISTIC_CLICK);
     }
 }

@@ -1,42 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/edit_flashcard_et_word"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_edit_flashcard_word"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_flashcard_et_word"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/add_new_flashcard_word"
+            android:windowSoftInputMode="stateAlwaysVisible" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_edit_flashcard_translation"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:hint="@string/add_new_flashcard_word"
-        android:windowSoftInputMode="stateAlwaysVisible"
-        app:met_floatingLabel="highlight"
-        app:met_floatingLabelTextSize="20dp"
-        app:met_primaryColor="@color/ColorPrimaryDark"
-        app:met_singleLineEllipsis="true"
-        app:met_textColor="?android:attr/textColorPrimary"/>
+        android:layout_marginTop="8dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_flashcard_et_translation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/add_new_flashcard_translation"
+            android:windowSoftInputMode="stateAlwaysVisible" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/edit_flashcard_et_translation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/edit_flashcard_et_word"
-        android:layout_alignLeft="@+id/edit_flashcard_et_word"
-        android:layout_alignRight="@+id/edit_flashcard_et_word"
-        android:layout_alignStart="@+id/edit_flashcard_et_word"
-        android:layout_below="@+id/edit_flashcard_et_word"
-        android:hint="@string/add_new_flashcard_translation"
-        android:windowSoftInputMode="stateAlwaysVisible"
-        app:met_floatingLabel="highlight"
-        app:met_floatingLabelTextSize="20dp"
-        app:met_primaryColor="@color/ColorPrimaryDark"
-        app:met_singleLineEllipsis="true"
-        app:met_textColor="?android:attr/textColorPrimary"/>
-
-</RelativeLayout>
+</LinearLayout>

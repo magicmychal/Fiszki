@@ -13,7 +13,7 @@
     tools:context=".activity.exam.ExamActivity"
     tools:showIn="@layout/activity_exam">
 
-    <android.support.v7.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="230dp"
         android:layout_alignParentTop="true"
@@ -36,9 +36,9 @@
                 android:padding="32dp"
                 android:id="@+id/exam_range_text"/>
         </FrameLayout>
-    </android.support.v7.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
-    <android.support.v7.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="235dp"
         android:layout_alignParentBottom="true"
@@ -62,6 +62,6 @@
                 android:textAlignment="center"
                 android:id="@+id/exam_repeat_text"/>
         </FrameLayout>
-    </android.support.v7.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </RelativeLayout>

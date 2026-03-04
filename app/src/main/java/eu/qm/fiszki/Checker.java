@@ -6,7 +6,6 @@ package eu.qm.fiszki;
 public class Checker {
 
     public boolean check(String originalWord, String enteredWord) {
-        if (originalWord.compareTo(enteredWord) == 0) return true;
-        else return false;
+        return originalWord.equals(enteredWord);
     }
 }

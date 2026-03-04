@@ -1,19 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="eu.qm.fiszki">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-
-    <supports-screens
-        android:anyDensity="true"
-        android:largeScreens="true"
-        android:normalScreens="true"
-        android:smallScreens="true" />
-
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
@@ -23,18 +12,6 @@
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
-
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-
-        <meta-data
-            android:name="apptentive_api_key"
-            android:value="9764c81b1022e3e4a368d17fcaf568376435f76712f6eebbf4aad19d9a7f85fc" />
-
-        <meta-data
-            android:name="com.crashlytics.ApiKey"
-            android:value="636cb55b03dfc21cb66f05fa419c44f7f89fee1b" />
 
         <receiver
             android:name=".AlarmReceiver"
@@ -47,7 +24,8 @@
         <activity
             android:name=".activity.SplashScreen"
             android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -61,10 +39,6 @@
         <activity
             android:name=".tutorial.TutorialActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name="com.apptentive.android.sdk.ViewActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/ApptentiveTheme" />
         <activity
             android:name=".activity.myWords.category.CategoryActivity"
             android:screenOrientation="portrait"
@@ -95,6 +69,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.CheckActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.SettingsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>

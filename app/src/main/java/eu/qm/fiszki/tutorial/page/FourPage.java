@@ -1,6 +1,7 @@
 package eu.qm.fiszki.tutorial.page;
 
-import com.cleveroad.slidingtutorial.PageFragment;
+import com.cleveroad.slidingtutorial.PageSupportFragment;
+import com.cleveroad.slidingtutorial.Direction;
 import com.cleveroad.slidingtutorial.TransformItem;
 
 import eu.qm.fiszki.R;
@@ -8,7 +9,7 @@ import eu.qm.fiszki.R;
 /**
  * Created by bgood on 2016-04-15.
  */
-public class FourPage extends PageFragment {
+public class FourPage extends PageSupportFragment {
 
     @Override
     protected int getLayoutResId() {
@@ -16,9 +17,9 @@ public class FourPage extends PageFragment {
     }
 
     @Override
-    protected TransformItem[] provideTransformItems() {
+    protected TransformItem[] getTransformItems() {
         return new TransformItem[]{
-                new TransformItem(R.id.TutFourImage, true, 20),
+                TransformItem.create(R.id.TutFourImage, Direction.LEFT_TO_RIGHT, 20),
         };
     }
 }

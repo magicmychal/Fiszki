@@ -3,41 +3,32 @@ package eu.qm.fiszki.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.apptentive.android.sdk.Apptentive;
-import com.crashlytics.android.Crashlytics;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.crash.FirebaseCrash;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.mikepenz.materialdrawer.widget.MaterialDrawerSliderView;
 
 import eu.qm.fiszki.Alert;
-import eu.qm.fiszki.FirebaseManager;
 import eu.qm.fiszki.NightModeController;
 import eu.qm.fiszki.R;
-import eu.qm.fiszki.dialogs.flashcard.QuicklyAddFlashcardDialog;
 import eu.qm.fiszki.activity.exam.ExamActivity;
 import eu.qm.fiszki.activity.learning.LearningActivity;
 import eu.qm.fiszki.activity.myWords.category.CategoryActivity;
+import eu.qm.fiszki.dialogs.flashcard.QuicklyAddFlashcardDialog;
 import eu.qm.fiszki.drawer.DrawerMain;
 import eu.qm.fiszki.model.category.CategoryRepository;
 import eu.qm.fiszki.model.flashcard.FlashcardRepository;
-import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FirebaseAnalytics mFirebaseAnalytics;
-
-    private Drawer mDrawer;
+    private DrawerLayout mDrawerLayout;
+    private MaterialDrawerSliderView mSlider;
     private Toolbar mToolbar;
     private Activity mActivity;
     private int mCountBackPress;
@@ -51,10 +42,6 @@ public class MainActivity extends AppCompatActivity {
         new NightModeController(this).useTheme();
         setContentView(R.layout.activity_main);
 
-        if(!FirebaseManager.Params.DEVELOP) {
-            new FirebaseManager(this);
-            Fabric.with(this, new Crashlytics());
-        }
         init();
         buildDrawer();
         buildFAB();
@@ -63,15 +50,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-        if(hasFocus){
+        if (hasFocus) {
             buildDrawer();
         }
     }
 
     @Override
     public void onBackPressed() {
-        if (mDrawer.isDrawerOpen()) {
-            mDrawer.closeDrawer();
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
             mCountBackPress = 0;
         } else {
             if (mCountBackPress == 0) {
@@ -87,10 +74,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Apptentive.onStart(this);
         mCategoryRepository.addSystemCategory();
-        Apptentive.engage(this, "changelog");
-        Apptentive.engage(this, "notes");
     }
 
     @Override
@@ -111,14 +95,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void buildDrawer() {
-        mDrawer = new DrawerMain(mActivity, mToolbar).build();
-        mDrawer.setOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-            @Override
-            public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                mDrawer.setSelection(-1);
-                return false;
-            }
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mSlider = findViewById(R.id.drawer_slider);
+        mSlider.setOnDrawerItemClickListener((view, item, position) -> {
+            mSlider.setSelection(-1, false);
+            return false;
         });
+        new DrawerMain(mActivity).setup(mSlider);
     }
 
     private void buildFAB() {
@@ -126,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new FirebaseManager(mActivity).sendEvent(FirebaseManager.Params.QUICK_ADD_BTN);
                 new QuicklyAddFlashcardDialog(mActivity).show();
             }
         });
@@ -139,13 +121,12 @@ public class MainActivity extends AppCompatActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDrawer.openDrawer();
+                mDrawerLayout.openDrawer(GravityCompat.START);
             }
         });
     }
 
     public void myWordsCardClick(View view) {
-        new FirebaseManager(mActivity).sendEvent(FirebaseManager.Params.MYWORDS);
         mActivity.startActivity(new Intent(this, CategoryActivity.class));
     }
 
@@ -153,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
         if (mFlashcardRepository.countFlashcards() == 0) {
             new Alert().addFiszkiToFeature(mActivity).show();
         } else {
-            new FirebaseManager(mActivity).sendEvent(FirebaseManager.Params.LEARNING);
             startActivity(new Intent(this, LearningActivity.class));
         }
     }
@@ -162,9 +142,7 @@ public class MainActivity extends AppCompatActivity {
         if (mFlashcardRepository.countFlashcards() == 0) {
             new Alert().addFiszkiToFeature(mActivity).show();
         } else {
-            new FirebaseManager(mActivity).sendEvent(FirebaseManager.Params.EXAM);
             startActivity(new Intent(this, ExamActivity.class));
         }
     }
 }
-

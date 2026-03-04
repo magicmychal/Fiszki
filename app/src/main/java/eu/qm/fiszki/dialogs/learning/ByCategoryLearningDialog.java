@@ -1,7 +1,7 @@
 package eu.qm.fiszki.dialogs.learning;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -9,7 +9,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
 
-import eu.qm.fiszki.FirebaseManager;
 import eu.qm.fiszki.R;
 import eu.qm.fiszki.activity.ChangeActivityManager;
 import eu.qm.fiszki.model.category.Category;
@@ -74,7 +73,6 @@ public class ByCategoryLearningDialog extends MaterialDialog.Builder {
                                 Toast.LENGTH_LONG).show();
                     } else {
                         dialog.dismiss();
-                        new FirebaseManager(mActivity).sendEvent(FirebaseManager.Params.LEARNING_CAT);
                         new ChangeActivityManager(mActivity).goToLearningCheck(mFlashcards);
                     }
                 }

@@ -20,6 +20,8 @@
 
     <string name="drawer_freqenc_name">Frequency of notification</string>
 
+    <string name="drawer_settings_name">Settings</string>
+
     <string name="drawer_nightmode">Night mode</string>
     <string name="drawer_nightmode_toast_on">Night mode on</string>
     <string name="drawer_nightmode_toast_off">Night mode off</string>

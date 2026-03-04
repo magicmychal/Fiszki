@@ -1,7 +1,7 @@
 package eu.qm.fiszki.dialogs.exam;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.Html;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -9,7 +9,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
 
-import eu.qm.fiszki.FirebaseManager;
 import eu.qm.fiszki.R;
 import eu.qm.fiszki.activity.ChangeActivityManager;
 
@@ -70,7 +69,6 @@ public class EndExamDialog extends MaterialDialog.Builder {
         return new MaterialDialog.SingleButtonCallback() {
             @Override
             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                new FirebaseManager(mActivity).sendEvent(FirebaseManager.Params.EXAM_SHOW_BAD);
                 new ChangeActivityManager(mActivity).goToExamBadAnswer(mBadAnswer);
             }
         };
@@ -80,7 +78,6 @@ public class EndExamDialog extends MaterialDialog.Builder {
         return new MaterialDialog.SingleButtonCallback() {
             @Override
             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                new FirebaseManager(mActivity).sendEvent(FirebaseManager.Params.EXAM_OK_BTN);
                 new ChangeActivityManager(mActivity).exitExamCheck();
             }
         };

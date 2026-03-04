@@ -28,4 +28,11 @@
     <color name="statistic_65_35">#ffdb3a</color>
     <color name="statistic_35_0">#d7263d</color>
     <color name="primary_text_default_material_light">#55ffffff</color>
+
+    <!-- Colors previously provided by apptentive/material-dialogs libraries -->
+    <color name="apptentive_transparency">#00000000</color>
+    <color name="md_red_A700">#D50000</color>
+    <color name="md_green_A700">#00C853</color>
+    <color name="md_black_1000">#000000</color>
+    <color name="divider">#1F000000</color>
 </resources>

@@ -1,7 +1,7 @@
 package eu.qm.fiszki.dialogs.category;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 

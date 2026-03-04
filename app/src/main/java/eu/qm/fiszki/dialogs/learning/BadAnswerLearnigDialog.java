@@ -1,13 +1,12 @@
 package eu.qm.fiszki.dialogs.learning;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.Html;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import eu.qm.fiszki.FirebaseManager;
 import eu.qm.fiszki.R;
 import eu.qm.fiszki.activity.learning.LearningCheckActivity;
 import eu.qm.fiszki.model.flashcard.Flashcard;
@@ -55,7 +54,6 @@ public class BadAnswerLearnigDialog extends MaterialDialog.Builder {
             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                 lca.drawFlashcard();
                 dialog.dismiss();
-                new FirebaseManager(context).sendEvent(FirebaseManager.Params.LEARNING_DIALOG_SKIP);
             }
         };
     }

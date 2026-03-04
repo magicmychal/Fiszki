@@ -5,78 +5,50 @@ package eu.qm.fiszki.tutorial.page;
  */
 
 import android.content.Intent;
-import android.support.annotation.ColorInt;
-import android.support.v4.content.ContextCompat;
-import android.view.View;
-import android.widget.Button;
 
-import com.cleveroad.slidingtutorial.PageFragment;
-import com.cleveroad.slidingtutorial.SimplePagerFragment;
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
+import com.cleveroad.slidingtutorial.TutorialOptions;
+import com.cleveroad.slidingtutorial.TutorialPageProvider;
+import com.cleveroad.slidingtutorial.TutorialSupportFragment;
 
 import eu.qm.fiszki.R;
 import eu.qm.fiszki.activity.MainActivity;
 
-public class ColorPage extends SimplePagerFragment {
+public class ColorPage extends TutorialSupportFragment {
 
     @Override
-    protected int getPagesCount() {
-        return 4;
-    }
-
-    @Override
-    protected PageFragment getPage(int position) {
-        View bskip = getActivity().findViewById(getButtonSkipResId());
-        bskip.setVisibility(View.INVISIBLE);
-        position %= 4;
-        if (position == 0) {
-            return new FirstPage();
-        }
-        if (position == 1) {
-            return new SecondPage();
-        }
-        if (position == 2) {
-            return new ThirdPage();
-        }
-        if (position == 3) {
-            return new FourPage();
-        }
-        throw new IllegalArgumentException("WHOOP WHOOP " + position);
-    }
-
-    @ColorInt
-    @Override
-    protected int getPageColor(int position) {
-        Button skip = (Button) getActivity().findViewById(R.id.skip);
-
-        if (position == 0) {
-            skip.setVisibility(View.INVISIBLE);
-            return ContextCompat.getColor(getContext(), R.color.yellow);
-        }
-        if (position == 1) {
-            skip.setVisibility(View.VISIBLE);
-            return ContextCompat.getColor(getContext(), R.color.pressed_color);
-        }
-        if (position == 2) {
-            skip.setVisibility(View.VISIBLE);
-            return ContextCompat.getColor(getContext(), R.color.pistachio);
-        }
-        if (position == 3) {
-            skip.setVisibility(View.VISIBLE);
-            return ContextCompat.getColor(getContext(), R.color.patin);
-        }
-        throw new IllegalArgumentException("Wrong position");
-    }
-
-    @Override
-    protected boolean isInfiniteScrollEnabled() {
-        return true;
-    }
-
-    @Override
-    protected boolean onSkipButtonClicked(View skipButton) {
-        Intent myIntent = new Intent(getActivity(), MainActivity.class);
-        startActivity(myIntent);
-        getActivity().finish();
-        return true;
+    protected TutorialOptions provideTutorialOptions() {
+        return TutorialSupportFragment.newTutorialOptionsBuilder(requireContext())
+                .setPagesCount(4)
+                .setPagesColors(new int[]{
+                        ContextCompat.getColor(requireContext(), R.color.yellow),
+                        ContextCompat.getColor(requireContext(), R.color.pressed_color),
+                        ContextCompat.getColor(requireContext(), R.color.pistachio),
+                        ContextCompat.getColor(requireContext(), R.color.patin)
+                })
+                .setUseInfiniteScroll(true)
+                .setUseAutoRemoveTutorialFragment(false)
+                .setOnSkipClickListener(v -> {
+                    Intent myIntent = new Intent(requireActivity(), MainActivity.class);
+                    startActivity(myIntent);
+                    requireActivity().finish();
+                })
+                .setTutorialPageProvider(new TutorialPageProvider<Fragment>() {
+                    @NonNull
+                    @Override
+                    public Fragment providePage(int position) {
+                        switch (position % 4) {
+                            case 0: return new FirstPage();
+                            case 1: return new SecondPage();
+                            case 2: return new ThirdPage();
+                            case 3: return new FourPage();
+                            default: throw new IllegalArgumentException("Unknown position: " + position);
+                        }
+                    }
+                })
+                .build();
     }
 }

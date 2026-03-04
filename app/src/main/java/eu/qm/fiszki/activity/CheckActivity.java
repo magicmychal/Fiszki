@@ -2,19 +2,18 @@ package eu.qm.fiszki.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
-import com.rengwuxian.materialedittext.MaterialEditText;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 
-import eu.qm.fiszki.FirebaseManager;
 import eu.qm.fiszki.NightModeController;
 import eu.qm.fiszki.R;
 import eu.qm.fiszki.algorithm.Algorithm;
@@ -37,7 +36,7 @@ public class CheckActivity extends AppCompatActivity {
     private TextView mLang;
     private TextView mWord;
     private TextView mCategory;
-    private MaterialEditText mTranslate;
+    private TextInputEditText mTranslate;
     private Flashcard mDrawnFlashcard;
     private Category mDrawnCategory;
     private ArrayList<Flashcard> mPool;
@@ -78,7 +77,7 @@ public class CheckActivity extends AppCompatActivity {
         mLang = (TextView) mActivity.findViewById(R.id.check_lang_text);
         mWord = (TextView) mActivity.findViewById(R.id.check_word_text);
         mCategory = (TextView) mActivity.findViewById(R.id.check_category_text);
-        mTranslate = (MaterialEditText) mActivity.findViewById(R.id.check_edit_text);
+        mTranslate = (TextInputEditText) mActivity.findViewById(R.id.check_edit_text);
         mTranslate.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         mPool = new CatcherFlashcardToAlgorithm(mActivity).getFlashcardsFromChosenCategoryToNotification();
     }
@@ -145,12 +144,10 @@ public class CheckActivity extends AppCompatActivity {
         if (mTranslate.getText().toString().trim().equals(mDrawnFlashcard.getTranslation())) {
             mFlashcardRepository.upFlashcardPassStatistic(mDrawnFlashcard);
             mFlashcardRepository.upFlashcardPriority(mDrawnFlashcard);
-            new FirebaseManager(mActivity).sendEvent(FirebaseManager.Params.NOTYFI_PASS);
             new PassCheckDialog(this).show();
         } else {
             mFlashcardRepository.upFlashcardFailStatistic(mDrawnFlashcard);
             mFlashcardRepository.downFlashcardPriority(mDrawnFlashcard);
-            new FirebaseManager(mActivity).sendEvent(FirebaseManager.Params.NOTYFI_WRONG);
             new FailCheckDialog(this,mDrawnFlashcard).show();
         }
     }

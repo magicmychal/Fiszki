@@ -18,5 +18,7 @@
     <string name="settings_choose_category_empty">Selected categories are empty.</string>
     <string name="settings_click_unClicable">There are not categories or are empty.</string>
     <string name="settings_tutorial_info">Check how to explore languages!</string>
+    <string name="settings_feedback_email" translatable="false">fiszki@quickclicker.click</string>
+    <string name="settings_toolbar_title">Settings</string>
 
     </resources>
