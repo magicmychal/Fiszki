@@ -15,7 +15,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:text="@string/learning_by_lang_dialog_from_text"
-        android:textColor="@color/ColorPrimaryDark"
+        android:textColor="?attr/colorPrimary"
         android:textSize="20sp" />
 
     <com.jaredrummler.materialspinner.MaterialSpinner
@@ -26,7 +26,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textView2"
         android:layout_marginBottom="16dp"
-        android:textColor="@color/md_black_1000"
+        android:textColor="?android:attr/textColorPrimary"
         />
 
     <TextView
@@ -39,7 +39,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/spinner_langFrom"
         android:text="@string/learning_by_lang_dialog_on_text"
-        android:textColor="@color/ColorPrimaryDark"
+        android:textColor="?attr/colorPrimary"
         android:textSize="20sp" />
 
     <com.jaredrummler.materialspinner.MaterialSpinner
@@ -49,7 +49,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textView8"
-        android:background="@color/ColorPrimary"
-        android:textColor="@color/md_black_1000"
+        android:background="?attr/colorPrimaryContainer"
+        android:textColor="?android:attr/textColorPrimary"
         />
 </RelativeLayout>

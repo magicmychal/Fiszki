@@ -6,7 +6,7 @@
     <string name="category_dialog_title">Create new category</string>
     <string name="category_positive_btn_text">Create</string>
     <string name="category_dialog_et_name">Category\'s name</string>
-    <string name="category_dialog_lang_on">Into language</string>
+    <string name="category_dialog_lang_on">To language</string>
     <string name="category_dialog_lang_from">From language</string>
     <string name="category_toast">Added new category</string>
 
