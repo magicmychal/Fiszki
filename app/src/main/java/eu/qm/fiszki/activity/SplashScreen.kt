@@ -19,7 +19,7 @@ class SplashScreen : AppCompatActivity() {
             runCheck.edit().putBoolean("hasRun", true).apply()
             startActivity(Intent(this, TutorialActivity::class.java))
         } else {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, NavHostActivity::class.java))
         }
         finish()
     }

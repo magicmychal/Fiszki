@@ -7,7 +7,7 @@ import com.cleveroad.slidingtutorial.TutorialOptions
 import com.cleveroad.slidingtutorial.TutorialPageProvider
 import com.cleveroad.slidingtutorial.TutorialSupportFragment
 import eu.qm.fiszki.R
-import eu.qm.fiszki.activity.MainActivity
+import eu.qm.fiszki.activity.NavHostActivity
 
 class ColorPage : TutorialSupportFragment() {
 
@@ -25,7 +25,7 @@ class ColorPage : TutorialSupportFragment() {
             .setUseInfiniteScroll(true)
             .setUseAutoRemoveTutorialFragment(false)
             .setOnSkipClickListener {
-                startActivity(Intent(requireActivity(), MainActivity::class.java))
+                startActivity(Intent(requireActivity(), NavHostActivity::class.java))
                 requireActivity().finish()
             }
             .setTutorialPageProvider(TutorialPageProvider<Fragment> { position ->

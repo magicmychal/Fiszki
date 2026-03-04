@@ -99,6 +99,6 @@ class ChangeActivityManager(private val activity: Activity) {
 
     fun resetMain() {
         activity.finish()
-        activity.startActivity(Intent(activity, MainActivity::class.java))
+        activity.startActivity(Intent(activity, NavHostActivity::class.java))
     }
 }

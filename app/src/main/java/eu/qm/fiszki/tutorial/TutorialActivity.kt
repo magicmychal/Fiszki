@@ -7,7 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
-import eu.qm.fiszki.activity.MainActivity
+import eu.qm.fiszki.activity.NavHostActivity
 import eu.qm.fiszki.tutorial.page.ColorPage
 
 class TutorialActivity : AppCompatActivity() {
@@ -24,7 +24,7 @@ class TutorialActivity : AppCompatActivity() {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, NavHostActivity::class.java))
             finish()
         }
         return super.onKeyDown(keyCode, event)
@@ -38,12 +38,12 @@ class TutorialActivity : AppCompatActivity() {
     }
 
     fun goButton(view: View) {
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, NavHostActivity::class.java))
         finish()
     }
 
     fun skipButton(view: View) {
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, NavHostActivity::class.java))
         finish()
     }
 }
