@@ -9,6 +9,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.ChangeActivityManager
+import eu.qm.fiszki.activity.SettingsActivity
 import eu.qm.fiszki.activity.exam.ExamActivity
 import eu.qm.fiszki.activity.myWords.category.CategoryActivity
 import eu.qm.fiszki.dialogs.learning.ByCategoryLearningDialog
@@ -95,6 +96,11 @@ class LearningActivity : AppCompatActivity() {
                 }
                 R.id.nav_exam -> {
                     startActivity(Intent(this, ExamActivity::class.java))
+                    finish()
+                    true
+                }
+                R.id.nav_settings -> {
+                    startActivity(Intent(this, SettingsActivity::class.java))
                     finish()
                     true
                 }

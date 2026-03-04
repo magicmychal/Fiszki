@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -25,6 +26,9 @@ import eu.qm.fiszki.AlarmReceiver
 import eu.qm.fiszki.LocalSharedPreferences
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
+import eu.qm.fiszki.activity.exam.ExamActivity
+import eu.qm.fiszki.activity.learning.LearningActivity
+import eu.qm.fiszki.activity.myWords.category.CategoryActivity
 import eu.qm.fiszki.model.category.CategoryRepository
 import eu.qm.fiszki.model.flashcard.FlashcardRepository
 import eu.qm.fiszki.tutorial.TutorialActivity
@@ -63,6 +67,7 @@ class SettingsActivity : AppCompatActivity() {
         buildSendFeedback()
         buildTutorial()
         buildVersion()
+        buildBottomNav()
     }
 
     override fun onResume() {
@@ -316,6 +321,33 @@ class SettingsActivity : AppCompatActivity() {
         findViewById<View>(R.id.settings_tutorial).setOnClickListener {
             startActivity(Intent(this, TutorialActivity::class.java))
             finish()
+        }
+    }
+
+    private fun buildBottomNav() {
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNav.selectedItemId = R.id.nav_settings
+
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_settings -> true
+                R.id.nav_flashcards -> {
+                    startActivity(Intent(this, CategoryActivity::class.java))
+                    finish()
+                    true
+                }
+                R.id.nav_learning -> {
+                    startActivity(Intent(this, LearningActivity::class.java))
+                    finish()
+                    true
+                }
+                R.id.nav_exam -> {
+                    startActivity(Intent(this, ExamActivity::class.java))
+                    finish()
+                    true
+                }
+                else -> false
+            }
         }
     }
 

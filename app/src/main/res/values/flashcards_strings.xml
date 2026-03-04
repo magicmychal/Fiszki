@@ -32,6 +32,7 @@
     <string name="nav_flashcards">Flashcards</string>
     <string name="nav_learning_mode">Learning Mode</string>
     <string name="nav_exam">Exam</string>
+    <string name="nav_settings">Settings</string>
 
     <string name="action_edit_category">Edit Category</string>
     <string name="home_title">Fiszki</string>
