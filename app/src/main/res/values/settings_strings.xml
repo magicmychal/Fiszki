@@ -37,6 +37,19 @@
     <string name="settings_color_palette_summary_purple">Purple</string>
     <string name="settings_color_palette_summary_yellow">Yellow</string>
 
+    <!-- CSV Import -->
+    <string name="settings_import_csv">Import from CSV</string>
+    <string name="settings_import_csv_summary">Import flashcards from a CSV file</string>
+    <string name="import_csv_title">Import CSV</string>
+    <string name="import_csv_pick_file">Choose CSV file</string>
+    <string name="import_csv_pick_category">Select category</string>
+    <string name="import_csv_success">Imported %d flashcards</string>
+    <string name="import_csv_error_format">Invalid CSV format: expected 2 columns (word,translation)</string>
+    <string name="import_csv_error_empty">File is empty or has no valid rows</string>
+    <string name="import_csv_error_read">Could not read the file</string>
+    <string name="import_csv_found">Found %d flashcards</string>
+    <string name="import_csv_import">Import</string>
+
     <!-- Day names -->
     <string name="day_monday">Mon</string>
     <string name="day_tuesday">Tue</string>
