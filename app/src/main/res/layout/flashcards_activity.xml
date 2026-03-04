@@ -1,143 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:orientation="vertical">
 
+    <!-- Main content area -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical">
 
-        <LinearLayout
+        <!-- Hero Header -->
+        <FrameLayout
+            android:id="@+id/hero_header"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_height="356dp"
+            android:background="@drawable/hero_gradient_background"
+            android:fitsSystemWindows="true">
 
-            <!-- Hero Header -->
-            <FrameLayout
-                android:id="@+id/hero_header"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="@drawable/hero_gradient_background">
+            <!-- Back button -->
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="top|start"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_back_button_circle"
+                android:contentDescription="Back"
+                android:padding="4dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_back_arrow" />
 
-                <ImageButton
-                    android:id="@+id/btn_back"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="top|start"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="Back"
-                    android:src="@drawable/ic_back_arrow" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:orientation="vertical"
-                    android:padding="24dp">
-
-                    <TextView
-                        android:id="@+id/hero_category_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#FFFFFF"
-                        android:textSize="28sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/hero_subtitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:textColor="#DDFFFFFF"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-            </FrameLayout>
-
-            <!-- Action Chips -->
+            <!-- Title + Subtitle area -->
             <LinearLayout
-                android:id="@+id/action_chips"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="12dp">
+                android:layout_gravity="bottom"
+                android:orientation="vertical"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingBottom="72dp">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/chip_add_card"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/hero_category_name"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
-                    android:text="@string/action_add_new_card"
-                    android:textColor="@color/colorPrimaryNew"
-                    app:cornerRadius="20dp"
-                    app:icon="@drawable/ic_add_card"
-                    app:iconTint="@color/colorPrimaryNew"
-                    app:strokeColor="@color/colorPrimaryNew" />
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="#FFFFFF"
+                    android:textSize="45sp" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/chip_start_review"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/hero_subtitle"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1"
-                    android:text="@string/action_start_review"
-                    android:textColor="@color/colorPrimaryNew"
-                    app:cornerRadius="20dp"
-                    app:icon="@drawable/ic_start_review"
-                    app:iconTint="@color/colorPrimaryNew"
-                    app:strokeColor="@color/colorPrimaryNew" />
+                    android:layout_marginTop="4dp"
+                    android:alpha="0.8"
+                    android:textColor="@color/colorInverseOnSurfaceNew"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
-            <!-- Flashcard List -->
-            <FrameLayout
+            <!-- Action Chips: horizontally scrollable, third chip peeks off-screen -->
+            <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="16dp"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                android:paddingStart="16dp"
+                android:paddingEnd="0dp"
+                android:requiresFadingEdge="none"
+                android:scrollbars="none">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/listview_flashcard"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clipToPadding="false"
-                    android:paddingBottom="8dp" />
+                <LinearLayout
+                    android:id="@+id/action_chips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingEnd="16dp">
 
-                <TextView
-                    android:id="@+id/empty_category_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/flashcard_empty_text"
-                    android:textColor="@color/colorOnSurfaceVariantNew"
-                    android:textSize="16sp"
-                    android:visibility="gone" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/chip_add_card"
+                        style="@style/Widget.Material3.Button.ElevatedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/bg_chip_elevated"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:paddingHorizontal="12dp"
+                        android:text="@string/action_add_new_card"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="12sp"
+                        app:backgroundTint="@null"
+                        app:cornerRadius="8dp"
+                        app:elevation="2dp"
+                        app:icon="@drawable/ic_add_card"
+                        app:iconSize="18dp"
+                        app:iconTint="?attr/colorOnSurface" />
 
-            </FrameLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/chip_start_review"
+                        style="@style/Widget.Material3.Button.ElevatedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/bg_chip_elevated"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:paddingHorizontal="12dp"
+                        android:text="@string/action_start_review"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="12sp"
+                        app:backgroundTint="@null"
+                        app:cornerRadius="8dp"
+                        app:elevation="2dp"
+                        app:icon="@drawable/ic_start_review"
+                        app:iconSize="18dp"
+                        app:iconTint="?attr/colorOnSurface" />
 
-        </LinearLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/chip_edit_category"
+                        style="@style/Widget.Material3.Button.ElevatedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:background="@drawable/bg_chip_elevated"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:paddingHorizontal="12dp"
+                        android:text="@string/action_edit_category"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="12sp"
+                        app:backgroundTint="@null"
+                        app:cornerRadius="8dp"
+                        app:elevation="2dp"
+                        app:icon="@drawable/ic_pencil"
+                        app:iconSize="18dp"
+                        app:iconTint="?attr/colorOnSurface" />
 
-        <!-- Bottom Navigation -->
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+        </FrameLayout>
+
+        <!-- Flashcard List -->
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorSurfaceNew"
-            app:itemIconTint="@color/colorPrimaryNew"
-            app:itemTextColor="@color/colorPrimaryNew"
-            app:menu="@menu/bottom_nav_menu" />
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/listview_flashcard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="8dp" />
+
+            <TextView
+                android:id="@+id/empty_category_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/flashcard_empty_text"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+        </FrameLayout>
 
     </LinearLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <!-- Bottom Navigation -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSurfaceContainer"
+        app:itemIconTint="?attr/colorSecondary"
+        app:itemTextColor="?attr/colorSecondary"
+        app:menu="@menu/bottom_nav_menu" />
+
+</LinearLayout>

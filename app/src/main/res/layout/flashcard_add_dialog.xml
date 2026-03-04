@@ -4,15 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:paddingHorizontal="24dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="8dp">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_add_flashcard_word"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:boxStrokeColor="@color/colorPrimaryNew"
-        app:hintTextColor="@color/colorPrimaryNew">
+        app:boxStrokeColor="?attr/colorPrimary"
+        app:hintTextColor="?attr/colorPrimary">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/add_flashcard_et_word"
             android:layout_width="match_parent"
@@ -23,12 +25,12 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_add_flashcard_translation"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:boxStrokeColor="@color/colorPrimaryNew"
-        app:hintTextColor="@color/colorPrimaryNew">
+        app:boxStrokeColor="?attr/colorPrimary"
+        app:hintTextColor="?attr/colorPrimary">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/add_flashcard_et_translation"
             android:layout_width="match_parent"

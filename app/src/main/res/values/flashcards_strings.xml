@@ -30,7 +30,11 @@
     <string name="action_confirm">Confirm</string>
     <string name="action_remove_confirm_message">Are you sure you want to remove this flashcard?</string>
     <string name="nav_flashcards">Flashcards</string>
-    <string name="nav_learning_mode">Learning</string>
+    <string name="nav_learning_mode">Learning Mode</string>
     <string name="nav_exam">Exam</string>
+
+    <string name="action_edit_category">Edit Category</string>
+    <string name="home_title">Fiszki</string>
+    <string name="home_categories_header">Categories</string>
 
 </resources>

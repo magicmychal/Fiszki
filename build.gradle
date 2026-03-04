@@ -7,6 +7,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:9.1.0'
+        classpath 'org.jetbrains.kotlin:compose-compiler-gradle-plugin:2.2.10'
     }
 }
 
@@ -18,8 +19,8 @@ allprojects {
     }
     configurations.all {
         resolutionStrategy {
-            force 'org.jetbrains.kotlin:kotlin-stdlib:1.9.24'
-            force 'org.jetbrains.kotlin:kotlin-stdlib-common:1.9.24'
+            force 'org.jetbrains.kotlin:kotlin-stdlib:2.2.10'
+            force 'org.jetbrains.kotlin:kotlin-stdlib-common:2.2.10'
         }
     }
 }

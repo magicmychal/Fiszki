@@ -5,20 +5,21 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.myWords.CategoryManagerSingleton
 import eu.qm.fiszki.activity.myWords.flashcards.FlashcardsActivity
-import eu.qm.fiszki.dialogs.category.EditAndDeleteCategoryDialog
 import eu.qm.fiszki.model.category.Category
+import eu.qm.fiszki.model.flashcard.FlashcardRepository
 
 class CategoryShowAdapter(
     private val activity: Activity,
     private val arrayList: ArrayList<Category>
 ) : RecyclerView.Adapter<CategoryShowAdapter.ViewHolder>() {
+
+    private val flashcardRepository = FlashcardRepository(activity)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -32,15 +33,14 @@ class CategoryShowAdapter(
         holder.name.text = category.getCategory()
         setLanguageText(holder, category)
 
-        holder.main.setOnClickListener {
+        val count = flashcardRepository.getFlashcardsByCategoryID(category.id).size
+        holder.meta.text = "$count cards"
+
+        holder.card.setOnClickListener {
             CategoryManagerSingleton.currentCategoryId = category.id
             activity.startActivity(Intent(activity, FlashcardsActivity::class.java))
             activity.finish()
             activity.overridePendingTransition(R.anim.right_in, R.anim.left_out)
-        }
-
-        holder.editBtn.setOnClickListener {
-            EditAndDeleteCategoryDialog(activity, category).show()
         }
     }
 
@@ -60,7 +60,7 @@ class CategoryShowAdapter(
                 if (langOn!!.isEmpty()) {
                     langOn = activity.getString(R.string.category_no_lang)
                 }
-                holder.lang.text = "$langFrom -> $langOn"
+                holder.lang.text = "$langFrom - $langOn"
             }
         }
     }
@@ -70,9 +70,9 @@ class CategoryShowAdapter(
     override fun getItemViewType(position: Int): Int = position
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val main: CardView = itemView.findViewById(R.id.placeCard)
-        val lang: TextView = itemView.findViewById(R.id.category_lang)
+        val card: MaterialCardView = itemView.findViewById(R.id.placeCard)
         val name: TextView = itemView.findViewById(R.id.category_name)
-        val editBtn: ImageButton = itemView.findViewById(R.id.editBtn)
+        val lang: TextView = itemView.findViewById(R.id.category_lang)
+        val meta: TextView = itemView.findViewById(R.id.category_meta)
     }
 }

@@ -1,12 +1,16 @@
 package eu.qm.fiszki.activity.learning
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ComposeView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.ChangeActivityManager
+import eu.qm.fiszki.activity.exam.ExamActivity
+import eu.qm.fiszki.activity.myWords.category.CategoryActivity
 import eu.qm.fiszki.dialogs.learning.ByCategoryLearningDialog
 import eu.qm.fiszki.dialogs.learning.ByLanguageLearningDialog
 import eu.qm.fiszki.model.flashcard.FlashcardRepository
@@ -20,8 +24,9 @@ class LearningActivity : AppCompatActivity() {
         NightModeController(this).useTheme()
         setContentView(R.layout.activity_learning)
 
-        buildToolbar()
         mFlashcardRepository = FlashcardRepository(this)
+        buildComposeContent()
+        buildBottomNav()
     }
 
     @Deprecated("Deprecated in Java")
@@ -30,24 +35,71 @@ class LearningActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun buildToolbar() {
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        toolbar.setTitle(R.string.learning_toolbar_title)
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
-        toolbar.setNavigationOnClickListener {
-            onBackPressed()
+    private fun buildComposeContent() {
+        val composeView = findViewById<ComposeView>(R.id.compose_view)
+
+        val shapes = listOf(
+            ShapeItem(
+                label = getString(R.string.learning_try_all),
+                color = Color(0xFF6750A4), // colorPrimaryNew
+                shapeType = ShapeType.BLOB,
+                onClick = {
+                    ChangeActivityManager(this).goToLearningCheck(mFlashcardRepository.getAllFlashcards())
+                }
+            ),
+            ShapeItem(
+                label = getString(R.string.learning_by_language),
+                color = Color(0xFF625B71), // colorSecondaryNew
+                shapeType = ShapeType.ARROW,
+                onClick = {
+                    ByLanguageLearningDialog(this).show()
+                }
+            ),
+            ShapeItem(
+                label = getString(R.string.learning_by_category),
+                color = Color(0xFF7D5260), // tertiary
+                shapeType = ShapeType.FLOWER,
+                onClick = {
+                    ByCategoryLearningDialog(this).show()
+                }
+            ),
+            ShapeItem(
+                label = getString(R.string.learning_chat),
+                color = Color(0xFFD0BCFF), // primaryContainer
+                shapeType = ShapeType.HEART,
+                onClick = {
+                    ChangeActivityManager(this).goToChatMode(mFlashcardRepository.getAllFlashcards())
+                }
+            )
+        )
+
+        composeView.setContent {
+            LearningScreen(
+                title = getString(R.string.learning_title),
+                shapes = shapes
+            )
         }
     }
 
-    fun onAllClick(view: View) {
-        ChangeActivityManager(this).goToLearningCheck(mFlashcardRepository.getAllFlashcards())
-    }
+    private fun buildBottomNav() {
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNav.selectedItemId = R.id.nav_learning
 
-    fun onCategoryClick(view: View) {
-        ByCategoryLearningDialog(this).show()
-    }
-
-    fun onLangClick(view: View) {
-        ByLanguageLearningDialog(this).show()
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_learning -> true
+                R.id.nav_flashcards -> {
+                    startActivity(Intent(this, CategoryActivity::class.java))
+                    finish()
+                    true
+                }
+                R.id.nav_exam -> {
+                    startActivity(Intent(this, ExamActivity::class.java))
+                    finish()
+                    true
+                }
+                else -> false
+            }
+        }
     }
 }

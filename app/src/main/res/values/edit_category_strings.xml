@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="edit_category_title">Edit category :</string>
+    <string name="edit_category_title">Edit category</string>
     <string name="edit_category_done">Done</string>
     <string name="edit_category_delete">Delete</string>
     <string name="edit_category_toast">Category edited</string>
