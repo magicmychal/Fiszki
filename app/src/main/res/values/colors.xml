@@ -57,6 +57,21 @@
     <color name="colorSurfaceNight">#1C1B1F</color>
     <color name="colorOnSurfaceNight">#E6E1E5</color>
 
+    <!-- Yellow/Amber M3 palette -->
+    <color name="colorPrimaryYellow">#7C5800</color>
+    <color name="colorOnPrimaryYellow">#FFFFFF</color>
+    <color name="colorPrimaryContainerYellow">#FFDEA1</color>
+    <color name="colorOnPrimaryContainerYellow">#271900</color>
+    <color name="colorSecondaryYellow">#6D5D3F</color>
+    <color name="colorSecondaryContainerYellow">#F8E0BB</color>
+    <color name="colorSurfaceYellow">#FFFBFF</color>
+    <color name="colorSurfaceContainerYellow">#F5EFE7</color>
+
+    <!-- Yellow night palette -->
+    <color name="colorPrimaryYellowNight">#F5BF48</color>
+    <color name="colorOnPrimaryYellowNight">#422D00</color>
+    <color name="colorSurfaceYellowNight">#1E1B16</color>
+
     <!-- Colors previously provided by apptentive/material-dialogs libraries -->
     <color name="apptentive_transparency">#00000000</color>
     <color name="md_red_A700">#D50000</color>

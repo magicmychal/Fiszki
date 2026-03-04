@@ -45,7 +45,8 @@ class CategoryFragment : Fragment() {
     private fun buildAddButton(view: View) {
         val addBtn = view.findViewById<ImageButton>(R.id.btn_add_category)
         addBtn.setOnClickListener {
-            AddCategoryDialog(requireActivity()).show()
+            val dialog = AddCategoryDialog(requireActivity()).show()
+            dialog.setOnDismissListener { updateList() }
         }
     }
 

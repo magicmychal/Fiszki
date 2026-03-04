@@ -33,6 +33,9 @@
     <string name="settings_language_summary">Change app language</string>
     <string name="settings_permission_notifications">Notification permission required</string>
     <string name="settings_permission_exact_alarm">Exact alarm permission required</string>
+    <string name="settings_color_palette">Color palette</string>
+    <string name="settings_color_palette_summary_purple">Purple</string>
+    <string name="settings_color_palette_summary_yellow">Yellow</string>
 
     <!-- Day names -->
     <string name="day_monday">Mon</string>
