@@ -36,6 +36,19 @@
     <string name="settings_color_palette_summary_purple">Fioletowy</string>
     <string name="settings_color_palette_summary_yellow">Żółty</string>
 
+    <!-- CSV Import -->
+    <string name="settings_import_csv">Importuj z CSV</string>
+    <string name="settings_import_csv_summary">Importuj fiszki z pliku CSV</string>
+    <string name="import_csv_title">Importuj CSV</string>
+    <string name="import_csv_pick_file">Wybierz plik CSV</string>
+    <string name="import_csv_pick_category">Wybierz kategorię</string>
+    <string name="import_csv_success">Zaimportowano %d fiszek</string>
+    <string name="import_csv_error_format">Nieprawidłowy format CSV: oczekiwano 2 kolumn (słowo,tłumaczenie)</string>
+    <string name="import_csv_error_empty">Plik jest pusty lub nie zawiera prawidłowych wierszy</string>
+    <string name="import_csv_error_read">Nie można odczytać pliku</string>
+    <string name="import_csv_found">Znaleziono %d fiszek</string>
+    <string name="import_csv_import">Importuj</string>
+
     <!-- Day names -->
     <string name="day_monday">Pon</string>
     <string name="day_tuesday">Wt</string>
