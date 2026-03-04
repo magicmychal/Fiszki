@@ -23,8 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/exam_range"
-            android:background="@drawable/exam_range"
-            android:onClick="examRangeClick">
+            android:background="@drawable/exam_range">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -48,8 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/exam_repeat"
-            android:background="@drawable/exam_repeat"
-            android:onClick="examRepeatClick">
+            android:background="@drawable/exam_repeat">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
