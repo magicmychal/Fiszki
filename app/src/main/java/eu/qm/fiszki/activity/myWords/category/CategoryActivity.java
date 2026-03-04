@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import eu.qm.fiszki.FirebaseManager;
 import eu.qm.fiszki.NightModeController;
 import eu.qm.fiszki.R;
 import eu.qm.fiszki.dialogs.category.AddCategoryDialog;
@@ -64,7 +63,6 @@ public class CategoryActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new FirebaseManager(mActivity).sendEvent(FirebaseManager.Params.ADD_CATEGORY_BTN);
                 new AddCategoryDialog(mActivity).show();
             }
         });

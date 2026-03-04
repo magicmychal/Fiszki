@@ -11,7 +11,6 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.material.textfield.TextInputEditText;
 
-import eu.qm.fiszki.FirebaseManager;
 import eu.qm.fiszki.R;
 import eu.qm.fiszki.model.flashcard.Flashcard;
 import eu.qm.fiszki.model.flashcard.FlashcardRepository;
@@ -83,7 +82,6 @@ public class AddFlashcardDialog extends MaterialDialog.Builder {
 
         if (mValidationFlashcards.validateAdd(flashcard)) {
             mFlashcardRepository.addFlashcard(flashcard);
-            new FirebaseManager(mActivity).sendEvent(FirebaseManager.Params.ADD_FLASHCARD);
             Toast.makeText(context, R.string.add_new_flashcard_toast, Toast.LENGTH_LONG).show();
             mTranslateEt.setText(null);
             mWordEt.setText(null);

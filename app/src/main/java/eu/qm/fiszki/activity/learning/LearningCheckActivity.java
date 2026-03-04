@@ -15,7 +15,6 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 
-import eu.qm.fiszki.FirebaseManager;
 import eu.qm.fiszki.NightModeController;
 import eu.qm.fiszki.R;
 import eu.qm.fiszki.activity.ChangeActivityManager;
@@ -143,7 +142,6 @@ public class LearningCheckActivity extends AppCompatActivity {
 
     public void skipFlashcard(View view) {
         drawFlashcard();
-        new FirebaseManager(this).sendEvent(FirebaseManager.Params.LEARNING_MENU_SKIP);
         Toast.makeText(this,R.string.learning_check_menu_skip_toast,Toast.LENGTH_SHORT).show();
     }
 

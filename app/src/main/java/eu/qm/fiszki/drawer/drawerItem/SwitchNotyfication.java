@@ -13,7 +13,6 @@ import com.mikepenz.materialdrawer.model.interfaces.NameableKt;
 import com.mikepenz.materialdrawer.model.interfaces.SelectableKt;
 
 import eu.qm.fiszki.AlarmReceiver;
-import eu.qm.fiszki.FirebaseManager;
 import eu.qm.fiszki.LocalSharedPreferences;
 import eu.qm.fiszki.R;
 import eu.qm.fiszki.model.flashcard.FlashcardRepository;
@@ -55,12 +54,10 @@ public class SwitchNotyfication extends SwitchDrawerItem {
                         mLocalSharedPreferences.setNotificationPosition(3);
                     }
                     Toast.makeText(activity.getBaseContext(), activity.getString(R.string.drawer_notyfication_switch_toast_on), Toast.LENGTH_SHORT).show();
-                    new FirebaseManager(mActivity).sendEvent(FirebaseManager.Params.NOTYFI_ON);
                 } else {
                     mAlarmReceiver.close(activity);
                     mLocalSharedPreferences.setNotificationStatus(0);
                     Toast.makeText(activity.getBaseContext(), activity.getString(R.string.drawer_notyfication_switch_toast_off), Toast.LENGTH_SHORT).show();
-                    new FirebaseManager(mActivity).sendEvent(FirebaseManager.Params.NOTYFI_OFF);
                 }
             }
         });

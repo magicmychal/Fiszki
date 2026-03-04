@@ -12,11 +12,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.mikepenz.materialdrawer.widget.MaterialDrawerSliderView;
 
 import eu.qm.fiszki.Alert;
-import eu.qm.fiszki.FirebaseManager;
 import eu.qm.fiszki.NightModeController;
 import eu.qm.fiszki.R;
 import eu.qm.fiszki.activity.exam.ExamActivity;
@@ -44,10 +42,6 @@ public class MainActivity extends AppCompatActivity {
         new NightModeController(this).useTheme();
         setContentView(R.layout.activity_main);
 
-        if (!FirebaseManager.Params.DEVELOP) {
-            new FirebaseManager(this);
-            FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
-        }
         init();
         buildDrawer();
         buildFAB();
@@ -115,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new FirebaseManager(mActivity).sendEvent(FirebaseManager.Params.QUICK_ADD_BTN);
                 new QuicklyAddFlashcardDialog(mActivity).show();
             }
         });
@@ -134,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void myWordsCardClick(View view) {
-        new FirebaseManager(mActivity).sendEvent(FirebaseManager.Params.MYWORDS);
         mActivity.startActivity(new Intent(this, CategoryActivity.class));
     }
 
@@ -142,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
         if (mFlashcardRepository.countFlashcards() == 0) {
             new Alert().addFiszkiToFeature(mActivity).show();
         } else {
-            new FirebaseManager(mActivity).sendEvent(FirebaseManager.Params.LEARNING);
             startActivity(new Intent(this, LearningActivity.class));
         }
     }
@@ -151,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
         if (mFlashcardRepository.countFlashcards() == 0) {
             new Alert().addFiszkiToFeature(mActivity).show();
         } else {
-            new FirebaseManager(mActivity).sendEvent(FirebaseManager.Params.EXAM);
             startActivity(new Intent(this, ExamActivity.class));
         }
     }

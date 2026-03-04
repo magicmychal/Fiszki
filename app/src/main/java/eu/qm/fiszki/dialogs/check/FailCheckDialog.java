@@ -7,7 +7,6 @@ import android.text.Html;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import eu.qm.fiszki.FirebaseManager;
 import eu.qm.fiszki.R;
 import eu.qm.fiszki.activity.learning.LearningCheckActivity;
 import eu.qm.fiszki.model.flashcard.Flashcard;
