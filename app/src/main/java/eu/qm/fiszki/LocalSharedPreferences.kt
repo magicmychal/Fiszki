@@ -11,6 +11,10 @@ class LocalSharedPreferences(context: Context) {
         private const val KEY_NOTIFICATION_HOUR = "notification_hour"
         private const val KEY_NOTIFICATION_MINUTE = "notification_minute"
         private const val KEY_NOTIFICATION_DAYS = "notification_days"
+        private const val KEY_COLOR_PALETTE = "color_palette"
+
+        const val PALETTE_PURPLE = 0
+        const val PALETTE_YELLOW = 1
 
         // Old pref file names for migration
         private const val OLD_NOTIFICATION_STATUS = "notification_status"
@@ -47,6 +51,12 @@ class LocalSharedPreferences(context: Context) {
         get() = prefs.getStringSet(KEY_NOTIFICATION_DAYS, ALL_DAYS) ?: ALL_DAYS
         set(value) {
             prefs.edit().putStringSet(KEY_NOTIFICATION_DAYS, value).apply()
+        }
+
+    var colorPalette: Int
+        get() = prefs.getInt(KEY_COLOR_PALETTE, PALETTE_PURPLE)
+        set(value) {
+            prefs.edit().putInt(KEY_COLOR_PALETTE, value).apply()
         }
 
     private fun migrateOldPrefs(context: Context) {

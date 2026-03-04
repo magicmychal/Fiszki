@@ -22,10 +22,12 @@ class NightModeController(private val activity: Activity) {
     fun getStatus(): Int = prefs.getInt(NIGHTMODE_STATUS, 0)
 
     fun useTheme() {
+        val palette = LocalSharedPreferences(activity).colorPalette
+        val isYellow = palette == LocalSharedPreferences.PALETTE_YELLOW
         if (getStatus() == 1) {
-            activity.setTheme(R.style.NightMode)
+            activity.setTheme(if (isYellow) R.style.NightMode_Yellow else R.style.NightMode)
         } else {
-            activity.setTheme(R.style.AppTheme)
+            activity.setTheme(if (isYellow) R.style.AppTheme_Yellow else R.style.AppTheme)
         }
     }
 }

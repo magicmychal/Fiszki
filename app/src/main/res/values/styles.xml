@@ -27,6 +27,24 @@
         <item name="android:statusBarColor">@color/colorPrimaryNew</item>
     </style>
 
+    <style name="AppTheme.Yellow" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryYellow</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryYellow</item>
+        <item name="colorAccent">@color/colorPrimaryYellow</item>
+        <item name="android:colorBackground">@color/colorSurfaceYellow</item>
+        <item name="android:statusBarColor">@color/colorPrimaryYellow</item>
+        <item name="android:navigationBarColor">@color/colorSurfaceContainerYellow</item>
+    </style>
+
+    <style name="NightMode.Yellow" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryYellowNight</item>
+        <item name="colorPrimaryDark">@color/colorOnPrimaryYellowNight</item>
+        <item name="colorAccent">@color/colorPrimaryYellowNight</item>
+        <item name="android:windowBackground">@color/colorSurfaceYellowNight</item>
+        <item name="android:statusBarColor">@color/colorOnPrimaryYellowNight</item>
+        <item name="android:navigationBarColor">@color/colorSurfaceYellowNight</item>
+    </style>
+
     <style name="NightMode" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">@color/colorPrimaryNight</item>
         <item name="colorPrimaryDark">@color/colorOnPrimaryNight</item>

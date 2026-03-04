@@ -41,8 +41,13 @@ class NavHostActivity : AppCompatActivity() {
         }
 
         if (savedInstanceState == null) {
-            val tabId = intent.getIntExtra(EXTRA_TAB, R.id.nav_flashcards)
-            bottomNav.selectedItemId = tabId
+            val tabId = intent.getIntExtra(EXTRA_TAB, 0)
+            if (tabId != 0) {
+                bottomNav.selectedItemId = tabId
+            } else {
+                // Show categories fragment but don't highlight any tab
+                showFragment(getOrCreateCategoryFragment())
+            }
         }
     }
 

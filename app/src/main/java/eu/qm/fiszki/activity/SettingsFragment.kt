@@ -65,6 +65,7 @@ class SettingsFragment : Fragment() {
         buildToolbar(view)
         buildNotificationSection(view)
         buildNightModeSwitch(view)
+        buildColorPalette(view)
         buildLanguageRow(view)
         buildClearData(view)
         buildSendFeedback(view)
@@ -252,6 +253,40 @@ class SettingsFragment : Fragment() {
                 mNightModeController.off()
             }
             ChangeActivityManager(requireActivity()).resetMain()
+        }
+    }
+
+    private fun buildColorPalette(view: View) {
+        val paletteValue = view.findViewById<TextView>(R.id.settings_color_palette_value)
+        updatePaletteLabel(paletteValue)
+
+        view.findViewById<View>(R.id.settings_color_palette_row).setOnClickListener {
+            val options = arrayOf(
+                getString(R.string.settings_color_palette_summary_purple),
+                getString(R.string.settings_color_palette_summary_yellow)
+            )
+            val current = prefs.colorPalette
+            com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.settings_color_palette)
+                .setSingleChoiceItems(options, current) { dialog, which ->
+                    if (which != current) {
+                        prefs.colorPalette = which
+                        updatePaletteLabel(paletteValue)
+                        dialog.dismiss()
+                        ChangeActivityManager(requireActivity()).resetMain()
+                    } else {
+                        dialog.dismiss()
+                    }
+                }
+                .show()
+        }
+    }
+
+    private fun updatePaletteLabel(tv: TextView) {
+        tv.text = if (prefs.colorPalette == LocalSharedPreferences.PALETTE_YELLOW) {
+            getString(R.string.settings_color_palette_summary_yellow)
+        } else {
+            getString(R.string.settings_color_palette_summary_purple)
         }
     }
 
