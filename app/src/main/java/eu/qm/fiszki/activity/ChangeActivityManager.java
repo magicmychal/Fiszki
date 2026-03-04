@@ -31,7 +31,7 @@ public class ChangeActivityManager {
     }
 
     public void goToLearningCheck(@NonNull ArrayList<Flashcard> flashcards) {
-        Intent goLearning = new Intent(mActivity, new LearningCheckActivity().getClass());
+        Intent goLearning = new Intent(mActivity, LearningCheckActivity.class);
         goLearning.putExtra(FLASHCARDS_KEY_INTENT, flashcards);
         mActivity.startActivity(goLearning);
         mActivity.finish();
@@ -49,7 +49,7 @@ public class ChangeActivityManager {
         ArrayList bundle = new ArrayList();
         bundle.add(flashcards);
         bundle.add(repeat);
-        Intent goLearning = new Intent(mActivity, new ExamCheckActivity().getClass());
+        Intent goLearning = new Intent(mActivity, ExamCheckActivity.class);
         goLearning.putExtra(EXAM_REPEAT_KEY_INTENT, bundle);
         mActivity.startActivity(goLearning);
         mActivity.finish();
@@ -63,7 +63,7 @@ public class ChangeActivityManager {
     }
 
     public void goToExamBadAnswer(@NonNull ArrayList badAnswer) {
-        Intent goLearning = new Intent(mActivity, new ExamBadAnswerActivity().getClass());
+        Intent goLearning = new Intent(mActivity, ExamBadAnswerActivity.class);
         goLearning.putExtra(EXAM_BAD_ANSWER_KEY_INTENT, badAnswer);
         mActivity.startActivity(goLearning);
         mActivity.finish();

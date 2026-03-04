@@ -14,7 +14,6 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 
-import eu.qm.fiszki.FirebaseManager;
 import eu.qm.fiszki.NightModeController;
 import eu.qm.fiszki.R;
 import eu.qm.fiszki.algorithm.Algorithm;
@@ -145,12 +144,10 @@ public class CheckActivity extends AppCompatActivity {
         if (mTranslate.getText().toString().trim().equals(mDrawnFlashcard.getTranslation())) {
             mFlashcardRepository.upFlashcardPassStatistic(mDrawnFlashcard);
             mFlashcardRepository.upFlashcardPriority(mDrawnFlashcard);
-            new FirebaseManager(mActivity).sendEvent(FirebaseManager.Params.NOTYFI_PASS);
             new PassCheckDialog(this).show();
         } else {
             mFlashcardRepository.upFlashcardFailStatistic(mDrawnFlashcard);
             mFlashcardRepository.downFlashcardPriority(mDrawnFlashcard);
-            new FirebaseManager(mActivity).sendEvent(FirebaseManager.Params.NOTYFI_WRONG);
             new FailCheckDialog(this,mDrawnFlashcard).show();
         }
     }

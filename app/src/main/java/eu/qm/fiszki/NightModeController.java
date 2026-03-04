@@ -22,15 +22,11 @@ public class NightModeController {
     }
 
     public void on(){
-        mNightModeEditor.clear();
-        mNightModeEditor.putInt(NIGHTMODE_STATUS, 1);
-        mNightModeEditor.commit();
+        mNightModeEditor.putInt(NIGHTMODE_STATUS, 1).apply();
     }
 
     public void off(){
-        mNightModeEditor.clear();
-        mNightModeEditor.putInt(NIGHTMODE_STATUS, 0);
-        mNightModeEditor.commit();
+        mNightModeEditor.putInt(NIGHTMODE_STATUS, 0).apply();
     }
 
     public int getStatus(){

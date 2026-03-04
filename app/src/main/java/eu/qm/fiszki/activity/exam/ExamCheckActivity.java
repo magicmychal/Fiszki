@@ -149,7 +149,6 @@ public class ExamCheckActivity extends AppCompatActivity {
             badAnswer.add(mTranslate.getText().toString());
             mBadAnswer.add(badAnswer);
         }
-        System.out.println(mBadAnswer);
         if (mCuntRepeat == mNuberOfRepeat) {
             new EndExamDialog(mActivity, mBadAnswer, mGoodAnswer).show();
         } else {
