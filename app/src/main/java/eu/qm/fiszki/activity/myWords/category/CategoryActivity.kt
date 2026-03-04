@@ -1,16 +1,19 @@
 package eu.qm.fiszki.activity.myWords.category
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
+import eu.qm.fiszki.activity.exam.ExamActivity
+import eu.qm.fiszki.activity.learning.LearningActivity
 import eu.qm.fiszki.dialogs.category.AddCategoryDialog
 import eu.qm.fiszki.model.category.Category
 import eu.qm.fiszki.model.category.CategoryRepository
@@ -28,9 +31,9 @@ class CategoryActivity : AppCompatActivity() {
         NightModeController(this).useTheme()
         setContentView(R.layout.category_activity)
         init()
-        buildToolbar()
-        buildFAB()
+        buildAddButton()
         buildList()
+        buildBottomNav()
     }
 
     private fun init() {
@@ -50,26 +53,38 @@ class CategoryActivity : AppCompatActivity() {
         mActivity.finish()
     }
 
-    private fun buildFAB() {
-        val fab = findViewById<FloatingActionButton>(R.id.addFAB)
-        fab.setOnClickListener {
+    private fun buildAddButton() {
+        val addBtn = findViewById<ImageButton>(R.id.btn_add_category)
+        addBtn.setOnClickListener {
             AddCategoryDialog(mActivity).show()
-        }
-    }
-
-    private fun buildToolbar() {
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        toolbar.setNavigationIcon(R.drawable.ic_exit_to_app_24px)
-        toolbar.setTitle(R.string.category_activity_title)
-        toolbar.setNavigationOnClickListener {
-            onBackPressed()
         }
     }
 
     private fun buildList() {
         mRecycleView = findViewById(R.id.listview_category)
-        val staggeredLayoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
-        mRecycleView.layoutManager = staggeredLayoutManager
+        mRecycleView.layoutManager = LinearLayoutManager(this)
+    }
+
+    private fun buildBottomNav() {
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNav.selectedItemId = R.id.nav_flashcards
+
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_flashcards -> true
+                R.id.nav_learning -> {
+                    startActivity(Intent(mActivity, LearningActivity::class.java))
+                    finish()
+                    true
+                }
+                R.id.nav_exam -> {
+                    startActivity(Intent(mActivity, ExamActivity::class.java))
+                    finish()
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     private fun updateList() {

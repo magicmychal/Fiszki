@@ -19,6 +19,7 @@ import eu.qm.fiszki.activity.exam.ExamActivity
 import eu.qm.fiszki.activity.learning.LearningActivity
 import eu.qm.fiszki.activity.myWords.CategoryManagerSingleton
 import eu.qm.fiszki.activity.myWords.category.CategoryActivity
+import eu.qm.fiszki.dialogs.category.EditCategoryBottomSheet
 import eu.qm.fiszki.dialogs.flashcard.AddFlashcardDialog
 import eu.qm.fiszki.dialogs.flashcard.TransformFlashcardDialog
 import eu.qm.fiszki.model.category.Category
@@ -97,6 +98,11 @@ class FlashcardsActivity : AppCompatActivity() {
             } else {
                 ChangeActivityManager(mActivity).goToLearningCheck(flashcards)
             }
+        }
+
+        findViewById<MaterialButton>(R.id.chip_edit_category).setOnClickListener {
+            val bottomSheet = EditCategoryBottomSheet.newInstance(mCurrentCategory.id)
+            bottomSheet.show(supportFragmentManager, "EditCategoryBottomSheet")
         }
     }
 

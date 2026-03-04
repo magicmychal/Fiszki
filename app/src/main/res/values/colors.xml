@@ -45,6 +45,11 @@
     <color name="heroGradientEnd">#EADDFF</color>
     <color name="starYellow">#FFB800</color>
     <color name="starEmpty">#E0D6EB</color>
+    <color name="colorSurfaceContainerNew">#F3EDF7</color>
+    <color name="colorSurfaceContainerLowNew">#F7F2FA</color>
+    <color name="colorSurfaceContainerHighNew">#ECE6F0</color>
+    <color name="colorOutlineVariantNew">#CAC4D0</color>
+    <color name="colorInverseOnSurfaceNew">#F5EFF7</color>
 
     <!-- Night mode purple palette -->
     <color name="colorPrimaryNight">#D0BCFF</color>

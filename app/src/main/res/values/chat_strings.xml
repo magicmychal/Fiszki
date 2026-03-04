@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chat_title">Practice</string>
+    <string name="chat_prompt_translate">Translate: %s</string>
+    <string name="chat_prompt_translate_lang">Translate from %1$s to %2$s:</string>
+    <string name="chat_correct">Correct!</string>
+    <string name="chat_wrong">Not quite. The answer is: %s</string>
+    <string name="chat_input_hint">Type your answer…</string>
+    <string name="chat_welcome">Let\'s practice! I\'ll give you words to translate.</string>
+</resources>

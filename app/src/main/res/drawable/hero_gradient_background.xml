@@ -4,4 +4,7 @@
         android:startColor="@color/heroGradientStart"
         android:endColor="@color/heroGradientEnd"
         android:angle="270" />
+    <corners
+        android:topLeftRadius="28dp"
+        android:topRightRadius="28dp" />
 </shape>

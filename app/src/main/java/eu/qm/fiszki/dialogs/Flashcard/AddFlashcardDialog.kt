@@ -1,10 +1,13 @@
 package eu.qm.fiszki.dialogs.flashcard
 
 import android.app.Activity
+import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import eu.qm.fiszki.R
@@ -30,11 +33,30 @@ class AddFlashcardDialog(
             .setTitle(R.string.flashcard_add_title)
             .setView(view)
             .setPositiveButton(R.string.action_confirm, null)
-            .setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
             .create()
 
         dialog.setOnShowListener {
-            dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
+            // Apply rounded background with dynamic surface container high color
+            val surfaceTypedValue = TypedValue()
+            mActivity.theme.resolveAttribute(com.google.android.material.R.attr.colorSurfaceContainerHigh, surfaceTypedValue, true)
+            val bgDrawable = android.graphics.drawable.GradientDrawable().apply {
+                setColor(surfaceTypedValue.data)
+                cornerRadius = 28 * mActivity.resources.displayMetrics.density
+            }
+            dialog.window?.setBackgroundDrawable(bgDrawable)
+
+            // Style the title
+            val titleView = dialog.findViewById<TextView>(androidx.appcompat.R.id.alertTitle)
+            titleView?.textSize = 24f
+
+            // Style the confirm button with dynamic primary color
+            val typedValue = TypedValue()
+            mActivity.theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.let { button ->
+                button.setTextColor(typedValue.data)
+            }
+
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
                 addFlashcard()
             }
         }
