@@ -5,21 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.ChangeActivityManager
 import eu.qm.fiszki.activity.FiszkiTheme
-import eu.qm.fiszki.model.category.Category
+import eu.qm.fiszki.activity.learning.PracticeCategoryItem
 import eu.qm.fiszki.model.category.CategoryRepository
 import eu.qm.fiszki.model.flashcard.FlashcardRepository
 
 class ExamFragment : Fragment() {
 
-    private var selectedCategory = mutableStateOf<Category?>(null)
-    private var selectedRepeat = mutableStateOf<Int?>(null)
+    private lateinit var mFlashcardRepository: FlashcardRepository
+    private lateinit var mCategoryRepository: CategoryRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,78 +29,60 @@ class ExamFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mFlashcardRepository = FlashcardRepository(requireActivity())
+        mCategoryRepository = CategoryRepository(requireActivity())
         buildComposeContent(view as ComposeView)
     }
 
     private fun buildComposeContent(composeView: ComposeView) {
         val activity = requireActivity()
-        val categoryRepository = CategoryRepository(activity)
-        val flashcardRepository = FlashcardRepository(activity)
 
         composeView.setContent {
             FiszkiTheme {
-                val category = selectedCategory.value
-                val repeat = selectedRepeat.value
-
-                val rangeLabel = category?.getCategory()
-                    ?: getString(R.string.exam_card_range_title)
-                val repeatLabel = repeat?.toString()
-                    ?: getString(R.string.exam_card_repeat_title)
-
-                val options = listOf(
-                    ExamOptionItem(
-                        label = repeatLabel,
-                        onClick = {
-                            showRepeatPicker()
-                        }
-                    ),
-                    ExamOptionItem(
-                        label = rangeLabel,
-                        onClick = {
-                            showRangePicker(categoryRepository)
-                        }
+                val allCategories = mCategoryRepository.getAllCategory()
+                val categoryItems = buildList {
+                    add(
+                        PracticeCategoryItem(
+                            id = null,
+                            displayName = getString(R.string.learning_category_all),
+                            langFrom = null,
+                            langOn = null
+                        )
                     )
-                )
-
-                if (category != null && repeat != null) {
-                    LaunchedEffect(category, repeat) {
-                        val flashcards = flashcardRepository
-                            .getFlashcardsByCategoryID(category.id)
-                        if (flashcards.isEmpty()) {
-                            Toast.makeText(activity, R.string.exam_range_empty_toast, Toast.LENGTH_LONG).show()
-                        } else {
-                            ChangeActivityManager(activity).goToExamCheck(flashcards, repeat)
-                        }
+                    allCategories.forEach { cat ->
+                        add(
+                            PracticeCategoryItem(
+                                id = cat.id,
+                                displayName = cat.getCategory(),
+                                langFrom = cat.getLangFrom(),
+                                langOn = cat.getLangOn()
+                            )
+                        )
                     }
+                }
+
+                val roundsOptions = listOf(5, 10, 15, 25, 50).map {
+                    RoundsOption(value = it, label = it.toString())
                 }
 
                 ExamSetupScreen(
                     title = getString(R.string.exam_title),
-                    options = options
+                    categories = categoryItems,
+                    roundsOptions = roundsOptions,
+                    onStartExam = { strictMode, categoryId, reversed, rounds ->
+                        val flashcards = if (categoryId == null) {
+                            mFlashcardRepository.getAllFlashcards()
+                        } else {
+                            mFlashcardRepository.getFlashcardsByCategoryID(categoryId)
+                        }
+                        if (flashcards.isEmpty()) {
+                            Toast.makeText(activity, R.string.exam_no_flashcards, Toast.LENGTH_LONG).show()
+                        } else {
+                            ChangeActivityManager(activity).goToExamCheck(flashcards, rounds)
+                        }
+                    }
                 )
             }
         }
-    }
-
-    private fun showRepeatPicker() {
-        val values = listOf(5, 10, 15, 25, 50)
-        val items = values.map { it.toString() }.toTypedArray()
-        com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.exam_repeat_dialog_title)
-            .setItems(items) { _, which ->
-                selectedRepeat.value = values[which]
-            }
-            .show()
-    }
-
-    private fun showRangePicker(categoryRepository: CategoryRepository) {
-        val categories = categoryRepository.getAllCategory()
-        val names = categories.map { it.getCategory() }.toTypedArray()
-        com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.exam_range_dialog_title)
-            .setItems(names) { _, which ->
-                selectedCategory.value = categories[which]
-            }
-            .show()
     }
 }

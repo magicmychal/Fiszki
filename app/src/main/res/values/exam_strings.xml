@@ -5,10 +5,12 @@
     <string name="exam_card_range_title">Range to exam</string>
 
     <string name="exam_toolbar_title">Configure exam</string>
-    <string name="exam_title">try\nyourself!</string>
+    <string name="exam_title">Test\nyour skills</string>
     <string name="exam_tooltip_rounds">How many flashcards will be shown in one exam session. Choose 5, 10, 15, 25, or 50.</string>
     <string name="exam_tooltip_range">Pick which category of flashcards you want to be tested on.</string>
-    <string name="exam_start">start!</string>
+    <string name="exam_start">Go!</string>
+    <string name="exam_rounds_label">Total number of rounds</string>
+    <string name="exam_no_flashcards">No flashcards available. Add some first!</string>
 
     <string name="exam_range_dialog_title">Chose category to exam:</string>
     <string name="exam_repeat_dialog_title">Chose the number of rounds:</string>
