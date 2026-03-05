@@ -1,8 +1,10 @@
 package eu.qm.fiszki.dialogs.flashcard
 
 import android.app.Activity
+import android.util.TypedValue
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -24,12 +26,14 @@ class EditAndDeleteFlashcardDialog(
     init {
         title(R.string.flashcard_edit_title)
         customView(R.layout.flashcard_edit_dialog, false)
-        icon(context.resources.getDrawable(R.drawable.ic_pencil_black))
+        icon(ContextCompat.getDrawable(context, R.drawable.ic_pencil_black)!!)
         autoDismiss(false)
         neutralText(R.string.flashcard_delete_btn)
-        neutralColor(context.resources.getColor(R.color.md_red_A700))
+        neutralColor(ContextCompat.getColor(context, R.color.md_red_A700))
         positiveText(R.string.flashcard_edit_done)
-        positiveColor(context.resources.getColor(R.color.ColorPrimaryDark))
+        val typedValue = TypedValue()
+        mActivity.theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
+        positiveColor(typedValue.data)
 
         onPositive(editFlashcard())
         onNeutral(deleteFlashcard())

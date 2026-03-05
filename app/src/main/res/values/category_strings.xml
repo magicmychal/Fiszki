@@ -14,4 +14,6 @@
 
     <string name="category_empty_text">You don\'t have any category!</string>
 
+    <string name="category_card_count">%d cards</string>
+
 </resources>

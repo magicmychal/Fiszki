@@ -122,8 +122,10 @@ class ExamCheckActivity : AppCompatActivity() {
 
     private fun check() {
         if (mTranslate.text.toString() == mDrawnFlashcard.getTranslation()) {
+            eu.qm.fiszki.HapticFeedback.vibrateCorrect(mActivity)
             mGoodAnswer.add(mDrawnFlashcard)
         } else {
+            eu.qm.fiszki.HapticFeedback.vibrateWrong(mActivity)
             val badAnswer = ArrayList<Any>().apply {
                 add(mDrawnFlashcard)
                 add(mTranslate.text.toString())

@@ -14,5 +14,6 @@
 
     <string name="category_empty_text">Nie masz jeszcze żadnych kategori.</string>
 
+    <string name="category_card_count">%d fiszek</string>
 
 </resources>

@@ -36,5 +36,6 @@
     <string name="learning_check_dialog_skip_btn">Pomiń fiszkę</string>
     <string name="learning_check_menu_skip_toast">Fiszka została pominięta</string>
 
+    <string name="learning_no_flashcards">Brak fiszek. Dodaj najpierw!</string>
 
 </resources>

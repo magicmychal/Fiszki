@@ -31,7 +31,6 @@ import eu.qm.fiszki.activity.learning.LearningActivity
 import eu.qm.fiszki.activity.myWords.category.CategoryActivity
 import eu.qm.fiszki.model.category.CategoryRepository
 import eu.qm.fiszki.model.flashcard.FlashcardRepository
-import eu.qm.fiszki.tutorial.TutorialActivity
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -65,7 +64,6 @@ class SettingsActivity : AppCompatActivity() {
         buildLanguageRow()
         buildClearData()
         buildSendFeedback()
-        buildTutorial()
         buildVersion()
         buildBottomNav()
     }
@@ -314,13 +312,6 @@ class SettingsActivity : AppCompatActivity() {
                 data = Uri.parse("mailto:fiszki@quickclicker.click")
             }
             startActivity(emailIntent)
-        }
-    }
-
-    private fun buildTutorial() {
-        findViewById<View>(R.id.settings_tutorial).setOnClickListener {
-            startActivity(Intent(this, TutorialActivity::class.java))
-            finish()
         }
     }
 

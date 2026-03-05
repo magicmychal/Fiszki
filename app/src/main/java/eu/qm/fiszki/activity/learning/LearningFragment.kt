@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
@@ -45,7 +46,12 @@ class LearningFragment : Fragment() {
                         color = colors.primary,
                         shapeType = ShapeType.BLOB,
                         onClick = {
-                            ChangeActivityManager(activity).goToLearningCheck(mFlashcardRepository.getAllFlashcards())
+                            val flashcards = mFlashcardRepository.getAllFlashcards()
+                            if (flashcards.isEmpty()) {
+                                Toast.makeText(activity, R.string.learning_no_flashcards, Toast.LENGTH_LONG).show()
+                            } else {
+                                ChangeActivityManager(activity).goToLearningCheck(flashcards)
+                            }
                         }
                     ),
                     ShapeItem(
@@ -69,7 +75,12 @@ class LearningFragment : Fragment() {
                         color = colors.primaryContainer,
                         shapeType = ShapeType.HEART,
                         onClick = {
-                            ChangeActivityManager(activity).goToChatMode(mFlashcardRepository.getAllFlashcards())
+                            val flashcards = mFlashcardRepository.getAllFlashcards()
+                            if (flashcards.isEmpty()) {
+                                Toast.makeText(activity, R.string.learning_no_flashcards, Toast.LENGTH_LONG).show()
+                            } else {
+                                ChangeActivityManager(activity).goToChatMode(flashcards)
+                            }
                         }
                     )
                 )

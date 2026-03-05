@@ -124,10 +124,12 @@ class CheckActivity : AppCompatActivity() {
 
     private fun check() {
         if (mTranslate.text.toString().trim() == mDrawnFlashcard.getTranslation()) {
+            eu.qm.fiszki.HapticFeedback.vibrateCorrect(this)
             mFlashcardRepository.upFlashcardPassStatistic(mDrawnFlashcard)
             mFlashcardRepository.upFlashcardPriority(mDrawnFlashcard)
             PassCheckDialog(this).show()
         } else {
+            eu.qm.fiszki.HapticFeedback.vibrateWrong(this)
             mFlashcardRepository.upFlashcardFailStatistic(mDrawnFlashcard)
             mFlashcardRepository.downFlashcardPriority(mDrawnFlashcard)
             FailCheckDialog(this, mDrawnFlashcard).show()

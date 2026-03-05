@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
@@ -75,22 +76,15 @@ class ExamFragment : Fragment() {
                 )
 
                 if (category != null && repeat != null) {
-                    shapes.add(
-                        ShapeItem(
-                            label = getString(R.string.exam_start),
-                            color = colors.primary,
-                            shapeType = ShapeType.BLOB,
-                            onClick = {
-                                val flashcards = flashcardRepository
-                                    .getFlashcardsByCategoryID(category.id)
-                                if (flashcards.isEmpty()) {
-                                    Toast.makeText(activity, R.string.exam_range_empty_toast, Toast.LENGTH_LONG).show()
-                                } else {
-                                    ChangeActivityManager(activity).goToExamCheck(flashcards, repeat)
-                                }
-                            }
-                        )
-                    )
+                    LaunchedEffect(category, repeat) {
+                        val flashcards = flashcardRepository
+                            .getFlashcardsByCategoryID(category.id)
+                        if (flashcards.isEmpty()) {
+                            Toast.makeText(activity, R.string.exam_range_empty_toast, Toast.LENGTH_LONG).show()
+                        } else {
+                            ChangeActivityManager(activity).goToExamCheck(flashcards, repeat)
+                        }
+                    }
                 }
 
                 LearningScreen(

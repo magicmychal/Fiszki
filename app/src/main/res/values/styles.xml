@@ -71,6 +71,7 @@
         <item name="android:windowBackground">@color/colorSurfaceYellowNight</item>
         <item name="android:statusBarColor">@color/colorPrimaryYellowNight</item>
         <item name="android:navigationBarColor">@color/colorSurfaceContainerYellowNight</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <style name="NightMode" parent="Theme.Material3.Dark.NoActionBar">
@@ -80,6 +81,7 @@
         <item name="android:windowBackground">@color/colorSurfaceNight</item>
         <item name="android:statusBarColor">@color/colorPrimaryNight</item>
         <item name="android:navigationBarColor">@color/colorSurfaceNight</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
 </resources>

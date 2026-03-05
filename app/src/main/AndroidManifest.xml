@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".FiszkiApplication"
@@ -44,9 +45,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTop" />
-        <activity
-            android:name=".tutorial.TutorialActivity"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.myWords.category.CategoryActivity"
             android:screenOrientation="portrait"
