@@ -38,13 +38,20 @@
     <string name="settings_color_palette_summary_yellow">Yellow</string>
 
     <!-- CSV Import -->
-    <string name="settings_import_csv">Import from CSV</string>
-    <string name="settings_import_csv_summary">Import flashcards from a CSV file</string>
-    <string name="import_csv_title">Import CSV</string>
-    <string name="import_csv_pick_file">Choose CSV file</string>
+    <string name="settings_import_csv">Import from file</string>
+    <string name="settings_import_csv_summary">Import flashcards from CSV or AnkiDroid TXT</string>
+    <string name="import_file_title">Import file</string>
+    <string name="import_file_pick">Choose file</string>
+    <string name="import_file_format">File format</string>
+    <string name="import_file_format_helper">CSV uses comma, AnkiDroid uses tab (#separator:tab)</string>
+    <string name="import_format_csv">CSV (comma separated)</string>
+    <string name="import_format_csv_helper">Example: word,translation</string>
+    <string name="import_format_ankidroid">AnkiDroid TXT (tab separated)</string>
+    <string name="import_format_ankidroid_helper">Example: word\ttranslation (ignore #separator:tab)</string>
     <string name="import_csv_pick_category">Select category</string>
     <string name="import_csv_success">Imported %d flashcards</string>
     <string name="import_csv_error_format">Invalid CSV format: expected 2 columns (word,translation)</string>
+    <string name="import_tsv_error_format">Invalid AnkiDroid format: expected at least 2 columns</string>
     <string name="import_csv_error_empty">File is empty or has no valid rows</string>
     <string name="import_csv_error_read">Could not read the file</string>
     <string name="import_csv_found">Found %d flashcards</string>

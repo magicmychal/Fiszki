@@ -37,13 +37,20 @@
     <string name="settings_color_palette_summary_yellow">Żółty</string>
 
     <!-- CSV Import -->
-    <string name="settings_import_csv">Importuj z CSV</string>
-    <string name="settings_import_csv_summary">Importuj fiszki z pliku CSV</string>
-    <string name="import_csv_title">Importuj CSV</string>
-    <string name="import_csv_pick_file">Wybierz plik CSV</string>
+    <string name="settings_import_csv">Importuj z pliku</string>
+    <string name="settings_import_csv_summary">Importuj fiszki z CSV lub TXT z AnkiDroid</string>
+    <string name="import_file_title">Importuj plik</string>
+    <string name="import_file_pick">Wybierz plik</string>
+    <string name="import_file_format">Format pliku</string>
+    <string name="import_file_format_helper">CSV używa przecinka, AnkiDroid używa tabulatora (#separator:tab)</string>
+    <string name="import_format_csv">CSV (rozdzielane przecinkiem)</string>
+    <string name="import_format_csv_helper">Przykład: słowo,tłumaczenie</string>
+    <string name="import_format_ankidroid">AnkiDroid TXT (rozdzielane tabulatorem)</string>
+    <string name="import_format_ankidroid_helper">Przykład: słowo\ttłumaczenie (ignoruj #separator:tab)</string>
     <string name="import_csv_pick_category">Wybierz kategorię</string>
     <string name="import_csv_success">Zaimportowano %d fiszek</string>
     <string name="import_csv_error_format">Nieprawidłowy format CSV: oczekiwano 2 kolumn (słowo,tłumaczenie)</string>
+    <string name="import_tsv_error_format">Nieprawidłowy format AnkiDroid: oczekiwano co najmniej 2 kolumn</string>
     <string name="import_csv_error_empty">Plik jest pusty lub nie zawiera prawidłowych wierszy</string>
     <string name="import_csv_error_read">Nie można odczytać pliku</string>
     <string name="import_csv_found">Znaleziono %d fiszek</string>

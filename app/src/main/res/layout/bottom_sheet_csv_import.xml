@@ -21,10 +21,37 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="24dp"
-        android:text="@string/import_csv_title"
+        android:layout_marginBottom="16dp"
+        android:text="@string/import_file_title"
         android:textColor="?attr/colorOnSurface"
         android:textSize="24sp" />
+
+    <!-- Format dropdown -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/csv_format_layout"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:hint="@string/import_file_format">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/csv_format_dropdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/csv_format_helper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/import_file_format_helper"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textSize="12sp" />
 
     <!-- Choose file button -->
     <com.google.android.material.button.MaterialButton
@@ -33,7 +60,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:text="@string/import_csv_pick_file"
+        android:layout_marginTop="16dp"
+        android:text="@string/import_file_pick"
         app:icon="@android:drawable/ic_menu_upload" />
 
     <!-- Status text (hidden until file is parsed) -->

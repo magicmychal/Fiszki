@@ -23,14 +23,20 @@ import java.io.InputStreamReader
 
 class CsvImportBottomSheet : BottomSheetDialogFragment() {
 
+    private enum class ImportFormat(val labelRes: Int, val helperRes: Int) {
+        CSV(R.string.import_format_csv, R.string.import_format_csv_helper),
+        ANKIDROID_TSV(R.string.import_format_ankidroid, R.string.import_format_ankidroid_helper)
+    }
+
     private var parsedRows: List<Pair<String, String>> = emptyList()
     private var categories: List<Category> = emptyList()
     private var selectedCategory: Category? = null
+    private var selectedFormat: ImportFormat = ImportFormat.CSV
 
     private val filePickerLauncher =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
             if (uri != null) {
-                parseCsvFile(uri)
+                parseFile(uri, selectedFormat)
             }
         }
 
@@ -45,14 +51,39 @@ class CsvImportBottomSheet : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val formatDropdown = view.findViewById<MaterialAutoCompleteTextView>(R.id.csv_format_dropdown)
+        val formatHelper = view.findViewById<TextView>(R.id.csv_format_helper)
         val pickFileButton = view.findViewById<MaterialButton>(R.id.csv_pick_file_button)
         val statusText = view.findViewById<TextView>(R.id.csv_status_text)
         val categoryLayout = view.findViewById<TextInputLayout>(R.id.csv_category_layout)
         val categoryDropdown = view.findViewById<MaterialAutoCompleteTextView>(R.id.csv_category_dropdown)
         val importButton = view.findViewById<MaterialButton>(R.id.csv_import_button)
 
+        val formats = ImportFormat.values().toList()
+        val formatLabels = formats.map { getString(it.labelRes) }
+        formatDropdown.setAdapter(
+            ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, formatLabels)
+        )
+        formatDropdown.setText(getString(selectedFormat.labelRes), false)
+        formatHelper.text = getString(selectedFormat.helperRes)
+        formatDropdown.setOnItemClickListener { _, _, position, _ ->
+            selectedFormat = formats[position]
+            formatHelper.text = getString(selectedFormat.helperRes)
+            resetUI()
+            statusText.visibility = View.GONE
+            categoryLayout.visibility = View.GONE
+            importButton.visibility = View.GONE
+        }
+
         pickFileButton.setOnClickListener {
-            filePickerLauncher.launch(arrayOf("text/csv", "text/comma-separated-values", "text/*"))
+            filePickerLauncher.launch(
+                arrayOf(
+                    "text/csv",
+                    "text/tab-separated-values",
+                    "text/plain",
+                    "text/*"
+                )
+            )
         }
 
         categoryDropdown.setOnItemClickListener { _, _, position, _ ->
@@ -65,7 +96,7 @@ class CsvImportBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
-    private fun parseCsvFile(uri: Uri) {
+    private fun parseFile(uri: Uri, format: ImportFormat) {
         val ctx = context ?: return
         val view = view ?: return
 
@@ -86,15 +117,35 @@ class CsvImportBottomSheet : BottomSheetDialogFragment() {
                             firstLine = false
                         }
                         if (line.isBlank()) return@forEachLine
-
-                        val columns = parseCsvLine(line)
-                        if (columns.size != 2) {
-                            throw CsvFormatException()
+                        if (format == ImportFormat.ANKIDROID_TSV && line.startsWith("#")) {
+                            return@forEachLine
                         }
-                        val word = columns[0].trim()
-                        val translation = columns[1].trim()
+
+                        val columns = when (format) {
+                            ImportFormat.CSV -> parseCsvLine(line)
+                            ImportFormat.ANKIDROID_TSV -> parseTsvLine(line)
+                        }
+
+                        val word: String
+                        val translation: String
+                        when (format) {
+                            ImportFormat.CSV -> {
+                                if (columns.size != 2) throw CsvFormatException()
+                                word = columns[0].trim()
+                                translation = columns[1].trim()
+                            }
+                            ImportFormat.ANKIDROID_TSV -> {
+                                if (columns.size < 2) throw TsvFormatException()
+                                word = columns[0].trim()
+                                translation = columns[1].trim()
+                            }
+                        }
+
                         if (word.isEmpty() || translation.isEmpty()) {
-                            throw CsvFormatException()
+                            when (format) {
+                                ImportFormat.CSV -> throw CsvFormatException()
+                                ImportFormat.ANKIDROID_TSV -> throw TsvFormatException()
+                            }
                         }
                         rows.add(word to translation)
                     }
@@ -125,6 +176,9 @@ class CsvImportBottomSheet : BottomSheetDialogFragment() {
 
         } catch (e: CsvFormatException) {
             Toast.makeText(ctx, R.string.import_csv_error_format, Toast.LENGTH_SHORT).show()
+            resetUI()
+        } catch (e: TsvFormatException) {
+            Toast.makeText(ctx, R.string.import_tsv_error_format, Toast.LENGTH_SHORT).show()
             resetUI()
         } catch (e: Exception) {
             Toast.makeText(ctx, R.string.import_csv_error_read, Toast.LENGTH_SHORT).show()
@@ -166,6 +220,8 @@ class CsvImportBottomSheet : BottomSheetDialogFragment() {
         return result
     }
 
+    private fun parseTsvLine(line: String): List<String> = line.split('\t')
+
     private fun performImport() {
         val ctx = context ?: return
         val category = selectedCategory ?: return
@@ -197,4 +253,5 @@ class CsvImportBottomSheet : BottomSheetDialogFragment() {
     }
 
     private class CsvFormatException : Exception()
+    private class TsvFormatException : Exception()
 }
