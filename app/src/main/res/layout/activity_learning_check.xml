@@ -19,6 +19,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?android:attr/colorBackground"
             app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+            app:navigationIconTint="?attr/colorOnSurface"
             app:title="@string/learning_check_toolbar_title"
             app:titleTextColor="?attr/colorOnSurface" />
 

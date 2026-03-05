@@ -14,6 +14,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorSurface"
         app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+        app:navigationIconTint="?attr/colorOnSurface"
         app:title="@string/chat_title"
         app:titleTextAppearance="@style/TextAppearance.Material3.TitleLarge"
         app:titleTextColor="?attr/colorOnSurface" />

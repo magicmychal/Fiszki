@@ -29,6 +29,9 @@
     <string name="exam_check_end_dialog_content_2">Wrong answer:</string>
     <string name="exam_check_end_dialog_content_3">Score:</string>
 
+    <string name="exam_check_status_wrong">Wrong: %d</string>
+    <string name="exam_check_status_remaining">Remaining: %d</string>
+
     <string name="exam_bad_answer_toolbar_title">Incorrect answers</string>
     <string name="exam_bad_answer_cunt">of</string>
     <string name="exam_bad_answer_flashcard">Flashcard:</string>

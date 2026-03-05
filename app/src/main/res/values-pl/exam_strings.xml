@@ -30,6 +30,9 @@
     <string name="exam_check_end_dialog_content_2">Złe odpowiedzi:</string>
     <string name="exam_check_end_dialog_content_3">Wynik:</string>
 
+    <string name="exam_check_status_wrong">Błędne: %d</string>
+    <string name="exam_check_status_remaining">Pozostało: %d</string>
+
     <string name="exam_bad_answer_toolbar_title">Niepoprawe odpowiedzi</string>
     <string name="exam_bad_answer_cunt">z</string>
     <string name="exam_bad_answer_flashcard">Fiszka:</string>

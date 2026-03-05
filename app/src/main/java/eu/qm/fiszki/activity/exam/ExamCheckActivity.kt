@@ -1,19 +1,24 @@
 package eu.qm.fiszki.activity.exam
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.InputType
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.core.view.WindowCompat
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
+import eu.qm.fiszki.HapticFeedback
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.ChangeActivityManager
-import eu.qm.fiszki.activity.findCategoryColor
 import eu.qm.fiszki.algorithm.Algorithm
 import eu.qm.fiszki.dialogs.exam.EndExamDialog
 import eu.qm.fiszki.model.category.Category
@@ -24,16 +29,23 @@ class ExamCheckActivity : AppCompatActivity() {
 
     private lateinit var mWord: TextView
     private lateinit var mLang: TextView
-    private var mCuntRepeat = 0
-    private var mNuberOfRepeat = 0
+    private lateinit var mCategory: TextView
+    private var mCurrentRound = 0
+    private var mTotalRounds = 0
+    private var mCorrectCount = 0
+    private var mWrongCount = 0
     private lateinit var mActivity: Activity
     private lateinit var mBadAnswer: ArrayList<ArrayList<*>>
-    private lateinit var mRepreatCunter: TextView
     private lateinit var mDrawnCategory: Category
     private lateinit var mDrawnFlashcard: Flashcard
     private lateinit var mTranslate: TextInputEditText
     private lateinit var mGoodAnswer: ArrayList<Flashcard>
     private lateinit var mFlashcardPools: ArrayList<Flashcard>
+
+    private lateinit var mStatusCorrect: TextView
+    private lateinit var mStatusWrong: TextView
+    private lateinit var mStatusRemaining: TextView
+    private lateinit var mCorrectPopup: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +54,8 @@ class ExamCheckActivity : AppCompatActivity() {
 
         init()
         buildToolbar()
-        buildDoneBtn()
+        buildDoneKey()
+        buildButtons()
         drawFlashcard()
     }
 
@@ -52,6 +65,7 @@ class ExamCheckActivity : AppCompatActivity() {
         AlertDialog.Builder(mActivity)
             .setMessage(R.string.exam_check_exit_question)
             .setPositiveButton(R.string.button_action_yes) { _, _ ->
+                super.onBackPressed()
                 ChangeActivityManager(mActivity).exitExamCheck()
             }
             .setNegativeButton(R.string.button_action_no) { _, _ -> }
@@ -66,24 +80,28 @@ class ExamCheckActivity : AppCompatActivity() {
         val extras = mActivity.intent
             .getSerializableExtra(ChangeActivityManager.EXAM_REPEAT_KEY_INTENT) as ArrayList<*>
         mFlashcardPools = extras[0] as ArrayList<Flashcard>
-        mNuberOfRepeat = extras[1] as Int
-        mRepreatCunter = mActivity.findViewById(R.id.exam_check_cunt_repeat)
-        mLang = mActivity.findViewById(R.id.exam_check_lang)
-        mWord = mActivity.findViewById(R.id.exam_check_word)
-        mTranslate = mActivity.findViewById(R.id.exam_check_edit_text)
-        mTranslate.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        mTotalRounds = extras[1] as Int
+        mLang = findViewById(R.id.exam_check_lang)
+        mWord = findViewById(R.id.exam_check_word)
+        mCategory = findViewById(R.id.exam_check_category_text)
+        mTranslate = findViewById(R.id.exam_check_edit_text)
+        mTranslate.inputType = InputType.TYPE_CLASS_TEXT or
+                InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS or
+                InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        mStatusCorrect = findViewById(R.id.status_correct_text)
+        mStatusWrong = findViewById(R.id.status_wrong_text)
+        mStatusRemaining = findViewById(R.id.status_remaining_text)
+        mCorrectPopup = findViewById(R.id.correct_popup_container)
+        updateStatusCard()
     }
 
     private fun buildToolbar() {
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        toolbar.setTitle(R.string.exam_check_toolbar_title)
-        toolbar.setNavigationIcon(R.drawable.ic_exit_to_app_24px)
-        toolbar.setNavigationOnClickListener {
-            onBackPressed()
-        }
+        val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
+        @Suppress("DEPRECATION")
+        toolbar.setNavigationOnClickListener { onBackPressed() }
     }
 
-    private fun buildDoneBtn() {
+    private fun buildDoneKey() {
         mTranslate.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 check()
@@ -94,60 +112,106 @@ class ExamCheckActivity : AppCompatActivity() {
         }
     }
 
+    private fun buildButtons() {
+        findViewById<MaterialButton>(R.id.btn_check).setOnClickListener { check() }
+    }
+
     private fun drawFlashcard() {
-        mCuntRepeat++
+        mCurrentRound++
         mDrawnFlashcard = Algorithm(mActivity).drawCardAlgorithm(mFlashcardPools)
         mDrawnCategory = CategoryRepository(mActivity)
             .getCategoryByID(mDrawnFlashcard.categoryID)!!
-        applyCategoryColor()
-        setRepeatCunter()
         setLangText()
-        setWord()
+        setCategoryText()
+        setWordText()
         mTranslate.setText("")
-    }
-
-    private fun applyCategoryColor() {
-        val catColor = findCategoryColor(mDrawnCategory.getColor()) ?: return
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        toolbar.setBackgroundColor(catColor.primary)
-        @Suppress("DEPRECATION")
-        window.statusBarColor = catColor.primary
-        WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = false
-    }
-
-    private fun setRepeatCunter() {
-        mRepreatCunter.text =
-            "${mActivity.resources.getString(R.string.exam_check_repeat_qustion_1)} $mCuntRepeat ${mActivity.resources.getString(R.string.exam_check_repeat_qustion_2)} $mNuberOfRepeat"
+        mTranslate.requestFocus()
     }
 
     private fun setLangText() {
-        if (mDrawnCategory.getLangFrom().isNullOrEmpty() || mDrawnCategory.getLangOn().isNullOrEmpty()) {
-            mLang.text = "(${mActivity.resources.getString(R.string.category_no_lang)})"
+        mLang.text = if (mDrawnCategory.getLangFrom().isNullOrEmpty() || mDrawnCategory.getLangOn().isNullOrEmpty()) {
+            getString(R.string.learning_check_lang_translate)
         } else {
-            mLang.text = "(${mDrawnCategory.getLangFrom()}->${mDrawnCategory.getLangOn()})"
+            "${getString(R.string.learning_check_lang_translate_1)} ${mDrawnCategory.getLangFrom()} " +
+                    "${getString(R.string.learning_check_lang_translate_2)} ${mDrawnCategory.getLangOn()}"
         }
     }
 
-    private fun setWord() {
+    private fun setCategoryText() {
+        mCategory.text = "(${mDrawnCategory.getCategory()})"
+    }
+
+    private fun setWordText() {
         mWord.text = mDrawnFlashcard.getWord()
     }
 
+    private fun updateStatusCard() {
+        val remaining = mTotalRounds - mCurrentRound
+        mStatusCorrect.text = getString(R.string.learning_check_status_correct, mCorrectCount)
+        mStatusWrong.text = getString(R.string.exam_check_status_wrong, mWrongCount)
+        mStatusRemaining.text = getString(R.string.exam_check_status_remaining, remaining)
+    }
+
     private fun check() {
-        if (mTranslate.text.toString() == mDrawnFlashcard.getTranslation()) {
-            eu.qm.fiszki.HapticFeedback.vibrateCorrect(mActivity)
+        val answer = mTranslate.text.toString().trim()
+        if (answer.equals(mDrawnFlashcard.getTranslation(), ignoreCase = true)) {
+            HapticFeedback.vibrateCorrect(mActivity)
             mGoodAnswer.add(mDrawnFlashcard)
+            mCorrectCount++
+            updateStatusCard()
+            showCorrectPopup()
         } else {
-            eu.qm.fiszki.HapticFeedback.vibrateWrong(mActivity)
+            HapticFeedback.vibrateWrong(mActivity)
             val badAnswer = ArrayList<Any>().apply {
                 add(mDrawnFlashcard)
                 add(mTranslate.text.toString())
             }
             mBadAnswer.add(badAnswer)
+            mWrongCount++
+            updateStatusCard()
+            if (mCurrentRound == mTotalRounds) {
+                EndExamDialog(mActivity, mBadAnswer, mGoodAnswer).show()
+            } else {
+                drawFlashcard()
+            }
         }
-        if (mCuntRepeat == mNuberOfRepeat) {
-            EndExamDialog(mActivity, mBadAnswer, mGoodAnswer).show()
-        } else {
-            drawFlashcard()
-        }
+    }
+
+    private fun setButtonsEnabled(enabled: Boolean) {
+        mTranslate.isEnabled = enabled
+        findViewById<MaterialButton>(R.id.btn_check).isEnabled = enabled
+    }
+
+    private fun showCorrectPopup() {
+        setButtonsEnabled(false)
+
+        mCorrectPopup.alpha = 0f
+        mCorrectPopup.visibility = View.VISIBLE
+
+        mCorrectPopup.animate()
+            .alpha(1f)
+            .setDuration(300L)
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        mCorrectPopup.animate()
+                            .alpha(0f)
+                            .setDuration(400L)
+                            .setListener(object : AnimatorListenerAdapter() {
+                                override fun onAnimationEnd(animation: Animator) {
+                                    mCorrectPopup.visibility = View.GONE
+                                    setButtonsEnabled(true)
+                                    if (mCurrentRound == mTotalRounds) {
+                                        EndExamDialog(mActivity, mBadAnswer, mGoodAnswer).show()
+                                    } else {
+                                        drawFlashcard()
+                                    }
+                                }
+                            })
+                            .start()
+                    }, 1500L)
+                }
+            })
+            .start()
     }
 }
