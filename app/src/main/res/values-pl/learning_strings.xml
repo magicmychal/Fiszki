@@ -32,6 +32,7 @@
 
     <string name="learning_check_dialog_bad_answer_1">Zła odpowiedź. Poprawnie to:</string>
     <string name="learning_check_dialog_bad_answer_2">Wpisz ponownie.</string>
+    <string name="learning_check_dialog_your_answer">Twoja odpowiedź:</string>
 
     <string name="learning_check_dialog_skip_btn">Pomiń fiszkę</string>
     <string name="learning_check_menu_skip_toast">Fiszka została pominięta</string>

@@ -32,6 +32,7 @@
 
     <string name="learning_check_dialog_bad_answer_1">Bad answer. Correctly:</string>
     <string name="learning_check_dialog_bad_answer_2">Write it again.</string>
+    <string name="learning_check_dialog_your_answer">Your answer:</string>
 
     <string name="learning_check_dialog_skip_btn">Skip flashcard</string>
     <string name="learning_check_menu_skip_toast">Flashcard has been omitted</string>

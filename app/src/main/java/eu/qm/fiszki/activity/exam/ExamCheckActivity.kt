@@ -21,6 +21,7 @@ import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.ChangeActivityManager
 import eu.qm.fiszki.algorithm.Algorithm
 import eu.qm.fiszki.dialogs.exam.EndExamDialog
+import eu.qm.fiszki.dialogs.learning.BadAnswerLearnigDialog
 import eu.qm.fiszki.model.category.Category
 import eu.qm.fiszki.model.category.CategoryRepository
 import eu.qm.fiszki.model.flashcard.Flashcard
@@ -154,7 +155,8 @@ class ExamCheckActivity : AppCompatActivity() {
 
     private fun check() {
         val answer = mTranslate.text.toString().trim()
-        if (answer.equals(mDrawnFlashcard.getTranslation(), ignoreCase = true)) {
+        val correctAnswer = mDrawnFlashcard.getTranslation()
+        if (answer.equals(correctAnswer, ignoreCase = true)) {
             HapticFeedback.vibrateCorrect(mActivity)
             mGoodAnswer.add(mDrawnFlashcard)
             mCorrectCount++
@@ -164,17 +166,31 @@ class ExamCheckActivity : AppCompatActivity() {
             HapticFeedback.vibrateWrong(mActivity)
             val badAnswer = ArrayList<Any>().apply {
                 add(mDrawnFlashcard)
-                add(mTranslate.text.toString())
+                add(answer)
             }
             mBadAnswer.add(badAnswer)
             mWrongCount++
             updateStatusCard()
-            if (mCurrentRound == mTotalRounds) {
-                EndExamDialog(mActivity, mBadAnswer, mGoodAnswer).show()
-            } else {
-                drawFlashcard()
-            }
+            showWrongAnswerDialog(correctAnswer, answer)
         }
+    }
+
+    private fun showWrongAnswerDialog(correctAnswer: String, userAnswer: String) {
+        setButtonsEnabled(false)
+        com.google.android.material.dialog.MaterialAlertDialogBuilder(mActivity)
+            .setTitle(R.string.alert_title_fail)
+            .setMessage(BadAnswerLearnigDialog.buildDiffMessage(mActivity, correctAnswer, userAnswer))
+            .setCancelable(false)
+            .setPositiveButton(R.string.button_action_ok) { dialog, _ ->
+                dialog.dismiss()
+                setButtonsEnabled(true)
+                if (mCurrentRound == mTotalRounds) {
+                    EndExamDialog(mActivity, mBadAnswer, mGoodAnswer).show()
+                } else {
+                    drawFlashcard()
+                }
+            }
+            .show()
     }
 
     private fun setButtonsEnabled(enabled: Boolean) {
