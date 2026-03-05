@@ -1,6 +1,7 @@
 package eu.qm.fiszki.activity.myWords.flashcards
 
 import android.app.Activity
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -13,6 +14,8 @@ import com.google.android.material.button.MaterialButton
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.ChangeActivityManager
+import eu.qm.fiszki.activity.defaultCategoryColor
+import eu.qm.fiszki.activity.findCategoryColor
 import eu.qm.fiszki.activity.myWords.CategoryManagerSingleton
 import eu.qm.fiszki.dialogs.category.EditCategoryBottomSheet
 import eu.qm.fiszki.dialogs.flashcard.AddFlashcardDialog
@@ -50,6 +53,9 @@ class FlashcardsActivity : AppCompatActivity() {
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         if (hasFocus) {
+            mCurrentCategory = CategoryRepository(mActivity)
+                .getCategoryByID(CategoryManagerSingleton.currentCategoryId)!!
+            buildHeroHeader()
             updateListView()
         }
     }
@@ -73,6 +79,18 @@ class FlashcardsActivity : AppCompatActivity() {
         } else {
             subtitle.visibility = View.GONE
         }
+
+        // Apply category color to hero gradient + status bar
+        val catColor = findCategoryColor(mCurrentCategory.getColor()) ?: defaultCategoryColor()
+        val heroHeader = findViewById<View>(R.id.hero_header)
+        val cornerPx = (28 * resources.displayMetrics.density)
+        val gradient = GradientDrawable(
+            GradientDrawable.Orientation.TOP_BOTTOM,
+            intArrayOf(catColor.primary, catColor.container)
+        )
+        gradient.cornerRadii = floatArrayOf(0f, 0f, 0f, 0f, cornerPx, cornerPx, cornerPx, cornerPx)
+        heroHeader.background = gradient
+        window.statusBarColor = catColor.primary
 
         findViewById<View>(R.id.btn_back).setOnClickListener {
             onBackPressed()

@@ -13,6 +13,7 @@ import com.google.android.material.textfield.TextInputEditText
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.ChangeActivityManager
+import eu.qm.fiszki.activity.findCategoryColor
 import eu.qm.fiszki.algorithm.Algorithm
 import eu.qm.fiszki.dialogs.learning.BadAnswerLearnigDialog
 import eu.qm.fiszki.model.category.Category
@@ -87,10 +88,18 @@ class LearningCheckActivity : AppCompatActivity() {
     fun drawFlashcard() {
         mDrawnFlashcard = mAlgorithm.drawCardAlgorithm(mFlashcardsPool)
         mDrawnCategory = mCategoryRepository.getCategoryByID(mDrawnFlashcard.categoryID)!!
+        applyCategoryColor()
         setLangText()
         setCategoryText()
         setWordText()
         mTranslate.setText("")
+    }
+
+    private fun applyCategoryColor() {
+        val catColor = findCategoryColor(mDrawnCategory.getColor()) ?: return
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbar.setBackgroundColor(catColor.primary)
+        window.statusBarColor = catColor.primary
     }
 
     private fun setLangText() {

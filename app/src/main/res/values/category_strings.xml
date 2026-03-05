@@ -16,4 +16,6 @@
 
     <string name="category_card_count">%d cards</string>
 
+    <string name="edit_category_color">Color</string>
+
 </resources>

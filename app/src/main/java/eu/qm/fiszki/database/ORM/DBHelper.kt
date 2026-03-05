@@ -16,7 +16,7 @@ class DBHelper(context: Context) :
 
     companion object {
         private const val DATABASE_NAME = "Flashcards.db"
-        private const val DATABASE_VERSION = 5
+        private const val DATABASE_VERSION = 6
     }
 
     private var flashcardDao: RuntimeExceptionDao<Flashcard, Int>? = null
@@ -50,6 +50,9 @@ class DBHelper(context: Context) :
                 .executeRaw("ALTER TABLE `flashcard` ADD COLUMN staticFail INT(255) DEFAULT '0';")
             getFlashcardDao()
                 .executeRaw("ALTER TABLE `flashcard` ADD COLUMN staticPass INT(255) DEFAULT '0';")
+        }
+        if (newVersion >= 6 && oldVersion < 6) {
+            getCategoryDao().executeRaw("ALTER TABLE `category` ADD COLUMN color VARCHAR(255);")
         }
     }
 

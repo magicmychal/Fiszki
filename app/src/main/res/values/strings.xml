@@ -6,7 +6,7 @@
 
 
     <string name="card_name_my_word">My words</string>
-    <string name="card_name_learning">Learning</string>
+    <string name="card_name_learning">Practice</string>
     <string name="card_name_exam">Exam</string>
 
     <string name="back_press_toast">Press again to close the application</string>
