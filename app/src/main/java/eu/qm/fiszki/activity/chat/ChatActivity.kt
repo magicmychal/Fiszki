@@ -13,6 +13,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.ChangeActivityManager
+import eu.qm.fiszki.activity.findCategoryColor
 import eu.qm.fiszki.algorithm.Algorithm
 import eu.qm.fiszki.model.category.CategoryRepository
 import eu.qm.fiszki.model.flashcard.Flashcard
@@ -90,6 +91,16 @@ class ChatActivity : AppCompatActivity() {
     private fun drawAndPrompt() {
         mCurrentFlashcard = mAlgorithm.drawCardAlgorithm(mFlashcardsPool)
         val category = mCategoryRepository.getCategoryByID(mCurrentFlashcard.categoryID)
+
+        // Apply category color to toolbar + status bar
+        if (category != null) {
+            val catColor = findCategoryColor(category.getColor())
+            if (catColor != null) {
+                val toolbar = findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.chat_toolbar)
+                toolbar.setBackgroundColor(catColor.primary)
+                window.statusBarColor = catColor.primary
+            }
+        }
 
         val prompt = if (category != null &&
             !category.getLangFrom().isNullOrEmpty() &&

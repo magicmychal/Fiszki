@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar
 import com.google.android.material.textfield.TextInputEditText
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
+import eu.qm.fiszki.activity.findCategoryColor
 import eu.qm.fiszki.algorithm.Algorithm
 import eu.qm.fiszki.algorithm.CatcherFlashcardToAlgorithm
 import eu.qm.fiszki.dialogs.check.EmptyDBCheckDialog
@@ -88,11 +89,19 @@ class CheckActivity : AppCompatActivity() {
         if (isCondition()) {
             mDrawnFlashcard = mAlgorithm.drawCardAlgorithm(mPool)
             mDrawnCategory = mCategoryRepository.getCategoryByID(mDrawnFlashcard.categoryID)!!
+            applyCategoryColor()
             setLangText()
             setCategoryText()
             setWordText()
             mTranslate.setText("")
         }
+    }
+
+    private fun applyCategoryColor() {
+        val catColor = findCategoryColor(mDrawnCategory.getColor()) ?: return
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbar.setBackgroundColor(catColor.primary)
+        window.statusBarColor = catColor.primary
     }
 
     private fun isCondition(): Boolean {

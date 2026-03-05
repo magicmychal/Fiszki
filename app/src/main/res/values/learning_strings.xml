@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="learning_toolbar_title">Select a range of learning:</string>
+    <string name="learning_toolbar_title">Select a range of practice:</string>
 
     <string name="learning_card_all_name">All</string>
     <string name="learning_card_category_name">By category</string>
@@ -25,7 +25,7 @@
     <string name="learning_by_lang_whichever">Any</string>
     <string name="learning_by_lang_tost_empty_chose">This configuration does not exist or is empty.</string>
 
-    <string name="learning_check_toolbar_title">Learning</string>
+    <string name="learning_check_toolbar_title">Practice</string>
     <string name="learning_check_lang_translate">Translate</string>
     <string name="learning_check_lang_translate_1">Translate from</string>
     <string name="learning_check_lang_translate_2">to</string>

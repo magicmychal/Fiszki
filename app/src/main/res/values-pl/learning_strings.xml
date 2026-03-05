@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="learning_toolbar_title">Wybierz zakres nauki:</string>
+    <string name="learning_toolbar_title">Wybierz zakres ćwiczeń:</string>
 
     <string name="learning_card_all_name">Wszystko</string>
     <string name="learning_card_category_name">Po kategoriach</string>
@@ -25,7 +25,7 @@
     <string name="learning_by_lang_whichever">Którykolwiek</string>
     <string name="learning_by_lang_tost_empty_chose">Taka konfiguracja nie istnieje lub jest pusta.</string>
 
-    <string name="learning_check_toolbar_title">Nauka</string>
+    <string name="learning_check_toolbar_title">Ćwiczenia</string>
     <string name="learning_check_lang_translate">Przetłumacz</string>
     <string name="learning_check_lang_translate_1">Przetłumacz z</string>
     <string name="learning_check_lang_translate_2">na</string>

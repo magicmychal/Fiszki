@@ -4,7 +4,7 @@
 
 
     <string name="card_name_my_word">Moje słówka</string>
-    <string name="card_name_learning">Nauka</string>
+    <string name="card_name_learning">Ćwiczenia</string>
     <string name="card_name_exam">Egzamin</string>
 
     <string name="back_press_toast">Naciśnij ponownie, aby zamknąć aplikację</string>

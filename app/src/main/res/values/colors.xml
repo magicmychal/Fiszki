@@ -95,6 +95,24 @@
     <color name="colorSurfaceContainerYellowNight">#2B2720</color>
     <color name="colorOutlineYellowNight">#999080</color>
 
+    <!-- Category color palette -->
+    <color name="cat_lavender_primary">#6750A4</color>
+    <color name="cat_lavender_container">#EADDFF</color>
+    <color name="cat_rose_primary">#904A77</color>
+    <color name="cat_rose_container">#FFD8E8</color>
+    <color name="cat_sage_primary">#4A6741</color>
+    <color name="cat_sage_container">#C8E6B8</color>
+    <color name="cat_ocean_primary">#006590</color>
+    <color name="cat_ocean_container">#C3E7FF</color>
+    <color name="cat_sand_primary">#7C5800</color>
+    <color name="cat_sand_container">#FFDEA1</color>
+    <color name="cat_coral_primary">#904B40</color>
+    <color name="cat_coral_container">#FFDAD5</color>
+    <color name="cat_sky_primary">#4355B9</color>
+    <color name="cat_sky_container">#DEE0FF</color>
+    <color name="cat_mauve_primary">#6B5778</color>
+    <color name="cat_mauve_container">#F3DAFF</color>
+
     <!-- Colors previously provided by apptentive/material-dialogs libraries -->
     <color name="apptentive_transparency">#00000000</color>
     <color name="md_red_A700">#D50000</color>

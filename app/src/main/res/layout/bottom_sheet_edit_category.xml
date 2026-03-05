@@ -73,4 +73,33 @@
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- Color picker label -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/edit_category_color"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:textSize="14sp" />
+
+    <!-- Color picker circles -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/color_picker_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
+
+    </HorizontalScrollView>
+
 </LinearLayout>
