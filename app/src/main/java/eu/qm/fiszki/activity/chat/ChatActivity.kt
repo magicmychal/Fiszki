@@ -114,10 +114,12 @@ class ChatActivity : AppCompatActivity() {
         val correct = answer.equals(mCurrentFlashcard.getTranslation().trim(), ignoreCase = true)
 
         if (correct) {
+            eu.qm.fiszki.HapticFeedback.vibrateCorrect(this)
             mFlashcardRepository.upFlashcardPassStatistic(mCurrentFlashcard)
             mFlashcardRepository.upFlashcardPriority(mCurrentFlashcard)
             addBotMessage(getString(R.string.chat_correct))
         } else {
+            eu.qm.fiszki.HapticFeedback.vibrateWrong(this)
             mFlashcardRepository.upFlashcardFailStatistic(mCurrentFlashcard)
             mFlashcardRepository.downFlashcardPriority(mCurrentFlashcard)
             addBotMessage(getString(R.string.chat_wrong, mCurrentFlashcard.getTranslation()))

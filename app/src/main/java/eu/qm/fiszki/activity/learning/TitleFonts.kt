@@ -6,7 +6,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.googlefonts.Font
 import androidx.compose.ui.text.googlefonts.GoogleFont
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.TextUnit
 import eu.qm.fiszki.R
 
 private val provider = GoogleFont.Provider(
@@ -15,7 +15,6 @@ private val provider = GoogleFont.Provider(
     certificates = R.array.com_google_android_gms_fonts_certs
 )
 
-// "Time" — Roboto Flex, Black, tracking -0.25px
 val RobotoFlexFamily = FontFamily(
     Font(
         googleFont = GoogleFont("Roboto Flex"),
@@ -24,7 +23,6 @@ val RobotoFlexFamily = FontFamily(
     )
 )
 
-// "to" — Roboto Mono, Thin, tracking -11px
 val RobotoMonoFamily = FontFamily(
     Font(
         googleFont = GoogleFont("Roboto Mono"),
@@ -33,7 +31,6 @@ val RobotoMonoFamily = FontFamily(
     )
 )
 
-// "practice" — Roboto Serif, Italic, normal weight, tracking 2px
 val RobotoSerifFamily = FontFamily(
     Font(
         googleFont = GoogleFont("Roboto Serif"),
@@ -43,30 +40,38 @@ val RobotoSerifFamily = FontFamily(
     )
 )
 
+val PorterSansBlockFamily = FontFamily(
+    Font(
+        googleFont = GoogleFont("Portal Sans Block"),
+        fontProvider = provider,
+        weight = FontWeight.Normal
+    )
+)
+
 data class WordStyle(
     val fontFamily: FontFamily,
     val fontWeight: FontWeight,
     val fontStyle: FontStyle = FontStyle.Normal,
-    val letterSpacing: androidx.compose.ui.unit.TextUnit = 0.sp
+    val letterSpacing: TextUnit = TextUnit.Unspecified
 )
 
-// Cycling list of styles matching the Figma specs
+// Cycling list of styles — all with default letter spacing
 val titleWordStyles = listOf(
     WordStyle(
         fontFamily = RobotoFlexFamily,
         fontWeight = FontWeight.Black,
-        letterSpacing = (-0.25).sp
+        letterSpacing = TextUnit.Unspecified
     ),
     WordStyle(
         fontFamily = RobotoMonoFamily,
         fontWeight = FontWeight.Thin,
-        letterSpacing = (-11).sp
+        letterSpacing = TextUnit.Unspecified
     ),
     WordStyle(
         fontFamily = RobotoSerifFamily,
         fontWeight = FontWeight.Normal,
         fontStyle = FontStyle.Italic,
-        letterSpacing = 2.sp
+        letterSpacing = TextUnit.Unspecified
     )
 )
 

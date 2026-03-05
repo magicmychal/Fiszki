@@ -111,12 +111,14 @@ class LearningCheckActivity : AppCompatActivity() {
 
     private fun check() {
         if (mTranslate.text.toString().trim() == mDrawnFlashcard.getTranslation()) {
+            eu.qm.fiszki.HapticFeedback.vibrateCorrect(mActivity)
             Toast.makeText(mActivity, R.string.alert_message_pass, Toast.LENGTH_SHORT).show()
             mFlashcardRepository.upFlashcardPassStatistic(mDrawnFlashcard)
             mFlashcardRepository.upFlashcardPriority(mDrawnFlashcard)
             mTranslate.setText("")
             drawFlashcard()
         } else {
+            eu.qm.fiszki.HapticFeedback.vibrateWrong(mActivity)
             mFlashcardRepository.upFlashcardFailStatistic(mDrawnFlashcard)
             mFlashcardRepository.downFlashcardPriority(mDrawnFlashcard)
             BadAnswerLearnigDialog(mActivity, mDrawnFlashcard, this).show()

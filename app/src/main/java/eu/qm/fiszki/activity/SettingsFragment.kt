@@ -30,7 +30,6 @@ import eu.qm.fiszki.R
 import eu.qm.fiszki.dialogs.csv.CsvImportBottomSheet
 import eu.qm.fiszki.model.category.CategoryRepository
 import eu.qm.fiszki.model.flashcard.FlashcardRepository
-import eu.qm.fiszki.tutorial.TutorialActivity
 
 class SettingsFragment : Fragment() {
 
@@ -71,7 +70,6 @@ class SettingsFragment : Fragment() {
         buildImportCsv(view)
         buildClearData(view)
         buildSendFeedback(view)
-        buildTutorial(view)
         buildVersion(view)
     }
 
@@ -350,12 +348,6 @@ class SettingsFragment : Fragment() {
                 data = Uri.parse("mailto:fiszki@quickclicker.click")
             }
             startActivity(emailIntent)
-        }
-    }
-
-    private fun buildTutorial(view: View) {
-        view.findViewById<View>(R.id.settings_tutorial).setOnClickListener {
-            startActivity(Intent(requireContext(), TutorialActivity::class.java))
         }
     }
 

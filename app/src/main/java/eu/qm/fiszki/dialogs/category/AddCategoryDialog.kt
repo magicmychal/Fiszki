@@ -2,8 +2,10 @@ package eu.qm.fiszki.dialogs.category
 
 import android.app.Activity
 import android.app.Dialog
+import android.util.TypedValue
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputEditText
@@ -22,10 +24,12 @@ class AddCategoryDialog(private val mActivity: Activity) : MaterialDialog.Builde
 
     init {
         title(R.string.category_dialog_title)
-        icon(context.resources.getDrawable(R.drawable.ic_category_add))
+        icon(ContextCompat.getDrawable(context, R.drawable.ic_category_add)!!)
         customView(R.layout.category_add_dialog, false)
         positiveText(R.string.category_positive_btn_text)
-        positiveColor(mActivity.resources.getColor(R.color.ColorPrimaryDark))
+        val typedValue = TypedValue()
+        mActivity.theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
+        positiveColor(typedValue.data)
         onPositive(addCategoryBtn())
         initViews()
         autoDismiss(false)

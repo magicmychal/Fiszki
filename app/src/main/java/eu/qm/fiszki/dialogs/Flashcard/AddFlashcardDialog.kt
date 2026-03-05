@@ -33,6 +33,7 @@ class AddFlashcardDialog(
             .setTitle(R.string.flashcard_add_title)
             .setView(view)
             .setPositiveButton(R.string.action_confirm, null)
+            .setNegativeButton(R.string.flashcard_edit_done) { dlg, _ -> dlg.dismiss() }
             .create()
 
         dialog.setOnShowListener {

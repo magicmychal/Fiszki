@@ -64,43 +64,52 @@ fun LearningScreen(
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
-    // Split title into words, preserving separator positions
-    val tokens = mutableListOf<Pair<String, Char>>() // word to separator-after
-    var wordStart = 0
-    for (i in title.indices) {
-        if (title[i] == ' ' || title[i] == '\n') {
-            if (i > wordStart) {
-                tokens.add(title.substring(wordStart, i) to title[i])
-            }
-            wordStart = i + 1
-        }
-    }
-    if (wordStart < title.length) {
-        tokens.add(title.substring(wordStart) to ' ')
-    }
+    val lines = title.split("\n")
 
     Column(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
     ) {
-        // Multi-font title: each word gets its own Figma-specified font style
-        Text(
-            text = buildAnnotatedString {
-                tokens.forEachIndexed { index, (word, separator) ->
-                    withStyle(buildTitleSpanStyle(index)) {
-                        append(word)
-                    }
-                    if (index < tokens.size - 1) {
-                        append(if (separator == '\n') "\n" else " ")
-                    }
-                }
-            },
-            fontSize = 57.sp,
-            color = MaterialTheme.colorScheme.onSurface,
-            lineHeight = 64.sp,
+        Column(
             modifier = Modifier.padding(start = 24.dp, top = 48.dp, end = 24.dp, bottom = 24.dp)
-        )
+        ) {
+            var wordIndex = 0
+            lines.forEachIndexed { lineIndex, line ->
+                val words = line.split(" ").filter { it.isNotEmpty() }
+                if (lineIndex == 0 && words.size == 1) {
+                    // First line, single word (e.g. "Time" / "Czas") — Porter Sans Block with wide spacing
+                    Text(
+                        text = words[0].uppercase(),
+                        fontSize = 57.sp,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        lineHeight = 64.sp,
+                        fontFamily = PorterSansBlockFamily,
+                        fontWeight = FontWeight.Normal,
+                        letterSpacing = 20.sp
+                    )
+                    wordIndex += 1
+                } else {
+                    // Other lines: use cycling font styles per word
+                    Text(
+                        text = buildAnnotatedString {
+                            words.forEachIndexed { i, word ->
+                                withStyle(buildTitleSpanStyle(wordIndex)) {
+                                    append(word)
+                                }
+                                wordIndex++
+                                if (i < words.size - 1) {
+                                    append(" ")
+                                }
+                            }
+                        },
+                        fontSize = 57.sp,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        lineHeight = 64.sp
+                    )
+                }
+            }
+        }
         shapes.forEach { shape ->
             ShapeButton(
                 item = shape,

@@ -11,11 +11,11 @@ android {
     namespace "eu.qm.fiszki"
     compileSdk 35
     defaultConfig {
-        applicationId "eu.qm.fiszki"
+        applicationId 'click.quickclicker.fiszki'
         minSdk 31
         targetSdk 35
         versionCode 15
-        versionName "1.11"
+        versionName '2.00'
     }
     buildTypes {
         release {
@@ -52,7 +52,6 @@ dependencies {
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.3.0'
     implementation 'androidx.preference:preference:1.2.1'
 
-    implementation 'com.cleveroad:slidingtutorial:1.0.6'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.jaredrummler:material-spinner:1.3.1'
 

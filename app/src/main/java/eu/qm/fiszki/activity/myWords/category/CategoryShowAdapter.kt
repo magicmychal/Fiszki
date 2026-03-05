@@ -34,7 +34,7 @@ class CategoryShowAdapter(
         setLanguageText(holder, category)
 
         val count = flashcardRepository.getFlashcardsByCategoryID(category.id).size
-        holder.meta.text = "$count cards"
+        holder.meta.text = activity.getString(R.string.category_card_count, count)
 
         holder.card.setOnClickListener {
             CategoryManagerSingleton.currentCategoryId = category.id
