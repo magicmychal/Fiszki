@@ -1,9 +1,12 @@
 package eu.qm.fiszki.dialogs.learning
 
 import android.app.Activity
+import android.view.LayoutInflater
+import android.widget.ArrayAdapter
 import android.widget.Toast
-import com.afollestad.materialdialogs.MaterialDialog
-import com.jaredrummler.materialspinner.MaterialSpinner
+import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.ChangeActivityManager
 import eu.qm.fiszki.model.category.Category
@@ -11,112 +14,82 @@ import eu.qm.fiszki.model.category.CategoryRepository
 import eu.qm.fiszki.model.flashcard.Flashcard
 import eu.qm.fiszki.model.flashcard.FlashcardRepository
 
-class ByLanguageLearningDialog(private val mActivity: Activity) : MaterialDialog.Builder(mActivity) {
+class ByLanguageLearningDialog(private val mActivity: Activity) : MaterialAlertDialogBuilder(mActivity) {
 
-    private lateinit var mSpinnerFrom: MaterialSpinner
-    private lateinit var mSpinnerOn: MaterialSpinner
-    private lateinit var mCategoryRepository: CategoryRepository
-    private lateinit var mFlashcardRepository: FlashcardRepository
-    private var mLearningCategory: ArrayList<Category> = ArrayList()
-    private var mLearningFlashcards: ArrayList<Flashcard> = ArrayList()
+    private val customView = LayoutInflater.from(mActivity).inflate(R.layout.learning_by_lang_dialog, null, false)
+    private val mSpinnerFrom: MaterialAutoCompleteTextView = customView.findViewById(R.id.spinner_langFrom)
+    private val mSpinnerOn: MaterialAutoCompleteTextView = customView.findViewById(R.id.spinner_langOn)
+    private val mCategoryRepository = CategoryRepository(mActivity)
+    private val mFlashcardRepository = FlashcardRepository(mActivity)
+    private val mLangFromItems: ArrayList<String>
+    private val mLangOnItems: ArrayList<String>
 
     init {
-        title(R.string.learning_by_lang_dialog_title)
-        customView(R.layout.learning_by_lang_dialog, false)
-        autoDismiss(false)
-        neutralText(R.string.learning_by_category_dialog_btn_back)
-        onNeutral(closeDialog())
-        positiveText(R.string.learning_by_category_dialog_btn_to_learning)
-        positiveColor(mActivity.resources.getColor(R.color.ColorPrimaryDark))
-        onPositive(goLearning())
-        initRepos()
-        buildSpinnerFrom()
-        buildSpinnerOn()
+        mLangFromItems = buildLangList { it.getLangFrom() }
+        mLangOnItems = buildLangList { it.getLangOn() }
+
+        setTitle(R.string.learning_by_lang_dialog_title)
+        setView(customView)
+        setCancelable(true)
+        setPositiveButton(R.string.learning_by_category_dialog_btn_to_learning, null)
+        setNegativeButton(R.string.learning_by_category_dialog_btn_back, null)
+
+        mSpinnerFrom.setAdapter(ArrayAdapter(mActivity, android.R.layout.simple_dropdown_item_1line, mLangFromItems))
+        mSpinnerFrom.setText(mLangFromItems.firstOrNull() ?: "", false)
+
+        mSpinnerOn.setAdapter(ArrayAdapter(mActivity, android.R.layout.simple_dropdown_item_1line, mLangOnItems))
+        mSpinnerOn.setText(mLangOnItems.firstOrNull() ?: "", false)
     }
 
-    private fun initRepos() {
-        mCategoryRepository = CategoryRepository(mActivity)
-        mFlashcardRepository = FlashcardRepository(mActivity)
-    }
+    override fun show(): AlertDialog {
+        val dialog = super.create()
+        dialog.setOnShowListener {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                val fromText = mSpinnerFrom.text.toString()
+                val onText = mSpinnerOn.text.toString()
+                val whichever = mActivity.getString(R.string.learning_by_lang_whichever)
 
-    private fun buildSpinnerFrom() {
-        mSpinnerFrom = customView.findViewById(R.id.spinner_langFrom) as MaterialSpinner
-        val langFromArray = ArrayList<String>()
-        for (cat in mCategoryRepository.getUserCategory()) {
-            if (!cat.getLangFrom().isNullOrEmpty()) {
-                langFromArray.add(cat.getLangFrom()!!)
-            }
-        }
-        // delete recurrence
-        val hs = HashSet<String>()
-        hs.addAll(langFromArray)
-        langFromArray.clear()
-        langFromArray.add(context.getString(R.string.learning_by_lang_whichever))
-        langFromArray.addAll(hs)
-        mSpinnerFrom.setItems(langFromArray)
-    }
+                val chosenCategories = ArrayList<Category>()
+                when {
+                    fromText == whichever && onText == whichever ->
+                        chosenCategories.addAll(mCategoryRepository.getAllCategory())
+                    fromText == whichever ->
+                        chosenCategories.addAll(mCategoryRepository.getCategoryByLangOn(onText))
+                    onText == whichever ->
+                        chosenCategories.addAll(mCategoryRepository.getCategoryByLangFrom(fromText))
+                    else ->
+                        chosenCategories.addAll(mCategoryRepository.getCategoryByLang(fromText, onText))
+                }
 
-    private fun buildSpinnerOn() {
-        mSpinnerOn = customView.findViewById(R.id.spinner_langOn) as MaterialSpinner
-        val langOnArray = ArrayList<String>()
-        for (cat in mCategoryRepository.getUserCategory()) {
-            if (!cat.getLangOn().isNullOrEmpty()) {
-                langOnArray.add(cat.getLangOn()!!)
-            }
-        }
-        // delete recurrence
-        val hs = HashSet<String>()
-        hs.addAll(langOnArray)
-        langOnArray.clear()
-        langOnArray.add(context.getString(R.string.learning_by_lang_whichever))
-        langOnArray.addAll(hs)
-        mSpinnerOn.setItems(langOnArray)
-    }
-
-    private fun goLearning(): MaterialDialog.SingleButtonCallback {
-        return MaterialDialog.SingleButtonCallback { dialog, _ ->
-            setChosenLang()
-            if (mLearningCategory.isEmpty()) {
-                Toast.makeText(context, R.string.learning_by_lang_tost_empty_chose, Toast.LENGTH_LONG).show()
-            } else {
-                setFlashcard()
-                if (mLearningFlashcards.isEmpty()) {
-                    Toast.makeText(context, R.string.learning_by_lang_tost_empty_chose, Toast.LENGTH_LONG).show()
+                if (chosenCategories.isEmpty()) {
+                    Toast.makeText(mActivity, R.string.learning_by_lang_tost_empty_chose, Toast.LENGTH_LONG).show()
+                    return@setOnClickListener
+                }
+                val flashcards = ArrayList<Flashcard>()
+                for (cat in chosenCategories) {
+                    flashcards.addAll(mFlashcardRepository.getFlashcardsByCategoryID(cat.id))
+                }
+                if (flashcards.isEmpty()) {
+                    Toast.makeText(mActivity, R.string.learning_by_lang_tost_empty_chose, Toast.LENGTH_LONG).show()
                 } else {
                     dialog.dismiss()
-                    ChangeActivityManager(mActivity).goToLearningCheck(mLearningFlashcards)
+                    ChangeActivityManager(mActivity).goToLearningCheck(flashcards)
                 }
             }
         }
+        dialog.show()
+        return dialog
     }
 
-    private fun setChosenLang() {
-        when {
-            mSpinnerFrom.selectedIndex == 0 && mSpinnerOn.selectedIndex == 0 ->
-                mLearningCategory.addAll(mCategoryRepository.getAllCategory())
-            mSpinnerFrom.selectedIndex == 0 ->
-                mLearningCategory.addAll(mCategoryRepository.getCategoryByLangOn(mSpinnerOn.text.toString()))
-            mSpinnerOn.selectedIndex == 0 ->
-                mLearningCategory.addAll(mCategoryRepository.getCategoryByLangFrom(mSpinnerFrom.text.toString()))
-            else ->
-                mLearningCategory.addAll(
-                    mCategoryRepository.getCategoryByLang(
-                        mSpinnerFrom.text.toString(),
-                        mSpinnerOn.text.toString()
-                    )
-                )
+    private fun buildLangList(selector: (Category) -> String?): ArrayList<String> {
+        val set = LinkedHashSet<String>()
+        for (cat in mCategoryRepository.getUserCategory()) {
+            val value = selector(cat)
+            if (!value.isNullOrEmpty()) set.add(value)
         }
-    }
-
-    private fun setFlashcard() {
-        for (cat in mLearningCategory) {
-            mLearningFlashcards.addAll(mFlashcardRepository.getFlashcardsByCategoryID(cat.id))
-        }
-    }
-
-    private fun closeDialog(): MaterialDialog.SingleButtonCallback {
-        return MaterialDialog.SingleButtonCallback { dialog, _ ->
-            dialog.dismiss()
-        }
+        val result = ArrayList<String>()
+        result.add(mActivity.getString(R.string.learning_by_lang_whichever))
+        result.addAll(set)
+        return result
     }
 }

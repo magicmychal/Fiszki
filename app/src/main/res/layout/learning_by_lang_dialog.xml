@@ -1,55 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:text="@string/learning_by_lang_dialog_from_text"
-        android:textColor="?attr/colorPrimary"
-        android:textSize="20sp" />
-
-    <com.jaredrummler.materialspinner.MaterialSpinner
-        android:id="@+id/spinner_langFrom"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_lang_from"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView2"
         android:layout_marginBottom="16dp"
-        android:textColor="?android:attr/textColorPrimary"
-        />
+        android:hint="@string/learning_by_lang_dialog_from_text">
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/spinner_langFrom"
-        android:text="@string/learning_by_lang_dialog_on_text"
-        android:textColor="?attr/colorPrimary"
-        android:textSize="20sp" />
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/spinner_langFrom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none" />
 
-    <com.jaredrummler.materialspinner.MaterialSpinner
-        android:id="@+id/spinner_langOn"
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_lang_on"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView8"
-        android:background="?attr/colorPrimaryContainer"
-        android:textColor="?android:attr/textColorPrimary"
-        />
-</RelativeLayout>
+        android:hint="@string/learning_by_lang_dialog_on_text">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/spinner_langOn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>

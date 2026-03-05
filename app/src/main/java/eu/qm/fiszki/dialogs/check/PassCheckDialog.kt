@@ -1,24 +1,16 @@
 package eu.qm.fiszki.dialogs.check
 
 import android.app.Activity
-import com.afollestad.materialdialogs.MaterialDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import eu.qm.fiszki.R
 import java.util.Random
 
-class PassCheckDialog(private val mActivity: Activity) : MaterialDialog.Builder(mActivity) {
-
+class PassCheckDialog(private val mActivity: Activity) : MaterialAlertDialogBuilder(mActivity) {
     init {
-        title(R.string.alert_title_pass)
-        content(randMessage())
-
-        positiveText(R.string.button_action_ok)
-        positiveColor(context.resources.getColor(R.color.ColorPrimaryDark))
-        autoDismiss(false)
-        onPositive(okClick())
-    }
-
-    private fun okClick(): MaterialDialog.SingleButtonCallback {
-        return MaterialDialog.SingleButtonCallback { dialog, _ ->
+        setTitle(R.string.alert_title_pass)
+        setMessage(randMessage())
+        setCancelable(false)
+        setPositiveButton(R.string.button_action_ok) { dialog, _ ->
             dialog.dismiss()
             mActivity.finish()
         }

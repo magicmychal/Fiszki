@@ -1,23 +1,15 @@
 package eu.qm.fiszki.dialogs.check
 
 import android.app.Activity
-import com.afollestad.materialdialogs.MaterialDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import eu.qm.fiszki.R
 
-class EmptyDBCheckDialog(private val mActivity: Activity) : MaterialDialog.Builder(mActivity) {
-
+class EmptyDBCheckDialog(private val mActivity: Activity) : MaterialAlertDialogBuilder(mActivity) {
     init {
-        title(R.string.alert_title_fail)
-        content(R.string.check_dialog_emptyDB)
-
-        positiveText(R.string.button_action_ok)
-        positiveColor(context.resources.getColor(R.color.ColorPrimaryDark))
-        autoDismiss(false)
-        onPositive(okClick())
-    }
-
-    private fun okClick(): MaterialDialog.SingleButtonCallback {
-        return MaterialDialog.SingleButtonCallback { dialog, _ ->
+        setTitle(R.string.alert_title_fail)
+        setMessage(R.string.check_dialog_emptyDB)
+        setCancelable(false)
+        setPositiveButton(R.string.button_action_ok) { dialog, _ ->
             dialog.dismiss()
             mActivity.finish()
         }

@@ -62,6 +62,8 @@
             android:layout_height="wrap_content"
             android:textSize="32sp"
             android:textColor="?android:attr/textColorPrimary"
+            android:inputType="text|textNoSuggestions|textVisiblePassword"
+            android:importantForAutofill="no"
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 </RelativeLayout>

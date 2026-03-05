@@ -8,6 +8,8 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.textfield.TextInputEditText
 import eu.qm.fiszki.NightModeController
@@ -60,7 +62,7 @@ class LearningCheckActivity : AppCompatActivity() {
         mWord = mActivity.findViewById(R.id.learning_check_word_text)
         mCategory = mActivity.findViewById(R.id.learning_check_category_text)
         mTranslate = mActivity.findViewById(R.id.learning_check_edit_text)
-        mTranslate.inputType = InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+        mTranslate.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
         mFlashcardsPool = intent.getSerializableExtra(ChangeActivityManager.FLASHCARDS_KEY_INTENT)
             as ArrayList<Flashcard>
     }
@@ -99,7 +101,9 @@ class LearningCheckActivity : AppCompatActivity() {
         val catColor = findCategoryColor(mDrawnCategory.getColor()) ?: return
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.setBackgroundColor(catColor.primary)
+        @Suppress("DEPRECATION")
         window.statusBarColor = catColor.primary
+        WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = false
     }
 
     private fun setLangText() {

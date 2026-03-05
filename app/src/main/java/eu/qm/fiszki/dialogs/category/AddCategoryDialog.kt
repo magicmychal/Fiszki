@@ -1,15 +1,16 @@
 package eu.qm.fiszki.dialogs.category
 
 import android.app.Activity
-import android.app.Dialog
 import android.graphics.drawable.GradientDrawable
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import com.afollestad.materialdialogs.MaterialDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputEditText
 import eu.qm.fiszki.R
@@ -20,37 +21,37 @@ import eu.qm.fiszki.model.category.Category
 import eu.qm.fiszki.model.category.CategoryRepository
 import eu.qm.fiszki.model.category.ValidationCategory
 
-class AddCategoryDialog(private val mActivity: Activity) : MaterialDialog.Builder(mActivity) {
+class AddCategoryDialog(private val mActivity: Activity) : MaterialAlertDialogBuilder(mActivity) {
 
-    private lateinit var mCategoryRepository: CategoryRepository
-    private lateinit var mCategoryNameET: TextInputEditText
-    private lateinit var mCategoryLangFrom: MaterialAutoCompleteTextView
-    private lateinit var mCategoryLangOn: MaterialAutoCompleteTextView
-    private lateinit var mValidationCategory: ValidationCategory
+    private val customView: View = LayoutInflater.from(mActivity).inflate(R.layout.category_add_dialog, null, false)
+    private val mCategoryNameET: TextInputEditText = customView.findViewById(R.id.add_category_dialog_et_name)
+    private val mCategoryLangFrom: MaterialAutoCompleteTextView = customView.findViewById(R.id.add_category_dialog_lang_from)
+    private val mCategoryLangOn: MaterialAutoCompleteTextView = customView.findViewById(R.id.add_category_dialog_lang_on)
+    private val mCategoryRepository = CategoryRepository(mActivity)
+    private val mValidationCategory = ValidationCategory(mActivity)
     private var mSelectedColor: CategoryColor = defaultCategoryColor()
     private val mColorViews = mutableListOf<View>()
 
     init {
-        title(R.string.category_dialog_title)
-        icon(ContextCompat.getDrawable(context, R.drawable.ic_category_add)!!)
-        customView(R.layout.category_add_dialog, false)
-        positiveText(R.string.category_positive_btn_text)
-        val typedValue = TypedValue()
-        mActivity.theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
-        positiveColor(typedValue.data)
-        onPositive(addCategoryBtn())
-        initViews()
-        autoDismiss(false)
+        setTitle(R.string.category_dialog_title)
+        setIcon(ContextCompat.getDrawable(context, R.drawable.ic_category_add))
+        setView(customView)
+        setCancelable(true)
+        setPositiveButton(R.string.category_positive_btn_text, null)
+
         setAdapterToLang()
         buildColorPicker()
     }
 
-    private fun initViews() {
-        mCategoryNameET = customView.findViewById(R.id.add_category_dialog_et_name) as TextInputEditText
-        mCategoryLangFrom = customView.findViewById(R.id.add_category_dialog_lang_from) as MaterialAutoCompleteTextView
-        mCategoryLangOn = customView.findViewById(R.id.add_category_dialog_lang_on) as MaterialAutoCompleteTextView
-        mCategoryRepository = CategoryRepository(mActivity)
-        mValidationCategory = ValidationCategory(mActivity)
+    override fun show(): AlertDialog {
+        val dialog = super.create()
+        dialog.setOnShowListener {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                addCategory(dialog)
+            }
+        }
+        dialog.show()
+        return dialog
     }
 
     private fun setAdapterToLang() {
@@ -58,12 +59,6 @@ class AddCategoryDialog(private val mActivity: Activity) : MaterialDialog.Builde
         val adapter = ArrayAdapter(context, android.R.layout.simple_selectable_list_item, countries)
         mCategoryLangFrom.setAdapter(adapter)
         mCategoryLangOn.setAdapter(adapter)
-    }
-
-    private fun addCategoryBtn(): MaterialDialog.SingleButtonCallback {
-        return MaterialDialog.SingleButtonCallback { dialog, _ ->
-            addCategory(dialog)
-        }
     }
 
     private fun buildColorPicker() {
@@ -79,16 +74,13 @@ class AddCategoryDialog(private val mActivity: Activity) : MaterialDialog.Builde
             val params = LinearLayout.LayoutParams(sizePx, sizePx)
             params.marginEnd = marginPx
             circleView.layoutParams = params
-
             updateCircleDrawable(circleView, catColor, catColor == mSelectedColor, strokePx)
-
             circleView.setOnClickListener {
                 mSelectedColor = catColor
                 for ((i, v) in mColorViews.withIndex()) {
                     updateCircleDrawable(v, CATEGORY_COLORS[i], CATEGORY_COLORS[i] == mSelectedColor, strokePx)
                 }
             }
-
             mColorViews.add(circleView)
             container.addView(circleView)
         }
@@ -106,7 +98,7 @@ class AddCategoryDialog(private val mActivity: Activity) : MaterialDialog.Builde
         view.background = drawable
     }
 
-    private fun addCategory(dialog: Dialog) {
+    private fun addCategory(dialog: AlertDialog) {
         val category = Category().apply {
             setCategory(mCategoryNameET.text.toString().trim())
             isEntryByUser = true

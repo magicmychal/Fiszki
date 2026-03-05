@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -90,7 +91,9 @@ class FlashcardsActivity : AppCompatActivity() {
         )
         gradient.cornerRadii = floatArrayOf(0f, 0f, 0f, 0f, cornerPx, cornerPx, cornerPx, cornerPx)
         heroHeader.background = gradient
+        @Suppress("DEPRECATION")
         window.statusBarColor = catColor.primary
+        WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = false
 
         findViewById<View>(R.id.btn_back).setOnClickListener {
             onBackPressed()

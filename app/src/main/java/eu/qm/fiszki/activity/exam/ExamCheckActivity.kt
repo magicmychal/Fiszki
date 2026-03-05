@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.WindowCompat
 import com.google.android.material.textfield.TextInputEditText
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
@@ -70,7 +71,7 @@ class ExamCheckActivity : AppCompatActivity() {
         mLang = mActivity.findViewById(R.id.exam_check_lang)
         mWord = mActivity.findViewById(R.id.exam_check_word)
         mTranslate = mActivity.findViewById(R.id.exam_check_edit_text)
-        mTranslate.inputType = InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+        mTranslate.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
     }
 
     private fun buildToolbar() {
@@ -109,7 +110,9 @@ class ExamCheckActivity : AppCompatActivity() {
         val catColor = findCategoryColor(mDrawnCategory.getColor()) ?: return
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.setBackgroundColor(catColor.primary)
+        @Suppress("DEPRECATION")
         window.statusBarColor = catColor.primary
+        WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = false
     }
 
     private fun setRepeatCunter() {

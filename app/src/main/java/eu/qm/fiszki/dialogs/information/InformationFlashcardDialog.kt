@@ -1,15 +1,13 @@
 package eu.qm.fiszki.dialogs.information
 
 import android.content.Context
-import com.afollestad.materialdialogs.MaterialDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import eu.qm.fiszki.R
 
-class InformationFlashcardDialog(context: Context) : MaterialDialog.Builder(context) {
+class InformationFlashcardDialog(context: Context) : MaterialAlertDialogBuilder(context) {
     init {
-        title(R.string.button_action_info)
-        // icon(ContextCompat.getDrawable(context, R.drawable.ic_info_black_24dp))
-        content(R.string.info_flashcard)
-        positiveText(R.string.button_action_ok)
-        positiveColor(context.resources.getColor(R.color.ColorPrimaryDark))
+        setTitle(R.string.button_action_info)
+        setMessage(R.string.info_flashcard)
+        setPositiveButton(R.string.button_action_ok, null)
     }
 }

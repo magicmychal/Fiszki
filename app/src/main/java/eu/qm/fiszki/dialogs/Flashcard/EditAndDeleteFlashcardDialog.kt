@@ -1,11 +1,11 @@
 package eu.qm.fiszki.dialogs.flashcard
 
 import android.app.Activity
-import android.util.TypedValue
+import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import com.afollestad.materialdialogs.MaterialDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import eu.qm.fiszki.R
@@ -16,69 +16,54 @@ import eu.qm.fiszki.model.flashcard.ValidationFlashcards
 class EditAndDeleteFlashcardDialog(
     private val mActivity: Activity,
     private val mFlashcard: Flashcard
-) : MaterialDialog.Builder(mActivity) {
+) : MaterialAlertDialogBuilder(mActivity) {
 
-    private lateinit var mWordET: TextInputEditText
-    private lateinit var mTranslateET: TextInputEditText
-    private lateinit var mFlashcardRepository: FlashcardRepository
-    private lateinit var mValidationFlashcards: ValidationFlashcards
+    private val customView = LayoutInflater.from(mActivity).inflate(R.layout.flashcard_edit_dialog, null)
+    private val mWordET: TextInputEditText = customView.findViewById(R.id.edit_flashcard_et_word)
+    private val mTranslateET: TextInputEditText = customView.findViewById(R.id.edit_flashcard_et_translation)
+    private val mFlashcardRepository = FlashcardRepository(mActivity)
+    private val mValidationFlashcards = ValidationFlashcards(mActivity)
 
     init {
-        title(R.string.flashcard_edit_title)
-        customView(R.layout.flashcard_edit_dialog, false)
-        icon(ContextCompat.getDrawable(context, R.drawable.ic_pencil_black)!!)
-        autoDismiss(false)
-        neutralText(R.string.flashcard_delete_btn)
-        neutralColor(ContextCompat.getColor(context, R.color.md_red_A700))
-        positiveText(R.string.flashcard_edit_done)
-        val typedValue = TypedValue()
-        mActivity.theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
-        positiveColor(typedValue.data)
-
-        onPositive(editFlashcard())
-        onNeutral(deleteFlashcard())
-
-        initViews()
+        setTitle(R.string.flashcard_edit_title)
+        setIcon(ContextCompat.getDrawable(context, R.drawable.ic_pencil_black))
+        setView(customView)
+        setCancelable(true)
+        setNeutralButton(R.string.flashcard_delete_btn, null)
+        setPositiveButton(R.string.flashcard_edit_done, null)
 
         mWordET.setText(mFlashcard.getWord())
         mTranslateET.setText(mFlashcard.getTranslation())
     }
 
-    private fun initViews() {
-        mTranslateET = customView.findViewById(R.id.edit_flashcard_et_translation) as TextInputEditText
-        mWordET = customView.findViewById(R.id.edit_flashcard_et_word) as TextInputEditText
-        mValidationFlashcards = ValidationFlashcards(context)
-        mFlashcardRepository = FlashcardRepository(context)
-    }
+    override fun show(): AlertDialog {
+        val dialog = super.create()
+        dialog.setOnShowListener {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                val flashcard = mFlashcard
+                flashcard.setWord(mWordET.text.toString().trim())
+                flashcard.setTranslation(mTranslateET.text.toString().trim())
 
-    private fun editFlashcard(): MaterialDialog.SingleButtonCallback {
-        return MaterialDialog.SingleButtonCallback { dialog, _ ->
-            val flashcard = mFlashcard
-            flashcard.setWord(mWordET.text.toString().trim())
-            flashcard.setTranslation(mTranslateET.text.toString().trim())
-
-            if (mValidationFlashcards.validateAdd(flashcard)) {
-                mFlashcardRepository.updateFlashcard(flashcard)
-                Toast.makeText(context, R.string.flashcard_edit_toast, Toast.LENGTH_LONG).show()
-                dialog.dismiss()
+                if (mValidationFlashcards.validateAdd(flashcard)) {
+                    mFlashcardRepository.updateFlashcard(flashcard)
+                    Toast.makeText(context, R.string.flashcard_edit_toast, Toast.LENGTH_LONG).show()
+                    dialog.dismiss()
+                }
+            }
+            dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener {
+                AlertDialog.Builder(context)
+                    .setMessage(R.string.flashcard_delete_message)
+                    .setPositiveButton(R.string.button_action_yes) { _, _ ->
+                        mindfulSnackbar()
+                        mFlashcardRepository.deleteFlashcard(mFlashcard)
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton(R.string.button_action_no) { _, _ -> }
+                    .show()
             }
         }
-    }
-
-    private fun deleteFlashcard(): MaterialDialog.SingleButtonCallback {
-        return MaterialDialog.SingleButtonCallback { dialog, _ ->
-            val editDialog = dialog
-
-            AlertDialog.Builder(context)
-                .setMessage(R.string.flashcard_delete_message)
-                .setPositiveButton(R.string.button_action_yes) { _, _ ->
-                    mindfulSnackbar()
-                    mFlashcardRepository.deleteFlashcard(mFlashcard)
-                    editDialog.dismiss()
-                }
-                .setNegativeButton(R.string.button_action_no) { _, _ -> }
-                .show()
-        }
+        dialog.show()
+        return dialog
     }
 
     private fun mindfulSnackbar() {

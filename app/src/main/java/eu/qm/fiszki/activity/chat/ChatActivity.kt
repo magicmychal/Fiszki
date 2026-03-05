@@ -7,6 +7,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
@@ -98,7 +99,9 @@ class ChatActivity : AppCompatActivity() {
             if (catColor != null) {
                 val toolbar = findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.chat_toolbar)
                 toolbar.setBackgroundColor(catColor.primary)
+                @Suppress("DEPRECATION")
                 window.statusBarColor = catColor.primary
+                WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = false
             }
         }
 

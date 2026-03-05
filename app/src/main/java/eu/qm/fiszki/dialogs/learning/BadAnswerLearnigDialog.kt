@@ -2,7 +2,7 @@ package eu.qm.fiszki.dialogs.learning
 
 import android.content.Context
 import android.text.Html
-import com.afollestad.materialdialogs.MaterialDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.learning.LearningCheckActivity
 import eu.qm.fiszki.model.flashcard.Flashcard
@@ -11,37 +11,23 @@ class BadAnswerLearnigDialog(
     context: Context,
     flashcard: Flashcard,
     lca: LearningCheckActivity
-) : MaterialDialog.Builder(context) {
+) : MaterialAlertDialogBuilder(context) {
 
     init {
-        title(R.string.alert_title_fail)
-        content(
+        setTitle(R.string.alert_title_fail)
+        setMessage(
             Html.fromHtml(
                 "${context.resources.getString(R.string.learning_check_dialog_bad_answer_1)} " +
                     "<b>${flashcard.getTranslation()}</b><br>" +
-                    context.resources.getString(R.string.learning_check_dialog_bad_answer_2)
+                    context.resources.getString(R.string.learning_check_dialog_bad_answer_2),
+                Html.FROM_HTML_MODE_LEGACY
             )
         )
-
-        positiveText(R.string.button_action_ok)
-        positiveColor(context.resources.getColor(R.color.ColorPrimaryDark))
-
-        neutralText(R.string.learning_check_dialog_skip_btn)
-        neutralColor(context.resources.getColor(R.color.ColorPrimaryDark))
-
-        autoDismiss(false)
-        onPositive(okClick())
-        onNeutral(skipClick(lca))
-    }
-
-    private fun okClick(): MaterialDialog.SingleButtonCallback {
-        return MaterialDialog.SingleButtonCallback { dialog, _ ->
+        setCancelable(false)
+        setPositiveButton(R.string.button_action_ok) { dialog, _ ->
             dialog.dismiss()
         }
-    }
-
-    private fun skipClick(lca: LearningCheckActivity): MaterialDialog.SingleButtonCallback {
-        return MaterialDialog.SingleButtonCallback { dialog, _ ->
+        setNeutralButton(R.string.learning_check_dialog_skip_btn) { dialog, _ ->
             lca.drawFlashcard()
             dialog.dismiss()
         }

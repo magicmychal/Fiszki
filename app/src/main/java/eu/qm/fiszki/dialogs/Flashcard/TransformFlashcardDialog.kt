@@ -1,8 +1,11 @@
 package eu.qm.fiszki.dialogs.flashcard
 
 import android.app.Activity
-import com.afollestad.materialdialogs.MaterialDialog
-import com.jaredrummler.materialspinner.MaterialSpinner
+import android.view.LayoutInflater
+import android.widget.ArrayAdapter
+import androidx.core.content.ContextCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.myWords.CategoryManagerSingleton
 import eu.qm.fiszki.activity.myWords.flashcards.SelectedFlashcardsSingleton
@@ -10,70 +13,41 @@ import eu.qm.fiszki.model.category.Category
 import eu.qm.fiszki.model.category.CategoryRepository
 import eu.qm.fiszki.model.flashcard.FlashcardRepository
 
-class TransformFlashcardDialog(private val mActivity: Activity) : MaterialDialog.Builder(mActivity) {
+class TransformFlashcardDialog(private val mActivity: Activity) : MaterialAlertDialogBuilder(mActivity) {
 
-    private lateinit var mSpinner: MaterialSpinner
-    private var seletedCategory: Category? = null
-    private lateinit var mCategoryRepository: CategoryRepository
+    private val customView = LayoutInflater.from(mActivity).inflate(R.layout.flashcard_transform_dialog, null)
+    private val mSpinner: MaterialAutoCompleteTextView = customView.findViewById(R.id.transform_spinner)
+    private val mCategoryRepository = CategoryRepository(mActivity)
+    private val mCategories: List<Category>
+    private var mSelectedCategory: Category? = null
 
     init {
-        title(R.string.flashcard_transform_title)
-        icon(mActivity.resources.getDrawable(R.drawable.ic_transform_black))
-        customView(R.layout.flashcard_transform_dialog, false)
-        positiveText(R.string.flashcard_transform_button)
-        positiveColor(mActivity.resources.getColor(R.color.ColorPrimaryDark))
-        onPositive(changeCategory())
-        initRepos()
-        buildSpinner()
-    }
+        mCategories = mCategoryRepository.getUserCategory()
+        val names = mCategories.map { it.getCategory() }
 
-    private fun initRepos() {
-        mCategoryRepository = CategoryRepository(mActivity)
-    }
+        // pre-select the current category
+        val currentIndex = mCategories.indexOfFirst { it.id == CategoryManagerSingleton.currentCategoryId }
+            .coerceAtLeast(0)
+        mSelectedCategory = mCategories.getOrNull(currentIndex)
 
-    private fun buildSpinner() {
-        var cuntPosition = 0
-        var findPosition = false
-        val categories = mCategoryRepository.getUserCategory()
-        val spinnerCategories = ArrayList<String>()
-        for (cat in categories) {
-            if (!findPosition) {
-                if (cat.id == CategoryManagerSingleton.currentCategoryId) {
-                    findPosition = true
-                } else {
-                    cuntPosition++
-                }
-            }
-            spinnerCategories.add(cat.getCategory())
+        mSpinner.setAdapter(ArrayAdapter(mActivity, android.R.layout.simple_dropdown_item_1line, names))
+        mSpinner.setText(names.getOrElse(currentIndex) { "" }, false)
+        mSpinner.setOnItemClickListener { _, _, position, _ ->
+            mSelectedCategory = mCategories.getOrNull(position)
         }
 
-        // zabezpieczenie przed FC; Kiedy przenosimy z braku kategori
-        if (!findPosition) {
-            cuntPosition = 0
-        }
-
-        mSpinner = customView.findViewById(R.id.transform_spinner) as MaterialSpinner
-        mSpinner.setItems(spinnerCategories)
-        mSpinner.selectedIndex = cuntPosition
-        mSpinner.setOnItemSelectedListener { _, position, _, _ ->
-            seletedCategory = categories[position]
-        }
-    }
-
-    private fun changeCategory(): MaterialDialog.SingleButtonCallback {
-        return MaterialDialog.SingleButtonCallback { _, _ ->
+        setTitle(R.string.flashcard_transform_title)
+        setIcon(ContextCompat.getDrawable(mActivity, R.drawable.ic_transform_black))
+        setView(customView)
+        setCancelable(true)
+        setPositiveButton(R.string.flashcard_transform_button) { _, _ ->
+            val target = mSelectedCategory ?: mCategories.firstOrNull() ?: return@setPositiveButton
             val flashcardRepository = FlashcardRepository(mActivity)
-            val flashcards = SelectedFlashcardsSingleton.getFlashcards()
-
-            // zabezpieczenie przec FC; Gdy jest jedna kategoria i nie trzeba wybierac;
-            if (seletedCategory == null) {
-                seletedCategory = mCategoryRepository.getUserCategory()[0]
-            }
-
-            for (card in flashcards) {
-                card.categoryID = seletedCategory!!.id
+            for (card in SelectedFlashcardsSingleton.getFlashcards()) {
+                card.categoryID = target.id
                 flashcardRepository.updateFlashcard(card)
             }
         }
+        setNegativeButton(android.R.string.cancel, null)
     }
 }
