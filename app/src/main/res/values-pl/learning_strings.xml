@@ -38,4 +38,12 @@
 
     <string name="learning_no_flashcards">Brak fiszek. Dodaj najpierw!</string>
 
+    <string name="learning_check_btn_finish">Zakończ</string>
+    <string name="learning_check_btn_skip">Pomiń</string>
+    <string name="learning_check_btn_check">Sprawdź</string>
+    <string name="learning_check_status_title">Status</string>
+    <string name="learning_check_status_correct">Poprawne: %d</string>
+    <string name="learning_check_status_total">Łącznie: %d</string>
+    <string name="learning_check_correct_popup">Dobrze!</string>
+
 </resources>

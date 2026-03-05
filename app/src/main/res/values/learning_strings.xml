@@ -38,4 +38,12 @@
 
     <string name="learning_no_flashcards">No flashcards available. Add some first!</string>
 
+    <string name="learning_check_btn_finish">Finish</string>
+    <string name="learning_check_btn_skip">Skip</string>
+    <string name="learning_check_btn_check">Check</string>
+    <string name="learning_check_status_title">Status</string>
+    <string name="learning_check_status_correct">Correct: %d</string>
+    <string name="learning_check_status_total">Total: %d</string>
+    <string name="learning_check_correct_popup">Correct!</string>
+
 </resources>
