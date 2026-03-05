@@ -40,10 +40,10 @@ val RobotoSerifFamily = FontFamily(
     )
 )
 
-/** Bold block-style display font (Bungee) — replaces Porter Sans Block which is not on Google Fonts */
-val PorterSansBlockFamily = FontFamily(
+/** Asset — unique display font for "Time" title, fetched from Google Fonts */
+val AssetFamily = FontFamily(
     Font(
-        googleFont = GoogleFont("Bungee"),
+        googleFont = GoogleFont("Asset"),
         fontProvider = provider,
         weight = FontWeight.Normal
     )
@@ -85,4 +85,3 @@ fun buildTitleSpanStyle(index: Int): SpanStyle {
         letterSpacing = style.letterSpacing
     )
 }
-

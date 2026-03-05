@@ -45,6 +45,8 @@ class LearningCheckActivity : AppCompatActivity() {
 
     private var mCorrectCount = 0
     private var mTotalCount = 0
+    private var mStrictMode = true
+    private var mReversed = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +84,8 @@ class LearningCheckActivity : AppCompatActivity() {
         @Suppress("DEPRECATION")
         mFlashcardsPool = intent.getSerializableExtra(ChangeActivityManager.FLASHCARDS_KEY_INTENT)
                 as ArrayList<Flashcard>
+        mStrictMode = intent.getBooleanExtra(ChangeActivityManager.STRICT_MODE_KEY_INTENT, true)
+        mReversed = intent.getBooleanExtra(ChangeActivityManager.REVERSED_KEY_INTENT, false)
         updateStatusCard()
     }
 
@@ -120,11 +124,13 @@ class LearningCheckActivity : AppCompatActivity() {
     }
 
     private fun setLangText() {
-        mLang.text = if (mDrawnCategory.getLangFrom().isNullOrEmpty() || mDrawnCategory.getLangOn().isNullOrEmpty()) {
+        val langFrom = if (mReversed) mDrawnCategory.getLangOn() else mDrawnCategory.getLangFrom()
+        val langOn = if (mReversed) mDrawnCategory.getLangFrom() else mDrawnCategory.getLangOn()
+        mLang.text = if (langFrom.isNullOrEmpty() || langOn.isNullOrEmpty()) {
             getString(R.string.learning_check_lang_translate)
         } else {
-            "${getString(R.string.learning_check_lang_translate_1)} ${mDrawnCategory.getLangFrom()} " +
-                    "${getString(R.string.learning_check_lang_translate_2)} ${mDrawnCategory.getLangOn()}"
+            "${getString(R.string.learning_check_lang_translate_1)} $langFrom " +
+                    "${getString(R.string.learning_check_lang_translate_2)} $langOn"
         }
     }
 
@@ -133,7 +139,7 @@ class LearningCheckActivity : AppCompatActivity() {
     }
 
     private fun setWordText() {
-        mWord.text = mDrawnFlashcard.getWord()
+        mWord.text = if (mReversed) mDrawnFlashcard.getTranslation() else mDrawnFlashcard.getWord()
     }
 
     private fun updateStatusCard() {
@@ -143,7 +149,9 @@ class LearningCheckActivity : AppCompatActivity() {
 
     private fun check() {
         val answer = mTranslate.text.toString().trim()
-        if (answer.equals(mDrawnFlashcard.getTranslation(), ignoreCase = true)) {
+        val expectedAnswer = if (mReversed) mDrawnFlashcard.getWord() else mDrawnFlashcard.getTranslation()
+        val checker = eu.qm.fiszki.Checker()
+        if (checker.check(expectedAnswer, answer, mStrictMode)) {
             HapticFeedback.vibrateCorrect(mActivity)
             mFlashcardRepository.upFlashcardPassStatistic(mDrawnFlashcard)
             mFlashcardRepository.upFlashcardPriority(mDrawnFlashcard)
@@ -157,7 +165,7 @@ class LearningCheckActivity : AppCompatActivity() {
             mFlashcardRepository.downFlashcardPriority(mDrawnFlashcard)
             mTotalCount++
             updateStatusCard()
-            BadAnswerLearnigDialog(mActivity, mDrawnFlashcard, this).show()
+            BadAnswerLearnigDialog(mActivity, mDrawnFlashcard, this, expectedAnswer).show()
         }
     }
 

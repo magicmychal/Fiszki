@@ -15,11 +15,19 @@ class ChangeActivityManager(private val activity: Activity) {
         const val FLASHCARDS_KEY_INTENT = "FLASHCARDS"
         const val EXAM_REPEAT_KEY_INTENT = "REPEAT"
         const val EXAM_BAD_ANSWER_KEY_INTENT = "RESULTS"
+        const val STRICT_MODE_KEY_INTENT = "STRICT_MODE"
+        const val REVERSED_KEY_INTENT = "REVERSED"
     }
 
-    fun goToLearningCheck(flashcards: ArrayList<Flashcard>) {
+    fun goToLearningCheck(
+        flashcards: ArrayList<Flashcard>,
+        strictMode: Boolean = true,
+        reversed: Boolean = false
+    ) {
         val goLearning = Intent(activity, LearningCheckActivity::class.java).apply {
             putExtra(FLASHCARDS_KEY_INTENT, flashcards)
+            putExtra(STRICT_MODE_KEY_INTENT, strictMode)
+            putExtra(REVERSED_KEY_INTENT, reversed)
         }
         activity.startActivity(goLearning)
         activity.finish()

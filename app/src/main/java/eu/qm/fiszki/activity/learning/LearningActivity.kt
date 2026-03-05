@@ -2,23 +2,24 @@ package eu.qm.fiszki.activity.learning
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.ChangeActivityManager
+import eu.qm.fiszki.activity.FiszkiTheme
 import eu.qm.fiszki.activity.SettingsActivity
 import eu.qm.fiszki.activity.exam.ExamActivity
 import eu.qm.fiszki.activity.myWords.category.CategoryActivity
-import eu.qm.fiszki.dialogs.learning.ByCategoryLearningDialog
-import eu.qm.fiszki.dialogs.learning.ByLanguageLearningDialog
+import eu.qm.fiszki.model.category.CategoryRepository
 import eu.qm.fiszki.model.flashcard.FlashcardRepository
 
 class LearningActivity : AppCompatActivity() {
 
     private lateinit var mFlashcardRepository: FlashcardRepository
+    private lateinit var mCategoryRepository: CategoryRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +27,7 @@ class LearningActivity : AppCompatActivity() {
         setContentView(R.layout.activity_learning)
 
         mFlashcardRepository = FlashcardRepository(this)
+        mCategoryRepository = CategoryRepository(this)
         buildComposeContent()
         buildBottomNav()
     }
@@ -39,46 +41,47 @@ class LearningActivity : AppCompatActivity() {
     private fun buildComposeContent() {
         val composeView = findViewById<ComposeView>(R.id.compose_view)
 
-        val shapes = listOf(
-            ShapeItem(
-                label = getString(R.string.learning_try_all),
-                color = Color(0xFF6750A4), // colorPrimaryNew
-                shapeType = ShapeType.BLOB,
-                onClick = {
-                    ChangeActivityManager(this).goToLearningCheck(mFlashcardRepository.getAllFlashcards())
-                }
-            ),
-            ShapeItem(
-                label = getString(R.string.learning_by_language),
-                color = Color(0xFF625B71), // colorSecondaryNew
-                shapeType = ShapeType.ARROW,
-                onClick = {
-                    ByLanguageLearningDialog(this).show()
-                }
-            ),
-            ShapeItem(
-                label = getString(R.string.learning_by_category),
-                color = Color(0xFF7D5260), // tertiary
-                shapeType = ShapeType.FLOWER,
-                onClick = {
-                    ByCategoryLearningDialog(this).show()
-                }
-            ),
-            ShapeItem(
-                label = getString(R.string.learning_chat),
-                color = Color(0xFFD0BCFF), // primaryContainer
-                shapeType = ShapeType.HEART,
-                onClick = {
-                    ChangeActivityManager(this).goToChatMode(mFlashcardRepository.getAllFlashcards())
-                }
+        val allCategories = mCategoryRepository.getAllCategory()
+        val categoryItems = buildList {
+            add(
+                PracticeCategoryItem(
+                    id = null,
+                    displayName = getString(R.string.learning_category_all),
+                    langFrom = null,
+                    langOn = null
+                )
             )
-        )
+            allCategories.forEach { cat ->
+                add(
+                    PracticeCategoryItem(
+                        id = cat.id,
+                        displayName = cat.getCategory(),
+                        langFrom = cat.getLangFrom(),
+                        langOn = cat.getLangOn()
+                    )
+                )
+            }
+        }
 
         composeView.setContent {
-            LearningScreen(
-                title = getString(R.string.learning_title),
-                shapes = shapes
-            )
+            FiszkiTheme {
+                PracticeSetupScreen(
+                    title = getString(R.string.learning_title),
+                    categories = categoryItems,
+                    onStartPractice = { strictMode, categoryId, reversed ->
+                        val flashcards = if (categoryId == null) {
+                            mFlashcardRepository.getAllFlashcards()
+                        } else {
+                            mFlashcardRepository.getFlashcardsByCategoryID(categoryId)
+                        }
+                        if (flashcards.isEmpty()) {
+                            Toast.makeText(this, R.string.learning_no_flashcards, Toast.LENGTH_LONG).show()
+                        } else {
+                            ChangeActivityManager(this).goToLearningCheck(flashcards, strictMode, reversed)
+                        }
+                    }
+                )
+            }
         }
     }
 

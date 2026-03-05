@@ -46,4 +46,14 @@
     <string name="learning_check_status_total">Total: %d</string>
     <string name="learning_check_correct_popup">Correct!</string>
 
+    <string name="learning_strict_mode">Strict mode</string>
+    <string name="learning_strict_mode_desc">Require full precision when typing answers.\ne.g. \'der Vorname\' won\'t be accepted if entered \'der vorname\'. Capitalisation, punctuation matters.</string>
+    <string name="learning_category_label">Category</string>
+    <string name="learning_category_all">All categories</string>
+    <string name="learning_language_pair_label">Language pair</string>
+    <string name="learning_language_pair_desc">Select which language you want to see and which one you want to test yourself against.</string>
+    <string name="learning_start_practice">Start practice</string>
+    <string name="learning_no_categories">No categories available</string>
+    <string name="learning_direction_format">%1$s → %2$s</string>
+
 </resources>

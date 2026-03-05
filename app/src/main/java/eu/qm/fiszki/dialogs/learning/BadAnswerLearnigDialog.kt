@@ -10,7 +10,8 @@ import eu.qm.fiszki.model.flashcard.Flashcard
 class BadAnswerLearnigDialog(
     context: Context,
     flashcard: Flashcard,
-    lca: LearningCheckActivity
+    lca: LearningCheckActivity,
+    correctAnswer: String = flashcard.getTranslation()
 ) : MaterialAlertDialogBuilder(context) {
 
     init {
@@ -18,7 +19,7 @@ class BadAnswerLearnigDialog(
         setMessage(
             Html.fromHtml(
                 "${context.resources.getString(R.string.learning_check_dialog_bad_answer_1)} " +
-                    "<b>${flashcard.getTranslation()}</b><br>" +
+                    "<b>${correctAnswer}</b><br>" +
                     context.resources.getString(R.string.learning_check_dialog_bad_answer_2),
                 Html.FROM_HTML_MODE_LEGACY
             )

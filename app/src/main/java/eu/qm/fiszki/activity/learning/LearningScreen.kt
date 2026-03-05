@@ -1,106 +1,98 @@
 package eu.qm.fiszki.activity.learning
 
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.MenuAnchorType
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Text
-import androidx.compose.material3.TooltipBox
-import androidx.compose.material3.TooltipDefaults
-import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.launch
-import kotlin.math.cos
-import kotlin.math.min
-import kotlin.math.sin
+import androidx.compose.ui.res.stringResource
+import eu.qm.fiszki.R
 
-data class ShapeItem(
-    val label: String,
-    val color: Color,
-    val shapeType: ShapeType,
-    val onClick: () -> Unit,
-    val tooltip: String? = null
+data class PracticeCategoryItem(
+    val id: Int?,
+    val displayName: String,
+    val langFrom: String?,
+    val langOn: String?
 )
 
-enum class ShapeType { BLOB, ARROW, FLOWER, HEART }
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LearningScreen(
+fun PracticeSetupScreen(
     title: String,
-    shapes: List<ShapeItem>,
+    categories: List<PracticeCategoryItem>,
+    onStartPractice: (strictMode: Boolean, categoryId: Int?, reversed: Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var strictMode by remember { mutableStateOf(true) }
+    var selectedCategoryIndex by remember { mutableIntStateOf(0) }
+    var categoryExpanded by remember { mutableStateOf(false) }
+    var langExpanded by remember { mutableStateOf(false) }
+    var reversed by remember { mutableStateOf(false) }
+
+    val selectedCategory = categories.getOrNull(selectedCategoryIndex)
+    val isAllSelected = selectedCategory?.id == null
+
     val scrollState = rememberScrollState()
     val lines = title.split("\n")
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
+        modifier = modifier.fillMaxSize().verticalScroll(scrollState)
     ) {
+        // Title section
         Column(
-            modifier = Modifier.padding(start = 24.dp, top = 48.dp, end = 24.dp, bottom = 24.dp)
+            modifier = Modifier.padding(start = 24.dp, top = 48.dp, end = 24.dp, bottom = 8.dp)
         ) {
             var wordIndex = 0
             lines.forEachIndexed { lineIndex, line ->
                 val words = line.split(" ").filter { it.isNotEmpty() }
                 if (lineIndex == 0 && words.size == 1) {
-                    // First line, single word (e.g. "Time" / "Czas") — Porter Sans Block with wide spacing
                     Text(
                         text = words[0].uppercase(),
                         fontSize = 57.sp,
                         color = MaterialTheme.colorScheme.onSurface,
                         lineHeight = 64.sp,
-                        fontFamily = PorterSansBlockFamily,
+                        fontFamily = AssetFamily,
                         fontWeight = FontWeight.Normal,
-                        letterSpacing = 20.sp
+                        letterSpacing = 28.sp,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
                     )
                     wordIndex += 1
                 } else {
-                    // Other lines: use cycling font styles per word
                     Text(
                         text = buildAnnotatedString {
                             words.forEachIndexed { i, word ->
-                                withStyle(buildTitleSpanStyle(wordIndex)) {
-                                    append(word)
-                                }
+                                withStyle(buildTitleSpanStyle(wordIndex)) { append(word) }
                                 wordIndex++
-                                if (i < words.size - 1) {
-                                    append(" ")
-                                }
+                                if (i < words.size - 1) append(" ")
                             }
                         },
                         fontSize = 57.sp,
@@ -110,176 +102,121 @@ fun LearningScreen(
                 }
             }
         }
-        shapes.forEach { shape ->
-            ShapeButton(
-                item = shape,
-                modifier = Modifier.fillMaxWidth().height(380.dp).padding(horizontal = 16.dp, vertical = 8.dp)
-            )
-        }
-        Spacer(modifier = Modifier.height(24.dp))
-    }
-}
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
-@Composable
-private fun ShapeButton(item: ShapeItem, modifier: Modifier = Modifier) {
-    val transition = rememberInfiniteTransition(label = "morph")
-    val morphProgress by transition.animateFloat(
-        initialValue = 0f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 4000, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "morph"
-    )
-
-    val tooltipState = rememberTooltipState()
-    val scope = rememberCoroutineScope()
-
-    val content: @Composable () -> Unit = {
-        Box(
-            modifier = modifier.combinedClickable(
-                onClick = { item.onClick() },
-                onLongClick = if (item.tooltip != null) {
-                    { scope.launch { tooltipState.show() } }
-                } else null
-            ),
-            contentAlignment = Alignment.Center
+        // Settings section
+        Column(
+            modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp)
         ) {
-            Canvas(modifier = Modifier.fillMaxSize()) {
-                val s = Size(size.width * 0.85f, size.height * 0.85f)
-                val o = Offset((size.width - s.width) / 2, (size.height - s.height) / 2)
-                when (item.shapeType) {
-                    ShapeType.BLOB -> drawMorphBlob(item.color, s, o, morphProgress)
-                    ShapeType.ARROW -> drawMorphArrow(item.color, s, o, morphProgress)
-                    ShapeType.FLOWER -> drawMorphFlower(item.color, s, o, morphProgress)
-                    ShapeType.HEART -> drawMorphHeart(item.color, s, o, morphProgress)
+            // Strict mode — checkbox on the left
+            Row(
+                verticalAlignment = Alignment.Top,
+                modifier = Modifier.padding(bottom = 24.dp)
+            ) {
+                Checkbox(
+                    checked = strictMode,
+                    onCheckedChange = { strictMode = it }
+                )
+                Column(modifier = Modifier.padding(start = 8.dp, top = 4.dp)) {
+                    Text(
+                        text = stringResource(R.string.learning_strict_mode),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        text = stringResource(R.string.learning_strict_mode_desc),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(top = 2.dp)
+                    )
                 }
             }
+
+            // Category dropdown
             Text(
-                text = item.label,
-                color = Color.White,
-                fontSize = 48.sp,
-                lineHeight = 56.sp,
-                fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.widthIn(max = 200.dp)
+                text = stringResource(R.string.learning_category_label),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(bottom = 8.dp)
             )
-        }
-    }
-
-    if (item.tooltip != null) {
-        TooltipBox(
-            positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
-            tooltip = {
-                PlainTooltip {
-                    Text(item.tooltip)
+            ExposedDropdownMenuBox(
+                expanded = categoryExpanded,
+                onExpandedChange = { categoryExpanded = it },
+                modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp)
+            ) {
+                OutlinedTextField(
+                    value = selectedCategory?.displayName ?: "",
+                    onValueChange = {},
+                    readOnly = true,
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = categoryExpanded) },
+                    modifier = Modifier.fillMaxWidth().menuAnchor(MenuAnchorType.PrimaryNotEditable)
+                )
+                ExposedDropdownMenu(expanded = categoryExpanded, onDismissRequest = { categoryExpanded = false }) {
+                    categories.forEachIndexed { index, cat ->
+                        DropdownMenuItem(
+                            text = { Text(cat.displayName) },
+                            onClick = {
+                                selectedCategoryIndex = index
+                                categoryExpanded = false
+                                reversed = false
+                            }
+                        )
+                    }
                 }
-            },
-            state = tooltipState
-        ) {
-            content()
+            }
+
+            // Language pair (only shown when a specific category is selected)
+            val langFrom = selectedCategory?.langFrom
+            val langOn = selectedCategory?.langOn
+            if (!isAllSelected && !langFrom.isNullOrEmpty() && !langOn.isNullOrEmpty()) {
+                val normalDir = stringResource(R.string.learning_direction_format, langFrom, langOn)
+                val reversedDir = stringResource(R.string.learning_direction_format, langOn, langFrom)
+                val currentDir = if (reversed) reversedDir else normalDir
+
+                Text(
+                    text = stringResource(R.string.learning_language_pair_label),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    text = stringResource(R.string.learning_language_pair_desc),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = 2.dp, bottom = 8.dp)
+                )
+                Row(modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp)) {
+                    ExposedDropdownMenuBox(
+                        expanded = langExpanded,
+                        onExpandedChange = { langExpanded = it },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        OutlinedTextField(
+                            value = currentDir,
+                            onValueChange = {},
+                            readOnly = true,
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = langExpanded) },
+                            modifier = Modifier.fillMaxWidth().menuAnchor(MenuAnchorType.PrimaryNotEditable)
+                        )
+                        ExposedDropdownMenu(expanded = langExpanded, onDismissRequest = { langExpanded = false }) {
+                            DropdownMenuItem(text = { Text(normalDir) }, onClick = { reversed = false; langExpanded = false })
+                            DropdownMenuItem(text = { Text(reversedDir) }, onClick = { reversed = true; langExpanded = false })
+                        }
+                    }
+                }
+            }
+
+            // Start practice button
+            Button(
+                onClick = { onStartPractice(strictMode, selectedCategory?.id, reversed) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    stringResource(R.string.learning_start_practice),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
+            }
         }
-    } else {
-        content()
-    }
-}
 
-private fun lerp(a: Float, b: Float, t: Float) = a + (b - a) * t
-
-// Blob morphs to Pill (rounded rectangle)
-private fun DrawScope.drawMorphBlob(color: Color, s: Size, o: Offset, t: Float) {
-    val cx = o.x + s.width / 2; val cy = o.y + s.height / 2
-    val rx = s.width / 2; val ry = s.height / 2
-    // Blob control points morph toward pill (wider, flatter, more rectangular)
-    val topFlatness = lerp(0.5f, 0.85f, t)
-    val sideFlatness = lerp(0.55f, 0.15f, t)
-    val cornerSpread = lerp(0.9f, 0.98f, t)
-    val path = Path().apply {
-        moveTo(cx + rx * cornerSpread, cy)
-        cubicTo(cx + rx, cy - ry * sideFlatness, cx + rx * topFlatness, cy - ry, cx, cy - ry * lerp(0.85f, 0.95f, t))
-        cubicTo(cx - rx * topFlatness, cy - ry, cx - rx, cy - ry * sideFlatness, cx - rx * cornerSpread, cy)
-        cubicTo(cx - rx, cy + ry * sideFlatness, cx - rx * topFlatness, cy + ry, cx, cy + ry * lerp(0.9f, 0.95f, t))
-        cubicTo(cx + rx * topFlatness, cy + ry, cx + rx, cy + ry * sideFlatness, cx + rx * cornerSpread, cy)
-        close()
+        Spacer(modifier = Modifier.height(24.dp))
     }
-    drawPath(path, color)
-}
-
-// Arrow morphs to Diamond
-private fun DrawScope.drawMorphArrow(color: Color, s: Size, o: Offset, t: Float) {
-    val cx = o.x + s.width / 2; val cy = o.y + s.height / 2
-    val hw = s.width / 2; val hh = s.height / 2
-    // Arrow: pointy right, flat left -> Diamond: pointy all 4 sides
-    val rightX = o.x + lerp(s.width * 0.95f, s.width, t)
-    val leftX = o.x + lerp(s.width * 0.15f, 0f, t)
-    val bulge = lerp(0.25f, 0f, t) // arrow has a bulge on sides
-    val path = Path().apply {
-        moveTo(cx, o.y) // top
-        cubicTo(cx + hw * lerp(0.3f, 0.1f, t), o.y + hh * bulge, rightX - hw * bulge, cy - hh * lerp(0.3f, 0.1f, t), rightX, cy)
-        cubicTo(rightX - hw * bulge, cy + hh * lerp(0.3f, 0.1f, t), cx + hw * lerp(0.3f, 0.1f, t), o.y + s.height - hh * bulge, cx, o.y + s.height)
-        cubicTo(cx - hw * lerp(0.3f, 0.1f, t), o.y + s.height - hh * bulge, leftX + hw * bulge, cy + hh * lerp(0.3f, 0.1f, t), leftX, cy)
-        cubicTo(leftX + hw * bulge, cy - hh * lerp(0.3f, 0.1f, t), cx - hw * lerp(0.3f, 0.1f, t), o.y + hh * bulge, cx, o.y)
-        close()
-    }
-    drawPath(path, color)
-}
-
-// Flower (6-sided cookie) morphs to 4-leaf clover
-private fun DrawScope.drawMorphFlower(color: Color, s: Size, o: Offset, t: Float) {
-    val cx = o.x + s.width / 2; val cy = o.y + s.height / 2
-    val r = min(s.width, s.height) / 2
-    val sidesA = 6; val sidesB = 4
-    val sides = if (t < 0.5f) sidesA else sidesB
-    val outerR = r * 0.95f
-    val innerR = r * lerp(0.78f, 0.6f, t) // cookie indent gets deeper toward clover
-    val points = sides * 2
-    val path = Path().apply {
-        for (i in 0 until points) {
-            val isOuter = i % 2 == 0
-            val rad = if (isOuter) outerR else innerR
-            val angle = Math.toRadians((i * 360.0 / points) - 90.0)
-            val x = cx + (rad * cos(angle)).toFloat()
-            val y = cy + (rad * sin(angle)).toFloat()
-            if (i == 0) moveTo(x, y) else lineTo(x, y)
-        }
-        close()
-    }
-    drawPath(path, color)
-}
-
-// Heart morphs to Arch
-private fun DrawScope.drawMorphHeart(color: Color, s: Size, o: Offset, t: Float) {
-    val w = s.width; val h = s.height; val cx = o.x + w / 2
-    val topDip = lerp(0.30f, 0.0f, t) // heart dip flattens to arch top
-    val bottomPoint = lerp(0.9f, 1.0f, t) // bottom point flattens
-    val bWidth = lerp(0.0f, 0.0f, t)
-    val path = Path().apply {
-        moveTo(cx, o.y + h * bottomPoint)
-        // Left side
-        cubicTo(
-            o.x + w * bWidth, o.y + h * lerp(0.65f, 0.7f, t),
-            o.x + w * bWidth, o.y + h * lerp(0.25f, 0.0f, t),
-            cx - w * lerp(0.12f, 0.0f, t), o.y + h * lerp(0.25f, 0.0f, t)
-        )
-        cubicTo(
-            o.x + w * lerp(0.15f, 0.1f, t), o.y + h * lerp(0.08f, 0.0f, t),
-            cx - w * lerp(0.05f, 0.01f, t), o.y + h * lerp(0.12f, 0.0f, t),
-            cx, o.y + h * topDip
-        )
-        // Right side
-        cubicTo(
-            cx + w * lerp(0.05f, 0.01f, t), o.y + h * lerp(0.12f, 0.0f, t),
-            o.x + w * lerp(0.85f, 0.9f, t), o.y + h * lerp(0.08f, 0.0f, t),
-            cx + w * lerp(0.12f, 0.0f, t), o.y + h * lerp(0.25f, 0.0f, t)
-        )
-        cubicTo(
-            o.x + w * (1f - bWidth), o.y + h * lerp(0.25f, 0.0f, t),
-            o.x + w * (1f - bWidth), o.y + h * lerp(0.65f, 0.7f, t),
-            cx, o.y + h * bottomPoint
-        )
-        close()
-    }
-    drawPath(path, color)
 }

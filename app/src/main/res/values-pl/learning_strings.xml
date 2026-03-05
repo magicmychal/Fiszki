@@ -46,4 +46,14 @@
     <string name="learning_check_status_total">Łącznie: %d</string>
     <string name="learning_check_correct_popup">Dobrze!</string>
 
+    <string name="learning_strict_mode">Tryb ścisły</string>
+    <string name="learning_strict_mode_desc">Wymagana pełna precyzja przy wpisywaniu odpowiedzi.\nnp. \'der Vorname\' nie zostanie zaakceptowany jako \'der vorname\'. Litery wielkie i interpunkcja mają znaczenie.</string>
+    <string name="learning_category_label">Kategoria</string>
+    <string name="learning_category_all">Wszystkie kategorie</string>
+    <string name="learning_language_pair_label">Para językowa</string>
+    <string name="learning_language_pair_desc">Wybierz, który język chcesz widzieć i który chcesz sprawdzać.</string>
+    <string name="learning_start_practice">Rozpocznij ćwiczenia</string>
+    <string name="learning_no_categories">Brak dostępnych kategorii</string>
+    <string name="learning_direction_format">%1$s → %2$s</string>
+
 </resources>
