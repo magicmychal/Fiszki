@@ -27,6 +27,7 @@ import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -46,6 +47,7 @@ import kotlinx.coroutines.launch
 import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
+import androidx.compose.ui.platform.LocalContext
 
 data class ShapeItem(
     val label: String,
@@ -65,6 +67,11 @@ fun LearningScreen(
 ) {
     val scrollState = rememberScrollState()
     val lines = title.split("\n")
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        logGoogleFontProviderStatus(context, "Porter Sans Block")
+    }
 
     Column(
         modifier = modifier

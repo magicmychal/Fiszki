@@ -1,5 +1,8 @@
 package eu.qm.fiszki.activity.learning
 
+import android.content.Context
+import android.content.pm.PackageManager
+import android.util.Log
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -42,7 +45,7 @@ val RobotoSerifFamily = FontFamily(
 
 val PorterSansBlockFamily = FontFamily(
     Font(
-        googleFont = GoogleFont("Portal Sans Block"),
+        googleFont = GoogleFont("Porter Sans Block"),
         fontProvider = provider,
         weight = FontWeight.Normal
     )
@@ -82,5 +85,25 @@ fun buildTitleSpanStyle(index: Int): SpanStyle {
         fontWeight = style.fontWeight,
         fontStyle = style.fontStyle,
         letterSpacing = style.letterSpacing
+    )
+}
+
+private const val FONT_LOG_TAG = "GoogleFonts"
+
+fun logGoogleFontProviderStatus(context: Context, fontName: String) {
+    val pm = context.packageManager
+    val hasGms = try {
+        pm.getPackageInfo("com.google.android.gms", 0)
+        true
+    } catch (_: PackageManager.NameNotFoundException) {
+        false
+    }
+
+    val providers = pm.queryContentProviders("com.google.android.gms", 0, 0)
+    val hasFontProvider = providers.any { it.authority == "com.google.android.gms.fonts" }
+
+    Log.i(
+        FONT_LOG_TAG,
+        "Font request: '$fontName'. GMS installed=$hasGms, providerAvailable=$hasFontProvider"
     )
 }
