@@ -1,17 +1,22 @@
 package eu.qm.fiszki.activity.myWords.flashcards
 
 import android.app.Activity
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.RectF
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.color.MaterialColors
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.ChangeActivityManager
@@ -20,10 +25,8 @@ import eu.qm.fiszki.activity.findCategoryColor
 import eu.qm.fiszki.activity.myWords.CategoryManagerSingleton
 import eu.qm.fiszki.dialogs.category.EditCategoryBottomSheet
 import eu.qm.fiszki.dialogs.flashcard.AddFlashcardDialog
-import eu.qm.fiszki.dialogs.flashcard.TransformFlashcardDialog
 import eu.qm.fiszki.model.category.Category
 import eu.qm.fiszki.model.category.CategoryRepository
-import eu.qm.fiszki.model.flashcard.Flashcard
 import eu.qm.fiszki.model.flashcard.FlashcardRepository
 
 class FlashcardsActivity : AppCompatActivity() {
@@ -84,12 +87,10 @@ class FlashcardsActivity : AppCompatActivity() {
         // Apply category color to hero gradient + status bar
         val catColor = findCategoryColor(mCurrentCategory.getColor()) ?: defaultCategoryColor()
         val heroHeader = findViewById<View>(R.id.hero_header)
-        val cornerPx = (28 * resources.displayMetrics.density)
         val gradient = GradientDrawable(
             GradientDrawable.Orientation.TOP_BOTTOM,
             intArrayOf(catColor.primary, catColor.container)
         )
-        gradient.cornerRadii = floatArrayOf(0f, 0f, 0f, 0f, cornerPx, cornerPx, cornerPx, cornerPx)
         heroHeader.background = gradient
         @Suppress("DEPRECATION")
         window.statusBarColor = catColor.primary
@@ -123,10 +124,10 @@ class FlashcardsActivity : AppCompatActivity() {
     private fun buildListView() {
         mRecycleView = findViewById(R.id.listview_flashcard)
         mRecycleView.layoutManager = LinearLayoutManager(this)
-        attachSwipeToMove()
+        attachSwipeToDelete()
     }
 
-    private fun attachSwipeToMove() {
+    private fun attachSwipeToDelete() {
         val swipeHandler = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -139,11 +140,47 @@ class FlashcardsActivity : AppCompatActivity() {
                 val flashcards = mFlashcardRepository.getFlashcardsByCategoryID(mCurrentCategory.id)
                 if (position in flashcards.indices) {
                     val flashcard = flashcards[position]
-                    SelectedFlashcardsSingleton.clearFlashcards()
-                    SelectedFlashcardsSingleton.addFlashcards(flashcard)
-                    TransformFlashcardDialog(mActivity).show()
+                    mFlashcardRepository.deleteFlashcard(flashcard)
                 }
-                mRecycleView.adapter?.notifyItemChanged(viewHolder.bindingAdapterPosition)
+                updateListView()
+            }
+
+            override fun onChildDraw(
+                c: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
+                if (dX < 0) {
+                    val itemView = viewHolder.itemView
+                    val backgroundColor = MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorError)
+                    val iconColor = MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorOnError)
+                    val paint = Paint().apply { color = backgroundColor }
+
+                    val background = RectF(
+                        itemView.right + dX,
+                        itemView.top.toFloat(),
+                        itemView.right.toFloat(),
+                        itemView.bottom.toFloat()
+                    )
+                    c.drawRect(background, paint)
+
+                    val deleteIcon = ContextCompat.getDrawable(itemView.context, R.drawable.ic_delete_24)?.mutate()
+                    if (deleteIcon != null) {
+                        deleteIcon.setTint(iconColor)
+                        val iconMargin = (itemView.height - deleteIcon.intrinsicHeight) / 2
+                        val iconTop = itemView.top + iconMargin
+                        val iconLeft = itemView.right - iconMargin - deleteIcon.intrinsicWidth
+                        val iconRight = itemView.right - iconMargin
+                        val iconBottom = iconTop + deleteIcon.intrinsicHeight
+                        deleteIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
+                        deleteIcon.draw(c)
+                    }
+                }
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
             }
         }
         ItemTouchHelper(swipeHandler).attachToRecyclerView(mRecycleView)
@@ -158,9 +195,7 @@ class FlashcardsActivity : AppCompatActivity() {
             mEmptyFlashcard.visibility = View.GONE
         }
 
-        val adapter = FlashcardShowAdapter(mActivity, flashcards) {
-            updateListView()
-        }
+        val adapter = FlashcardShowAdapter(mActivity, flashcards)
         mRecycleView.swapAdapter(adapter, false)
     }
 }

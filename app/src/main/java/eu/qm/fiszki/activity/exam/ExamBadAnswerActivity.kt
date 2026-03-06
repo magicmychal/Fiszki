@@ -2,38 +2,51 @@ package eu.qm.fiszki.activity.exam
 
 import android.app.Activity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
-import androidx.viewpager.widget.ViewPager
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.ChangeActivityManager
+import eu.qm.fiszki.activity.FiszkiTheme
+import eu.qm.fiszki.dialogs.exam.ExamSummaryData
 import eu.qm.fiszki.model.flashcard.Flashcard
 
 class ExamBadAnswerActivity : AppCompatActivity() {
 
-    private lateinit var mSectionsPagerAdapter: SectionsPagerAdapter
-    private lateinit var mViewPager: ViewPager
     private lateinit var mActivity: Activity
+    private lateinit var mSummaryData: ExamSummaryData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         NightModeController(this).useTheme()
-        setContentView(R.layout.activity_exam_bad_answer)
         mActivity = this
         @Suppress("UNCHECKED_CAST")
-        badAnswer = intent.getSerializableExtra(ChangeActivityManager.EXAM_BAD_ANSWER_KEY_INTENT) as ArrayList<*>
-        buildToolbar()
-        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
-        mViewPager = findViewById(R.id.container)
-        mViewPager.adapter = mSectionsPagerAdapter
+        mSummaryData = intent.getSerializableExtra(ChangeActivityManager.EXAM_SUMMARY_DATA_KEY_INTENT) as ExamSummaryData
+
+        setContent {
+            FiszkiTheme {
+                ExamSummaryScreen(
+                    summaryData = mSummaryData,
+                    onBack = { finish() }
+                )
+            }
+        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -41,67 +54,190 @@ class ExamBadAnswerActivity : AppCompatActivity() {
         super.onBackPressed()
         ChangeActivityManager(mActivity).exitExamBadAnswer()
     }
+}
 
-    fun buildToolbar() {
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        toolbar.setTitle(R.string.exam_bad_answer_toolbar_title)
-        toolbar.setNavigationIcon(R.drawable.ic_exit_to_app_24px)
-        toolbar.setNavigationOnClickListener {
-            onBackPressed()
-        }
-    }
-
-    class PlaceholderFragment : Fragment() {
-
-        override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-        ): View? {
-            val rootView = inflater.inflate(R.layout.fragment_exam_bad_answer, container, false)
-            val cunt = rootView.findViewById<TextView>(R.id.exam_bad_answer_cunt)
-            val word = rootView.findViewById<TextView>(R.id.exam_bad_answer_word)
-            val answer = rootView.findViewById<TextView>(R.id.exam_bad_answer_uncorrect)
-            val correct = rootView.findViewById<TextView>(R.id.exam_bad_answer_correct)
-
-            val position = requireArguments().getInt(POSITION)
-            @Suppress("UNCHECKED_CAST")
-            val entry = badAnswer!![position] as ArrayList<*>
-            val flashcard = entry[0] as Flashcard
-
-            cunt.text = "${position + 1} ${getString(R.string.exam_bad_answer_cunt)} ${badAnswer!!.size}"
-            word.text = flashcard.getWord()
-            answer.text = entry[1] as String
-            correct.text = flashcard.getTranslation()
-            return rootView
-        }
-
-        companion object {
-            private const val POSITION = "POSITION"
-
-            fun newInstance(sectionNumber: Int): PlaceholderFragment {
-                return PlaceholderFragment().apply {
-                    arguments = Bundle().apply {
-                        putInt(POSITION, sectionNumber)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ExamSummaryScreen(
+    summaryData: ExamSummaryData,
+    onBack: () -> Unit
+) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(R.string.exam_bad_answer_toolbar_title)) },
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface
+                )
+            )
+        }
+    ) { paddingValues ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(horizontal = 16.dp)
+        ) {
+            // Summary header
+            item {
+                Column(modifier = Modifier.padding(vertical = 16.dp)) {
+                    Text(
+                        text = stringResource(R.string.exam_summary_set, summaryData.categoryName),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    summaryData.languagePair?.let {
+                        Text(
+                            text = stringResource(R.string.exam_summary_language, it),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.padding(top = 4.dp)
+                        )
+                    }
+                    Text(
+                        text = stringResource(R.string.exam_summary_total, summaryData.totalShown),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                    Text(
+                        text = stringResource(R.string.exam_summary_correct, summaryData.correctCount),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                    Text(
+                        text = stringResource(R.string.exam_summary_incorrect, summaryData.incorrectCount),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                }
+            }
+
+            // Incorrect answers section header
+            if (summaryData.incorrectAnswers.isNotEmpty()) {
+                item {
+                    Text(
+                        text = stringResource(R.string.exam_summary_incorrect_section),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+                    )
+                }
+
+                // Incorrect answer cards
+                items(summaryData.incorrectAnswers) { badAnswer ->
+                    @Suppress("UNCHECKED_CAST")
+                    val flashcard = (badAnswer as ArrayList<*>)[0] as Flashcard
+                    val userAnswer = badAnswer[1] as String
+
+                    IncorrectAnswerCard(
+                        flashcard = flashcard,
+                        userAnswer = userAnswer,
+                        correctAnswer = flashcard.getTranslation()
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
         }
     }
+}
 
-    inner class SectionsPagerAdapter(fm: FragmentManager) :
-        FragmentPagerAdapter(fm) {
+@Composable
+fun IncorrectAnswerCard(
+    flashcard: Flashcard,
+    userAnswer: String,
+    correctAnswer: String
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+        ),
+        shape = MaterialTheme.shapes.medium
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            // Flashcard label + word
+            Text(
+                text = stringResource(R.string.exam_bad_answer_flashcard),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(bottom = 4.dp)
+            )
+            Text(
+                text = flashcard.getWord(),
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
 
-        override fun getItem(position: Int): Fragment {
-            return PlaceholderFragment.newInstance(position)
-        }
+            // Your answer label
+            Text(
+                text = stringResource(R.string.exam_bad_answer_your_answer),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(bottom = 4.dp)
+            )
+            // User answer with diff highlighting
+            Text(
+                text = buildDiffAnnotatedString(userAnswer, correctAnswer, isCorrect = false),
+                fontSize = 20.sp,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
 
-        override fun getCount(): Int {
-            return badAnswer!!.size
+            // Correct answer label
+            Text(
+                text = stringResource(R.string.exam_bad_answer_correct),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(bottom = 4.dp)
+            )
+            // Correct answer with diff highlighting
+            Text(
+                text = buildDiffAnnotatedString(correctAnswer, userAnswer, isCorrect = true),
+                fontSize = 20.sp
+            )
         }
     }
+}
 
-    companion object {
-        private var badAnswer: ArrayList<*>? = null
+@Composable
+private fun buildDiffAnnotatedString(
+    text: String,
+    reference: String,
+    isCorrect: Boolean
+): androidx.compose.ui.text.AnnotatedString {
+    val color = if (isCorrect) Color(0xFF388E3C) else Color(0xFFD32F2F)
+
+    return buildAnnotatedString {
+        var i = 0
+        while (i < text.length) {
+            val differs = i >= reference.length || text[i] != reference[i]
+            if (differs) {
+                var j = i + 1
+                while (j < text.length && (j >= reference.length || text[j] != reference[j])) {
+                    j++
+                }
+                withStyle(SpanStyle(color = color, fontWeight = FontWeight.Bold)) {
+                    append(text.substring(i, j))
+                }
+                i = j
+            } else {
+                append(text[i])
+                i++
+            }
+        }
     }
 }

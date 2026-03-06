@@ -9,6 +9,7 @@ import android.os.Looper
 import android.text.InputType
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.appbar.MaterialToolbar
@@ -120,7 +121,15 @@ class LearningCheckActivity : AppCompatActivity() {
         setCategoryText()
         setWordText()
         mTranslate.setText("")
+        focusAnswerInput()
+    }
+
+    private fun focusAnswerInput() {
         mTranslate.requestFocus()
+        mTranslate.post {
+            val imm = getSystemService(InputMethodManager::class.java)
+            imm?.showSoftInput(mTranslate, InputMethodManager.SHOW_IMPLICIT)
+        }
     }
 
     private fun setLangText() {

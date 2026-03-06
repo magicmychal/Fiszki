@@ -77,7 +77,11 @@ class LearningActivity : AppCompatActivity() {
                         if (flashcards.isEmpty()) {
                             Toast.makeText(this, R.string.learning_no_flashcards, Toast.LENGTH_LONG).show()
                         } else {
-                            ChangeActivityManager(this).goToLearningCheck(flashcards, strictMode, reversed)
+                            ChangeActivityManager(this).goToLearningCheck(
+                                flashcards = flashcards,
+                                strictMode = strictMode,
+                                reversed = reversed
+                            )
                         }
                     }
                 )

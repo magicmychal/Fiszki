@@ -25,7 +25,7 @@
     <string name="flashcard_statistic_dialog_reset">WYZERUJ</string>
 
     <string name="action_add_new_card">Dodaj fiszkę</string>
-    <string name="action_start_review">Rozpocznij naukę</string>
+    <string name="action_start_review">Rozpocznij ćwiczenie</string>
     <string name="action_remove">Usuń</string>
     <string name="action_confirm">Zatwierdź</string>
     <string name="action_remove_confirm_message">Czy na pewno chcesz usunąć tę fiszkę?</string>

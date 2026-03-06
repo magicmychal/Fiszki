@@ -8,20 +8,14 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import eu.qm.fiszki.R
 import eu.qm.fiszki.dialogs.flashcard.EditAndDeleteFlashcardDialog
 import eu.qm.fiszki.model.flashcard.Flashcard
-import eu.qm.fiszki.model.flashcard.FlashcardRepository
 
 class FlashcardShowAdapter(
     private val activity: Activity,
-    private val arrayList: ArrayList<Flashcard>,
-    private val onFlashcardRemoved: () -> Unit
+    private val arrayList: ArrayList<Flashcard>
 ) : RecyclerView.Adapter<FlashcardShowAdapter.ViewHolder>() {
-
-    private val flashcardRepository = FlashcardRepository(activity)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -39,23 +33,6 @@ class FlashcardShowAdapter(
         holder.itemView.setOnClickListener(DoubleClickListener {
             EditAndDeleteFlashcardDialog(activity, flashcard).show()
         })
-
-        holder.removeButton.setOnClickListener {
-            MaterialAlertDialogBuilder(activity)
-                .setTitle(R.string.flashcard_delete_btn)
-                .setMessage(R.string.action_remove_confirm_message)
-                .setPositiveButton(R.string.action_confirm) { _, _ ->
-                    flashcardRepository.deleteFlashcard(flashcard)
-                    val pos = holder.bindingAdapterPosition
-                    if (pos != RecyclerView.NO_POSITION) {
-                        arrayList.removeAt(pos)
-                        notifyItemRemoved(pos)
-                    }
-                    onFlashcardRemoved()
-                }
-                .setNegativeButton(android.R.string.cancel, null)
-                .show()
-        }
     }
 
     override fun getItemCount(): Int = arrayList.size
@@ -72,7 +49,6 @@ class FlashcardShowAdapter(
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val word: TextView = itemView.findViewById(R.id.flashcard_word)
         val translation: TextView = itemView.findViewById(R.id.flashcard_translate)
-        val removeButton: MaterialButton = itemView.findViewById(R.id.btn_remove)
         private val starLayout: LinearLayout = itemView.findViewById(R.id.star_rating)
         val starViews: List<ImageView> = listOf(
             itemView.findViewById(R.id.star1),

@@ -105,24 +105,6 @@
 
         </LinearLayout>
 
-        <!-- Remove button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_remove"
-            style="@style/Widget.Material3.Button.UnelevatedButton"
-            android:layout_width="108dp"
-            android:layout_height="48dp"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:text="@string/action_remove"
-            android:textColor="?attr/colorOnSurfaceVariant"
-            android:textSize="14sp"
-            app:backgroundTint="?attr/colorSecondaryContainer"
-            app:cornerRadius="0dp"
-            app:strokeColor="?attr/colorOutline"
-            app:strokeWidth="1dp" />
-
     </LinearLayout>
 
     <!-- Divider -->

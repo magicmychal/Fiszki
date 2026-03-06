@@ -15,6 +15,7 @@ class ChangeActivityManager(private val activity: Activity) {
         const val FLASHCARDS_KEY_INTENT = "FLASHCARDS"
         const val EXAM_REPEAT_KEY_INTENT = "REPEAT"
         const val EXAM_BAD_ANSWER_KEY_INTENT = "RESULTS"
+        const val EXAM_SUMMARY_DATA_KEY_INTENT = "EXAM_SUMMARY_DATA"
         const val STRICT_MODE_KEY_INTENT = "STRICT_MODE"
         const val REVERSED_KEY_INTENT = "REVERSED"
     }
@@ -30,24 +31,25 @@ class ChangeActivityManager(private val activity: Activity) {
             putExtra(REVERSED_KEY_INTENT, reversed)
         }
         activity.startActivity(goLearning)
-        activity.finish()
         activity.overridePendingTransition(R.anim.right_in, R.anim.left_out)
     }
 
     fun exitLearningCheck() {
-        val intent = Intent(activity, NavHostActivity::class.java).apply {
-            putExtra(NavHostActivity.EXTRA_TAB, R.id.nav_learning)
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-        }
-        activity.startActivity(intent)
         activity.finish()
         activity.overridePendingTransition(R.anim.right_out, R.anim.left_in)
     }
 
-    fun goToExamCheck(flashcards: ArrayList<Flashcard>, repeat: Int) {
+    fun goToExamCheck(
+        flashcards: ArrayList<Flashcard>,
+        repeat: Int,
+        categoryName: String? = null,
+        languagePair: String? = null
+    ) {
         val bundle = ArrayList<Any>().apply {
             add(flashcards)
             add(repeat)
+            categoryName?.let { add(it) }
+            languagePair?.let { add(it) }
         }
         val goLearning = Intent(activity, ExamCheckActivity::class.java).apply {
             putExtra(EXAM_REPEAT_KEY_INTENT, bundle)
@@ -67,11 +69,11 @@ class ChangeActivityManager(private val activity: Activity) {
         activity.overridePendingTransition(R.anim.right_out, R.anim.left_in)
     }
 
-    fun goToExamBadAnswer(badAnswer: ArrayList<*>) {
-        val goLearning = Intent(activity, ExamBadAnswerActivity::class.java).apply {
-            putExtra(EXAM_BAD_ANSWER_KEY_INTENT, badAnswer)
+    fun goToExamSummary(summaryData: eu.qm.fiszki.dialogs.exam.ExamSummaryData) {
+        val intent = Intent(activity, ExamBadAnswerActivity::class.java).apply {
+            putExtra(EXAM_SUMMARY_DATA_KEY_INTENT, summaryData)
         }
-        activity.startActivity(goLearning)
+        activity.startActivity(intent)
         activity.finish()
         activity.overridePendingTransition(R.anim.right_in, R.anim.left_out)
     }

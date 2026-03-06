@@ -35,9 +35,16 @@
     <string name="exam_check_status_wrong">Błędne: %d</string>
     <string name="exam_check_status_remaining">Pozostało: %d</string>
 
-    <string name="exam_bad_answer_toolbar_title">Niepoprawe odpowiedzi</string>
+    <string name="exam_bad_answer_toolbar_title">Podsumowanie egzaminu</string>
     <string name="exam_bad_answer_cunt">z</string>
     <string name="exam_bad_answer_flashcard">Fiszka:</string>
-    <string name="exam_bad_answer_your_answer">Twoja odpowiedź:</string>
-    <string name="exam_bad_answer_correct">Poprawnie:</string>
+    <string name="exam_bad_answer_your_answer">Twoja odpowiedź</string>
+    <string name="exam_bad_answer_correct">Poprawna odpowiedź</string>
+
+    <string name="exam_summary_set">Zestaw: %s</string>
+    <string name="exam_summary_language">Język: %s</string>
+    <string name="exam_summary_total">Łączna liczba pokazanych fiszek: %d</string>
+    <string name="exam_summary_correct">Poprawne odpowiedzi: %d</string>
+    <string name="exam_summary_incorrect">Niepoprawne odpowiedzi: %d</string>
+    <string name="exam_summary_incorrect_section">Niepoprawne odpowiedzi</string>
 </resources>

@@ -72,7 +72,11 @@ class LearningFragment : Fragment() {
                         if (flashcards.isEmpty()) {
                             Toast.makeText(activity, R.string.learning_no_flashcards, Toast.LENGTH_LONG).show()
                         } else {
-                            ChangeActivityManager(activity).goToLearningCheck(flashcards, strictMode, reversed)
+                            ChangeActivityManager(activity).goToLearningCheck(
+                                flashcards = flashcards,
+                                strictMode = strictMode,
+                                reversed = reversed
+                            )
                         }
                     }
                 )

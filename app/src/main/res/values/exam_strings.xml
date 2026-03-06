@@ -34,11 +34,18 @@
     <string name="exam_check_status_wrong">Wrong: %d</string>
     <string name="exam_check_status_remaining">Remaining: %d</string>
 
-    <string name="exam_bad_answer_toolbar_title">Incorrect answers</string>
+    <string name="exam_bad_answer_toolbar_title">Exam Summary</string>
     <string name="exam_bad_answer_cunt">of</string>
     <string name="exam_bad_answer_flashcard">Flashcard:</string>
-    <string name="exam_bad_answer_your_answer">Your answer:</string>
-    <string name="exam_bad_answer_correct">Correct:</string>
+    <string name="exam_bad_answer_your_answer">Your answer</string>
+    <string name="exam_bad_answer_correct">Correct answer</string>
+
+    <string name="exam_summary_set">Set: %s</string>
+    <string name="exam_summary_language">Language: %s</string>
+    <string name="exam_summary_total">Total number of flashcards shown: %d</string>
+    <string name="exam_summary_correct">Correct answers: %d</string>
+    <string name="exam_summary_incorrect">Incorrect answers: %d</string>
+    <string name="exam_summary_incorrect_section">Incorrect answers</string>
 
 
 </resources>

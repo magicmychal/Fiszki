@@ -21,6 +21,7 @@ import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.ChangeActivityManager
 import eu.qm.fiszki.algorithm.Algorithm
 import eu.qm.fiszki.dialogs.exam.EndExamDialog
+import eu.qm.fiszki.dialogs.exam.ExamSummaryData
 import eu.qm.fiszki.dialogs.learning.BadAnswerLearnigDialog
 import eu.qm.fiszki.model.category.Category
 import eu.qm.fiszki.model.category.CategoryRepository
@@ -47,6 +48,9 @@ class ExamCheckActivity : AppCompatActivity() {
     private lateinit var mStatusWrong: TextView
     private lateinit var mStatusRemaining: TextView
     private lateinit var mCorrectPopup: View
+
+    private var mExamCategoryName: String? = null
+    private var mExamLanguagePair: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +86,8 @@ class ExamCheckActivity : AppCompatActivity() {
             .getSerializableExtra(ChangeActivityManager.EXAM_REPEAT_KEY_INTENT) as ArrayList<*>
         mFlashcardPools = extras[0] as ArrayList<Flashcard>
         mTotalRounds = extras[1] as Int
+        mExamCategoryName = if (extras.size > 2) extras[2] as? String else null
+        mExamLanguagePair = if (extras.size > 3) extras[3] as? String else null
         mLang = findViewById(R.id.exam_check_lang)
         mWord = findViewById(R.id.exam_check_word)
         mCategory = findViewById(R.id.exam_check_category_text)
@@ -185,12 +191,24 @@ class ExamCheckActivity : AppCompatActivity() {
                 dialog.dismiss()
                 setButtonsEnabled(true)
                 if (mCurrentRound == mTotalRounds) {
-                    EndExamDialog(mActivity, mBadAnswer, mGoodAnswer).show()
+                    showExamSummary()
                 } else {
                     drawFlashcard()
                 }
             }
             .show()
+    }
+
+    private fun showExamSummary() {
+        val summaryData = ExamSummaryData(
+            categoryName = mExamCategoryName ?: getString(R.string.learning_category_all),
+            languagePair = mExamLanguagePair,
+            totalShown = mTotalRounds,
+            correctCount = mCorrectCount,
+            incorrectCount = mWrongCount,
+            incorrectAnswers = mBadAnswer
+        )
+        EndExamDialog(mActivity, summaryData, mGoodAnswer).show()
     }
 
     private fun setButtonsEnabled(enabled: Boolean) {
@@ -218,7 +236,7 @@ class ExamCheckActivity : AppCompatActivity() {
                                     mCorrectPopup.visibility = View.GONE
                                     setButtonsEnabled(true)
                                     if (mCurrentRound == mTotalRounds) {
-                                        EndExamDialog(mActivity, mBadAnswer, mGoodAnswer).show()
+                                        showExamSummary()
                                     } else {
                                         drawFlashcard()
                                     }

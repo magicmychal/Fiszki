@@ -5,11 +5,12 @@ import android.text.Html
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.ChangeActivityManager
+import eu.qm.fiszki.model.flashcard.Flashcard
 
 class EndExamDialog(
     private val mActivity: Activity,
-    private val mBadAnswer: ArrayList<*>,
-    private val mGoodAnswer: ArrayList<*>
+    private val mSummaryData: ExamSummaryData,
+    private val mGoodAnswer: ArrayList<Flashcard>
 ) : MaterialAlertDialogBuilder(mActivity) {
 
     init {
@@ -17,21 +18,25 @@ class EndExamDialog(
         setCancelable(false)
         setMessage(Html.fromHtml(setContent(), Html.FROM_HTML_MODE_LEGACY))
         setPositiveButton(
-            if (mBadAnswer.isNotEmpty()) R.string.button_action_ok else R.string.exam_check_end_dialog_hurra_btn
+            if (mSummaryData.incorrectCount > 0) R.string.button_action_ok else R.string.exam_check_end_dialog_hurra_btn
         ) { _, _ ->
-            ChangeActivityManager(mActivity).exitExamCheck()
+            if (mSummaryData.incorrectCount > 0) {
+                ChangeActivityManager(mActivity).goToExamSummary(mSummaryData)
+            } else {
+                ChangeActivityManager(mActivity).exitExamCheck()
+            }
         }
-        if (mBadAnswer.isNotEmpty()) {
-            setNeutralButton(R.string.exam_check_end_dialog_bad_answer_btn) { _, _ ->
-                ChangeActivityManager(mActivity).goToExamBadAnswer(mBadAnswer)
+        if (mSummaryData.incorrectCount == 0) {
+            setNeutralButton(R.string.exam_check_end_dialog_hurra_btn) { _, _ ->
+                ChangeActivityManager(mActivity).exitExamCheck()
             }
         }
     }
 
     private fun setContent(): String {
-        val percentage = (mGoodAnswer.size * 100.0f / (mGoodAnswer.size + mBadAnswer.size)).toInt()
+        val percentage = (mGoodAnswer.size * 100.0f / (mGoodAnswer.size + mSummaryData.incorrectCount)).toInt()
         return "<b>${mActivity.resources.getString(R.string.exam_check_end_dialog_content_1)}</b> ${mGoodAnswer.size}<br>" +
-            "<b>${mActivity.resources.getString(R.string.exam_check_end_dialog_content_2)}</b> ${mBadAnswer.size}<br>" +
+            "<b>${mActivity.resources.getString(R.string.exam_check_end_dialog_content_2)}</b> ${mSummaryData.incorrectCount}<br>" +
             "<b>${mActivity.resources.getString(R.string.exam_check_end_dialog_content_3)}</b> $percentage%"
     }
 }
