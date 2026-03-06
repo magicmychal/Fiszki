@@ -26,7 +26,12 @@ class ExamGoExaming(private val activity: Activity) : View.OnClickListener {
             if (chosenFlashcard.isEmpty()) {
                 Toast.makeText(activity, R.string.exam_range_empty_toast, Toast.LENGTH_LONG).show()
             } else {
-                ChangeActivityManager(activity).goToExamCheck(chosenFlashcard, repeat)
+                val category = CategoryRepository(activity).getCategoryByName(rangeText)
+                val categoryName = category?.getCategory()
+                val languagePair = if (category != null && !category.getLangFrom().isNullOrEmpty() && !category.getLangOn().isNullOrEmpty()) {
+                    "${category.getLangFrom()} to ${category.getLangOn()}"
+                } else null
+                ChangeActivityManager(activity).goToExamCheck(chosenFlashcard, repeat, categoryName, languagePair)
             }
         }
     }

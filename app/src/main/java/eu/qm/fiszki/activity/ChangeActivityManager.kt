@@ -45,11 +45,11 @@ class ChangeActivityManager(private val activity: Activity) {
         categoryName: String? = null,
         languagePair: String? = null
     ) {
-        val bundle = ArrayList<Any>().apply {
+        val bundle = ArrayList<Any?>().apply {
             add(flashcards)
             add(repeat)
-            categoryName?.let { add(it) }
-            languagePair?.let { add(it) }
+            add(categoryName)
+            add(languagePair)
         }
         val goLearning = Intent(activity, ExamCheckActivity::class.java).apply {
             putExtra(EXAM_REPEAT_KEY_INTENT, bundle)
