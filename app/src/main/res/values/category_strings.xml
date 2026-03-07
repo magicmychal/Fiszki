@@ -17,5 +17,6 @@
     <string name="category_card_count">%d cards</string>
 
     <string name="edit_category_color">Color</string>
-
+    <string name="category_lang_pair">%1$s - %2$s</string>
+    <string name="category_delete_not_allowed">This category cannot be deleted.</string>
 </resources>

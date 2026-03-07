@@ -8,10 +8,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.myWords.CategoryManagerSingleton
 import eu.qm.fiszki.activity.myWords.flashcards.FlashcardsActivity
 import eu.qm.fiszki.model.category.Category
+import eu.qm.fiszki.model.category.CategoryRepository
+import eu.qm.fiszki.model.flashcard.Flashcard
 import eu.qm.fiszki.model.flashcard.FlashcardRepository
 
 class CategoryShowAdapter(
@@ -20,6 +24,7 @@ class CategoryShowAdapter(
 ) : RecyclerView.Adapter<CategoryShowAdapter.ViewHolder>() {
 
     private val flashcardRepository = FlashcardRepository(activity)
+    private val categoryRepository = CategoryRepository(activity)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -41,6 +46,15 @@ class CategoryShowAdapter(
             activity.startActivity(Intent(activity, FlashcardsActivity::class.java))
             activity.overridePendingTransition(R.anim.right_in, R.anim.left_out)
         }
+
+        holder.card.setOnLongClickListener {
+            if (!category.isEntryByUser) {
+                showDeleteNotAllowed()
+                return@setOnLongClickListener true
+            }
+            showDeleteConfirmation(category, position)
+            true
+        }
     }
 
     private fun setLanguageText(holder: ViewHolder, category: Category) {
@@ -59,7 +73,7 @@ class CategoryShowAdapter(
                 if (langOn!!.isEmpty()) {
                     langOn = activity.getString(R.string.category_no_lang)
                 }
-                holder.lang.text = "$langFrom - $langOn"
+                holder.lang.text = activity.getString(R.string.category_lang_pair, langFrom, langOn)
             }
         }
     }
@@ -73,5 +87,53 @@ class CategoryShowAdapter(
         val name: TextView = itemView.findViewById(R.id.category_name)
         val lang: TextView = itemView.findViewById(R.id.category_lang)
         val meta: TextView = itemView.findViewById(R.id.category_meta)
+    }
+
+    private fun showDeleteConfirmation(category: Category, position: Int) {
+        MaterialAlertDialogBuilder(activity)
+            .setMessage(activity.getString(R.string.edit_category_delete_message))
+            .setPositiveButton(R.string.button_action_yes) { _, _ ->
+                deleteCategoryWithFlashcards(category, position)
+            }
+            .setNegativeButton(R.string.button_action_no, null)
+            .show()
+    }
+
+    private fun showDeleteNotAllowed() {
+        Snackbar.make(
+            activity.currentFocus ?: activity.window.decorView,
+            R.string.category_delete_not_allowed,
+            Snackbar.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun deleteCategoryWithFlashcards(category: Category, position: Int) {
+        val flashcards = flashcardRepository.getFlashcardsByCategoryID(category.id)
+        if (flashcards.isNotEmpty()) {
+            flashcardRepository.deleteFlashcards(flashcards)
+        }
+        categoryRepository.deleteCategory(category)
+
+        arrayList.removeAt(position)
+        notifyItemRemoved(position)
+
+        showUndoSnackbar(category, flashcards, position)
+    }
+
+    private fun showUndoSnackbar(category: Category, flashcards: ArrayList<Flashcard>, position: Int) {
+        Snackbar.make(
+            activity.currentFocus ?: activity.window.decorView,
+            R.string.snackbar_return_category_message,
+            Snackbar.LENGTH_LONG
+        )
+            .setAction(R.string.snackbar_return_word_button) {
+                categoryRepository.addCategory(category)
+                if (flashcards.isNotEmpty()) {
+                    flashcardRepository.addFlashcards(flashcards)
+                }
+                arrayList.add(position, category)
+                notifyItemInserted(position)
+            }
+            .show()
     }
 }
