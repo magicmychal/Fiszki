@@ -30,7 +30,7 @@ fun FiszkiTheme(content: @Composable () -> Unit) {
 
     val colorScheme = if (isDark) {
         darkColorScheme(
-            primary = ctx.resolveColor(com.google.android.material.R.attr.colorPrimary, 0xFFD0BCFF),
+            primary = ctx.resolveColor(android.R.attr.colorPrimary, 0xFFD0BCFF),
             onPrimary = ctx.resolveColor(com.google.android.material.R.attr.colorOnPrimary, 0xFF381E72),
             primaryContainer = ctx.resolveColor(com.google.android.material.R.attr.colorPrimaryContainer, 0xFF4F378B),
             onPrimaryContainer = ctx.resolveColor(com.google.android.material.R.attr.colorOnPrimaryContainer, 0xFFEADDFF),
@@ -47,7 +47,7 @@ fun FiszkiTheme(content: @Composable () -> Unit) {
         )
     } else {
         lightColorScheme(
-            primary = ctx.resolveColor(com.google.android.material.R.attr.colorPrimary, 0xFF6750A4),
+            primary = ctx.resolveColor(android.R.attr.colorPrimary, 0xFF6750A4),
             onPrimary = ctx.resolveColor(com.google.android.material.R.attr.colorOnPrimary, 0xFFFFFFFF),
             primaryContainer = ctx.resolveColor(com.google.android.material.R.attr.colorPrimaryContainer, 0xFFEADDFF),
             onPrimaryContainer = ctx.resolveColor(com.google.android.material.R.attr.colorOnPrimaryContainer, 0xFF21005D),

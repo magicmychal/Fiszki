@@ -156,7 +156,7 @@ class FlashcardsActivity : AppCompatActivity() {
             ) {
                 if (dX < 0) {
                     val itemView = viewHolder.itemView
-                    val backgroundColor = MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorError)
+                    val backgroundColor = MaterialColors.getColor(itemView, android.R.attr.colorError)
                     val iconColor = MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorOnError)
                     val paint = Paint().apply { color = backgroundColor }
 

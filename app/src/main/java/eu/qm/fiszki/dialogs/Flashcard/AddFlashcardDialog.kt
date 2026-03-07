@@ -52,7 +52,7 @@ class AddFlashcardDialog(
 
             // Style the confirm button with dynamic primary color
             val typedValue = TypedValue()
-            mActivity.theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
+            mActivity.theme.resolveAttribute(android.R.attr.colorPrimary, typedValue, true)
             dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.let { button ->
                 button.setTextColor(typedValue.data)
             }
