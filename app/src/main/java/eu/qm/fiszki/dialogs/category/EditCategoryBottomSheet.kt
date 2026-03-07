@@ -202,7 +202,7 @@ class EditCategoryBottomSheet : BottomSheetDialogFragment() {
         val rootView = activity.findViewById<View>(android.R.id.content)
 
         val colorPrimary = TypedValue().let { tv ->
-            activity.theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, tv, true)
+            activity.theme.resolveAttribute(android.R.attr.colorPrimary, tv, true)
             tv.data
         }
 

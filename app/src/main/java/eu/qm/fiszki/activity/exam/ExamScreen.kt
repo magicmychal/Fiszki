@@ -1,5 +1,6 @@
 package eu.qm.fiszki.activity.exam
 
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,9 +29,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -72,29 +74,64 @@ fun ExamSetupScreen(
         Column(
             modifier = Modifier.padding(start = 24.dp, top = 48.dp, end = 24.dp, bottom = 8.dp)
         ) {
-            var wordIndex = 0
+            val allWords = lines.flatMap { it.split(" ").filter { w -> w.isNotEmpty() } }
+            val firstWord = allWords.firstOrNull() ?: ""
+            val textMeasurer = rememberTextMeasurer()
+
+            // First word — auto-sized to fill width
+            BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+                val maxWidthPx = constraints.maxWidth.toFloat()
+                val baseFontSize = 57.sp
+                val baseLetterSpacing = 28.sp
+
+                val scaledFontSize = remember(firstWord, maxWidthPx) {
+                    var fontSize = baseFontSize
+                    var letterSpacing = baseLetterSpacing
+                    val style = TextStyle(
+                        fontFamily = AssetFamily,
+                        fontWeight = FontWeight.Normal
+                    )
+                    while (fontSize.value > 20f) {
+                        val result = textMeasurer.measure(
+                            text = firstWord.uppercase(),
+                            style = style.copy(
+                                fontSize = fontSize,
+                                letterSpacing = letterSpacing
+                            )
+                        )
+                        if (result.size.width <= maxWidthPx) break
+                        val scale = 0.95f
+                        fontSize = (fontSize.value * scale).sp
+                        letterSpacing = (letterSpacing.value * scale).sp
+                    }
+                    fontSize to letterSpacing
+                }
+
+                Text(
+                    text = firstWord.uppercase(),
+                    fontSize = scaledFontSize.first,
+                    letterSpacing = scaledFontSize.second,
+                    fontFamily = AssetFamily,
+                    fontWeight = FontWeight.Normal,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    lineHeight = (scaledFontSize.first.value * 1.12f).sp,
+                    maxLines = 1,
+                    softWrap = false
+                )
+            }
+
+            // Remaining lines — skip the first word
+            var wordIndex = 1
             lines.forEachIndexed { lineIndex, line ->
                 val words = line.split(" ").filter { it.isNotEmpty() }
-                if (lineIndex == 0 && words.size == 1) {
-                    Text(
-                        text = words[0].uppercase(),
-                        fontSize = 57.sp,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        lineHeight = 64.sp,
-                        fontFamily = AssetFamily,
-                        fontWeight = FontWeight.Normal,
-                        letterSpacing = 28.sp,
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center
-                    )
-                    wordIndex += 1
-                } else {
+                val wordsToRender = if (lineIndex == 0) words.drop(1) else words
+                if (wordsToRender.isNotEmpty()) {
                     Text(
                         text = buildAnnotatedString {
-                            words.forEachIndexed { i, word ->
+                            wordsToRender.forEachIndexed { i, word ->
                                 withStyle(buildTitleSpanStyle(wordIndex)) { append(word) }
                                 wordIndex++
-                                if (i < words.size - 1) append(" ")
+                                if (i < wordsToRender.size - 1) append(" ")
                             }
                         },
                         fontSize = 57.sp,
