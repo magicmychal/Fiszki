@@ -1,15 +1,17 @@
 package eu.qm.fiszki.dialogs.category
 
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
-import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputEditText
 import eu.qm.fiszki.R
@@ -20,6 +22,7 @@ import eu.qm.fiszki.activity.findCategoryColor
 import eu.qm.fiszki.model.category.Category
 import eu.qm.fiszki.model.category.CategoryRepository
 import eu.qm.fiszki.model.category.ValidationCategory
+import eu.qm.fiszki.model.flashcard.FlashcardRepository
 
 class EditCategoryBottomSheet : BottomSheetDialogFragment() {
 
@@ -84,6 +87,15 @@ class EditCategoryBottomSheet : BottomSheetDialogFragment() {
         selectedColor = findCategoryColor(category.getColor()) ?: defaultCategoryColor()
         val colorContainer = view.findViewById<LinearLayout>(R.id.color_picker_container)
         buildColorPicker(colorContainer, nameEt, langFromEt, langOnEt, categoryRepository)
+
+        // Delete button — only for user-created categories
+        val deleteBtn = view.findViewById<MaterialButton>(R.id.btn_delete_category)
+        if (category.isEntryByUser) {
+            deleteBtn.visibility = View.VISIBLE
+            deleteBtn.setOnClickListener {
+                showDeleteConfirmation(categoryRepository)
+            }
+        }
     }
 
     override fun onPause() {
@@ -162,5 +174,49 @@ class EditCategoryBottomSheet : BottomSheetDialogFragment() {
         if (validation.validate(category)) {
             categoryRepository.updateCategory(category)
         }
+    }
+
+    private fun showDeleteConfirmation(categoryRepository: CategoryRepository) {
+        val ctx = context ?: return
+        MaterialAlertDialogBuilder(ctx)
+            .setMessage(getString(R.string.edit_category_delete_message))
+            .setPositiveButton(R.string.button_action_yes) { _, _ ->
+                deleteCategoryWithFlashcards(categoryRepository)
+            }
+            .setNegativeButton(R.string.button_action_no, null)
+            .show()
+    }
+
+    private fun deleteCategoryWithFlashcards(categoryRepository: CategoryRepository) {
+        val ctx = context ?: return
+        val flashcardRepository = FlashcardRepository(ctx)
+        val flashcards = flashcardRepository.getFlashcardsByCategoryID(category.id)
+        if (flashcards.isNotEmpty()) {
+            flashcardRepository.deleteFlashcards(flashcards)
+        }
+        categoryRepository.deleteCategory(category)
+
+        dismiss()
+
+        val activity = activity ?: return
+        val rootView = activity.findViewById<View>(android.R.id.content)
+
+        val colorPrimary = TypedValue().let { tv ->
+            activity.theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, tv, true)
+            tv.data
+        }
+
+        Snackbar.make(rootView, R.string.snackbar_return_category_message, Snackbar.LENGTH_LONG)
+            .setAction(R.string.snackbar_return_word_button) {
+                categoryRepository.addCategory(category)
+                if (flashcards.isNotEmpty()) {
+                    flashcardRepository.addFlashcards(flashcards)
+                }
+                activity.onWindowFocusChanged(true)
+            }
+            .setActionTextColor(colorPrimary)
+            .show()
+
+        activity.onWindowFocusChanged(true)
     }
 }

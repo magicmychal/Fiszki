@@ -20,11 +20,11 @@ object HapticFeedback {
 
     fun vibrateCorrect(context: Context) {
         val vibrator = getVibrator(context)
-        vibrator.vibrate(VibrationEffect.createOneShot(30, 40))
+        vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_TICK))
     }
 
     fun vibrateWrong(context: Context) {
         val vibrator = getVibrator(context)
-        vibrator.vibrate(VibrationEffect.createOneShot(200, 200))
+        vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_HEAVY_CLICK))
     }
 }

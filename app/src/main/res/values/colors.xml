@@ -113,6 +113,9 @@
     <color name="cat_mauve_primary">#6B5778</color>
     <color name="cat_mauve_container">#F3DAFF</color>
 
+    <!-- Status colors -->
+    <color name="correctGreen">#388E3C</color>
+
     <!-- Colors previously provided by apptentive/material-dialogs libraries -->
     <color name="apptentive_transparency">#00000000</color>
     <color name="md_red_A700">#D50000</color>
