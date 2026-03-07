@@ -68,7 +68,9 @@
                 app:boxBackgroundColor="#EBEBEB"
                 app:boxStrokeWidth="0dp"
                 app:boxStrokeWidthFocused="2dp"
-                app:hintEnabled="false">
+                app:hintEnabled="false"
+                app:endIconMode="clear_text"
+                app:endIconTint="?attr/colorOnSurfaceVariant">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/learning_check_edit_text"
