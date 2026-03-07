@@ -37,6 +37,7 @@ class ExamCheckActivity : AppCompatActivity() {
     private var mCorrectCount = 0
     private var mWrongCount = 0
     private lateinit var mActivity: Activity
+    private lateinit var mAlgorithm: Algorithm
     private lateinit var mBadAnswer: ArrayList<ArrayList<*>>
     private lateinit var mDrawnCategory: Category
     private lateinit var mDrawnFlashcard: Flashcard
@@ -80,6 +81,7 @@ class ExamCheckActivity : AppCompatActivity() {
     @Suppress("UNCHECKED_CAST")
     private fun init() {
         mActivity = this
+        mAlgorithm = Algorithm(mActivity)
         mGoodAnswer = ArrayList()
         mBadAnswer = ArrayList()
         val extras = mActivity.intent
@@ -125,7 +127,7 @@ class ExamCheckActivity : AppCompatActivity() {
 
     private fun drawFlashcard() {
         mCurrentRound++
-        mDrawnFlashcard = Algorithm(mActivity).drawCardAlgorithm(mFlashcardPools)
+        mDrawnFlashcard = mAlgorithm.drawCardAlgorithm(mFlashcardPools)
         mDrawnCategory = CategoryRepository(mActivity)
             .getCategoryByID(mDrawnFlashcard.categoryID)!!
         setLangText()
