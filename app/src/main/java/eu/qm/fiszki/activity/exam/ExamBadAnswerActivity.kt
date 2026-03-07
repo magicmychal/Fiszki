@@ -1,7 +1,9 @@
 package eu.qm.fiszki.activity.exam
 
 import android.app.Activity
+import android.os.Build
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.*
@@ -37,22 +39,27 @@ class ExamBadAnswerActivity : AppCompatActivity() {
         NightModeController(this).useTheme()
         mActivity = this
         @Suppress("UNCHECKED_CAST")
-        mSummaryData = intent.getSerializableExtra(ChangeActivityManager.EXAM_SUMMARY_DATA_KEY_INTENT) as ExamSummaryData
+        mSummaryData = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getSerializableExtra(ChangeActivityManager.EXAM_SUMMARY_DATA_KEY_INTENT, ExamSummaryData::class.java)!!
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getSerializableExtra(ChangeActivityManager.EXAM_SUMMARY_DATA_KEY_INTENT) as ExamSummaryData
+        }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                ChangeActivityManager(mActivity).exitExamBadAnswer()
+            }
+        })
 
         setContent {
             FiszkiTheme {
                 ExamSummaryScreen(
                     summaryData = mSummaryData,
-                    onBack = { finish() }
+                    onBack = { onBackPressedDispatcher.onBackPressed() }
                 )
             }
         }
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        super.onBackPressed()
-        ChangeActivityManager(mActivity).exitExamBadAnswer()
     }
 }
 

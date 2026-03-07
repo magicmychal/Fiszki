@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
@@ -42,6 +43,13 @@ class FlashcardsActivity : AppCompatActivity() {
         NightModeController(this).useTheme()
         setContentView(R.layout.flashcards_activity)
         init()
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                finish()
+                @Suppress("DEPRECATION")
+                overridePendingTransition(R.anim.right_out, R.anim.left_in)
+            }
+        })
         buildHeroHeader()
         buildActionChips()
         buildListView()
@@ -62,12 +70,6 @@ class FlashcardsActivity : AppCompatActivity() {
             buildHeroHeader()
             updateListView()
         }
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        finish()
-        overridePendingTransition(R.anim.right_out, R.anim.left_in)
     }
 
     private fun buildHeroHeader() {
@@ -97,7 +99,7 @@ class FlashcardsActivity : AppCompatActivity() {
         WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = false
 
         findViewById<View>(R.id.btn_back).setOnClickListener {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 

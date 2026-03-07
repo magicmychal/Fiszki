@@ -31,12 +31,12 @@ class ChangeActivityManager(private val activity: Activity) {
             putExtra(REVERSED_KEY_INTENT, reversed)
         }
         activity.startActivity(goLearning)
-        activity.overridePendingTransition(R.anim.right_in, R.anim.left_out)
+        @Suppress("DEPRECATION") activity.overridePendingTransition(R.anim.right_in, R.anim.left_out)
     }
 
     fun exitLearningCheck() {
         activity.finish()
-        activity.overridePendingTransition(R.anim.right_out, R.anim.left_in)
+        @Suppress("DEPRECATION") activity.overridePendingTransition(R.anim.right_out, R.anim.left_in)
     }
 
     fun goToExamCheck(
@@ -56,7 +56,7 @@ class ChangeActivityManager(private val activity: Activity) {
         }
         activity.startActivity(goLearning)
         activity.finish()
-        activity.overridePendingTransition(R.anim.right_in, R.anim.left_out)
+        @Suppress("DEPRECATION") activity.overridePendingTransition(R.anim.right_in, R.anim.left_out)
     }
 
     fun exitExamCheck() {
@@ -66,7 +66,7 @@ class ChangeActivityManager(private val activity: Activity) {
         }
         activity.startActivity(intent)
         activity.finish()
-        activity.overridePendingTransition(R.anim.right_out, R.anim.left_in)
+        @Suppress("DEPRECATION") activity.overridePendingTransition(R.anim.right_out, R.anim.left_in)
     }
 
     fun goToExamSummary(summaryData: eu.qm.fiszki.dialogs.exam.ExamSummaryData) {
@@ -75,7 +75,7 @@ class ChangeActivityManager(private val activity: Activity) {
         }
         activity.startActivity(intent)
         activity.finish()
-        activity.overridePendingTransition(R.anim.right_in, R.anim.left_out)
+        @Suppress("DEPRECATION") activity.overridePendingTransition(R.anim.right_in, R.anim.left_out)
     }
 
     fun exitExamBadAnswer() {
@@ -85,7 +85,7 @@ class ChangeActivityManager(private val activity: Activity) {
         }
         activity.startActivity(intent)
         activity.finish()
-        activity.overridePendingTransition(R.anim.right_out, R.anim.left_in)
+        @Suppress("DEPRECATION") activity.overridePendingTransition(R.anim.right_out, R.anim.left_in)
     }
 
     fun goToChatMode(flashcards: ArrayList<Flashcard>) {
@@ -94,7 +94,7 @@ class ChangeActivityManager(private val activity: Activity) {
         }
         activity.startActivity(goChat)
         activity.finish()
-        activity.overridePendingTransition(R.anim.right_in, R.anim.left_out)
+        @Suppress("DEPRECATION") activity.overridePendingTransition(R.anim.right_in, R.anim.left_out)
     }
 
     fun exitChatMode() {
@@ -104,7 +104,7 @@ class ChangeActivityManager(private val activity: Activity) {
         }
         activity.startActivity(intent)
         activity.finish()
-        activity.overridePendingTransition(R.anim.right_out, R.anim.left_in)
+        @Suppress("DEPRECATION") activity.overridePendingTransition(R.anim.right_out, R.anim.left_in)
     }
 
     fun resetMain() {

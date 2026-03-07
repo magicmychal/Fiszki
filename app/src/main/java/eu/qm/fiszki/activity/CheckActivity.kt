@@ -6,6 +6,7 @@ import android.text.InputType
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.WindowCompat
@@ -42,15 +43,15 @@ class CheckActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         NightModeController(this).useTheme()
         setContentView(R.layout.activity_check)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                finish()
+            }
+        })
         setToolbar()
         init()
         buildDoneKey()
         drawFlashcard()
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        finish()
     }
 
     private fun setToolbar() {
@@ -58,7 +59,7 @@ class CheckActivity : AppCompatActivity() {
         toolbar.setTitle(R.string.check_title)
         toolbar.setNavigationIcon(R.drawable.ic_exit_to_app_24px)
         toolbar.setNavigationOnClickListener {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 

@@ -1,8 +1,10 @@
 package eu.qm.fiszki.activity.chat
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.mutableStateListOf
@@ -37,13 +39,13 @@ class ChatActivity : AppCompatActivity() {
         NightModeController(this).useTheme()
 
         init()
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                ChangeActivityManager(this@ChatActivity).exitChatMode()
+            }
+        })
         buildComposeContent()
         sendWelcomeAndFirstPrompt()
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        ChangeActivityManager(this).exitChatMode()
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -51,8 +53,14 @@ class ChatActivity : AppCompatActivity() {
         mAlgorithm = Algorithm(this)
         mFlashcardRepository = FlashcardRepository(this)
         mCategoryRepository = CategoryRepository(this)
-        mFlashcardsPool = intent.getSerializableExtra(ChangeActivityManager.FLASHCARDS_KEY_INTENT)
-            as ArrayList<Flashcard>
+        mFlashcardsPool = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getSerializableExtra(ChangeActivityManager.FLASHCARDS_KEY_INTENT, ArrayList::class.java)
+                as ArrayList<Flashcard>
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getSerializableExtra(ChangeActivityManager.FLASHCARDS_KEY_INTENT)
+                as ArrayList<Flashcard>
+        }
     }
 
     private fun buildComposeContent() {
@@ -62,7 +70,7 @@ class ChatActivity : AppCompatActivity() {
                     messages = messages,
                     toolbarColor = toolbarColor.value,
                     onSendMessage = { answer -> sendUserAnswer(answer) },
-                    onNavigateBack = { onBackPressed() }
+                    onNavigateBack = { onBackPressedDispatcher.onBackPressed() }
                 )
             }
         }

@@ -44,6 +44,7 @@ class CategoryShowAdapter(
         holder.card.setOnClickListener {
             CategoryManagerSingleton.currentCategoryId = category.id
             activity.startActivity(Intent(activity, FlashcardsActivity::class.java))
+            @Suppress("DEPRECATION")
             activity.overridePendingTransition(R.anim.right_in, R.anim.left_out)
         }
 

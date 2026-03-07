@@ -13,6 +13,7 @@ import android.provider.Settings
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
@@ -58,6 +59,11 @@ class SettingsActivity : AppCompatActivity() {
 
         prefs = LocalSharedPreferences(this)
 
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                finish()
+            }
+        })
         buildToolbar()
         buildNotificationSection()
         buildNightModeSwitch()
@@ -84,17 +90,12 @@ class SettingsActivity : AppCompatActivity() {
         updateNotificationSubtitles()
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        finish()
-    }
-
     private fun buildToolbar() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.setTitle(R.string.settings_toolbar_title)
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
         toolbar.setNavigationOnClickListener {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 

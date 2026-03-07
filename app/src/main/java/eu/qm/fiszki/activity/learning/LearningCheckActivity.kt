@@ -3,6 +3,7 @@ package eu.qm.fiszki.activity.learning
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.app.Activity
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -11,6 +12,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
@@ -54,16 +56,15 @@ class LearningCheckActivity : AppCompatActivity() {
         NightModeController(this).useTheme()
         setContentView(R.layout.activity_learning_check)
         init()
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                ChangeActivityManager(mActivity).exitLearningCheck()
+            }
+        })
         buildToolbar()
         buildDoneKey()
         buildButtons()
         drawFlashcard()
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        super.onBackPressed()
-        ChangeActivityManager(mActivity).exitLearningCheck()
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -82,9 +83,14 @@ class LearningCheckActivity : AppCompatActivity() {
         mStatusCorrect = findViewById(R.id.status_correct_text)
         mStatusTotal = findViewById(R.id.status_total_text)
         mCorrectPopup = findViewById(R.id.correct_popup_container)
-        @Suppress("DEPRECATION")
-        mFlashcardsPool = intent.getSerializableExtra(ChangeActivityManager.FLASHCARDS_KEY_INTENT)
+        mFlashcardsPool = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getSerializableExtra(ChangeActivityManager.FLASHCARDS_KEY_INTENT, ArrayList::class.java)
                 as ArrayList<Flashcard>
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getSerializableExtra(ChangeActivityManager.FLASHCARDS_KEY_INTENT)
+                as ArrayList<Flashcard>
+        }
         mStrictMode = intent.getBooleanExtra(ChangeActivityManager.STRICT_MODE_KEY_INTENT, true)
         mReversed = intent.getBooleanExtra(ChangeActivityManager.REVERSED_KEY_INTENT, false)
         updateStatusCard()
@@ -92,8 +98,7 @@ class LearningCheckActivity : AppCompatActivity() {
 
     private fun buildToolbar() {
         val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
-        @Suppress("DEPRECATION")
-        toolbar.setNavigationOnClickListener { onBackPressed() }
+        toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
     }
 
     private fun buildDoneKey() {
@@ -108,8 +113,7 @@ class LearningCheckActivity : AppCompatActivity() {
     }
 
     private fun buildButtons() {
-        @Suppress("DEPRECATION")
-        findViewById<MaterialButton>(R.id.btn_finish).setOnClickListener { onBackPressed() }
+        findViewById<MaterialButton>(R.id.btn_finish).setOnClickListener { onBackPressedDispatcher.onBackPressed() }
         findViewById<MaterialButton>(R.id.btn_skip).setOnClickListener { drawFlashcard() }
         findViewById<MaterialButton>(R.id.btn_check).setOnClickListener { check() }
     }

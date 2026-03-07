@@ -3,6 +3,7 @@ package eu.qm.fiszki.activity.exam
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.app.Activity
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -10,6 +11,7 @@ import android.text.InputType
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.appbar.MaterialToolbar
@@ -59,23 +61,21 @@ class ExamCheckActivity : AppCompatActivity() {
         setContentView(R.layout.activity_exam_check)
 
         init()
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                AlertDialog.Builder(mActivity)
+                    .setMessage(R.string.exam_check_exit_question)
+                    .setPositiveButton(R.string.button_action_yes) { _, _ ->
+                        ChangeActivityManager(mActivity).exitExamCheck()
+                    }
+                    .setNegativeButton(R.string.button_action_no) { _, _ -> }
+                    .show()
+            }
+        })
         buildToolbar()
         buildDoneKey()
         buildButtons()
         drawFlashcard()
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        AlertDialog.Builder(mActivity)
-            .setMessage(R.string.exam_check_exit_question)
-            .setPositiveButton(R.string.button_action_yes) { _, _ ->
-                super.onBackPressed()
-                ChangeActivityManager(mActivity).exitExamCheck()
-            }
-            .setNegativeButton(R.string.button_action_no) { _, _ -> }
-            .show()
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -84,8 +84,13 @@ class ExamCheckActivity : AppCompatActivity() {
         mAlgorithm = Algorithm(mActivity)
         mGoodAnswer = ArrayList()
         mBadAnswer = ArrayList()
-        val extras = mActivity.intent
-            .getSerializableExtra(ChangeActivityManager.EXAM_REPEAT_KEY_INTENT) as ArrayList<*>
+        val extras = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            mActivity.intent.getSerializableExtra(ChangeActivityManager.EXAM_REPEAT_KEY_INTENT, ArrayList::class.java)
+                as ArrayList<*>
+        } else {
+            @Suppress("DEPRECATION")
+            mActivity.intent.getSerializableExtra(ChangeActivityManager.EXAM_REPEAT_KEY_INTENT) as ArrayList<*>
+        }
         mFlashcardPools = extras[0] as ArrayList<Flashcard>
         mTotalRounds = extras[1] as Int
         mExamCategoryName = if (extras.size > 2) extras[2] as? String else null
@@ -106,8 +111,7 @@ class ExamCheckActivity : AppCompatActivity() {
 
     private fun buildToolbar() {
         val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
-        @Suppress("DEPRECATION")
-        toolbar.setNavigationOnClickListener { onBackPressed() }
+        toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
     }
 
     private fun buildDoneKey() {

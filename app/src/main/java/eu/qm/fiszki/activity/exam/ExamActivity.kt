@@ -3,6 +3,7 @@ package eu.qm.fiszki.activity.exam
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -23,15 +24,14 @@ class ExamActivity : AppCompatActivity() {
         NightModeController(this).useTheme()
         setContentView(R.layout.activity_exam)
 
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                finish()
+            }
+        })
         buildToolbar()
         buildFAB()
         buildBottomNav()
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        super.onBackPressed()
-        finish()
     }
 
     private fun buildToolbar() {
@@ -39,7 +39,7 @@ class ExamActivity : AppCompatActivity() {
         toolbar.setTitle(R.string.exam_toolbar_title)
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
         toolbar.setNavigationOnClickListener {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 

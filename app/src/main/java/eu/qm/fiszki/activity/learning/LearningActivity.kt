@@ -3,6 +3,7 @@ package eu.qm.fiszki.activity.learning
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.platform.ComposeView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -28,14 +29,13 @@ class LearningActivity : AppCompatActivity() {
 
         mFlashcardRepository = FlashcardRepository(this)
         mCategoryRepository = CategoryRepository(this)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                finish()
+            }
+        })
         buildComposeContent()
         buildBottomNav()
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        super.onBackPressed()
-        finish()
     }
 
     private fun buildComposeContent() {

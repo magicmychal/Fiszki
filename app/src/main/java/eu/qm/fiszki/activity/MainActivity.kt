@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -36,6 +37,21 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         init()
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    mDrawerLayout.closeDrawer(GravityCompat.START)
+                    mCountBackPress = 0
+                } else {
+                    if (mCountBackPress == 0) {
+                        Toast.makeText(mActivity, R.string.back_press_toast, Toast.LENGTH_SHORT).show()
+                        mCountBackPress++
+                    } else {
+                        finish()
+                    }
+                }
+            }
+        })
         buildDrawer()
         buildFAB()
         buildToolbar()
@@ -44,21 +60,6 @@ class MainActivity : AppCompatActivity() {
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         if (hasFocus) {
             buildDrawer()
-        }
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawer(GravityCompat.START)
-            mCountBackPress = 0
-        } else {
-            if (mCountBackPress == 0) {
-                Toast.makeText(mActivity, R.string.back_press_toast, Toast.LENGTH_SHORT).show()
-                mCountBackPress++
-            } else {
-                finish()
-            }
         }
     }
 
