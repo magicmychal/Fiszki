@@ -99,60 +99,74 @@ Every flashcard tracks how many times you've answered it correctly and incorrect
 
 ## Architecture
 
-The app follows a traditional Android Activity-based architecture:
+The app follows an Android Activity-based architecture with Jetpack Compose as the primary UI toolkit. New screens are built entirely in Compose, while some legacy screens still use XML layouts (being migrated incrementally).
 
 ```
 eu.qm.fiszki/
 ├── activity/                    # Activities (screens)
-│   ├── MainActivity.java        # Main hub with 3 cards: My Words, Learning, Exam
-│   ├── SplashScreen.java        # Launcher - routes to tutorial or main
-│   ├── CheckActivity.java       # Notification-triggered flashcard challenge
-│   ├── ChangeActivityManager.java # Navigation helper with transitions
-│   ├── exam/                    # Exam flow (ExamActivity, ExamCheckActivity, ExamBadAnswerActivity)
-│   ├── learning/                # Learning flow (LearningActivity, LearningCheckActivity)
-│   └── myWords/                 # Word management (CategoryActivity, FlashcardsActivity)
+│   ├── MainActivity.kt          # Main hub with 3 cards: My Words, Learning, Exam
+│   ├── SplashScreen.kt          # Launcher - routes to tutorial or main
+│   ├── CheckActivity.kt         # Notification-triggered flashcard challenge
+│   ├── ComposeTheme.kt          # FiszkiTheme — bridges XML themes to Compose MaterialTheme
+│   ├── CategoryColors.kt        # Category color definitions
+│   ├── ChangeActivityManager.kt # Navigation helper with transitions
+│   ├── chat/                    # Chat practice mode (fully Compose)
+│   │   ├── ChatActivity.kt      # Activity using setContent {} with ChatScreen
+│   │   ├── ChatScreen.kt        # Compose UI: message bubbles, input bar, toolbar
+│   │   └── ChatMessage.kt       # Message data class
+│   ├── exam/                    # Exam flow
+│   │   ├── ExamActivity.kt      # Setup screen (ComposeView with ExamSetupScreen)
+│   │   ├── ExamScreen.kt        # Compose UI: exam configuration
+│   │   └── ExamCheckActivity.kt # Answer checking (XML-based)
+│   ├── learning/                # Learning flow
+│   │   ├── LearningActivity.kt  # Setup screen (ComposeView with PracticeSetupScreen)
+│   │   ├── LearningScreen.kt    # Compose UI: practice configuration
+│   │   ├── TitleFonts.kt        # Custom font definitions for Compose
+│   │   └── LearningCheckActivity.kt # Answer checking (XML-based)
+│   └── myWords/                 # Word management
+│       ├── category/            # CategoryActivity (XML-based)
+│       └── flashcards/          # FlashcardsActivity (XML + Compose list items)
 ├── algorithm/                   # Flashcard selection logic
-│   ├── Algorithm.java           # Card drawing (random selection)
-│   ├── CatcherFlashcardToAlgorithm.java  # Filters flashcard pools
-│   ├── Drawer.java              # Random number utility
-│   ├── MultiplierPoints.java    # Priority weight calculation
-│   └── PriorityCount.java       # Priority distribution counter
+│   ├── Algorithm.kt             # Card drawing (random selection)
+│   ├── Drawer.kt                # Random number utility
+│   ├── MultiplierPoints.kt      # Priority weight calculation
+│   └── PriorityCount.kt        # Priority distribution counter
 ├── database/ORM/                # Database layer
-│   ├── DBHelper.java            # ORMLite database helper (SQLite)
-│   └── DBConfigUtility.java     # ORM configuration
+│   ├── DBHelper.kt              # ORMLite database helper (SQLite)
+│   └── DBConfigUtility.kt       # ORM configuration
 ├── dialogs/                     # Material dialogs for all interactions
 │   ├── category/                # Add/edit category dialogs
 │   ├── check/                   # Pass/fail/empty notification dialogs
 │   ├── exam/                    # Exam end, settings, range dialogs
 │   ├── flashcard/               # Add/edit/transform/statistic flashcard dialogs
 │   └── learning/                # Learning mode selection dialogs
-├── drawer/                      # Navigation drawer
-│   ├── DrawerMain.java          # Drawer setup
+├── drawer/                      # Navigation drawer (mikepenz MaterialDrawer)
+│   ├── DrawerMain.kt            # Drawer setup
 │   └── drawerItem/              # Individual drawer items (notifications, night mode, etc.)
 ├── listeners/                   # Click listeners for flashcard operations
 ├── model/                       # Data models
 │   ├── category/                # Category model, repository, validation
 │   └── flashcard/               # Flashcard model, repository, validation
 ├── tutorial/                    # Sliding tutorial pages
-├── AlarmReceiver.java           # Notification scheduling via AlarmManager
-├── Alert.java                   # Alert dialog builder utilities
-├── Checker.java                 # String comparison utility
-├── LocalSharedPreferences.java  # Notification preferences wrapper
-├── NightModeController.java     # Theme switching (light/dark)
-├── Rules.java                   # Flashcard validation rules
-└── ShowCategoryAdapter.java     # Category list adapter
+├── AlarmReceiver.kt             # Notification scheduling via AlarmManager
+├── Alert.kt                     # Alert dialog builder utilities
+├── Checker.kt                   # String comparison utility
+├── HapticFeedback.kt            # Vibration feedback for correct/wrong answers
+├── LocalSharedPreferences.kt    # Notification preferences wrapper
+├── NightModeController.kt       # Theme switching (light/dark/yellow)
+└── Rules.kt                     # Flashcard validation rules
 ```
 
 ## Tech Stack
 
-- **Language**: Java 11
-- **Min SDK**: 21 (Android 5.0 Lollipop)
+- **Language**: Kotlin (JVM toolchain Java 11)
+- **Min SDK**: 31 (Android 12)
 - **Target SDK**: 35 (Android 15)
-- **Database**: SQLite via [ORMLite](https://ormlite.com/)
-- **UI**: AndroidX, Material Design 3, Material Components
+- **UI**: Jetpack Compose (primary), AndroidX, Material Design 3
+- **Theming**: `FiszkiTheme` bridges XML theme attributes to Compose `MaterialTheme` for light/dark/yellow support
+- **Database**: SQLite via [ORMLite](https://ormlite.com/) 5.7
 - **Navigation Drawer**: [MaterialDrawer](https://github.com/mikepenz/MaterialDrawer) 8.4.5
-- **Dialogs**: [Material Dialogs](https://github.com/afollestad/material-dialogs) 0.9.6.0
-- **Spinner**: [Material Spinner](https://github.com/jaredrummler/MaterialSpinner) 1.3.1
+- **Dialogs**: [Material Dialogs](https://github.com/afollestad/material-dialogs) 0.9.6.0 (Jetifier-converted)
 - **Tutorial**: [Cleveroad SlidingTutorial](https://github.com/nickseven/SlidingTutorial) 1.0.6
 - **Build**: Gradle with Android Gradle Plugin 9.1.0
 
