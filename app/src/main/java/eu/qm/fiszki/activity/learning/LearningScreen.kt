@@ -27,14 +27,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import eu.qm.fiszki.R
+import eu.qm.fiszki.activity.FiszkiTheme
 
 data class PracticeCategoryItem(
     val id: Int?,
@@ -71,35 +73,33 @@ fun PracticeSetupScreen(
             modifier = Modifier.padding(start = 24.dp, top = 48.dp, end = 24.dp, bottom = 8.dp)
         ) {
             var wordIndex = 0
-            lines.forEachIndexed { lineIndex, line ->
+            lines.forEachIndexed { _, line ->
                 val words = line.split(" ").filter { it.isNotEmpty() }
-                if (lineIndex == 0 && words.size == 1) {
-                    Text(
-                        text = words[0].uppercase(),
-                        fontSize = 57.sp,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        lineHeight = 64.sp,
-                        fontFamily = AssetFamily,
-                        fontWeight = FontWeight.Normal,
-                        letterSpacing = 28.sp,
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center
-                    )
-                    wordIndex += 1
-                } else {
-                    Text(
-                        text = buildAnnotatedString {
-                            words.forEachIndexed { i, word ->
+                Text(
+                    text = buildAnnotatedString {
+                        words.forEachIndexed { i, word ->
+                            // Apply AssetFamily to the very first word ("time"/"czas")
+                            if (wordIndex == 0) {
+                                withStyle(
+                                    SpanStyle(
+                                        fontFamily = AssetFamily,
+                                        fontWeight = FontWeight.Normal,
+                                        letterSpacing = 28.sp
+                                    )
+                                ) {
+                                    append(word.uppercase())
+                                }
+                            } else {
                                 withStyle(buildTitleSpanStyle(wordIndex)) { append(word) }
-                                wordIndex++
-                                if (i < words.size - 1) append(" ")
                             }
-                        },
-                        fontSize = 57.sp,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        lineHeight = 64.sp
-                    )
-                }
+                            wordIndex++
+                            if (i < words.size - 1) append(" ")
+                        }
+                    },
+                    fontSize = 57.sp,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    lineHeight = 64.sp
+                )
             }
         }
 
@@ -220,3 +220,72 @@ fun PracticeSetupScreen(
         Spacer(modifier = Modifier.height(24.dp))
     }
 }
+
+@Preview(showBackground = true, name = "Practice Setup - English")
+@Composable
+fun PracticeSetupScreenPreview() {
+    FiszkiTheme {
+        PracticeSetupScreen(
+            title = "Time to\npractice!",
+            categories = listOf(
+                PracticeCategoryItem(
+                    id = null,
+                    displayName = "All categories",
+                    langFrom = null,
+                    langOn = null
+                ),
+                PracticeCategoryItem(
+                    id = 1,
+                    displayName = "Spanish Basics",
+                    langFrom = "English",
+                    langOn = "Spanish"
+                ),
+                PracticeCategoryItem(
+                    id = 2,
+                    displayName = "French Vocabulary",
+                    langFrom = "English",
+                    langOn = "French"
+                ),
+                PracticeCategoryItem(
+                    id = 3,
+                    displayName = "German Grammar",
+                    langFrom = "English",
+                    langOn = "German"
+                )
+            ),
+            onStartPractice = { _, _, _ -> }
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "Practice Setup - Polish")
+@Composable
+fun PracticeSetupScreenPreviewPolish() {
+    FiszkiTheme {
+        PracticeSetupScreen(
+            title = "Czas na\nćwiczenia!",
+            categories = listOf(
+                PracticeCategoryItem(
+                    id = null,
+                    displayName = "Wszystkie kategorie",
+                    langFrom = null,
+                    langOn = null
+                ),
+                PracticeCategoryItem(
+                    id = 1,
+                    displayName = "Podstawy hiszpańskiego",
+                    langFrom = "Polski",
+                    langOn = "Hiszpański"
+                ),
+                PracticeCategoryItem(
+                    id = 2,
+                    displayName = "Słownictwo francuskie",
+                    langFrom = "Polski",
+                    langOn = "Francuski"
+                )
+            ),
+            onStartPractice = { _, _, _ -> }
+        )
+    }
+}
+

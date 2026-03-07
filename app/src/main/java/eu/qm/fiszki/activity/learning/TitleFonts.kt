@@ -1,52 +1,29 @@
 package eu.qm.fiszki.activity.learning
 
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.googlefonts.Font
-import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.unit.TextUnit
 import eu.qm.fiszki.R
 
-private val provider = GoogleFont.Provider(
-    providerAuthority = "com.google.android.gms.fonts",
-    providerPackage = "com.google.android.gms",
-    certificates = R.array.com_google_android_gms_fonts_certs
-)
-
 val RobotoFlexFamily = FontFamily(
-    Font(
-        googleFont = GoogleFont("Roboto Flex"),
-        fontProvider = provider,
-        weight = FontWeight.Black
-    )
+    Font(R.font.roboto_flex_regular, weight = FontWeight.Black)
 )
 
 val RobotoMonoFamily = FontFamily(
-    Font(
-        googleFont = GoogleFont("Roboto Mono"),
-        fontProvider = provider,
-        weight = FontWeight.Thin
-    )
+    Font(R.font.roboto_mono_regular, weight = FontWeight.Thin)
 )
 
 val RobotoSerifFamily = FontFamily(
-    Font(
-        googleFont = GoogleFont("Roboto Serif"),
-        fontProvider = provider,
-        weight = FontWeight.Normal,
-        style = FontStyle.Italic
-    )
+    Font(R.font.roboto_serif_regular, weight = FontWeight.Normal),
+    Font(R.font.roboto_serif_italic, weight = FontWeight.Normal, style = FontStyle.Italic)
 )
 
-/** Asset — unique display font for "Time" title, fetched from Google Fonts */
+/** Asset — unique display font for the first title word ("TIME"/"CZAS") */
 val AssetFamily = FontFamily(
-    Font(
-        googleFont = GoogleFont("Asset"),
-        fontProvider = provider,
-        weight = FontWeight.Normal
-    )
+    Font(R.font.asset_regular, weight = FontWeight.Normal)
 )
 
 data class WordStyle(
