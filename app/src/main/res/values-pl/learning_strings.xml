@@ -31,10 +31,14 @@
     <string name="learning_check_lang_translate_2">na</string>
 
     <string name="learning_check_dialog_bad_answer_1">Zła odpowiedź. Poprawnie to:</string>
+    <string name="learning_check_dialog_bad_answer_1_new">Prawidłowa odpowiedź</string>
     <string name="learning_check_dialog_bad_answer_2">Wpisz ponownie.</string>
     <string name="learning_check_dialog_your_answer">Twoja odpowiedź:</string>
+    <string name="learning_check_dialog_your_answer_label">Wpisałeś</string>
 
     <string name="learning_check_dialog_skip_btn">Pomiń fiszkę</string>
+    <string name="learning_check_dialog_skip_btn_new">Pomiń tym razem</string>
+    <string name="learning_check_dialog_retry_btn">Spróbuj wpisać ponownie</string>
     <string name="learning_check_menu_skip_toast">Fiszka została pominięta</string>
 
     <string name="learning_no_flashcards">Brak fiszek. Dodaj najpierw!</string>

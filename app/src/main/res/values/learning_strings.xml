@@ -31,10 +31,14 @@
     <string name="learning_check_lang_translate_2">to</string>
 
     <string name="learning_check_dialog_bad_answer_1">Bad answer. Correctly:</string>
+    <string name="learning_check_dialog_bad_answer_1_new">Correct answer</string>
     <string name="learning_check_dialog_bad_answer_2">Write it again.</string>
     <string name="learning_check_dialog_your_answer">Your answer:</string>
+    <string name="learning_check_dialog_your_answer_label">You entered</string>
 
     <string name="learning_check_dialog_skip_btn">Skip flashcard</string>
+    <string name="learning_check_dialog_skip_btn_new">Skip this time</string>
+    <string name="learning_check_dialog_retry_btn">Try typing again</string>
     <string name="learning_check_menu_skip_toast">Flashcard has been omitted</string>
 
     <string name="learning_no_flashcards">No flashcards available. Add some first!</string>

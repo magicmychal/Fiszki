@@ -174,7 +174,7 @@ class LearningCheckActivity : AppCompatActivity() {
             mFlashcardRepository.downFlashcardPriority(mDrawnFlashcard)
             mTotalCount++
             updateStatusCard()
-            BadAnswerLearnigDialog(mActivity, mDrawnFlashcard, this, expectedAnswer, answer).show()
+            BadAnswerLearnigDialog(mActivity, mDrawnFlashcard, this, expectedAnswer, answer)
         }
     }
 
