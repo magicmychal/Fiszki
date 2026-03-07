@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -35,6 +38,7 @@ class CategoryFragment : Fragment() {
         mEmptyText = view.findViewById(R.id.empty_word_text)
         buildAddButton(view)
         buildList(view)
+        handleWindowInsets(view)
     }
 
     override fun onResume() {
@@ -53,6 +57,15 @@ class CategoryFragment : Fragment() {
     private fun buildList(view: View) {
         mRecycleView = view.findViewById(R.id.listview_category)
         mRecycleView.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun handleWindowInsets(view: View) {
+        val contentLayout = view.findViewById<LinearLayout>(R.id.category_content_layout)
+        ViewCompat.setOnApplyWindowInsetsListener(contentLayout) { v, insets ->
+            val statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+            v.setPadding(v.paddingLeft, statusBarHeight, v.paddingRight, v.paddingBottom)
+            insets
+        }
     }
 
     private fun updateList() {
@@ -75,3 +88,5 @@ class CategoryFragment : Fragment() {
         mRecycleView.swapAdapter(adapter, false)
     }
 }
+
+
