@@ -33,19 +33,25 @@ class BadAnswerLearnigDialog(
         userAnswerTextView.text = buildHighlighted(userAnswer.ifEmpty { "—" }, if (userAnswer.isEmpty()) null else userDiffs, RED)
         correctAnswerTextView.text = buildHighlighted(correctAnswer, correctDiffs, GREEN)
 
+        // Hide the custom buttons — we use the dialog's built-in buttons instead
+        // to avoid the double-tap issue with custom buttons inside setView().
+        val skipBtn = dialogView.findViewById<MaterialButton>(R.id.btn_skip)
+        (skipBtn.parent as? android.view.View)?.visibility = android.view.View.GONE
+
+        val skipLabel = context.getString(R.string.learning_check_dialog_skip_btn_new)
+        val retryLabel = context.getString(R.string.learning_check_dialog_retry_btn)
+
         val dialog = MaterialAlertDialogBuilder(context)
             .setView(dialogView)
             .setCancelable(false)
+            .setNegativeButton(skipLabel) { d, _ ->
+                lca.drawFlashcard()
+                d.dismiss()
+            }
+            .setPositiveButton(retryLabel) { d, _ ->
+                d.dismiss()
+            }
             .create()
-
-        dialogView.findViewById<MaterialButton>(R.id.btn_skip).setOnClickListener {
-            lca.drawFlashcard()
-            dialog.dismiss()
-        }
-
-        dialogView.findViewById<MaterialButton>(R.id.btn_retry).setOnClickListener {
-            dialog.dismiss()
-        }
 
         dialog.show()
     }
