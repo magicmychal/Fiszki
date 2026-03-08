@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.widget.TextView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import eu.qm.fiszki.Checker
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.learning.LearningCheckActivity
 import eu.qm.fiszki.model.flashcard.Flashcard
@@ -25,20 +26,18 @@ class BadAnswerLearnigDialog(
     init {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_bad_answer, null)
 
-        // Set up the text views with highlighted differences
         val userAnswerTextView = dialogView.findViewById<TextView>(R.id.user_answer_text)
         val correctAnswerTextView = dialogView.findViewById<TextView>(R.id.correct_answer_text)
 
-        // Build spannable strings with highlights
-        userAnswerTextView.text = buildHighlightedUserAnswer(userAnswer, correctAnswer)
-        correctAnswerTextView.text = buildHighlightedCorrectAnswer(correctAnswer, userAnswer)
+        val (userDiffs, correctDiffs) = Checker.alignDiffs(userAnswer, correctAnswer)
+        userAnswerTextView.text = buildHighlighted(userAnswer.ifEmpty { "—" }, if (userAnswer.isEmpty()) null else userDiffs, RED)
+        correctAnswerTextView.text = buildHighlighted(correctAnswer, correctDiffs, GREEN)
 
         val dialog = MaterialAlertDialogBuilder(context)
             .setView(dialogView)
             .setCancelable(false)
             .create()
 
-        // Set up button listeners
         dialogView.findViewById<MaterialButton>(R.id.btn_skip).setOnClickListener {
             lca.drawFlashcard()
             dialog.dismiss()
@@ -51,105 +50,77 @@ class BadAnswerLearnigDialog(
         dialog.show()
     }
 
-    private fun buildHighlightedUserAnswer(userAnswer: String, correctAnswer: String): SpannableStringBuilder {
-        val builder = SpannableStringBuilder(userAnswer.ifEmpty { "—" })
-
-        if (userAnswer.isNotEmpty()) {
-            highlightDiffs(builder, 0, userAnswer, correctAnswer, RED)
-        }
-
-        return builder
-    }
-
-    private fun buildHighlightedCorrectAnswer(correctAnswer: String, userAnswer: String): SpannableStringBuilder {
-        val builder = SpannableStringBuilder(correctAnswer)
-
-        if (userAnswer.isNotEmpty()) {
-            highlightDiffs(builder, 0, correctAnswer, userAnswer, GREEN)
-        }
-
-        return builder
-    }
-
-
-    /**
-     * Highlights characters in [text] (starting at [offset] in [builder])
-     * that differ from [reference] using the given [color].
-     *
-     * Uses a simple char-by-char comparison. Extra characters in [text]
-     * beyond [reference] length are also highlighted.
-     */
-    private fun highlightDiffs(
-        builder: SpannableStringBuilder,
-        offset: Int,
-        text: String,
-        reference: String,
-        color: Int
-    ) {
-        var i = 0
-        while (i < text.length) {
-            val differs = i >= reference.length || text[i] != reference[i]
-            if (differs) {
-                // Find the end of this differing run
-                var j = i + 1
-                while (j < text.length && (j >= reference.length || text[j] != reference[j])) {
-                    j++
-                }
-                builder.setSpan(
-                    ForegroundColorSpan(color),
-                    offset + i, offset + j,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-                builder.setSpan(
-                    StyleSpan(android.graphics.Typeface.BOLD),
-                    offset + i, offset + j,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-                i = j
-            } else {
-                i++
-            }
-        }
-    }
-
     companion object {
         private val RED = Color.parseColor("#D32F2F")
         private val GREEN = Color.parseColor("#388E3C")
 
-        // Keep this for backward compatibility with ExamCheckActivity
-        @Deprecated("Use the new dialog layout instead")
+        /**
+         * Builds a SpannableStringBuilder with only the differing characters
+         * highlighted in [color] + bold, based on edit-distance alignment.
+         */
+        private fun buildHighlighted(
+            text: String,
+            diffs: BooleanArray?,
+            color: Int
+        ): SpannableStringBuilder {
+            val builder = SpannableStringBuilder(text)
+            if (diffs == null) return builder
+
+            var i = 0
+            while (i < diffs.size) {
+                if (diffs[i]) {
+                    val start = i
+                    while (i < diffs.size && diffs[i]) i++
+                    builder.setSpan(
+                        ForegroundColorSpan(color),
+                        start, i,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                    builder.setSpan(
+                        StyleSpan(android.graphics.Typeface.BOLD),
+                        start, i,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                } else {
+                    i++
+                }
+            }
+            return builder
+        }
+
+        /**
+         * Used by ExamCheckActivity for inline diff display.
+         */
         fun buildDiffMessage(
             context: Context,
             correctAnswer: String,
             userAnswer: String
         ): SpannableStringBuilder {
+            val (userDiffs, correctDiffs) = Checker.alignDiffs(userAnswer, correctAnswer)
+
             val builder = SpannableStringBuilder()
 
             // "Your answer:" label + highlighted user answer
-            val yourAnswerLabel = context.getString(R.string.learning_check_dialog_your_answer)
-            builder.append(yourAnswerLabel)
+            builder.append(context.getString(R.string.learning_check_dialog_your_answer))
             builder.append("\n")
 
             val userStart = builder.length
             builder.append(userAnswer.ifEmpty { "—" })
-            val userEnd = builder.length
 
             if (userAnswer.isNotEmpty()) {
-                highlightDiffsStatic(builder, userStart, userAnswer, correctAnswer, RED)
+                applyDiffSpans(builder, userStart, userDiffs, RED)
             }
 
             builder.append("\n\n")
 
             // "Correctly:" label + highlighted correct answer
-            val correctLabel = context.getString(R.string.learning_check_dialog_bad_answer_1)
-            builder.append(correctLabel)
+            builder.append(context.getString(R.string.learning_check_dialog_bad_answer_1))
             builder.append("\n")
 
             val correctStart = builder.length
             builder.append(correctAnswer)
             val correctEnd = builder.length
 
-            // Bold the correct answer
             builder.setSpan(
                 StyleSpan(android.graphics.Typeface.BOLD),
                 correctStart, correctEnd,
@@ -157,7 +128,7 @@ class BadAnswerLearnigDialog(
             )
 
             if (userAnswer.isNotEmpty()) {
-                highlightDiffsStatic(builder, correctStart, correctAnswer, userAnswer, GREEN)
+                applyDiffSpans(builder, correctStart, correctDiffs, GREEN)
             }
 
             builder.append("\n\n")
@@ -166,33 +137,27 @@ class BadAnswerLearnigDialog(
             return builder
         }
 
-        private fun highlightDiffsStatic(
+        private fun applyDiffSpans(
             builder: SpannableStringBuilder,
             offset: Int,
-            text: String,
-            reference: String,
+            diffs: BooleanArray,
             color: Int
         ) {
             var i = 0
-            while (i < text.length) {
-                val differs = i >= reference.length || text[i] != reference[i]
-                if (differs) {
-                    // Find the end of this differing run
-                    var j = i + 1
-                    while (j < text.length && (j >= reference.length || text[j] != reference[j])) {
-                        j++
-                    }
+            while (i < diffs.size) {
+                if (diffs[i]) {
+                    val start = i
+                    while (i < diffs.size && diffs[i]) i++
                     builder.setSpan(
                         ForegroundColorSpan(color),
-                        offset + i, offset + j,
+                        offset + start, offset + i,
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
                     builder.setSpan(
                         StyleSpan(android.graphics.Typeface.BOLD),
-                        offset + i, offset + j,
+                        offset + start, offset + i,
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
-                    i = j
                 } else {
                     i++
                 }
