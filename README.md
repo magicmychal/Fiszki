@@ -201,6 +201,23 @@ eu.qm.fiszki/
 ./gradlew test
 ```
 
+## Acknowledgements
+
+Fiszki builds on the following open-source projects and research:
+
+| Project | Use | License |
+|---------|-----|---------|
+| [FSRS (Free Spaced Repetition Scheduler)](https://github.com/open-spaced-repetition/fsrs-rs) | Spaced repetition algorithm — the FSRS v6 scheduler is ported from the reference Rust implementation | MIT |
+| [ORMLite](https://ormlite.com/) | SQLite ORM for Android | ISC |
+| [MaterialDrawer](https://github.com/mikepenz/MaterialDrawer) | Navigation drawer | Apache 2.0 |
+| [Material Dialogs](https://github.com/afollestad/material-dialogs) | Dialog framework | MIT |
+| [SlidingTutorial](https://github.com/nickseven/SlidingTutorial) | First-launch tutorial | MIT |
+| [Sentry Android SDK](https://github.com/getsentry/sentry-java) | Opt-in crash reporting and diagnostics | MIT |
+| [Jetpack Compose](https://developer.android.com/jetpack/compose) | UI toolkit | Apache 2.0 |
+| [Google Fonts for Compose](https://developer.android.com/develop/ui/compose/text/fonts#downloadable) | Roboto Flex, Roboto Mono, Roboto Serif, Porter Sans Block | Apache 2.0 / OFL |
+
+The FSRS algorithm is based on the research by Jarrett Ye and the [open-spaced-repetition](https://github.com/open-spaced-repetition) community. Default parameters (w[0..20]) are from the FSRS v6 model trained on anonymised Anki review data.
+
 ## License
 
 See [LICENSE](LICENSE) file.
