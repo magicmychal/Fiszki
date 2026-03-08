@@ -56,6 +56,12 @@
     <string name="import_csv_found">Znaleziono %d fiszek</string>
     <string name="import_csv_import">Importuj</string>
 
+    <!-- Diagnostics -->
+    <string name="settings_diagnostic_title">Wysyłaj dane diagnostyczne</string>
+    <string name="settings_diagnostic_summary">Pomóż ulepszyć Fiszki, udostępniając anonimowe raporty o błędach i logi</string>
+    <string name="settings_test_crash_title">Testuj raport o awarii</string>
+    <string name="settings_test_crash_summary">Wymuś awarię, aby sprawdzić czy raportowanie działa</string>
+
     <!-- Day names -->
     <string name="day_monday">Pon</string>
     <string name="day_tuesday">Wt</string>

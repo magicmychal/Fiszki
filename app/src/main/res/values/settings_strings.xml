@@ -57,6 +57,12 @@
     <string name="import_csv_found">Found %d flashcards</string>
     <string name="import_csv_import">Import</string>
 
+    <!-- Diagnostics -->
+    <string name="settings_diagnostic_title">Send diagnostic data</string>
+    <string name="settings_diagnostic_summary">Help improve Fiszki by sharing anonymous crash reports and logs</string>
+    <string name="settings_test_crash_title">Test crash report</string>
+    <string name="settings_test_crash_summary">Force a crash to verify diagnostic reporting works</string>
+
     <!-- Day names -->
     <string name="day_monday">Mon</string>
     <string name="day_tuesday">Tue</string>

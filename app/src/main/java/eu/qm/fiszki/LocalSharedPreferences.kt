@@ -12,6 +12,7 @@ class LocalSharedPreferences(context: Context) {
         private const val KEY_NOTIFICATION_MINUTE = "notification_minute"
         private const val KEY_NOTIFICATION_DAYS = "notification_days"
         private const val KEY_COLOR_PALETTE = "color_palette"
+        private const val KEY_DIAGNOSTIC_DATA = "diagnostic_data_enabled"
 
         const val PALETTE_PURPLE = 0
         const val PALETTE_YELLOW = 1
@@ -57,6 +58,12 @@ class LocalSharedPreferences(context: Context) {
         get() = prefs.getInt(KEY_COLOR_PALETTE, PALETTE_PURPLE)
         set(value) {
             prefs.edit().putInt(KEY_COLOR_PALETTE, value).apply()
+        }
+
+    var diagnosticDataEnabled: Boolean
+        get() = prefs.getBoolean(KEY_DIAGNOSTIC_DATA, false)
+        set(value) {
+            prefs.edit().putBoolean(KEY_DIAGNOSTIC_DATA, value).apply()
         }
 
     private fun migrateOldPrefs(context: Context) {

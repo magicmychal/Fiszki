@@ -24,6 +24,7 @@ import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import eu.qm.fiszki.AlarmReceiver
+import eu.qm.fiszki.FiszkiApplication
 import eu.qm.fiszki.LocalSharedPreferences
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
@@ -68,6 +69,7 @@ class SettingsFragment : Fragment() {
         buildColorPalette(view)
         buildLanguageRow(view)
         buildImportCsv(view)
+        buildDiagnosticSwitch(view)
         buildClearData(view)
         buildSendFeedback(view)
         buildVersion(view)
@@ -310,6 +312,26 @@ class SettingsFragment : Fragment() {
     private fun buildImportCsv(view: View) {
         view.findViewById<View>(R.id.settings_import_csv).setOnClickListener {
             CsvImportBottomSheet().show(childFragmentManager, "csv_import")
+        }
+    }
+
+    private fun buildDiagnosticSwitch(view: View) {
+        val diagnosticSwitch = view.findViewById<MaterialSwitch>(R.id.settings_diagnostic_switch)
+        val testCrashRow = view.findViewById<View>(R.id.settings_test_crash)
+
+        diagnosticSwitch.isChecked = prefs.diagnosticDataEnabled
+        testCrashRow.visibility = if (prefs.diagnosticDataEnabled) View.VISIBLE else View.GONE
+
+        diagnosticSwitch.setOnCheckedChangeListener { _, isChecked ->
+            prefs.diagnosticDataEnabled = isChecked
+            testCrashRow.visibility = if (isChecked) View.VISIBLE else View.GONE
+            if (isChecked) {
+                (requireActivity().application as FiszkiApplication).initSentry()
+            }
+        }
+
+        testCrashRow.setOnClickListener {
+            throw RuntimeException("Fiszki test crash — diagnostic reporting verification")
         }
     }
 

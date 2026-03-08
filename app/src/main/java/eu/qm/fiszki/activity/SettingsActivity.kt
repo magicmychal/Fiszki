@@ -24,6 +24,7 @@ import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import eu.qm.fiszki.AlarmReceiver
+import eu.qm.fiszki.FiszkiApplication
 import eu.qm.fiszki.LocalSharedPreferences
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
@@ -68,6 +69,7 @@ class SettingsActivity : AppCompatActivity() {
         buildNotificationSection()
         buildNightModeSwitch()
         buildLanguageRow()
+        buildDiagnosticSwitch()
         buildClearData()
         buildSendFeedback()
         buildVersion()
@@ -277,6 +279,26 @@ class SettingsActivity : AppCompatActivity() {
                 }
                 startActivity(intent)
             }
+        }
+    }
+
+    private fun buildDiagnosticSwitch() {
+        val diagnosticSwitch = findViewById<MaterialSwitch>(R.id.settings_diagnostic_switch)
+        val testCrashRow = findViewById<View>(R.id.settings_test_crash)
+
+        diagnosticSwitch.isChecked = prefs.diagnosticDataEnabled
+        testCrashRow.visibility = if (prefs.diagnosticDataEnabled) View.VISIBLE else View.GONE
+
+        diagnosticSwitch.setOnCheckedChangeListener { _, isChecked ->
+            prefs.diagnosticDataEnabled = isChecked
+            testCrashRow.visibility = if (isChecked) View.VISIBLE else View.GONE
+            if (isChecked) {
+                (application as FiszkiApplication).initSentry()
+            }
+        }
+
+        testCrashRow.setOnClickListener {
+            throw RuntimeException("Fiszki test crash — diagnostic reporting verification")
         }
     }
 
