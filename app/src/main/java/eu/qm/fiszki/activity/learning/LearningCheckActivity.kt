@@ -240,7 +240,9 @@ class LearningCheckActivity : AppCompatActivity() {
         } else {
             HapticFeedback.vibrateWrong(mActivity)
             mFlashcardRepository.upFlashcardFailStatistic(mDrawnFlashcard)
-            if (!mPrefs.useFsrsAlgorithm) {
+            if (mPrefs.useFsrsAlgorithm) {
+                mFsrsCardSelector!!.reinsertForRetry(mDrawnFlashcard)
+            } else {
                 mFlashcardRepository.downFlashcardPriority(mDrawnFlashcard)
             }
             mRetrying = true

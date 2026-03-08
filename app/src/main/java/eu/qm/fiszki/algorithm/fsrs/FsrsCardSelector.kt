@@ -6,104 +6,54 @@ import java.util.Date
 /**
  * Selects the next flashcard for a learning session when FSRS is enabled.
  *
- * Within a session the selector balances introducing new cards with
- * revisiting cards that were answered during this session. It shuffles
- * new cards so the first pick is not deterministic.
+ * On first call the pool is shuffled into a queue. Cards are drawn in order.
+ * Cards that were answered incorrectly are re-inserted a few positions ahead
+ * so they come back soon but not immediately.
  *
  * Avoids drawing the same card twice in a row.
  */
 class FsrsCardSelector {
 
-    private val scheduler = FsrsScheduler()
+    private val queue = ArrayDeque<Flashcard>()
     private var lastDrawnId: Int = -1
-    private val seenThisSession = mutableSetOf<Int>()
-    private var drawsSinceLastNew = 0
+    private var initialized = false
 
     fun selectNext(pool: List<Flashcard>, now: Date = Date()): Flashcard {
-        if (pool.size == 1) {
-            lastDrawnId = pool[0].id
-            seenThisSession.add(pool[0].id)
-            return pool[0]
+        if (!initialized) {
+            queue.addAll(pool.shuffled())
+            initialized = true
         }
 
-        val candidates = pool.filter { it.id != lastDrawnId }
-
-        // Partition by FSRS state
-        val overdueReview = mutableListOf<Pair<Flashcard, Double>>()
-        val dueLearning = mutableListOf<Flashcard>()
-        val newUnseen = mutableListOf<Flashcard>()
-        val newSeen = mutableListOf<Flashcard>()
-
-        for (card in candidates) {
-            when (FsrsState.entries[card.fsrsState]) {
-                FsrsState.New -> {
-                    if (card.id in seenThisSession) {
-                        newSeen.add(card)
-                    } else {
-                        newUnseen.add(card)
-                    }
-                }
-                FsrsState.Learning, FsrsState.Relearning -> dueLearning.add(card)
-                FsrsState.Review -> {
-                    val fsrsCard = card.toFsrsCard()
-                    val r = scheduler.retrievability(fsrsCard, now)
-                    overdueReview.add(card to r)
-                }
-            }
+        // If queue is empty, reshuffle the full pool (all cards seen once)
+        if (queue.isEmpty()) {
+            queue.addAll(pool.shuffled())
         }
 
-        // Prioritize introducing unseen new cards, but interleave with
-        // due/review cards every few draws to reinforce recent answers.
-        val shouldShowNew = newUnseen.isNotEmpty() &&
-            (dueLearning.isEmpty() && overdueReview.isEmpty() || drawsSinceLastNew >= 2)
-
-        if (shouldShowNew) {
-            val selected = newUnseen.random()
-            lastDrawnId = selected.id
-            seenThisSession.add(selected.id)
-            drawsSinceLastNew = 0
-            return selected
+        // Avoid same card twice in a row
+        if (queue.size > 1 && queue.first().id == lastDrawnId) {
+            val skipped = queue.removeFirst()
+            queue.addLast(skipped)
         }
 
-        // 1. Overdue review cards — lowest retrievability first
-        if (overdueReview.isNotEmpty()) {
-            overdueReview.sortBy { it.second }
-            val selected = overdueReview[0].first
-            lastDrawnId = selected.id
-            seenThisSession.add(selected.id)
-            drawsSinceLastNew++
-            return selected
-        }
-
-        // 2. Due learning/relearning cards
-        if (dueLearning.isNotEmpty()) {
-            val selected = dueLearning.random()
-            lastDrawnId = selected.id
-            seenThisSession.add(selected.id)
-            drawsSinceLastNew++
-            return selected
-        }
-
-        // 3. Unseen new cards (if we skipped above due to interleaving)
-        if (newUnseen.isNotEmpty()) {
-            val selected = newUnseen.random()
-            lastDrawnId = selected.id
-            seenThisSession.add(selected.id)
-            drawsSinceLastNew = 0
-            return selected
-        }
-
-        // 4. Already-seen new cards (fallback when all new cards were seen)
-        if (newSeen.isNotEmpty()) {
-            val selected = newSeen.random()
-            lastDrawnId = selected.id
-            drawsSinceLastNew = 0
-            return selected
-        }
-
-        // Fallback
-        val selected = pool.random()
+        val selected = queue.removeFirst()
         lastDrawnId = selected.id
         return selected
+    }
+
+    /**
+     * Re-insert a card that was answered incorrectly so it appears again
+     * after a short gap (2-4 cards later).
+     */
+    fun reinsertForRetry(flashcard: Flashcard) {
+        val insertPos = minOf(RETRY_GAP, queue.size)
+        // Convert to mutable list for indexed insert, then rebuild deque
+        val list = queue.toMutableList()
+        list.add(insertPos, flashcard)
+        queue.clear()
+        queue.addAll(list)
+    }
+
+    companion object {
+        private const val RETRY_GAP = 3
     }
 }
