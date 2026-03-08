@@ -1,0 +1,1479 @@
+#separator:tab
+#html:false
+Dzień dobry! (rano)	Guten Morgen!
+Dzień dobry!	Guten Tag!
+Dobry wieczór!	Guten Abend!
+Dobranoc!	Gute Nacht!
+Do widzenia!	Auf Wiedersehen!
+Cześć! (powitanie)	Hallo!
+Cześć! / Pozdrawiam cię!	Grüß dich!
+Serwus!	Servus! (A)
+Witam!	Grüezi! (CH)
+Cześć (pożegnanie)	Tschüs!
+Na razie! (1)	Bis dann!
+Na razie! (2)	Bis gleich!
+Na razie! (3)	Bis dahin!
+Przepraszam! (1)	Entschuldigung!
+Przepraszam pana! (1)	Entschuldigen Sie!
+Przepraszam! (2)	Verzeihung!
+Jak leci?	Wie geht's?
+Dziękuję, dobrze.	Danke, gut.
+Proszę (bardzo)!	Bitte (schön)!
+Dziękuję (bardzo)!	Danke (schön)!
+Nie ma za co! (1)	Keine Ursache!
+Nie ma za co! (2)	Gern geschehen!
+Na zdrowie!	Gesundheit!
+Za pomyślność! (toast)	Zum Wohl!
+No to chlup! (toast)	Prost!
+Za przyszłość! (toast)	Auf die Zukunft!
+Szczęść Boże!	Grüß Gott!
+Szerokiej drogi!	Gute Reise!
+Dobrej zabawy! (1)	Viel Spaß!
+Dobrej zabawy! (2)	Viel Vergnügen!
+Trzymaj się! / Sprawuj się dobrze!	Mach's gut!
+Do piątku!	Bis Freitag!
+Kocham cię.	Ich liebe dich.
+Poprosze ...	Ich möchte ...
+Czy tu jest wolne?	Ist da frei?
+Niech pan siada!	Setzen Sie sich!
+Wejść!	Herein!
+Przykro mi.	Es tut mir leid.
+Miło mi!	Angenehm!
+Nie rozumiem!	Ich verstehe nicht!
+Niech pan powtórzy!	Wiederholen Sie!
+Nie wiem.	Ich weiß nicht.
+Ile kosztuje ... ?	Wie viel kostet ... ?
+Ma pan ognia?	Haben Sie Feuer?
+matka	die Mutter
+ojciec	der Vater
+mamusia	die Mutti
+tatuś	der Vati
+brat	der Bruder
+siostra	die Schwester
+syn	der Sohn
+córka	die Tochter
+ojczym	der Stiefvater
+macocha	die Stiefmutter
+babka	die Großmutter
+dziadek	der Großvater
+babcia	die Oma
+dziadziuś	der Opa
+wujek	der Onkel
+ciocia	die Tante
+chrzestny	der Pate
+chrzestna	die Patin
+kuzyn	der Cousin
+kuzynka	die Kusine
+bratanek/siostrzeniec	der Neffe
+bratanka/siostrzenica	die Neffin
+pasierb	der Stiefsohn
+pasierbica	die Stieftochter
+żona	die Frau, die Ehefrau
+mąż	der Mann, der Ehemann
+kochanka	die Geliebte
+kochanek	der Liebhaber
+sąsiad	der Nachbar
+sąsiadka	die Nachbarin
+pradziadek	der Urgroßvater
+prababka	die Urgroßmutter
+0	Null
+1	eins
+2	zwei
+3	drei
+4	vier
+5	fünf
+6	sechs
+7	sieben
+8	acht
+9	neun
+10	zehn
+11	elf
+12	zwölf
+13	dreizehn
+14	vierzehn
+15	fünfzehn
+16	sechzehn
+17	siebzehn
+18	achtzehn
+19	neunzehn
+20	zwanzig
+21	einundzwanzig
+30	dreißig
+40	vierzig
+50	fünfzig
+60	sechzig
+70	siebzig
+80	achtzig
+90	neunzig
+100	einhundert
+200	zweihundert
+1000	eintausend
+1 000 000	eine Million
+2 000 000	zwei Millionen
+1 000 000 000	eine Milliarde
+2 000 000 000	zwei Milliarden
+-	minus, weniger
+x	mal
+:	geteilt durch
+=	ist
+zielony	grün
+czerwony	rot
+żółty	gelb
+brązowy	braun
+szary	grau
+czarny	schwarz
+fioletowy	violett
+liliowy	lila
+beżowy	beige
+różowy	rosa
+niebieski	blau
+pomarańczowy	orange
+srebrny	silbern
+złoty	golden
+kolor ochry	ocker
+granatowy	tiefblau
+błękitny	hellblau
+biały	weiß
+popielaty	aschfarben
+poniedziałek	der Montag
+wtorek	der Dienstag
+środa	der Mittwoch
+czwartek	der Donnerstag
+piątek	der Freitag
+sobota	der Samstag, der Sonnabend
+niedziela	der Sonntag
+dzisiaj	heute
+jutro	morgen
+pojutrze	übermorgen
+wczoraj	gestern
+przedwczoraj	vorgestern
+w tym tygodniu	diese Woche
+w przyszłym tygodniu	nächste Woche
+w ubiegłym tygodniu	letzte Woche
+tydzień	die Woche
+dzień	der Tag
+miesiąc	der Monat
+rok	das Jahr
+rok przestępny	das Schaltjahr
+styczeń	der Januar, der Jänner
+luty	der Februar, der Feber
+marzec	der März
+kwiecień	der April
+maj	der Mai
+czerwiec	der Juni
+lipiec	der Juli
+sierpień	der August
+wrzesień	der September
+październik	der Oktober
+listopad	der November
+grudzień	der Dezember
+w maju	im Mai
+w którym miesiącu	in welchem Monat
+wiosna	der Frühling
+lato	der Sommer
+jesień	der Herbst
+zima	der Winter
+kierunek świata	die Himmelsrichtung
+północ	der Norden
+południe	der Süden
+zachód	der Westen
+wschód	der Osten
+połnocny zachód	der Nordwesten
+północny wschód	der Nordosten
+południowy zachód	der Südwesten
+południowy wschód	der Südosten
+na południu	im Süden
+na północ	nach Norden
+Merkury	der Merkur
+Wenus	die Venus
+Ziemia	die Erde
+Księżyc	der Mond
+Mars	der Mars
+Jowisz	der Jupiter
+Saturn	der Saturn
+Uran	der Uranus
+Neptun	der Neptun
+Pluton	der Pluto
+Słońce	die Sonne
+gwiazda	der Stern
+planeta	der Planet
+satelita	der Satellit / Trabant
+kometa	der Komet
+galaktyka	die Galaxie
+Droga Mleczna	die Milchstraße
+spadająca gwiazda	die Sternschnuppe
+gwiazdozbiór	das Sternbild
+Afganistan	Afghanistan
+Egipt	Ägypten
+Albania	Albanien
+Argentyna	Argentinien
+Australia	Australien
+Belgia	Belgien
+Bośnia	Bosnien
+Brazylia	Brasilien
+Bułgaria	Bulgarien
+Chiny	China
+Dania	Dänemark
+Irak	der Irak
+Iran	der Iran
+Pakistan	der Pakistan
+Niemcy	Deutschland
+Mongolia	die Mongolei
+Szwajcaria	die Schweiz
+Słowacja	die Slowakei
+Turcja	die Türkei
+Ukraina	die Ukraine
+USA	die USA
+Stany Zjednoczone Ameryki Północnej	Vereinigte Staaten von Nordamerika
+Wspólnota Niepodległych Państw	Gemeinschaft Unabhängiger Staaten (die GUS)
+Niemiecka Republika Demokratyczna	Deutsche Demokratische Republik (die DDR)
+Czechosłowacja	die Tschechoslowakei
+Wybrzeże Kości Słoniowej	die Elfenbeinküste
+Anglia (Wielka Brytania)	England (Großbritannien)
+Estonia	Estland
+Finlandia	Finnland
+Francja	Frankreich
+Grecja	Griechenland
+Holandia	Holland / die Niederlande
+Indie	Indien
+Irlandia	Irland
+Islandia	Island
+Izrael	Israel
+Włochy	Italien
+Japonia	Japan
+Jugosławia	Jugoslawien
+Kanada	Kanada
+Chorwacja	Kroatien
+Łotwa	Lettland
+Liechtenstein	Liechtenstein
+Litwa	Litauen
+Luxemburg	Luxemburg
+Macedonia	Mazedonien / Makedonien
+Meksyk	Mexiko
+Mołdawia	Moldawien
+Monako	Monaco
+Czarnogóra	Montenegro
+Nowa Zelandia	Neuseeland
+Norwegia	Norwegen
+Austria	Österreich
+Peru	Peru
+Polska	Polen
+Portugalia	Portugal
+Rumunia	Rumänien
+Rosja	Russland
+Szwecja	Schweden
+Słowenia	Slowenien
+Hiszpania	Spanien
+Czechy	Tschechien / die Tschechei
+Węgry	Ungarn
+Białoruś	Weißrussland
+Liban	der Libanon
+Sudan	der Sudan
+Czad	der Tschad
+Afgańczyk/Afganka	der Afghane, -n/die Afghanin, -nen
+Egipcjanin/Egipcjanka	der Ägypter, -/die Ägypterin, -nen
+Albańczyk/Albanka	der Albaner, -/ die Albanerin, -nen
+Argentyńczyk/Argentynka	der Argentinier, -/die Argentinierin, -nen
+Australijczyk/Australijka	der Australier, -/die Australierin, -nen
+Belg/Belgijka	der Belgier, -/die Belgierin, -nen
+Bośniak/Bośniaczka	der Bosniake, -n o. der Bosnier, -/die Bosniakerin, -nen o. Bosnierin, -nen
+Brazylijczyk/Brazylijka	der Brasilianer, -/die Brasilianerin, -nen
+Bułgar/Bułgarka	der Bulgare, -n/die Bulgarin,-nen
+Chińczyk/Chinka	der Chinese, -n/die Chinesin, -nen
+Duńczyk/Dunka	der Däne, -n/die Dänin, -nen
+Irakijczyk/Irakijka	der Iraker, -/die Irakerin, -nen
+Irańczyk/Iranka	der Iraner, -/die Iranerin, -nen
+Pakistańczyk/Pakistanka	der Pakistani, -s/die Pakistanerin, -nen
+Niemiec/Niemka	der Deutsche, -n/die Deutsche, -n
+Mongoł/Mongołka	der Mongole, -n/die Mongolin, -nen
+Szwajcar/Szwajcarka	der Schweizer, -/die Schweizerin, -nen
+Słowak/Słowaczka	der Slowake, -n/die Slowakin, -nen
+Turek/Turka	der Türke, -n/die Türkin, -nen
+Ukraińczyk/Ukrainka	der Ukrainer, -/die Ukrainerin, -nen
+Amerykanin/Amerykanka	der Amerikaner, - (der US-Bürger, -)/die Amerikanerin, -nen (US-Bürgerin, -nen)
+Mieszkaniec Wybrzeża Kości Słoniowej/Mieszkanka Wybrzeża Kości Słoniowej	der Evorianer, -/ die Evorianin, -nen
+Anglik (Brytyjczyk)/Angielka (Brytyjka)	der Engländer, - (der Brite, -n)/die Engländerin, -nen (die Britin, -nen)
+Estończyk/Estonka	der Este, -n/die Estin, -nen
+Fin/Finka	der Finne, -n/die Finnin, -nen
+Francuz/Francuzka	der Franzose, -n/die Französin, -nen
+Grek/Greczynka	der Grieche, -n/die Griechin, -nen
+Holender/Holenderka	der Holländer (Niederländer, -)/die Holländerin (Niederländerin -nen)
+Hindus/Hinduska	der Inder, -/die Inderin, -nen
+Irlandczyk/Irlandka	der Ire, -n/die Irin, -nen
+Islandczyk/Islandka	der Isländer, -/die Isländerin, -nen
+Izraelczyk/Izraelka	der Israeli, -s/die Israelin, -nen
+Włoch/Włoszka	der Italiener, -/die Italienerin, -nen
+Japończyk/Japonka	der Japaner, -/die Japanerin, -nen
+Jugosłowiańczyk/Jugosłowianka	der Jugoslawe, -n/die Jugoslawin, -nen
+Serb/Serbka	der Serbe, -n/die Serbin, -nen
+Kanadyjczyk/Kanadyjka	der Kanadier, -/die Kanadierin, -nen
+Chorwat/Chorwatka	der Kroate, -n/die Kroatin, -nen
+Łotysz/Łotyszka	der Lette, -n/die Lettin, -nen
+mieszkaniec Liechtensteinu/mieszkanka Liechtensteinu	der Liechtensteiner, -/die Liechtensteinerin, -nen
+Litwin/Litwinka	der Litauer, -/die Litauerin, -nen
+Luksemburczyk/Luksemburka	der Luxemburger, -/die Luxemburgerin, -nen
+Macedończyk/Macedonka	der Makedonier (Mazedonier, -)/die Makedonierin (Mazedonierin, -nen)
+Meksykańczyk/Meksykanka	der Mexikaner, -/die Mexikanerin, -nen
+Mołdawczyk/Mołdawka	der Moldawier, -/die Moldawierin, -nen
+Monakijczyk/Monakijka	der Monegasse, -n/die Monegassin, -nen
+Czarnogórczyk/Czarnogórka	der Montenegriner, -/die Montenegrinerin, -nen
+Nowozelandczyk/Nowozelandka	der Neuseeländer, -/die Neuseeländerin, -nen
+Norweg/Norweżka	der Norweger, -/die Norwegerin, -nen
+Austriak/Austriaczka	der Österreicher, -/die Österreicherin, -nen
+Peruwiańczyk/Peruwianka	der Peruaner, -/die Peruanerin, -nen
+Polak/Polka	der Pole, -n/die Polin, -nen
+Portugalczyk/Portugalka	der Portugiese, -n/die Portugiesin, -nen
+Rumun/Rumunka	der Rumäne, -n/die Rumänin, -nen
+Rosjanin/Rosjanka	der Russe, -n/die Russin, -nen
+Szwed/Szwedka	der Schwede, -n/die Schwedin, -nen
+Słoweńczyk/Słowenka	der Slowene, -n/die Slowenin, -nen
+Hiszpan/Hiszpanka	der Spanier, -/die Spanierin, -nen
+Czech/Czeszka	der Tscheche, -n/die Tschechin, -nen
+Węgier/Węgierka	der Ungar, -n/die Ungarin, -nen
+Białorusin/Białorusinka	der Weißrusse, -n/die Weißrussin, -nen
+Grunlandczyk/Grunlandka	der Grönländer, -/die Grönländerin, -ne
+język perski	Persisch
+język arabski	Arabisch
+język albański	Albanisch
+język hiszpański	Spanisch
+język angielski	Englisch
+język francuski	Französisch
+język niemiecki	Deutsch
+język serbski	Serbisch
+język chorwacki	Kroatisch
+język portugalski	Portugiesisch
+język bułgarski	Bulgarisch
+język chiński	Chinesisch
+język duński	Dänisch
+język urdu	Urdu
+język mongolski	Mongolisch
+język włoski	Italienisch
+język retoromański	Rätoromanisch
+język słowacki	Slowakisch
+język turecki	Türkisch
+język ukraiński	Ukrainisch
+język estoński	Estnisch
+język fiński	Finnisch
+język grecki	Griechenland
+język holenderski/niderlandzki	Holländisch/Niederländisch
+język hindi	Hindi
+język irlandzki	Irisch
+język walijski	Walisisch
+język hebrajski	Hebräisch
+język japoński	Japanisch
+język łotewski	Lettisch
+język litewski	Litauisch
+język luksemburski (dialekt)	Letzeburgisch
+język macedoński	Makedonisch/Mazedonisch
+język mołdawski	Moldawisch
+język serbsko-chorwacki	Serbokroatisch
+język norweski	Norwegisch
+język polski	Polnisch
+język rumuński	Rumänisch
+język rosyjski	Russisch
+język szwedzki	Schwedisch
+język słoweński	Slowenisch
+język czeski	Tschechisch
+język węgierski	Ungarisch
+język białoruski	Weißrussisch
+język islandzki	Isländisch
+język grunlandzki	Grönländisch
+łacina	Latein
+język starogrecki	Altgriechisch
+język staro-cerkiewno-słowianski	Altkirchenslawisch
+kontynent	der Kontinent
+Europa	(das) Europa
+Azja	(das) Asien
+Ameryka Północna	(das) Nordamerika
+Ameryka Południowa	(das) Südamerika
+Ameryka Środkowa	(das) Mittelamerika
+Afryka	(das) Afrika
+Australia z Oceanią	(das) Australien mit Ozeanien
+Arktyka	die Arktis
+Antarktyda	die Antarktis
+Baran	der Widder
+Byk	der Stier
+Bliźnięta	die Zwillinge (Pl.)
+Rak	der Krebs
+Lew	der Löwe
+Panna	die Jungfrau
+Waga	die Waage
+Skorpion	der Skorpion
+Strzelec	der Schütze
+Koziorożec	Steinbock
+Wodnik	der Wassermann
+Ryby	die Fische (Pl.)
+pływać	schwimmen
+kąpać się	baden
+serfować	surfen
+opalać się	sich sonnen
+odpoczywać	sich erholen
+tańczyć	tanzen
+jeździć na rolkach	Inlineskates fahren
+czytać	lesen
+oglądać telewizję	fernsehen
+słuchać radia	Radio hören
+majsterkować	basteln
+gotować	kochen
+robić na drutach	stricken
+szydełkować	häkeln
+pracować w ogrodzie	im Garten arbeiten
+spać	schlafen
+drzemać	dösen
+grać na komputerze	Computer spielen
+serfować w Internecie	im Internet surfen
+czatować	chatten
+telefonować	telefonieren
+jeździć na rowerze	Rad fahren
+wędrować	wandern
+wspinać się	klettern
+malować	malen
+rysować	zeichnen
+trenować	trainieren
+grać w piłkę nożną	Fußball spielen
+uprawiać jogging	joggen
+wysyłać sms-y	simsen
+brać prysznic	duschen
+rozwiązywać krzyżówki	Kreuzworträtsel lösen
+pora roku	die Jahreszeit
+klimat	das Klima
+łagodny	mild
+surowy	rauh
+suchy	trocken
+susza	die Trockenperiode, die Dürre
+wilgotny	feucht
+pogoda	das Wetter
+prognoza pogody	der Wetterbericht
+wyż	das Hoch
+niż	das Tief
+temperatura	die Temperatur
+zwiększać się	steigen
+zmniejszać się	fallen
+upał	die Hitze
+ciepło	die Wärme
+świeży / orzeźw.	frisch
+chłodny	kühl
+chłód	die Kühle
+zimno	die Kälte
+marznąć	frieren
+mróz	der Frost
+lód	das Eis
+słońce	die Sonne
+świecić	scheinen
+słoneczny	sonnig
+pochmurny / mętny	bewölkt / trüb
+jasny	hell
+światło	das Licht
+cień	der Schatten
+ciemno	dunkel
+ciemność	die Dunkelheit
+niebo	der Himmel
+przejrzysty	klar
+pogodny	heiter
+chmura	die Wolke
+zachmurzony	bewölkt
+mgła	der Nebel
+mglisty	neblig
+mokry	nass
+opady	die Niederschläge
+kropla	der Tropfen
+opad / intensywny deszcz	der Schauer
+śnieg	der Schnee
+padać (o śniegu)	schneien
+wiatr	der Wind
+wiać	wehen
+burza, burza morska	das Gewitter, der Sturm
+dmuchać	blasen
+burza	das Gewitter
+błyskawica	der Blitz
+błyskać się	blitzen
+grzmot	der Donner
+grzmieć	donnern
+natura / przyroda	die Natur
+powietrze	die Luft
+chmura deszczowa	die Regenwolke
+halny	der Föhn
+duszno, parno	schwül
+grad	der Hagel
+płatek śniegu	die Schneeflocke
+rosa	der Tau
+termometr	das Thermometer
+tęcza	der Regenbogen
+bezchmurny/zachmurzony	wolkenlos/bewölkt
+deszczowy	regnerisch
+kałuża	die Regenpfütze
+lać	gießen
+mżyć	nieseln
+sypać o śniegu	rieseln
+roztapiać się	tauen
+wietrznie/bezwietrznie	windig/windstill
+ślisko	glatt
+ciepło / letnio	lauwarm
+niepogoda	das Unwetter
+gołoledź	die Eisglätte
+burzowo	stürmisch
+fala upałów	die Hitzewelle
+padać (o gradzie)	hageln
+błoto pośniegowe	der Schneematsch
+sopel lodu	der Eiszapfen
+kra	die Eisscholle
+odwilż	das Tauwetter
+trąba powietrzna	die Windhose
+ciśnienie	der Luftdruck
+zamarznąć	erfrieren
+umiarkowany	gemäßigt
+porywisty	böig
+łóżko	das Bett
+tapczan	die Couch
+kanapa	das Sofa
+ława, ławka	die Bank, Bänke
+kredens (1)	die Kredenz
+kredens (2)	die Anrichte
+szafka nocna	der Nachtkasten
+stolik nocny	der Nachttisch
+lustro	der Spiegel
+szafa	der Schrank, Schränke
+dolna szafka kuchenna	der Unterschrank
+górna szafka kuchenna	der Oberschrank
+zlewozmywak, zlew kuchenny	die Spüle
+kran	der Wasserhahn
+bateria mieszalnicza (kran)	die Mischbatterie
+umywalka	das Waschbecken
+kabina prysznicowa	die Duschkabine
+wanna	die Badewanne
+kuchenka gazowa	der Gasherd
+kuchenka elektryczna	der Elektroherd
+krajalnica elektryczna	der Allesschneider
+kuchenka mikrofalowa	die Mikrowelle
+korek	der Stöpsel
+klamka	die Klinke
+talerz	der Teller
+szklanka	das Glas
+filiżanka	die Tasse
+sztućce	das Besteck
+łyżka	der Löffel
+widelec	die Gabel
+nóż	das Messer
+wałek do ciasta	das Nudelholz
+okulary	die Brille
+telewizor	der Fernseher
+komputer	der Computer
+telefon komórkowy	das Handy
+telefon	das Telefon
+faks	das Fax
+automatyczna sekretarka	der Anrufbeantworter
+dzwonek przy drzwiach	die Türglocke
+instalacja alarmowa	die Alarmanlage
+szczelina na listy w drzwiach	der Briefschlitz
+skrzynka na listy	der Briefkasten
+hak, haczyk, wieszak	der Haken
+wieszak do ubrań (trójkątny)	der Kleiderbügel
+fotel	der Sessel
+wózek inwalidzki	der Rollstuhl
+konik na biegunach	das Schaukelpferd
+wózek dziecinny	der Kinderwagen
+zabawka	das Spielzeug
+huśtawka	der Schaukelstuhl
+winda	der Fahrstuhl
+kaloryfer	der Heizkörper, der Radiator
+parapet	das Fensterbrett
+próg w drzwiach	die Türschwelle
+szkatułka	die Schatulle
+klucz	der Schlüssel
+miska	die Schüssel
+wiadro	der Eimer
+gąbka	der Schwamm
+tablica	die Tafel
+mapa	die Landkarte
+rzutnik pisma	der Overhead, der Overheadprojektor
+rzutnik przezroczy	der Diaprojektor
+magnetofon kasetowy	der Kassettenrecorder
+wieża stereo (1)	die Stereoanlage
+wieża stereo (2)	der HiFi-Turm
+słuchawki (na głowę)	der Kopfhörer
+słuchawki (do ucha)	der Ohrhörer
+kolumna głośnikowa, pudełko	die Box
+wzmacniacz	der Verstärker
+odtwarzacz CD	der CD-Spieler
+radio	das Radio
+aparat fotograficzny, kamera	die Kamera
+aparat fotograficzny	der Fotoapparat
+golarka elektryczna	der Elektrorasierer
+odkurzacz	der Staubsauger
+klimatyzacja	die Klimaanlage
+nożyce, nożyczki	die Schere
+igła	die Nadel
+guzik	der Knopf
+wtyczka	der Stecker
+gniazdko	die Steckdose
+włącznik	der Einschalter
+kabel	das Kabel
+bezpiecznik	die Sicherung
+żarówka	die Glühbirne
+miotła	der Besen
+ścierka	der Lappen
+mop (1)	der Mopp
+mop (2)	der Wischmopp
+ścierka do kurzu	das Staubtuch
+doniczka	der Blumentopf
+kwiatek	die Blume
+obraz	das Bild
+plakat, poster	das Poster
+barometr	das Barometer
+zegar	die Uhr
+budzik	der Wecker
+zegar sterowany radiowo	die Funkuhr
+budzik sterowany radiowo	der Funkwecker
+zegar ścienny	die Wanduhr
+domofon przydrzwiowy	die Türsprechanlage
+komórka, rupieciarnia	der Abstellraum
+strych	der Dachboden
+schody	die Treppe
+poręcz	das Geländer
+taras	die Terrasse
+balkon	der Balkon
+książka	das Buch, Bücher
+zeszyt	das Heft
+linijka	das Lineal
+gumka do mazania	der Radiergummi
+spinacz biurowy	die Büroklammer
+zszywacz	der Hefter
+dziurkacz	der Locher
+taśma klejąca	das Klebeband
+wideokaseta	die Videokassette
+płyta CD	die CD
+dyskietka	die Diskette
+płyta CD-ROM	die CD-ROM
+płyta gramofonowa	die Schallplatte
+album	das Album
+atlas	der Atlas
+słownik	das Wörterbuch
+roleta (1)	der Rolladen
+roleta (2)	das Rollo
+lodówka	der Kühlschrank
+firanka	die Gardine
+zasłona okienna	der Vorhang
+żelazko	das Bügeleisen
+suszarka	der Haartrockner, der Fön
+lokówka	der Lockenstab
+abażur	der Lampenschirm
+gazomierz	die Gasuhr
+licznik prądu	der Stromzähler
+wodomierz	die Wasseruhr
+leżak	der Liegestuhl
+hamak	die Hängematte
+dom	das Haus, Häuser
+mieszkanie	die Wohnung
+apartament, mieszkanie jednopokojowe	das Appartement
+pokój	das Zimmer
+pokój mieszkalny	das Wohnzimmer
+pokój gościnny	das Gästezimmer
+klasa (pokój)	das Klassenzimmer
+pokój nauczycielski	das Lehrerzimmer
+sekretariat	das Sekretariat
+gabinet	das Sprechzimmer
+kuchnia	die Küche
+łazienka	das Badezimmer
+łazienka, kąpiel	das Bad
+przedpokój, sień	der Flur
+korytarz	der Korridor
+okno	das Fenster
+drzwi	die Tür
+wejście	der Eingang
+wyjście	der Ausgang
+skrzydło	der Flügel
+podłoga	der Fußboden
+parkiet	das Parkett
+sufit, koc	die Decke
+boazeria	das Peneel
+tapeta	die Tapete
+ściana	die Wand, Wände
+stół	der Tisch
+biurko	der Schreibtisch
+krzesło	der Stuhl
+taboret	der Hocker
+dywan	der Teppich
+chodnik, bieżnik	der Läufer
+lampa	die Lampe
+lampa halogenowa (promiennik)	der Halogenstrahler
+żyrandol	der Kronleuchter
+nisza	die Nische
+frytownica	die Fritteuse
+pralka	die Waschmaschine
+suszarka do bielizny	der Wäschetrockner
+zmywarka (1)	die Spülmaschine
+zmywarka (2)	der Geschirrspüler
+zastawa	das Geschirr
+obrus	die Tischdecke
+regał	das Regal
+meblościanka, segment	die Anbauwand
+ręcznil kąpielowy	das Badetuch
+deska do prasowania	das Bügelbrett
+dmuchawa	das Gebläse, der Luftumwälzer
+ręcznik	das Handtuch, Handtücher
+prezerwatywa	das Kondom
+ładowarka	das Ladegerät
+perfumy	das Parfüm
+brzytwa	das Rasiermesser
+woda po goleniu	das Rasierwasser
+piórnik szkolny (płaski na zamek)	das Schüleretui
+muszla klozetowa	das WC-Becken
+temperówka	der Anspitzer
+ołówek	der Bleistift
+dezodorant (1)	das Deodorant
+młotek	der Hammer, Hämmer
+długopis (1)	der Kugelschreiber
+długopis (2)	der Kuli
+wiadro na śmieci	der Mülleimer
+kosz na śmieci	der Müllkorb
+piec	der Ofen
+segregator	der Ordner
+pędzel	der Pinsel
+pędzel do golenia	der Rasierpinsel
+pinezka	der Reißnagel
+pianka do włosów	der Schaumfestiger
+śrubokręt	der Schraubenzieher
+tampon	der Tampon
+kalkulator	der Taschenrechner
+garnek	der Topf
+aktówka	die Aktentasche
+wiertarka	die Bohrmaschine
+krem	die Creme
+podpaska	die Damenbinde
+dezodorant (2)	das Deo
+prysznic	die Dusche
+pilnik	die Feile
+zamrażarka skrzyniowa	die Gefriertruhe
+ekspres do kawy	die Kaffeemaschine
+rollka papieru toaletowego	die Klorolle
+teczka (np. papierowa)	die Mappe
+nabój	die Patrone
+patelnia	die Pfanne
+penseta	die Pinzette
+pistolet	die Pistole
+krem do golenia	die Rasiercreme
+żyletka	die Rasierklinge
+piła	die Säge
+rondel	die Schmorpfanne
+pasta do butów	die Schuhcreme
+mydło	die Seife
+wkładka higieniczna	die Slip-Einlage
+skarbonka	die Sparbüchse
+torba reklamówka	die Tragetasche
+spodek	die Untertasse
+waga	die Waage
+pasta do zębów	die Zahnpasta
+obcęgi	die Zange
+krem depilacyjny	die Enthaarungscreme
+podróż	die Reise
+przesunąć	verschieben
+pociąg	der Zug
+wysiadać	aussteigen
+wjeżdżać	einfahren
+przesiadać się	umsteigen
+pośpieszny	der D-Zug
+dalekobieżny	der Fernzug
+dworzec	der Bahnhof
+peron	der Bahnsteig
+skrytka	das Schließfach
+torba podróżna	die Reisetasche
+bilet	die Fahrkarte
+przedział	das Abteil
+wyłączyć	ausschalten
+zamknąć	zumachen
+postój / pobyt	der Aufenthalt
+zapowiedzieć	ankündigen
+hamulec awaryjny (bezpieczenstwa)	die Notbremse
+rozkład jazdy	der Fahrplan
+toaleta	die Toilette
+zniżka	die Ermäßigung
+odjazd	die Abfahrt
+przedsięwziąć	unternehmen
+zamierzać	vorhaben
+wsiadać	einsteigen
+pociąg kursuje	der Zug verkehrt
+odjechać	abfahren
+spóźnić się na pociąg	den Zug verpassen
+kolej	die Bahn
+głośnik	der Lautsprecher
+tor	das Gleis
+bagażowy	der Gepäckträger
+walizka	der Koffer
+miejscówka	die Platzkarte
+ogrzewanie	die Heizung
+półka / siatka na bagaż w przedziale	das Gepäcknetz
+spóźnienie	die Verspätung
+dopłata	der Zuschlag
+konduktor	der Schaffner
+hala dworca	die Bahnhofshalle
+umywalnia	der Waschraum
+Intecity	der IC, der Intercity
+kwit bagażowy	der Gepäckschein
+przygotować	vorbereiten
+przerywać	unterbrechen
+jechać czymś	fahren mit
+przybyć	ankommen
+oczakiwać	erwarten
+osobowy	der Personenzug
+stacja	die Station
+informacja	die Auskunftsstelle
+bagaż	das Gepäck
+przechowalnia	die Aufbewahrung
+okienko	der Schalter
+wagon	der Waggon
+włączyć	einschalten
+otworzyć	aufmachen
+połączenie	die Verbindung
+przybycie, przyjazd	die Ankunft
+bezpośrednio	direkt
+wagon restauracyjny	der Speisewagen
+poczekalnia	der Warteraum
+sprawdzać	kontrollieren
+sypialny	der Schlafwagen
+kuszetka	der Liegewagen
+pójść po bagaż / odebrać bagaż	das Gepäck abholen
+restauracja	das Restaurant
+tartak	das Sägewerk
+zamek	das Schloss
+basen odkryty	das Schwimmbad
+krawężnik	die Bordkante
+solarium	das Sonnenstudio
+browar	die Brauerei
+stadion	das Stadion
+urząd stanu cywilnego	das Standesamt
+księgarnia	die Buchhandlung
+zamek (warowny)	die Burg
+akademik	das Studentenwohnheim
+taksówka	das Taxi
+teatr	das Theater
+droga dla rowerów	die Fahrradstraße
+wodociągi	das Wasserwerk
+straż pożarna	die Feuerwehr
+świetlica	der Aufenthaltsraum
+wieża widokowa	der Aussichtsturm
+przystanek	die Haltestelle
+potok (strumyk)	der Bach
+schronisko młodzieżowe	die Jugendherberge
+dworzec kolejowy	der Bahnhof
+kaplica	die Kapelle
+gospodarstwo rolne	der Bauernhof
+koszary	die Kaserne
+ogródek piwny	der Biergarten
+żłobek (dla dzieci)	die Kinderkrippe
+przedszkole	der Kindergarten
+chodnik	der Bürgersteig
+kościół	die Kirche
+autobus	der Bus
+knajpa	die Kneipe
+dworzec autobusowy	der Busbahnhof
+cukiernia	die Konditorei
+katedra	der Dom
+skrzyżowanie	die Kreuzung
+pchli targ	der Flohmarkt
+słup ogłoszeniowy	die Litfaßsäule
+lotnisko	der Flughafen
+stołówka akademicka	die Mensa
+rzeka	der Fluss
+rzeźnia	die Metzgerei[sound:rec1327117696 (1).mp3
+park wypoczynkowy	der Freizeitpark
+młyn	die Mühle
+cmentarz	der Friedhof
+wysypisko śmieci	die Mülldeponie
+przejście dla pieszych	der Fußägängerübergang
+pensjonat	die Pension
+przychodnia	die Ambulanz, die Poliklinik
+tramwaj	die Straßenbahn
+policja	die Polizei
+stacja benzynowa	die Tankstelle
+szybka kolej podmiejska	die S-Bahn
+strzelnica sportowa (buda)	die Schielßbude
+metro	die U-Bahn
+szkoła	die Schule
+stacja metra	die U-Bahnstation
+basen kryty	die Schwimmhalle
+uniwersytet	die Universität
+mur miejski	die Stadtmauer
+pralnia	die Wäscherei
+straż miejska	die Stadtpolizei
+winiarnia	die Weinstube
+urząd miasta	die Stadtverwaltung
+przejście dla pieszych (zebra)	die Zebrastreifen
+ulica	die Straße
+światła sygnalizacji ulicznej	die Ampel
+więzienie	das Gefängnis
+pałac	der Palast
+sąd	das Gericht
+park	der Park
+sklep	das Geschäft
+parking	der Parkplatz
+gimnazjum	das Gymnasium
+pływalnia (halowa)	das Hallenbad
+piaskownica	der Sandkasten
+ciepłownia	das Heizwerk
+szlaban	der Schlagbaum
+hotel	das Hotel
+ogródek działkowy	der Schrebergarten
+internat	das Internat
+jezioro	der See
+staw	der Teich
+dom towarowy	das Warenhaus
+plac zabaw	der Spielplatz
+klub sportowy	der Sportklub
+kino	das Kino
+fontanna	der Springbrunnen
+klasztor	das Kloster
+kładka	der Steg
+szpital	das Krankenhaus
+postój taksówek	der Taxistand
+kamienica	das Mietshaus
+opera (budynek)	das Opernhaus
+fosa	der Wassergraben
+parking (budynek)	das Parkhaus
+wieża ciśnień	der Wasserturm
+komenda policji	das Polizeipräisidium
+pole namiotowe	der Zeltplatz
+komisariat	das Polizeirevier
+urząd pocztowy	das Postamt
+poczta	die Post
+apteka	die Apotheke
+ratusz	das Rathaus
+piekarnia	die Bäckerei
+biuro podróży	das Reisebüro
+pralnia chemiczna	chemische Reinigung
+bankomat	der Geldautomat
+dom starców	das Altenheim
+port	der Hafen
+urząd pracy	das Arbeitsamt
+buda z żarciem	der Imbiss
+salon samochodowy	das Autohaus
+kanał	der Kanal
+kawiarnia	das Cafe
+pomnik	das Denkmal
+kiosk	der Kiosk
+elektrownia	das Elektrowerk
+sala koncertowa	der Konzertsaal
+urząd skarbowy	das Finanzamt
+sklep (nie Geschäft)	der Laden
+otwarte kąpielisko	das Freibad
+czytelnia	der Lesesaal
+gazownia	das Gaswerk
+rynek	der Marktplatz
+firma budowlana	die Baufirma
+biblioteka	die Bibliothek
+cafeteria	die Cafeteria
+ulica jednokierunkowa	die Einbahnstraße
+chleb	das Brot
+bułka	das Brötchen
+rogalik	das Hörnchen
+bagietka	die Baguette
+bułka w Austrii	die Semmel
+chleb pełnoziarnisty	das Vollkornbrot
+chleb biały	das Weißbrot
+chleb czarny	das Schwarzbrot
+chleb żytni	das Roggenbrot
+pieczywo	das Gebäck
+piekarz	der Bäcker
+cukiernik	der Konditor
+bochenek	der Laib
+kromka	die Schnitte
+chleb cebulowy	das Zwiebelbrot
+chleb kminkowy	das Kümmelbrot
+pieczywo chrupkie	das Knäckebrot
+suchar	der Zwieback
+bułka tarta	das Paniermehl
+okruchy chleba	die Brotkrümel
+skórka od chleba	die Brotrinde
+piętka od chleba	die Brotkuppe
+mąka	das Mehl
+piec chleb	Brot backen
+kroić chleb	Brot schneiden
+suchy chleb	trockenes Brot
+cukierek	das Bonbon
+piwo	das Bier
+jajko	das Ei
+mięso	das Fleisch
+kurczak	das Hähnchen
+rogal	das Hörnchen
+jogurt	das Joghurt
+kotlet	das Kotelett
+woda mineralna	das Mineralwasser
+sól	das Salz
+kapusta kiszona	das Sauerkraut
+smalec	das Schmalz
+kotlet / sznycel	das Schnitzel
+bimber	das Selbstgebrannte
+keczup	der Ketschup
+wędlina (krojona do chleba)	der Aufschnitt
+ryba	der Fisch
+dżin	der Gin
+kasza manna	der Grieß
+miód	der Honig
+kawa	der Kaffee
+kakao	der Kakao
+ser żółty	der Käse
+chrzan	der Meerrettich
+ser biały	der Quark
+śmietana	der Rahm
+ryż	der Reis
+rum	der Rum
+szynka	der Schinken
+batonik	der Schokoladenriegel
+słonina	der Speck
+spirytus	der Spiritus
+woda gazowana	der Sprudel
+herbata	der Tee
+wino	der Wein
+whisky	der Whisky
+wódka	der Wodka
+cukier	der Zucker
+parówka	die Bockwurst
+masło	die Butter
+cola	die Cola
+fanta	die Fanta
+kotlet pożarski	die Frikadelle
+kasza gryczana	die Buchweizengrütze
+płatki owsiane	die Haferflocken
+ziemniak	die Kartoffel
+konfitury	die Konfitüre
+płatki kukurydziane	die Maisflocken
+margaryna	die Margarine
+majonez	die Majonäse
+mleko	die Milch
+pizza	die Pizza
+frytki	die Pommes
+żeberka	die Rippchen
+śmietanka	die Sahne
+salami	die Salami
+kwaśne mleko	die Sauermilch
+czekolada	die Schokolade
+sos	die Soße
+kiełbasa	die Wurst
+alkoholik	der Alkoholiker
+alergolog	der Allergologe
+spiker	der Ansager
+malarz pokojowy	der Anstreicher
+aptekarz	der Apotheker
+architekt	der Architekt
+lekarz	der Arzt
+okulista	der Augenarzt
+sprzedawca samochodów	der Autohändler
+brzuchomówca	der Bauchredner
+pomocnik budowlany	der Bauhelfer
+bibliotekarz	der Bibliothekar
+sprawozdawca, reporter	der Berichterstatter, der Reporter
+rzeźbiarz	der Bildhauer
+biskup	der Bischof
+ochroniarz osobisty	der Bodyguard
+listonosz	der Briefträger
+introligator	der Buchbinder
+gliniarz	der Bulle
+chirurg	der Chirurg
+projektant	der Designer
+poeta	der Dichter
+złodziej	der Dieb
+dyrektor	der Direktor
+dyrygent	der Dirigent
+tłumacz (ustny)	der Dolmetscher
+tokarz	der Dreher
+drukarz	der Drucker
+technik komputerowy	der EDV-Techniker
+lodziarz	der Eismann
+instalator elektryczny	der Elektroinstallateur
+kontroler biletów	der Fahrkartenkontrolleur
+komandos	der Fallschirmjäger
+kierowca TIR-a	der Fernfahrer
+strażak	der Feuerwehrmann
+rzeźnik	der Fleischer
+kafelkarz	der Fliesenleger
+kontroler lotów	der Fluglotse
+fotograf	der Fotograf
+ginekolog	der Frauenarzt
+technik RTV	der Funk- und Fernsehtechniker
+ogrodnik	der Gärtner
+karczmarz	der Gastwirt
+pomocnik	der Gehilfe, der Helfer
+skrzypek	der Geiger
+generał	der General
+szklarz	der Glaser
+grafik	der Graphiker
+kanar	der Häscher
+woźny	der Hausmeister
+snajper	der Heckenschütze
+oszust matrymonialny	der Heiratsschwindler
+palacz	der Heizer
+kat	der Henker
+inżynier	der Ingenieur
+internista	der Internist
+myśliwy	der Jäger
+dziennikarz	der Journalist
+prawnik	der Jurist
+radca prawny	der Justitiar
+kamerzysta	der Kameramann
+kardynał	der Kardinal
+kasjer	der Kassierer
+kupiec	der Kaufmann
+kelner	der Kellner
+mechanik samochodowy	der Kfz-Mechaniker
+hydraulik	der Klempner
+kucharz	der Koch
+komendant	der Kommandant
+kompozytor	der Komponist
+operator dźwigu	der Kranführer
+kuśnierz	der Kürschner
+magazynier	der Lagerist
+rolnik	der Landwirt
+nauczyciel	der Lehrer
+kierownik	der Leiter
+kierowca ciężarówki	der LKW-Fahrer
+maszynista (kolej)	der Lokführer
+malarz (artysta)	der Maler
+manager	der Manager
+masażysta	der Masseur
+marynarz	der Matrose
+murarz	der Maurer
+mleczarz	der Milchmann
+moderator	der Moderator
+mnich	der Mönch
+morderca	der Mörder
+młynarz	der Müller
+śmieciarz	der Müllmann
+notariusz	der Notar
+sadownik	der Obstgärtner
+zdun	der Ofensetzer
+papież	der Papst
+farmaceuta	der Pharmazeut
+pilot	der Pilot
+policjant	der Polizist
+portier	der Portier
+ksiądz	der Priester
+profesor	der Professor
+psychiatra	der Psychiater
+planista	der Raumplaner
+adwokat	der Rechtsanwalt
+reżyser	der Regisseur
+reporter	der Reporter
+sędzia	der Richter
+śpiewak	der Sänger
+moczymorda	der Säufer
+aktor	der Schauspieler
+ślusarz	der Schlosser
+kowal	der Schmied
+przemytnik, szmugler	der Schmuggler
+krawiec	der Schneider
+ławnik	der Schöffe
+kominiarz	der Schornsteinfeger
+stolarz	der Schreiner
+pisarz	der Schriftsteller
+szewc	der Schuhmacher (Schuster)
+strzelec	der Schütze
+sekretarz	der Sekretär
+seksuolog	der Sexologe
+zboczeniec	der Sittenstrolch
+żołnierz	der Soldat
+blacharz	der Spengler
+szpieg	der Spion
+prokurator	der Staatsanwalt
+doradca podatkowy	der Steuerberater
+zamiatacz ulic	der Straßenfeger
+kaskader	der Stuntman(n)
+pracownik stacji benzynowej	der Tankwart
+tancerz	der Tänzer
+złodziej kieszonkowy	der Taschendieb
+taksówkarz	der Taxifahrer
+weterynarz	der Tierarzt
+garncarz	der Töpfer
+pijak	der Trinker
+tłumacz (zazwyczaj tekstów)	der Übersetzer
+zegarmistrz	der Uhrmacher
+sprzedawca	der Verkäufer
+strażnik	der Wächter
+tkacz	der Weber
+właściciel winnicy	der Winzer (Weinbauer)
+technik dentystyczny	der Zahntechniker
+stręczyciel, alfons	der Zuhälter
+lekarka	die Ärztin
+opiekunka do dzieci	die Babysitterin
+fryzjerka	die Friseuse
+gospodyni domowa	die Hausfrau
+kasjerka	die Kassiererin
+przedszkolanka	die Kindergärtnerin
+kucharka	die Köchin
+pielęgniarka	die Krankenschwester
+masażystka	die Masseuse
+zakonnica	die Nonne
+prostytutka	die Prostituierte
+sprzątaczka	die Putzfrau
+sprzątaczka, “konserwatorka powierzchni płaskich“	die Raumpflegerin
+sekretarka	die Sekretärin
+pies	der Hund
+suka	die Hündin
+kocur / kac	der Kater
+kociątko	das Kätzchen
+chomik	der Hamster
+świnka morska	das Meerschweinchen
+kanarek	der Kanarienvogel
+papuga	der Papagei
+złota rybka	der Goldfisch
+szczur	die Ratte
+mysz	die Maus
+wąż	die Schlange
+pająk	die Spinne
+osa	die Wespe
+pszczoła	die Biene
+szerszeń	die Hornisse
+giez bydlęcy / hamulec	die Bremse
+mrówka	die Ameise
+dżdżownica	der Regenwurm
+stonoga	der Tausendfüßler
+żółw	die Schildkröte
+koń	das Pferd
+klacz	die Stute
+źrebak	das Fohlen
+świnia	das Schwein
+knur	der Eber
+ogier	der Hengst
+ropucha	die Kröte
+żaba	der Frosch
+bocian	der Storch
+czapla	der Reiher
+żuraw	der Kranich
+sarna	das Reh
+jeleń	der Hirsch
+krowa	die Kuh
+byk	der Stier
+bawół / kujon	der Büffel
+osioł	der Esel
+koza	die Ziege
+kozioł	der Bock
+kaczka	die Ente
+gęś	die Gans
+kura	das Huhn
+kogut	der Hahn
+wróbel	der Spatz
+sroka	die Elster
+kruk	der Rabe
+wrona	die Krähe
+gawron	die Saatkrähe
+kret	der Maulwurf
+żmija	die Natter
+łasica	das Wiesel
+kuna	der Marder
+słoń	der Elefant
+zebra	das Zebra
+lew	der Löwe
+gepard	der Leopard
+nosorożec	das Nashorn
+wiewiórka	das Eichhörnchen
+zięba	der Fink
+dzięcioł	der Specht
+niedźwiedź	der Bär
+wilk	der Wolf
+królik	das Kaninchen
+zając	der Hase
+bóbr	der Biber
+lis	der Fuchs
+wieloryb	der Walfisch
+rekin	der Haifisch
+śledź	der Hering
+pstrąg	die Forelle
+szczupak	der Hecht
+węgorz	der Aal
+gołąb	die Taube
+słowik	die Nachtigall
+skowronek	die Lerche
+sowa	die Eule
+komar	die Mücke
+mucha	die Fliege
+dzik	das Wildschwein
+szarańcza	die Heuschrecke
+nietoperz	die Fledermaus
+pchła	der Floh
+wesz / wsza	die Laus
+pluskwa	die Wanze
+karaluch	der Kakerlak
+żuk / chrząszcz	der Käfer
+biedronka	der Siebenpunkt
+chrabąszcz	der Maikäfer
+robaczek świętojański	das Glühwürmchen
+jeż	der Igel
+kangur	das Känguru
+krokodyl	das Krokodil
+ośmiornica	der Krake
+dinozaur	der Dinosaurier
+mamut	das Mammut
+tygrys	der Tiger
+hipopotam	das Nilpferd
+struś	der Strauß
+orzeł	der Adler
+sokół	der Falke
+sęp	der Geier
+żyrafa	die Giraffe
+hiena	die Hyäne
+szakal	der Schakale
+rak	der Krebs
+skorpion	der Skorpion
+skorek/szczypawica	der Ohrwurm
+ślimak	die Schnecke
+motyl	der Schmetterling
+ćma	der Nachtfalter
+grzechotnik	die Klapperschlange
+suseł / świstak	das Murmeltier
+foka	die Robbe
+łabędź	der Schwan
+małpa	der Affe
+żubr	der Wisent
+wielbłąd	das Kamel
+głowa	der Kopf
+ciemię / przedziałek	der Scheitel
+twarz	das Gesicht
+czoło	die Stirn
+skroń	die Schläfe
+oko	das Auge
+kość jarzmowa	das Jochbein
+policzek (nie Backe)	die Wange
+nos	die Nase
+usta	der Mund
+podbródek	das Kinn
+ucho	das Ohr
+szyja / gardło	der Hals
+kark	der Nacken
+tułów	der Rumpf
+bark	die Schulter
+łopatka	das Schulterblatt
+krzyż	das Kreuz
+pacha	die Achsel
+włosy pod pachą	die Achselhaare
+pierś	die Brust
+klatka piersiowa	der Brustkorb
+brodawka piersiowa	die Brustwarze
+biust	der Busen
+talia	die Taille
+biodro	die Hüfte
+pępek	der Nabel
+brzuch	der Bauch
+podbrzusze	der Unterleib
+pachwina	die Leistenbeuge
+wzgórek łonowy	der Schamhügel
+siedzenie (tyłek)	das Gesäß
+ramię	der Arm
+dłoń	die Hand
+pięść	die Faust
+noga	das Bein
+udo	der Schenkel
+kolano	das Knie
+łydka	die Wade
+stopa	der Fuß
+ząb	der Zahn
+warga	die Lippe
+powieka	das Augenlid
+język	die Zunge
+szczęka	der Kiefer
+penis	der Penis
+dupa	der Arsch
+cipa	die Fotze
+pisior	der Pimmel
+chuj	der Schwanz
+bez	der Flieder
+trawa	das Gras
+zioło / kapusta	das Kraut
+konwalia	das Maiglöckchen
+mech	das Moos
+rzodkiewka	das Radieschen
+rzeżucha	das Schaumkraut
+fiołek	das Veilchen
+niezapominajka	das Vergissmeinnicht
+klon	der Ahorn
+jabłoń	der Apfelbaum
+grusza	der Birnbaum
+kalafior	der Blumenkohl
+koper	der Dill
+bluszcz	der Efeu
+paproć	der Farn
+fikus	der Gummibaum
+owies	der Hafer
+chmiel	der Hopfen
+kaktus	der Kaktus
+koniczyna	der Klee
+czosnek	der Knoblauch
+kminek	der Kümmel
+dynia	der Kürbis
+modrzew	die Lärche
+szczypior(ek)	der Lauch
+laur	der Lorbeer
+mlecz / mniszek lekarski	der Löwenzahn
+kukurydza	der Mais
+majeranek	der Majoran
+mak	der Mohn
+gałka muszkatołowa	der Muskat
+papryka	der Paprika
+pieprz	der Pfeffer
+brzoskwinia	der Pfirsich
+rzepak	der Raps
+rabarbar	der Rhabarber
+żyto	der Roggen
+sałata	der Salat
+gorczyca	der Senf
+ananas	die Ananas
+morela	die Aprikose
+banan	die Banane
+drzewa	die Bäume
+brzoza	die Birke
+gruszka	die Birne
+jagoda leśna	die Blaubeere
+fasola	die Bohne
+pokrzywa	die Brennessel
+jeżyny	die Brombeeren
+daktyle	die Datteln
+dąb	die Eiche
+groch	die Erbse
+truskawka	die Erdbeere
+orzeszki ziemne	die Erdnüsse
+osika	die Espe
+figa	die Feige
+stokrotka	die Gänseblume
+jęczmień	die Gerste
+grejfrut	die Grapefruit
+ogórek	die Gurke
+orzech laskowy	die Haselnuss
+porzeczka	die Johannisbeere
+rumianek	die Kamille
+marchewka	die Karotte
+czereśnia	die Kirsche
+kiwi	die Kiwi
+łopian (“dziady”)	die Klette
+orzech kokosowy	die Kokosnuss
+lipa	die Linde
+soczewica	die Linse
+migdał	die Mandel
+margerytki / złocień / jastrun	die Margeriten
+kasztan jadalny	die Marone
+morwa	die Maulbeere
+jemioła	die Mistel
+nektarynka	die Nektarine
+orzech	die Nuss
+pomarańcza	die Orange
+pietruszka	die Petersilie
+piwonia	die Pfingstrose
+roślina	die Pflanze
+śliwka	die Pflaume
+przebiśnieg / śnieżyczka / prymulka	die Primel
+perz	die Quecke
+róża	die Rose
+szałwia	die Salbei
+szczaw	die Sauerampfer
+wiśnia	die Sauerkirsche
+seler	die Sellerie
+słonecznik	die Sonnenblume
+szparagi	die Spargeln
+agrest	die Stachelbeere
+jodła	die Tanne
+tulipan	die Tulpe
+poziomki	die Walderdbeeren
+lilia wodna	die Wasserlilie
+arbuz	die Wassermelone
+rzepa	die Wasserrübe
+wierzba	die Weide
+winogrona	die Weintrauben
+cytryna	die Zitrone
+burak cukrowy	die Zuckerrübe
+cebula	die Zwiebel

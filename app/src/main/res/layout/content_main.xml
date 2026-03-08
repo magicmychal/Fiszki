@@ -45,10 +45,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="@string/card_name_my_word"
-                        android:typeface="sans"
+                        android:textColor="@color/black"
                         android:textSize="30sp"
-                        android:textStyle="normal|bold|italic"
-                        android:textColor="@color/black"/>
+                        android:textStyle="normal|bold"
+                        android:typeface="sans" />
 
                 </FrameLayout>
             </com.google.android.material.card.MaterialCardView>

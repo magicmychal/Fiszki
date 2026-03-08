@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="uncategory">Bez kategori</string>
+    <string name="uncategory">Bez zestawu</string>
 
-    <string name="category_activity_title">Kategorie</string>
-    <string name="category_dialog_title">Stwórz nową kategorię</string>
+    <string name="category_activity_title">Zestawy</string>
+    <string name="category_dialog_title">Stwórz nowy zestaw</string>
     <string name="category_positive_btn_text">Stwórz</string>
-    <string name="category_dialog_et_name">Nazwa kategorii</string>
+    <string name="category_dialog_et_name">Nazwa zestawu</string>
     <string name="category_dialog_lang_on">Na język</string>
     <string name="category_dialog_lang_from">Z języka</string>
-    <string name="category_toast">Dodano nową kategorię</string>
+    <string name="category_toast">Dodano nowy zestaw</string>
 
     <string name="category_no_lang">Nie ustawiono języka</string>
 
-    <string name="category_empty_text">Nie masz jeszcze żadnych kategori.</string>
+    <string name="category_empty_text">Nie masz jeszcze żadnych zestawów.</string>
 
+    <string name="category_card_count">%d fiszek</string>
 
+    <string name="edit_category_color">Kolor</string>
+    <string name="category_lang_pair">%1$s - %2$s</string>
+    <string name="category_delete_not_allowed">Tego zestawu nie można usunąć.</string>
 </resources>

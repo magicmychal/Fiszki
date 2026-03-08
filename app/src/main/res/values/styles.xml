@@ -1,11 +1,12 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
-        <item name="colorPrimary">@color/ColorPrimary</item>
-        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
-        <item name="colorAccent">@color/ColorPrimaryDark</item>
-        <item name="android:colorBackground">@color/bg_cards</item>
-        <item name="android:statusBarColor">@color/ColorPrimary</item>
+        <item name="colorPrimary">@color/colorPrimaryNew</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryNew</item>
+        <item name="colorAccent">@color/colorPrimaryNew</item>
+        <item name="android:colorBackground">@color/colorSurfaceNew</item>
+        <item name="android:statusBarColor">@color/colorPrimaryNew</item>
+        <item name="android:navigationBarColor">@color/colorSurfaceContainerNew</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -13,6 +14,8 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/colorSurfaceContainerNew</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.Material3.Dark.ActionBar" />
@@ -21,15 +24,64 @@
 
     <style name="SplashTheme" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
-        <item name="android:statusBarColor">@color/ColorPrimary</item>
+        <item name="android:statusBarColor">@color/colorPrimaryNew</item>
+    </style>
+
+    <style name="AppTheme.Yellow" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryYellow</item>
+        <item name="colorOnPrimary">@color/colorOnPrimaryYellow</item>
+        <item name="colorPrimaryContainer">@color/colorPrimaryContainerYellow</item>
+        <item name="colorOnPrimaryContainer">@color/colorOnPrimaryContainerYellow</item>
+        <item name="colorSecondary">@color/colorSecondaryYellow</item>
+        <item name="colorOnSecondary">@color/colorOnSecondaryYellow</item>
+        <item name="colorSecondaryContainer">@color/colorSecondaryContainerYellow</item>
+        <item name="colorOnSecondaryContainer">@color/colorOnSecondaryContainerYellow</item>
+        <item name="colorTertiary">@color/colorTertiaryYellow</item>
+        <item name="colorOnTertiary">@color/colorOnTertiaryYellow</item>
+        <item name="colorTertiaryContainer">@color/colorTertiaryContainerYellow</item>
+        <item name="colorSurface">@color/colorSurfaceYellow</item>
+        <item name="colorOnSurface">@color/colorOnSurfaceYellow</item>
+        <item name="colorSurfaceVariant">@color/colorSurfaceVariantYellow</item>
+        <item name="colorOnSurfaceVariant">@color/colorOnSurfaceVariantYellow</item>
+        <item name="colorSurfaceContainer">@color/colorSurfaceContainerYellow</item>
+        <item name="colorSurfaceContainerHigh">@color/colorSurfaceContainerHighYellow</item>
+        <item name="colorOutline">@color/colorOutlineYellow</item>
+        <item name="colorOutlineVariant">@color/colorOutlineVariantYellow</item>
+        <item name="android:colorBackground">@color/colorSurfaceYellow</item>
+        <item name="android:statusBarColor">@color/colorPrimaryYellow</item>
+        <item name="android:navigationBarColor">@color/colorSurfaceContainerYellow</item>
+    </style>
+
+    <style name="NightMode.Yellow" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryYellowNight</item>
+        <item name="colorOnPrimary">@color/colorOnPrimaryYellowNight</item>
+        <item name="colorPrimaryContainer">@color/colorPrimaryContainerYellowNight</item>
+        <item name="colorOnPrimaryContainer">@color/colorOnPrimaryContainerYellowNight</item>
+        <item name="colorSecondary">@color/colorSecondaryYellowNight</item>
+        <item name="colorOnSecondary">@color/colorOnSecondaryYellowNight</item>
+        <item name="colorSecondaryContainer">@color/colorSecondaryContainerYellowNight</item>
+        <item name="colorOnSecondaryContainer">@color/colorOnSecondaryContainerYellowNight</item>
+        <item name="colorTertiary">@color/colorTertiaryYellowNight</item>
+        <item name="colorSurface">@color/colorSurfaceYellowNight</item>
+        <item name="colorOnSurface">@color/colorOnSurfaceYellowNight</item>
+        <item name="colorSurfaceVariant">@color/colorSurfaceVariantYellowNight</item>
+        <item name="colorOnSurfaceVariant">@color/colorOnSurfaceVariantYellowNight</item>
+        <item name="colorSurfaceContainer">@color/colorSurfaceContainerYellowNight</item>
+        <item name="colorOutline">@color/colorOutlineYellowNight</item>
+        <item name="android:windowBackground">@color/colorSurfaceYellowNight</item>
+        <item name="android:statusBarColor">@color/colorPrimaryYellowNight</item>
+        <item name="android:navigationBarColor">@color/colorSurfaceContainerYellowNight</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <style name="NightMode" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="colorPrimary">@color/ColorPrimaryDark</item>
-        <item name="colorPrimaryDark">@color/ColorPrimaryText</item>
-        <item name="colorAccent">@color/ColorPrimaryText</item>
-        <item name="android:windowBackground">?attr/colorButtonNormal</item>
-        <item name="android:statusBarColor">@color/ColorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimaryNight</item>
+        <item name="colorPrimaryDark">@color/colorOnPrimaryNight</item>
+        <item name="colorAccent">@color/colorPrimaryNight</item>
+        <item name="android:windowBackground">@color/colorSurfaceNight</item>
+        <item name="android:statusBarColor">@color/colorPrimaryNight</item>
+        <item name="android:navigationBarColor">@color/colorSurfaceNight</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
 </resources>

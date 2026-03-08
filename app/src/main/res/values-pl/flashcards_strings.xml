@@ -6,22 +6,31 @@
     <string name="flashcard_toolbar_null_category">Błąd wczytywania</string>
 
     <string name="flashcard_edit_title">Edytuj fiszkę</string>
-    <string name="flashcard_edit_done">Zatwierdź</string>
+    <string name="flashcard_edit_done">Gotowe</string>
     <string name="flashcard_edit_toast">Edytowano fiszkę</string>
 
     <string name="flashcard_delete_btn">USUŃ</string>
     <string name="flashcard_delete_message">Czy napewno chcesz usunąć tą fiszkę?</string>
     <string name="flashcards_delete_message">Czy napewno chcesz usunąć wybrane fiszki?</string>
 
-    <string name="flashcard_empty_text">Nie masz fiszek w tej kategori.</string>
+    <string name="flashcard_empty_text">Nie masz fiszek w tym zestawie.</string>
 
-    <string name="flashcard_transform_title">Zmień kategorie</string>
+    <string name="flashcard_transform_title">Zmień zestaw</string>
     <string name="flashcard_transform_button">Zmień</string>
-    <string name="flashcard_transform_button_empty_message">Nie możesz przenieść tej fiszki, ponieważ nie masz jeszcze żadnych swoich kategori.</string>
+    <string name="flashcard_transform_button_empty_message">Nie możesz przenieść tej fiszki, ponieważ nie masz jeszcze żadnych innych zestawów.</string>
 
     <string name="flashcard_statistic_dialog_title">Statystyki fiszki</string>
     <string name="flashcard_statistic_dialog_pass">Poprawne odpowiedzi:</string>
     <string name="flashcard_statistic_dialog_fail">Niepoprawne odpowiedzi:</string>
     <string name="flashcard_statistic_dialog_reset">WYZERUJ</string>
+
+    <string name="action_add_new_card">Dodaj fiszkę</string>
+    <string name="action_start_review">Rozpocznij ćwiczenie</string>
+    <string name="action_remove">Usuń</string>
+    <string name="action_confirm">Dodaj</string>
+    <string name="action_remove_confirm_message">Czy na pewno chcesz usunąć tę fiszkę?</string>
+    <string name="nav_flashcards">Fiszki</string>
+    <string name="nav_learning_mode">Ćwiczenia</string>
+    <string name="nav_exam">Egzamin</string>
 
 </resources>

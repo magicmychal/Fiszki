@@ -12,7 +12,61 @@ app/app.iml
 Fiszki.iml
 /app/build
 /app/build/outputs/logs/manifest-merger-debug-report.txt
+*.hprof
 
+# --- Built Artifacts ---
+bin/
+gen/
+out/
+build/
+.gradle/
+captures/
+# This is where your heap dumps live!
+*.hprof
+
+# --- Android Studio / IntelliJ ---
+.idea/
+*.iml
+*.iws
+*.ipr
+# Exceptions for certain IDEA files you SHOULD keep
+!.idea/assetWizardSettings.xml
+!.idea/codeStyles/
+!.idea/copyright/
+!.idea/inspectionProfiles/
+!.idea/vcs.xml
+
+# --- Local Configuration (DO NOT COMMIT) ---
+# Contains paths to your local SDK/NDK
+local.properties
+
+# --- Device & Emulator ---
+# Captures and logs
+*.log
+# Screen recordings or screenshots
+*.mp4
+*.png
+
+# --- External Libraries ---
+# If you use the old 'libs' folder for .jar files,
+# usually you track them, but exclude generated ones.
+.navigation/
+
+# --- Bundle/APK outputs ---
+*.apk
+*.ap_
+*.aab
+*.dex
+
+# --- Kotlin/Java specific ---
+# Kotlin incremental compilation metadata
+.kotlin/
+# Compiled class files
+*.class
+
+# --- OS Specific ---
+.DS_Store
+Thumbs.db
 
 
 

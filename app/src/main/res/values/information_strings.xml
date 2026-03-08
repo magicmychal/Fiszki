@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="info_flashcard">
-        Here are flashcards from chosen category. \n
+        Here are flashcards from the chosen set. \n
         In orger to: \n
         <b>add new flashcard</b> - click on the green button \n
         <b>edit flashcard</b> - double click on the flashcard \n

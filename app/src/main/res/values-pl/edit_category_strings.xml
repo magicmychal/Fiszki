@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="edit_category_title">Edytuj kategorię: </string>
-    <string name="edit_category_done">Zatwierdź</string>
+    <string name="edit_category_title">Edytuj zestaw</string>
+    <string name="edit_category_done">Gotowe</string>
     <string name="edit_category_delete">USUŃ</string>
-    <string name="edit_category_toast">Edytowano kategorię.</string>
-    <string name="edit_category_delete_message">Czy napewno chcesz usunąć tą kategrię?</string>
+    <string name="edit_category_toast">Edytowano zestaw.</string>
+    <string name="edit_category_delete_message">Czy na pewno chcesz usunąć ten zestaw?</string>
+    <string name="edit_category_delete_button">Usuń zestaw</string>
+    <string name="export_set_csv">Eksportuj zestaw (CSV)</string>
+    <string name="export_csv_empty">Brak fiszek do eksportu</string>
 </resources>

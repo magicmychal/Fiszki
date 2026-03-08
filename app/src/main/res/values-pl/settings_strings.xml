@@ -8,16 +8,61 @@
     <string name="settings_title_notification">Częstotliwość notyfikacji</string>
     <string name="settings_title_vibration">Wibracje</string>
     <string name="settings_title_data_base">Wyczyść bazę</string>
-    <string name="settings_summary_data_base">Usuń wszystkie słowa i kategorie z bazy</string>
+    <string name="settings_summary_data_base">Usuń wszystkie słowa i zestawy z bazy</string>
     <string name="settings_title_version">Wersja</string>
     <string name="settings_title_support">Pomoc</string>
     <string name="settings_contact_us">Skontaktuj się z nami</string>
-    <string name="settings_choose_category">Wybierz kategorie</string>
-    <string name="settings_select_category">Fiszki pokażą słowa z wybranych kategorii</string>
-    <string name="settings_add_category">Dodaj najpierw kategorie!</string>
-    <string name="settings_choose_category_empty">Wybrane kategorie są puste</string>
-    <string name="settings_click_unClicable">Nie ma kategorii albo są puste</string>
+    <string name="settings_choose_category">Wybierz zestaw</string>
+    <string name="settings_select_category">Fiszki pokażą słowa z wybranych zestawów</string>
+    <string name="settings_add_category">Dodaj najpierw zestaw!</string>
+    <string name="settings_choose_category_empty">Wybrane zestawy są puste</string>
+    <string name="settings_click_unClicable">Nie ma zestawów albo są puste</string>
     <string name="settings_tutorial_info">Ucz się z nami już dziś!</string>
     <string name="settings_toolbar_title">Ustawienia</string>
+
+    <!-- Notification settings -->
+    <string name="settings_section_notifications">Powiadomienia</string>
+    <string name="settings_section_general">Ogólne</string>
+    <string name="settings_notification_enable">Codzienne przypomnienie</string>
+    <string name="settings_notification_enable_summary">Przypominaj o nauce fiszek</string>
+    <string name="settings_notification_time">Godzina przypomnienia</string>
+    <string name="settings_notification_days">Dni przypomnienia</string>
+    <string name="settings_notification_days_everyday">Codziennie</string>
+    <string name="settings_language">Język</string>
+    <string name="settings_language_summary">Zmień język aplikacji</string>
+    <string name="settings_permission_notifications">Wymagane uprawnienie do powiadomień</string>
+    <string name="settings_permission_exact_alarm">Wymagane uprawnienie do dokładnych alarmów</string>
+    <string name="settings_color_palette">Paleta kolorów</string>
+    <string name="settings_color_palette_summary_purple">Fioletowy</string>
+    <string name="settings_color_palette_summary_yellow">Żółty</string>
+
+    <!-- CSV Import -->
+    <string name="settings_import_csv">Importuj z pliku</string>
+    <string name="settings_import_csv_summary">Importuj fiszki z CSV lub TXT z AnkiDroid</string>
+    <string name="import_file_title">Importuj plik</string>
+    <string name="import_file_pick">Wybierz plik</string>
+    <string name="import_file_format">Format pliku</string>
+    <string name="import_file_format_helper">CSV używa przecinka, AnkiDroid używa tabulatora (#separator:tab)</string>
+    <string name="import_format_csv">CSV (rozdzielane przecinkiem)</string>
+    <string name="import_format_csv_helper">Przykład: słowo,tłumaczenie</string>
+    <string name="import_format_ankidroid">AnkiDroid TXT (rozdzielane tabulatorem)</string>
+    <string name="import_format_ankidroid_helper">Przykład: słowo\ttłumaczenie (ignoruj #separator:tab)</string>
+    <string name="import_csv_pick_category">Wybierz zestaw</string>
+    <string name="import_csv_success">Zaimportowano %d fiszek</string>
+    <string name="import_csv_error_format">Nieprawidłowy format CSV: oczekiwano 2 kolumn (słowo,tłumaczenie)</string>
+    <string name="import_tsv_error_format">Nieprawidłowy format AnkiDroid: oczekiwano co najmniej 2 kolumn</string>
+    <string name="import_csv_error_empty">Plik jest pusty lub nie zawiera prawidłowych wierszy</string>
+    <string name="import_csv_error_read">Nie można odczytać pliku</string>
+    <string name="import_csv_found">Znaleziono %d fiszek</string>
+    <string name="import_csv_import">Importuj</string>
+
+    <!-- Day names -->
+    <string name="day_monday">Pon</string>
+    <string name="day_tuesday">Wt</string>
+    <string name="day_wednesday">Śr</string>
+    <string name="day_thursday">Czw</string>
+    <string name="day_friday">Pt</string>
+    <string name="day_saturday">Sob</string>
+    <string name="day_sunday">Ndz</string>
 
 </resources>

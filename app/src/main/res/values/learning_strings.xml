@@ -1,33 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="learning_toolbar_title">Select a range of learning:</string>
+    <string name="learning_toolbar_title">Select a range of practice:</string>
 
     <string name="learning_card_all_name">All</string>
-    <string name="learning_card_category_name">By category</string>
+    <string name="learning_card_category_name">By set</string>
     <string name="learning_card_lang_name">By language</string>
 
-    <string name="learning_by_category_dialog_title">Select categories to learn</string>
+    <string name="learning_title">Time to\npractice!</string>
+    <string name="learning_try_all">try all</string>
+    <string name="learning_by_language">by language</string>
+    <string name="learning_by_category">by set</string>
+    <string name="learning_by_category_dialog_title">Select sets to learn</string>
     <string name="learning_by_category_dialog_btn_to_learning">Let\'s go!</string>
     <string name="learning_by_category_dialog_btn_back">Back</string>
-    <string name="learning_by_category_tost_no_chose">You did not select any category</string>
-    <string name="learning_by_category_tost_empty_category">Selected categories are empty</string>
+    <string name="learning_by_category_tost_no_chose">You did not select any set</string>
+    <string name="learning_by_category_tost_empty_category">Selected sets are empty</string>
 
     <string name="learning_by_lang_dialog_title">Select language to learn</string>
     <string name="learning_by_lang_dialog_from_text">From:</string>
-    <string name="learning_by_lang_dialog_on_text">On:</string>
+    <string name="learning_by_lang_dialog_on_text">To:</string>
     <string name="learning_by_lang_whichever">Any</string>
     <string name="learning_by_lang_tost_empty_chose">This configuration does not exist or is empty.</string>
 
-    <string name="learning_check_toolbar_title">Learning</string>
+    <string name="learning_check_toolbar_title">Practice</string>
     <string name="learning_check_lang_translate">Translate</string>
     <string name="learning_check_lang_translate_1">Translate from</string>
     <string name="learning_check_lang_translate_2">to</string>
 
     <string name="learning_check_dialog_bad_answer_1">Bad answer. Correctly:</string>
+    <string name="learning_check_dialog_bad_answer_1_new">Correct answer</string>
     <string name="learning_check_dialog_bad_answer_2">Write it again.</string>
+    <string name="learning_check_dialog_your_answer">Your answer:</string>
+    <string name="learning_check_dialog_your_answer_label">You entered</string>
 
     <string name="learning_check_dialog_skip_btn">Skip flashcard</string>
+    <string name="learning_check_dialog_skip_btn_new">Skip this time</string>
+    <string name="learning_check_dialog_retry_btn">Try typing again</string>
     <string name="learning_check_menu_skip_toast">Flashcard has been omitted</string>
+
+    <string name="learning_no_flashcards">No flashcards available. Add some first!</string>
+
+    <string name="learning_check_btn_finish">Finish</string>
+    <string name="learning_check_btn_skip">Skip</string>
+    <string name="learning_check_btn_check">Check</string>
+    <string name="learning_check_status_title">Status</string>
+    <string name="learning_check_status_correct">Correct: %d</string>
+    <string name="learning_check_status_total">Total: %d</string>
+    <string name="learning_check_correct_popup">Correct!</string>
+
+    <string name="learning_strict_mode">Strict mode</string>
+    <string name="learning_strict_mode_desc">Require full precision when typing answers.\ne.g. \'der Vorname\' won\'t be accepted if entered \'der vorname\'. Capitalisation, punctuation matters.</string>
+    <string name="learning_category_label">Set</string>
+    <string name="learning_category_all">All sets</string>
+    <string name="learning_language_pair_label">Language pair</string>
+    <string name="learning_language_pair_desc">Select which language you want to see and which one you want to test yourself against.</string>
+    <string name="learning_start_practice">Start practice</string>
+    <string name="learning_no_categories">No sets available</string>
+    <string name="learning_direction_format">%1$s → %2$s</string>
 
 </resources>

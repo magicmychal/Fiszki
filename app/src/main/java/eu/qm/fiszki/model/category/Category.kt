@@ -12,6 +12,7 @@ class Category : Serializable {
         const val columnCategoryLangFrom = "langFrom"
         const val columnCategoryCategory = "category"
         const val columnCategoryEntryByUsers = "entryByUser"
+        const val columnCategoryColor = "color"
     }
 
     @DatabaseField(generatedId = true, allowGeneratedIdInsert = true)
@@ -31,6 +32,9 @@ class Category : Serializable {
 
     @DatabaseField
     private var langFrom: String? = null
+
+    @DatabaseField(columnName = "color")
+    private var color: String? = null
 
     constructor()
 
@@ -59,5 +63,11 @@ class Category : Serializable {
 
     fun setLangFrom(langFrom: String) {
         this.langFrom = langFrom.replace("'", "%sq%")
+    }
+
+    fun getColor(): String? = color
+
+    fun setColor(c: String?) {
+        color = c
     }
 }

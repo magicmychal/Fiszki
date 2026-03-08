@@ -33,12 +33,12 @@
 
     <string name="alert_delete_record">Czy napewno chcesz usunąć to słowo?</string>
 
-    <string name="alert_empty_flashcards_pool">Wybrane kategorie są puste!</string>
+    <string name="alert_empty_flashcards_pool">Wybrany zestaw jest pusty!</string>
 
     <string name="alert_no_category_title">Uwaga</string>
     <string name="alert_no_category_messege">Jeszcze nie dodałeś żadnego słówka.
         Aby móc korzystać z tej funkcji dodaj przynajmniej jedno słowo.</string>
 
-    <string name="alert_empty_selected_category">Wybrane kategorie są pustę, więc nauka będzie z całej puli twoich fiszek.</string>
+    <string name="alert_empty_selected_category">Wybrane zestawy są puste, więc nauka będzie z całej puli twoich fiszek.</string>
 
 </resources>

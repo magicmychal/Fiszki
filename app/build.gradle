@@ -1,20 +1,20 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.jetbrains.kotlin.plugin.compose'
 
 repositories {
     google()
     mavenCentral()
-    maven { url 'https://jitpack.io' }
 }
 
 android {
     namespace "eu.qm.fiszki"
-    compileSdk 35
+    compileSdk 36
     defaultConfig {
-        applicationId "eu.qm.fiszki"
+        applicationId 'click.quickclicker.fiszki'
         minSdk 31
         targetSdk 35
         versionCode 15
-        versionName "1.11"
+        versionName '2.00'
     }
     buildTypes {
         release {
@@ -26,28 +26,44 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
+    kotlin {
+        jvmToolchain(11)
+    }
+    buildFeatures {
+        compose true
+    }
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs/ORMLite')
+    // ORMLite 5.7 (upgraded from local 4.48 JARs to fix ashmem pinning deprecation)
+    implementation 'com.j256.ormlite:ormlite-android:5.7'
+    implementation 'com.j256.ormlite:ormlite-core:5.7'
 
     implementation('com.mikepenz:materialdrawer:8.4.5') {
         transitive = true
     }
 
     // AndroidX
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'androidx.core:core:1.15.0'
-    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.core:core:1.17.0'
+    implementation 'com.google.android.material:material:1.13.0'
     implementation 'androidx.recyclerview:recyclerview:1.4.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.viewpager:viewpager:1.0.0'
+    implementation 'androidx.viewpager:viewpager:1.1.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.3.0'
     implementation 'androidx.preference:preference:1.2.1'
 
-    implementation 'com.cleveroad:slidingtutorial:1.0.6'
-    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
-    implementation 'com.jaredrummler:material-spinner:1.3.1'
+
+    // Compose
+    implementation platform('androidx.compose:compose-bom:2026.02.01')
+    implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.foundation:foundation'
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    implementation 'androidx.compose.ui:ui-text-google-fonts'
+    implementation 'androidx.compose.material:material-icons-extended'
+    implementation 'androidx.activity:activity-compose:1.12.4'
+    debugImplementation 'androidx.compose.ui:ui-tooling'
 
     testImplementation 'junit:junit:4.13.2'
 }

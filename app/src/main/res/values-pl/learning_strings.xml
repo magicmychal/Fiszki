@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="learning_toolbar_title">Wybierz zakres nauki:</string>
+    <string name="learning_toolbar_title">Wybierz zakres ćwiczeń:</string>
 
     <string name="learning_card_all_name">Wszystko</string>
-    <string name="learning_card_category_name">Po kategoriach</string>
+    <string name="learning_card_category_name">Po zestawach</string>
     <string name="learning_card_lang_name">Po językach</string>
 
-    <string name="learning_by_category_dialog_title">Wybierz kategorie do nauki</string>
+    <string name="learning_title">Czas na\nćwiczenia!</string>
+    <string name="learning_try_all">spróbuj\nwszystko</string>
+    <string name="learning_by_language">po języku</string>
+    <string name="learning_by_category">po zestawie</string>
+    <string name="learning_by_category_dialog_title">Wybierz zestawy do nauki</string>
     <string name="learning_by_category_dialog_btn_to_learning">Do nauki!</string>
     <string name="learning_by_category_dialog_btn_back">Wroć</string>
-    <string name="learning_by_category_tost_no_chose">Nie wybrałeś żadnej kategori</string>
-    <string name="learning_by_category_tost_empty_category">Wybrane kategorie są puste</string>
+    <string name="learning_by_category_tost_no_chose">Nie wybrano żadnego zestawu</string>
+    <string name="learning_by_category_tost_empty_category">Wybrane zestawy są puste</string>
 
     <string name="learning_by_lang_dialog_title">Wybierz język do nauki</string>
     <string name="learning_by_lang_dialog_from_text">Z:</string>
@@ -19,16 +23,40 @@
     <string name="learning_by_lang_whichever">Którykolwiek</string>
     <string name="learning_by_lang_tost_empty_chose">Taka konfiguracja nie istnieje lub jest pusta.</string>
 
-    <string name="learning_check_toolbar_title">Nauka</string>
+    <string name="learning_check_toolbar_title">Ćwiczenia</string>
     <string name="learning_check_lang_translate">Przetłumacz</string>
     <string name="learning_check_lang_translate_1">Przetłumacz z</string>
     <string name="learning_check_lang_translate_2">na</string>
 
     <string name="learning_check_dialog_bad_answer_1">Zła odpowiedź. Poprawnie to:</string>
+    <string name="learning_check_dialog_bad_answer_1_new">Prawidłowa odpowiedź</string>
     <string name="learning_check_dialog_bad_answer_2">Wpisz ponownie.</string>
+    <string name="learning_check_dialog_your_answer">Twoja odpowiedź:</string>
+    <string name="learning_check_dialog_your_answer_label">Wpisałeś</string>
 
     <string name="learning_check_dialog_skip_btn">Pomiń fiszkę</string>
+    <string name="learning_check_dialog_skip_btn_new">Pomiń tym razem</string>
+    <string name="learning_check_dialog_retry_btn">Spróbuj wpisać ponownie</string>
     <string name="learning_check_menu_skip_toast">Fiszka została pominięta</string>
 
+    <string name="learning_no_flashcards">Brak fiszek. Dodaj najpierw!</string>
+
+    <string name="learning_check_btn_finish">Zakończ</string>
+    <string name="learning_check_btn_skip">Pomiń</string>
+    <string name="learning_check_btn_check">Sprawdź</string>
+    <string name="learning_check_status_title">Status</string>
+    <string name="learning_check_status_correct">Poprawne: %d</string>
+    <string name="learning_check_status_total">Łącznie: %d</string>
+    <string name="learning_check_correct_popup">Dobrze!</string>
+
+    <string name="learning_strict_mode">Tryb ścisły</string>
+    <string name="learning_strict_mode_desc">Wymagana pełna precyzja przy wpisywaniu odpowiedzi.\nnp. \'der Vorname\' nie zostanie zaakceptowany jako \'der vorname\'. Litery wielkie i interpunkcja mają znaczenie.</string>
+    <string name="learning_category_label">Zestaw</string>
+    <string name="learning_category_all">Wszystkie zestawy</string>
+    <string name="learning_language_pair_label">Para językowa</string>
+    <string name="learning_language_pair_desc">Wybierz, który język chcesz widzieć i który chcesz sprawdzać.</string>
+    <string name="learning_start_practice">Rozpocznij ćwiczenia</string>
+    <string name="learning_no_categories">Brak dostępnych zestawów</string>
+    <string name="learning_direction_format">%1$s → %2$s</string>
 
 </resources>

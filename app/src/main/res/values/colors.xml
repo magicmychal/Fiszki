@@ -29,6 +29,93 @@
     <color name="statistic_35_0">#d7263d</color>
     <color name="primary_text_default_material_light">#55ffffff</color>
 
+    <!-- Material 3 Purple/Lavender palette -->
+    <color name="colorPrimaryNew">#6750A4</color>
+    <color name="colorOnPrimaryNew">#FFFFFF</color>
+    <color name="colorPrimaryContainerNew">#EADDFF</color>
+    <color name="colorOnPrimaryContainerNew">#21005D</color>
+    <color name="colorSecondaryNew">#625B71</color>
+    <color name="colorSecondaryContainerNew">#E8DEF8</color>
+    <color name="colorSurfaceNew">#FFFBFE</color>
+    <color name="colorSurfaceVariantNew">#E7E0EC</color>
+    <color name="colorOnSurfaceNew">#1C1B1F</color>
+    <color name="colorOnSurfaceVariantNew">#49454F</color>
+    <color name="colorOutlineNew">#79747E</color>
+    <color name="heroGradientStart">#6750A4</color>
+    <color name="heroGradientEnd">#EADDFF</color>
+    <color name="starYellow">#FFB800</color>
+    <color name="starEmpty">#E0D6EB</color>
+    <color name="colorSurfaceContainerNew">#F3EDF7</color>
+    <color name="colorSurfaceContainerLowNew">#F7F2FA</color>
+    <color name="colorSurfaceContainerHighNew">#ECE6F0</color>
+    <color name="colorOutlineVariantNew">#CAC4D0</color>
+    <color name="colorInverseOnSurfaceNew">#F5EFF7</color>
+
+    <!-- Night mode purple palette -->
+    <color name="colorPrimaryNight">#D0BCFF</color>
+    <color name="colorOnPrimaryNight">#381E72</color>
+    <color name="colorSurfaceNight">#1C1B1F</color>
+    <color name="colorOnSurfaceNight">#E6E1E5</color>
+
+    <!-- Yellow/Amber M3 palette (light) -->
+    <color name="colorPrimaryYellow">#7C5800</color>
+    <color name="colorOnPrimaryYellow">#FFFFFF</color>
+    <color name="colorPrimaryContainerYellow">#FFDEA1</color>
+    <color name="colorOnPrimaryContainerYellow">#271900</color>
+    <color name="colorSecondaryYellow">#6D5D3F</color>
+    <color name="colorOnSecondaryYellow">#FFFFFF</color>
+    <color name="colorSecondaryContainerYellow">#F8E0BB</color>
+    <color name="colorOnSecondaryContainerYellow">#261A04</color>
+    <color name="colorTertiaryYellow">#4E6544</color>
+    <color name="colorOnTertiaryYellow">#FFFFFF</color>
+    <color name="colorTertiaryContainerYellow">#D0EBC1</color>
+    <color name="colorSurfaceYellow">#FFFBFF</color>
+    <color name="colorOnSurfaceYellow">#1E1B16</color>
+    <color name="colorSurfaceVariantYellow">#EDE1CF</color>
+    <color name="colorOnSurfaceVariantYellow">#4D4639</color>
+    <color name="colorSurfaceContainerYellow">#F5EFE7</color>
+    <color name="colorSurfaceContainerHighYellow">#EFE9E1</color>
+    <color name="colorOutlineYellow">#7F7667</color>
+    <color name="colorOutlineVariantYellow">#D0C5B4</color>
+
+    <!-- Yellow/Amber M3 palette (dark) -->
+    <color name="colorPrimaryYellowNight">#F5BF48</color>
+    <color name="colorOnPrimaryYellowNight">#422D00</color>
+    <color name="colorPrimaryContainerYellowNight">#5E4200</color>
+    <color name="colorOnPrimaryContainerYellowNight">#FFDEA1</color>
+    <color name="colorSecondaryYellowNight">#DAC4A0</color>
+    <color name="colorOnSecondaryYellowNight">#3D2E16</color>
+    <color name="colorSecondaryContainerYellowNight">#55442A</color>
+    <color name="colorOnSecondaryContainerYellowNight">#F8E0BB</color>
+    <color name="colorTertiaryYellowNight">#B5CFA7</color>
+    <color name="colorSurfaceYellowNight">#1E1B16</color>
+    <color name="colorOnSurfaceYellowNight">#E9E1D9</color>
+    <color name="colorSurfaceVariantYellowNight">#4D4639</color>
+    <color name="colorOnSurfaceVariantYellowNight">#D0C5B4</color>
+    <color name="colorSurfaceContainerYellowNight">#2B2720</color>
+    <color name="colorOutlineYellowNight">#999080</color>
+
+    <!-- Category color palette -->
+    <color name="cat_lavender_primary">#6750A4</color>
+    <color name="cat_lavender_container">#EADDFF</color>
+    <color name="cat_rose_primary">#904A77</color>
+    <color name="cat_rose_container">#FFD8E8</color>
+    <color name="cat_sage_primary">#4A6741</color>
+    <color name="cat_sage_container">#C8E6B8</color>
+    <color name="cat_ocean_primary">#006590</color>
+    <color name="cat_ocean_container">#C3E7FF</color>
+    <color name="cat_sand_primary">#7C5800</color>
+    <color name="cat_sand_container">#FFDEA1</color>
+    <color name="cat_coral_primary">#904B40</color>
+    <color name="cat_coral_container">#FFDAD5</color>
+    <color name="cat_sky_primary">#4355B9</color>
+    <color name="cat_sky_container">#DEE0FF</color>
+    <color name="cat_mauve_primary">#6B5778</color>
+    <color name="cat_mauve_container">#F3DAFF</color>
+
+    <!-- Status colors -->
+    <color name="correctGreen">#388E3C</color>
+
     <!-- Colors previously provided by apptentive/material-dialogs libraries -->
     <color name="apptentive_transparency">#00000000</color>
     <color name="md_red_A700">#D50000</color>

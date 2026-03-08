@@ -7,14 +7,14 @@
     <string name="add_new_flashcard_toast">New word has been added</string>
     <string name="add_new_flashcard_word">Word</string>
     <string name="add_new_flashcard_translation">Translation</string>
-    <string name="add_new_flashcard_category">Category</string>
-    <string name="add_new_flashcard_no_category">No Category</string>
-    <string name="add_new_category">Add new category</string>
-    <string name="add_new_category_toast">New category has been created</string>
-    <string name="add_new_category_exist">This category is already in the list.</string>
-    <string name="add_new_category_name">New category\'s name</string>
+    <string name="add_new_flashcard_category">Set</string>
+    <string name="add_new_flashcard_no_category">No Set</string>
+    <string name="add_new_category">Add new set</string>
+    <string name="add_new_category_toast">New set has been created</string>
+    <string name="add_new_category_exist">This set is already in the list.</string>
+    <string name="add_new_category_name">New set name</string>
     <string name="add_new_flashcard_btn">Create</string>
-    <string name="edit_category_name">Category\'s new name</string>
+    <string name="edit_category_name">New set name</string>
 
 
 </resources>

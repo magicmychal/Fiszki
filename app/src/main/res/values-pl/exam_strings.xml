@@ -5,11 +5,17 @@
     <string name="exam_card_range_title">Zakres egzaminu</string>
 
     <string name="exam_toolbar_title">Skonfiguruj egzamin</string>
+    <string name="exam_title">Sprawdź\nswoje umiejętności</string>
+    <string name="exam_tooltip_rounds">Ile fiszek zostanie wyświetlonych w jednej sesji egzaminu. Wybierz 5, 10, 15, 25 lub 50.</string>
+    <string name="exam_tooltip_range">Wybierz zestaw fiszek, z którego chcesz być egzaminowany.</string>
+    <string name="exam_start">Start!</string>
+    <string name="exam_rounds_label">Łączna liczba rund</string>
+    <string name="exam_no_flashcards">Brak fiszek. Dodaj najpierw!</string>
 
-    <string name="exam_range_dialog_title">Wybierz kategorie do egzaminu:</string>
+    <string name="exam_range_dialog_title">Wybierz zestaw do egzaminu:</string>
     <string name="exam_repeat_dialog_title">Wynierz ilość powtórzeń:</string>
 
-    <string name="exam_range_empty_toast">Wybrana kategoria jest pusta</string>
+    <string name="exam_range_empty_toast">Wybrany zestaw jest pusty</string>
     <string name="exam_no_chosen_range">Nie wybrano zakresu</string>
     <string name="exam_no_chosen_repeat">Nie wybrano ilości powtórzeń</string>
 
@@ -26,9 +32,19 @@
     <string name="exam_check_end_dialog_content_2">Złe odpowiedzi:</string>
     <string name="exam_check_end_dialog_content_3">Wynik:</string>
 
-    <string name="exam_bad_answer_toolbar_title">Niepoprawe odpowiedzi</string>
+    <string name="exam_check_status_wrong">Błędne: %d</string>
+    <string name="exam_check_status_remaining">Pozostało: %d</string>
+
+    <string name="exam_bad_answer_toolbar_title">Podsumowanie egzaminu</string>
     <string name="exam_bad_answer_cunt">z</string>
     <string name="exam_bad_answer_flashcard">Fiszka:</string>
-    <string name="exam_bad_answer_your_answer">Twoja odpowiedź:</string>
-    <string name="exam_bad_answer_correct">Poprawnie:</string>
+    <string name="exam_bad_answer_your_answer">Twoja odpowiedź</string>
+    <string name="exam_bad_answer_correct">Poprawna odpowiedź</string>
+
+    <string name="exam_summary_set">Zestaw: %s</string>
+    <string name="exam_summary_language">Język: %s</string>
+    <string name="exam_summary_total">Łączna liczba pokazanych fiszek: %d</string>
+    <string name="exam_summary_correct">Poprawne odpowiedzi: %d</string>
+    <string name="exam_summary_incorrect">Niepoprawne odpowiedzi: %d</string>
+    <string name="exam_summary_incorrect_section">Niepoprawne odpowiedzi</string>
 </resources>

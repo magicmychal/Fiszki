@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="drawer_notyfication_switch_name">Notifications</string>
-    <string name="drawer_notyfication_switch_toast_on">Notifications on</string>
-    <string name="drawer_notyfication_switch_toast_off">Notifications off</string>
-
     <string name="drawer_version_ver">v</string>
 
     <string name="drawer_exit_name">Exit</string>
@@ -13,12 +9,10 @@
     <string name="drawer_contact_name">Send feedback</string>
 
     <string name="drawer_clear_name">Clear data</string>
-    <string name="drawer_clear_sub">Delete all words and category in data base</string>
+    <string name="drawer_clear_sub">Delete all words and sets in database</string>
 
-    <string name="drawer_select_name">Choose category</string>
-    <string name="drawer_select_sub">Fiszki will show words from selected categories</string>
-
-    <string name="drawer_freqenc_name">Frequency of notification</string>
+    <string name="drawer_select_name">Choose set</string>
+    <string name="drawer_select_sub">Fiszki will show words from selected sets</string>
 
     <string name="drawer_settings_name">Settings</string>
 

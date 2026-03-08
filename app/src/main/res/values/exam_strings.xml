@@ -5,11 +5,17 @@
     <string name="exam_card_range_title">Range to exam</string>
 
     <string name="exam_toolbar_title">Configure exam</string>
+    <string name="exam_title">Test\nyour skills</string>
+    <string name="exam_tooltip_rounds">How many flashcards will be shown in one exam session. Choose 5, 10, 15, 25, or 50.</string>
+    <string name="exam_tooltip_range">Pick which set of flashcards you want to be tested on.</string>
+    <string name="exam_start">Go!</string>
+    <string name="exam_rounds_label">Total number of rounds</string>
+    <string name="exam_no_flashcards">No flashcards available. Add some first!</string>
 
-    <string name="exam_range_dialog_title">Chose category to exam:</string>
+    <string name="exam_range_dialog_title">Chose set to exam:</string>
     <string name="exam_repeat_dialog_title">Chose the number of rounds:</string>
 
-    <string name="exam_range_empty_toast">Chosen category is empty</string>
+    <string name="exam_range_empty_toast">Chosen set is empty</string>
     <string name="exam_no_chosen_range">You didn\'t select range</string>
     <string name="exam_no_chosen_repeat">You didn\'t select number of rounds</string>
 
@@ -25,11 +31,21 @@
     <string name="exam_check_end_dialog_content_2">Wrong answer:</string>
     <string name="exam_check_end_dialog_content_3">Score:</string>
 
-    <string name="exam_bad_answer_toolbar_title">Incorrect answers</string>
+    <string name="exam_check_status_wrong">Wrong: %d</string>
+    <string name="exam_check_status_remaining">Remaining: %d</string>
+
+    <string name="exam_bad_answer_toolbar_title">Exam Summary</string>
     <string name="exam_bad_answer_cunt">of</string>
     <string name="exam_bad_answer_flashcard">Flashcard:</string>
-    <string name="exam_bad_answer_your_answer">Your answer:</string>
-    <string name="exam_bad_answer_correct">Correct:</string>
+    <string name="exam_bad_answer_your_answer">Your answer</string>
+    <string name="exam_bad_answer_correct">Correct answer</string>
+
+    <string name="exam_summary_set">Set: %s</string>
+    <string name="exam_summary_language">Language: %s</string>
+    <string name="exam_summary_total">Total number of flashcards shown: %d</string>
+    <string name="exam_summary_correct">Correct answers: %d</string>
+    <string name="exam_summary_incorrect">Incorrect answers: %d</string>
+    <string name="exam_summary_incorrect_section">Incorrect answers</string>
 
 
 </resources>
