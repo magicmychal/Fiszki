@@ -1,0 +1,5 @@
+- Redesigned learning and exam setup screens with Jetpack Compose
+- Renamed "category" to "set" throughout the UI
+- Added CSV export for flashcard sets
+- Improved scoring system and haptic feedback
+- Fixed various bugs and improved stability

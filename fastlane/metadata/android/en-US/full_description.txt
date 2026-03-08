@@ -1,0 +1,22 @@
+Fiszki is a flashcard learning application that helps you create, organize, and study flashcards with multiple learning modes, notification-based reminders, and exam functionality.
+
+<b>Features:</b>
+
+* <b>My Words</b> — Create and manage flashcards organized into sets with language pairs (e.g., English → Polish)
+* <b>Learning Mode</b> — Study flashcards by set, language, or all at once with real-time feedback
+* <b>Exam Mode</b> — Test yourself with a configurable number of questions and review wrong answers
+* <b>Notification Reminders</b> — Periodic notifications that prompt you to translate a random flashcard (configurable frequency)
+* <b>Night Mode</b> — Dark theme support
+* <b>Statistics</b> — Track pass/fail stats per flashcard with the ability to reset
+
+<b>How It Works:</b>
+
+Every flashcard has a priority level (0–5) reflecting how well you know the card. Correct answers raise the priority, wrong answers lower it. Cards are drawn randomly from your selected pool, keeping you on your toes.
+
+Choose between strict mode (exact spelling match) and relaxed mode (case-insensitive, ignores trailing dots) depending on your learning goals.
+
+<b>Learning Mode</b> is an open-ended practice session — keep practising as long as you want. <b>Exam Mode</b> is a fixed-length test with a summary at the end showing your score and every mistake.
+
+Enable notification reminders for quick, random quizzes throughout the day — even a few seconds of practice contributes to your learning.
+
+Supports English and Polish UI.

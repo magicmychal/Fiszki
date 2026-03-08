@@ -1,0 +1,5 @@
+- Przeprojektowane ekrany konfiguracji nauki i egzaminu z Jetpack Compose
+- Zmieniono nazwę "kategoria" na "zestaw" w całym interfejsie
+- Dodano eksport CSV dla zestawów fiszek
+- Ulepszony system punktacji i wibracji
+- Poprawki błędów i lepsza stabilność

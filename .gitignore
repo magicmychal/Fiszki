@@ -46,6 +46,7 @@ local.properties
 # Screen recordings or screenshots
 *.mp4
 *.png
+!fastlane/metadata/android/*/images/icon.png
 
 # --- External Libraries ---
 # If you use the old 'libs' folder for .jar files,

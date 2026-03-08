@@ -1,0 +1,22 @@
+Fiszki to aplikacja do nauki za pomocą fiszek, która pomaga tworzyć, organizować i uczyć się słówek z wieloma trybami nauki, przypomnieniami w powiadomieniach i funkcją egzaminu.
+
+<b>Funkcje:</b>
+
+* <b>Moje Słówka</b> — Twórz i zarządzaj fiszkami w zestawach z parami językowymi (np. angielski → polski)
+* <b>Tryb Nauki</b> — Ucz się fiszek według zestawu, języka lub wszystkich naraz z natychmiastową informacją zwrotną
+* <b>Tryb Egzaminu</b> — Sprawdź się z konfigurowalną liczbą pytań i przejrzyj błędne odpowiedzi
+* <b>Przypomnienia</b> — Okresowe powiadomienia z losową fiszką do przetłumaczenia (konfigurowalna częstotliwość)
+* <b>Tryb Nocny</b> — Obsługa ciemnego motywu
+* <b>Statystyki</b> — Śledź wyniki poprawnych i błędnych odpowiedzi dla każdej fiszki
+
+<b>Jak to działa:</b>
+
+Każda fiszka ma poziom priorytetu (0–5) odzwierciedlający, jak dobrze ją znasz. Poprawne odpowiedzi podnoszą priorytet, błędne go obniżają. Fiszki są losowane z wybranej puli, dzięki czemu nie możesz przewidzieć kolejności.
+
+Wybierz między trybem ścisłym (dokładne dopasowanie pisowni) a trybem swobodnym (bez rozróżniania wielkości liter, ignoruje końcowe kropki) w zależności od celów nauki.
+
+<b>Tryb Nauki</b> to sesja bez limitu — ćwicz tak długo, jak chcesz. <b>Tryb Egzaminu</b> to test o ustalonej długości z podsumowaniem na końcu pokazującym wynik i każdy błąd.
+
+Włącz przypomnienia, aby otrzymywać szybkie, losowe quizy w ciągu dnia — nawet kilka sekund praktyki przyczynia się do nauki.
+
+Obsługuje interfejs w języku angielskim i polskim.
