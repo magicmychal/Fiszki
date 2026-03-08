@@ -104,3 +104,12 @@ The codebase is actively migrating from XML layouts and Android drawables to Jet
 ## Localization
 
 Supports English (default) and Polish (`values-pl/`). String resources split across feature-specific files (e.g. `learning_strings.xml`, `category_strings.xml`, `exam_strings.xml`). User-facing terminology uses "set" (not "category") — internal code identifiers still use "category" for historical reasons.
+
+## Changelog
+
+Maintain `CHANGELOG.md` in the project root using [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format.
+
+- **Every PR/branch**: Add entries under `## [Unreleased]` describing what was added, changed, fixed, or removed.
+- **Every merge to `master`**: Move `[Unreleased]` entries into a new versioned section (`## [X.YZ] - YYYY-MM-DD`) matching the `versionName` in `app/build.gradle`. The `[Unreleased]` heading must remain at the top for future changes.
+- Use subsections: `### Added`, `### Changed`, `### Fixed`, `### Removed` (only include subsections that apply).
+- Write entries from the user's perspective, not implementation details.
