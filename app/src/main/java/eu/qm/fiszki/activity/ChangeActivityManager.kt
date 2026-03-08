@@ -3,7 +3,6 @@ package eu.qm.fiszki.activity
 import android.app.Activity
 import android.content.Intent
 import eu.qm.fiszki.R
-import eu.qm.fiszki.activity.chat.ChatActivity
 import eu.qm.fiszki.activity.exam.ExamCheckActivity
 import eu.qm.fiszki.activity.exam.ExamBadAnswerActivity
 import eu.qm.fiszki.activity.learning.LearningCheckActivity
@@ -81,25 +80,6 @@ class ChangeActivityManager(private val activity: Activity) {
     fun exitExamBadAnswer() {
         val intent = Intent(activity, NavHostActivity::class.java).apply {
             putExtra(NavHostActivity.EXTRA_TAB, R.id.nav_exam)
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-        }
-        activity.startActivity(intent)
-        activity.finish()
-        @Suppress("DEPRECATION") activity.overridePendingTransition(R.anim.right_out, R.anim.left_in)
-    }
-
-    fun goToChatMode(flashcards: ArrayList<Flashcard>) {
-        val goChat = Intent(activity, ChatActivity::class.java).apply {
-            putExtra(FLASHCARDS_KEY_INTENT, flashcards)
-        }
-        activity.startActivity(goChat)
-        activity.finish()
-        @Suppress("DEPRECATION") activity.overridePendingTransition(R.anim.right_in, R.anim.left_out)
-    }
-
-    fun exitChatMode() {
-        val intent = Intent(activity, NavHostActivity::class.java).apply {
-            putExtra(NavHostActivity.EXTRA_TAB, R.id.nav_learning)
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
         }
         activity.startActivity(intent)

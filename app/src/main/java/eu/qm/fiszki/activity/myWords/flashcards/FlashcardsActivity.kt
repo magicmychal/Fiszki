@@ -197,7 +197,8 @@ class FlashcardsActivity : AppCompatActivity() {
             mEmptyFlashcard.visibility = View.GONE
         }
 
-        val adapter = FlashcardShowAdapter(mActivity, flashcards)
+        val catColor = findCategoryColor(mCurrentCategory.getColor()) ?: defaultCategoryColor()
+        val adapter = FlashcardShowAdapter(mActivity, flashcards, catColor.primary)
         mRecycleView.swapAdapter(adapter, false)
     }
 }

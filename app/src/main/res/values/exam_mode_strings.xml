@@ -3,9 +3,9 @@
 
     <string name="exam_mode_title">Test yourself</string>
     <string name="exam_mode_repeat_number">The number of rounds:</string>
-    <string name="exam_mode_no_choose_category">You didn\'t selected category.</string>
+    <string name="exam_mode_no_choose_category">You didn\'t select a set.</string>
     <string name="exam_mode_no_choose_repeat">You didn\'t selected number of repeats.</string>
-    <string name="exam_mode_choose_category">Select category to learn.</string>
+    <string name="exam_mode_choose_category">Select a set to learn.</string>
     <string name="exam_mode_choose_repeat">How many rounds?</string>
 
 </resources>

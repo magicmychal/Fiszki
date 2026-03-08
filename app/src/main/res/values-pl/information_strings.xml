@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
         <string name="info_flashcard">
-        W tym oknie widzisz fiszki z wybranej kategori.\n
+        W tym oknie widzisz fiszki z wybranego zestawu.\n
         <b>Dodanie fiszki</b> - klinięcie w zielony przycisk \n
         <b>Edycja fiszki</b> - kliknięcie dwukrotne fiszki \n
         <b>Zaznaczenie</b> - przytrzymaj fiszkę \n

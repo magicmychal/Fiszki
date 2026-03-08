@@ -1,5 +1,6 @@
 package eu.qm.fiszki.dialogs.category
 
+import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.TypedValue
@@ -8,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.core.content.FileProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -23,6 +26,7 @@ import eu.qm.fiszki.model.category.Category
 import eu.qm.fiszki.model.category.CategoryRepository
 import eu.qm.fiszki.model.category.ValidationCategory
 import eu.qm.fiszki.model.flashcard.FlashcardRepository
+import java.io.File
 
 class EditCategoryBottomSheet : BottomSheetDialogFragment() {
 
@@ -87,6 +91,12 @@ class EditCategoryBottomSheet : BottomSheetDialogFragment() {
         selectedColor = findCategoryColor(category.getColor()) ?: defaultCategoryColor()
         val colorContainer = view.findViewById<LinearLayout>(R.id.color_picker_container)
         buildColorPicker(colorContainer, nameEt, langFromEt, langOnEt, categoryRepository)
+
+        // Export CSV button
+        val exportBtn = view.findViewById<MaterialButton>(R.id.btn_export_csv)
+        exportBtn.setOnClickListener {
+            exportCsv()
+        }
 
         // Delete button — only for user-created categories
         val deleteBtn = view.findViewById<MaterialButton>(R.id.btn_delete_category)
@@ -173,6 +183,50 @@ class EditCategoryBottomSheet : BottomSheetDialogFragment() {
         val validation = ValidationCategory(context)
         if (validation.validate(category)) {
             categoryRepository.updateCategory(category)
+        }
+    }
+
+    private fun exportCsv() {
+        val ctx = context ?: return
+        val flashcardRepository = FlashcardRepository(ctx)
+        val flashcards = flashcardRepository.getFlashcardsByCategoryID(category.id)
+
+        if (flashcards.isEmpty()) {
+            Toast.makeText(ctx, R.string.export_csv_empty, Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val exportDir = File(ctx.cacheDir, "csv_exports")
+        exportDir.mkdirs()
+        val fileName = (category.getCategory() ?: "flashcards")
+            .replace(Regex("[^a-zA-Z0-9\\-_ ]"), "")
+            .take(50)
+            .ifEmpty { "flashcards" }
+        val csvFile = File(exportDir, "$fileName.csv")
+
+        csvFile.bufferedWriter().use { writer ->
+            for (flashcard in flashcards) {
+                val word = escapeCsvField(flashcard.getWord())
+                val translation = escapeCsvField(flashcard.getTranslation())
+                writer.write("$word,$translation")
+                writer.newLine()
+            }
+        }
+
+        val uri = FileProvider.getUriForFile(ctx, "click.quickclicker.fiszki.fileprovider", csvFile)
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/csv"
+            putExtra(Intent.EXTRA_STREAM, uri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        startActivity(Intent.createChooser(shareIntent, null))
+    }
+
+    private fun escapeCsvField(value: String): String {
+        return if (value.contains(',') || value.contains('"') || value.contains('\n')) {
+            "\"${value.replace("\"", "\"\"")}\""
+        } else {
+            value
         }
     }
 

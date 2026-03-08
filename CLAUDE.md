@@ -34,15 +34,15 @@ Requires JDK 11+ (Kotlin JVM toolchain targets Java 11). Uses Gradle wrapper (no
 
 - **Models** (`model/`): `Flashcard` and `Category` are ORMLite-annotated data classes persisted to SQLite. Each has a `Repository` class (DAO pattern via `OrmLiteSqliteOpenHelper`) and a `Validation` class for input checking.
 - **Database** (`database/ORM/`): `DBHelper` extends `OrmLiteSqliteOpenHelper`, manages schema migrations (currently version 5). `DBConfigUtility` generates ORMLite config. Config file at `res/raw/ormlite_config.txt`.
-- **Navigation**: Single-Activity architecture via `NavHostActivity` with bottom navigation. Fragments for main tabs: `LearningFragment`, `ExamFragment`, `CategoryFragment`. Compose UI used in learning/exam/chat screens and flashcard list items.
-- **Activities** (`activity/`): `CheckActivity` (notification answer checking), `LearningCheckActivity`, `ExamCheckActivity`, `ChatActivity` (fully Compose), flashcard/category management via `myWords/`.
+- **Navigation**: Single-Activity architecture via `NavHostActivity` with bottom navigation. Fragments for main tabs: `LearningFragment`, `ExamFragment`, `CategoryFragment`. Compose UI used in learning/exam screens and flashcard list items.
+- **Activities** (`activity/`): `CheckActivity` (notification answer checking), `LearningCheckActivity`, `ExamCheckActivity`, flashcard/set management via `myWords/`.
 - **Dialogs** (`dialogs/`): Material dialog classes organized by feature (flashcard CRUD, category CRUD, check results, exam settings, learning settings). Uses `afollestad:material-dialogs:0.9.6.0` (pre-AndroidX, converted via Jetifier).
 - **Algorithm** (`algorithm/`): Flashcard selection logic. `Algorithm.drawCardAlgorithm()` currently uses random selection. `PriorityCount`, `MultiplierPoints`, and `Drawer` exist for priority-based weighted selection (not yet fully wired in).
 - **Listeners** (`listeners/`): Click/long-click handlers for flashcard list items and exam actions, separated from activities.
 
 ### Key Singletons & Utilities
 
-- `CategoryManagerSingleton`: Tracks currently selected category across activities
+- `CategoryManagerSingleton`: Tracks currently selected set across activities
 - `SelectedFlashcardsSingleton`: Tracks multi-selected flashcards for bulk operations
 - `LocalSharedPreferences`: Wrapper around Android SharedPreferences (notification state, frequency, night mode, first-run flag)
 - `NightModeController`: Applies light (`AppTheme`), dark (`NightMode`), or yellow theme variants in every activity's `onCreate()`
@@ -51,7 +51,7 @@ Requires JDK 11+ (Kotlin JVM toolchain targets Java 11). Uses Gradle wrapper (no
 
 ### Data Flow
 
-Flashcards belong to categories. Categories have `langFrom`/`langOn` fields for language pair. The `chosen` field on Category controls which categories are active for learning/exam modes. Learning mode uses the algorithm to draw cards; exam mode uses configurable ranges and repeat settings.
+Flashcards belong to sets (internally called "categories" in code). Sets have `langFrom`/`langOn` fields for language pair. The `chosen` field on Category controls which sets are active for learning/exam modes. Learning mode uses the algorithm to draw cards; exam mode uses configurable ranges and repeat settings.
 
 ### Notification System
 
@@ -61,7 +61,7 @@ Flashcards belong to categories. Categories have `langFrom`/`langOn` fields for 
 
 - **ORMLite** 5.7: SQLite ORM (annotations on model classes, DAO pattern)
 - **material-dialogs** 0.9.6.0: Dialog framework (Jetifier-converted)
-- **Jetpack Compose**: Primary UI toolkit. Used for learning setup (`LearningScreen`), exam setup (`ExamScreen`), chat mode (`ChatScreen`), flashcard list items, and theming (`ComposeTheme`/`FiszkiTheme`)
+- **Jetpack Compose**: Primary UI toolkit. Used for learning setup (`LearningScreen`), exam setup (`ExamScreen`), flashcard list items, and theming (`ComposeTheme`/`FiszkiTheme`)
 - **Google Fonts (Compose)**: Roboto Flex, Roboto Mono, Roboto Serif, Porter Sans Block
 - **MaterialDrawer** 8.4.5: Navigation drawer (mikepenz library, still XML-based)
 - **JUnit 4**: Unit testing
@@ -86,14 +86,13 @@ The codebase is actively migrating from XML layouts and Android drawables to Jet
 **Fully Compose screens:**
 - `LearningActivity` — uses `ComposeView` with `PracticeSetupScreen`
 - `ExamActivity` — uses `ComposeView` with `ExamSetupScreen`
-- `ChatActivity` — fully Compose via `setContent {}` with `ChatScreen`
 - `FlashcardShowAdapter` — list items rendered via `ComposeView` in RecyclerView ViewHolder
 
 **Still XML-based (migration candidates):**
 - `FlashcardsActivity` — hero header, action chips, swipe-to-delete (complex Canvas interactions)
 - `LearningCheckActivity` / `ExamCheckActivity` — answer input, correct/wrong popups with View animations
 - `MainActivity` — main hub with 3 card buttons
-- `CategoryActivity` — category list
+- `CategoryActivity` — set list
 - `SettingsActivity` / `SettingsFragment` — preferences UI
 - Navigation drawer — uses mikepenz MaterialDrawer library (requires library replacement)
 - Bottom sheets (`EditCategoryBottomSheet`, CSV import)
@@ -104,4 +103,4 @@ The codebase is actively migrating from XML layouts and Android drawables to Jet
 
 ## Localization
 
-Supports English (default) and Polish (`values-pl/`). String resources split across feature-specific files (e.g. `learning_strings.xml`, `category_strings.xml`, `exam_strings.xml`, `chat_strings.xml`).
+Supports English (default) and Polish (`values-pl/`). String resources split across feature-specific files (e.g. `learning_strings.xml`, `category_strings.xml`, `exam_strings.xml`). User-facing terminology uses "set" (not "category") — internal code identifiers still use "category" for historical reasons.

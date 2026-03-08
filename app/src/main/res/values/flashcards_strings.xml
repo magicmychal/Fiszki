@@ -15,9 +15,9 @@
 
     <string name="flashcard_empty_text">You don\'t have any flashcards here!</string>
 
-    <string name="flashcard_transform_title">Change category</string>
+    <string name="flashcard_transform_title">Change set</string>
     <string name="flashcard_transform_button">Change</string>
-    <string name="flashcard_transform_button_empty_message">You can\'t change category, because you don\'t have connected category</string>
+    <string name="flashcard_transform_button_empty_message">You can\'t change set, because you don\'t have another set</string>
 
     <string name="flashcard_statistic_dialog_title">Flashcard\'s statistics</string>
     <string name="flashcard_statistic_dialog_pass">Correct answer:</string>
@@ -27,15 +27,15 @@
     <string name="action_add_new_card">Add new card</string>
     <string name="action_start_review">Start practice</string>
     <string name="action_remove">Remove</string>
-    <string name="action_confirm">Confirm</string>
+    <string name="action_confirm">Add</string>
     <string name="action_remove_confirm_message">Are you sure you want to remove this flashcard?</string>
     <string name="nav_flashcards">Flashcards</string>
     <string name="nav_learning_mode">Practice</string>
     <string name="nav_exam">Exam</string>
     <string name="nav_settings">Settings</string>
 
-    <string name="action_edit_category">Edit Category</string>
+    <string name="action_edit_category">Edit Set</string>
     <string name="home_title">Fiszki</string>
-    <string name="home_categories_header">Categories</string>
+    <string name="home_categories_header">Sets</string>
 
 </resources>

@@ -7,15 +7,15 @@
     <string name="exam_toolbar_title">Skonfiguruj egzamin</string>
     <string name="exam_title">Sprawdź\nswoje umiejętności</string>
     <string name="exam_tooltip_rounds">Ile fiszek zostanie wyświetlonych w jednej sesji egzaminu. Wybierz 5, 10, 15, 25 lub 50.</string>
-    <string name="exam_tooltip_range">Wybierz kategorię fiszek, z której chcesz być egzaminowany.</string>
+    <string name="exam_tooltip_range">Wybierz zestaw fiszek, z którego chcesz być egzaminowany.</string>
     <string name="exam_start">Start!</string>
     <string name="exam_rounds_label">Łączna liczba rund</string>
     <string name="exam_no_flashcards">Brak fiszek. Dodaj najpierw!</string>
 
-    <string name="exam_range_dialog_title">Wybierz kategorie do egzaminu:</string>
+    <string name="exam_range_dialog_title">Wybierz zestaw do egzaminu:</string>
     <string name="exam_repeat_dialog_title">Wynierz ilość powtórzeń:</string>
 
-    <string name="exam_range_empty_toast">Wybrana kategoria jest pusta</string>
+    <string name="exam_range_empty_toast">Wybrany zestaw jest pusty</string>
     <string name="exam_no_chosen_range">Nie wybrano zakresu</string>
     <string name="exam_no_chosen_repeat">Nie wybrano ilości powtórzeń</string>
 

@@ -9,10 +9,10 @@
     <string name="drawer_contact_name">Send feedback</string>
 
     <string name="drawer_clear_name">Clear data</string>
-    <string name="drawer_clear_sub">Delete all words and category in data base</string>
+    <string name="drawer_clear_sub">Delete all words and sets in database</string>
 
-    <string name="drawer_select_name">Choose category</string>
-    <string name="drawer_select_sub">Fiszki will show words from selected categories</string>
+    <string name="drawer_select_name">Choose set</string>
+    <string name="drawer_select_sub">Fiszki will show words from selected sets</string>
 
     <string name="drawer_settings_name">Settings</string>
 

@@ -4,5 +4,5 @@
     <string name="validation_flashcard_same">This flashcard already exists.</string>
 
     <string name="validation_category_empty">Field can not be empty.</string>
-    <string name="validation_category_same">This category already exists.</string>
+    <string name="validation_category_same">This set already exists.</string>
 </resources>

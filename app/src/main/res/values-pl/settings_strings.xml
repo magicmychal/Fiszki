@@ -8,15 +8,15 @@
     <string name="settings_title_notification">Częstotliwość notyfikacji</string>
     <string name="settings_title_vibration">Wibracje</string>
     <string name="settings_title_data_base">Wyczyść bazę</string>
-    <string name="settings_summary_data_base">Usuń wszystkie słowa i kategorie z bazy</string>
+    <string name="settings_summary_data_base">Usuń wszystkie słowa i zestawy z bazy</string>
     <string name="settings_title_version">Wersja</string>
     <string name="settings_title_support">Pomoc</string>
     <string name="settings_contact_us">Skontaktuj się z nami</string>
-    <string name="settings_choose_category">Wybierz kategorie</string>
-    <string name="settings_select_category">Fiszki pokażą słowa z wybranych kategorii</string>
-    <string name="settings_add_category">Dodaj najpierw kategorie!</string>
-    <string name="settings_choose_category_empty">Wybrane kategorie są puste</string>
-    <string name="settings_click_unClicable">Nie ma kategorii albo są puste</string>
+    <string name="settings_choose_category">Wybierz zestaw</string>
+    <string name="settings_select_category">Fiszki pokażą słowa z wybranych zestawów</string>
+    <string name="settings_add_category">Dodaj najpierw zestaw!</string>
+    <string name="settings_choose_category_empty">Wybrane zestawy są puste</string>
+    <string name="settings_click_unClicable">Nie ma zestawów albo są puste</string>
     <string name="settings_tutorial_info">Ucz się z nami już dziś!</string>
     <string name="settings_toolbar_title">Ustawienia</string>
 
@@ -47,7 +47,7 @@
     <string name="import_format_csv_helper">Przykład: słowo,tłumaczenie</string>
     <string name="import_format_ankidroid">AnkiDroid TXT (rozdzielane tabulatorem)</string>
     <string name="import_format_ankidroid_helper">Przykład: słowo\ttłumaczenie (ignoruj #separator:tab)</string>
-    <string name="import_csv_pick_category">Wybierz kategorię</string>
+    <string name="import_csv_pick_category">Wybierz zestaw</string>
     <string name="import_csv_success">Zaimportowano %d fiszek</string>
     <string name="import_csv_error_format">Nieprawidłowy format CSV: oczekiwano 2 kolumn (słowo,tłumaczenie)</string>
     <string name="import_tsv_error_format">Nieprawidłowy format AnkiDroid: oczekiwano co najmniej 2 kolumn</string>

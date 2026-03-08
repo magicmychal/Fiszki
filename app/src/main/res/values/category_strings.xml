@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="uncategory">No category</string>
+    <string name="uncategory">No set</string>
 
-    <string name="category_activity_title">Category</string>
-    <string name="category_dialog_title">Create new category</string>
+    <string name="category_activity_title">Sets</string>
+    <string name="category_dialog_title">Create new set</string>
     <string name="category_positive_btn_text">Create</string>
-    <string name="category_dialog_et_name">Category\'s name</string>
+    <string name="category_dialog_et_name">Set name</string>
     <string name="category_dialog_lang_on">To language</string>
     <string name="category_dialog_lang_from">From language</string>
-    <string name="category_toast">Added new category</string>
+    <string name="category_toast">Added new set</string>
 
     <string name="category_no_lang">Don\'t set the language</string>
 
-    <string name="category_empty_text">You don\'t have any category!</string>
+    <string name="category_empty_text">You don\'t have any sets!</string>
 
     <string name="category_card_count">%d cards</string>
 
     <string name="edit_category_color">Color</string>
     <string name="category_lang_pair">%1$s - %2$s</string>
-    <string name="category_delete_not_allowed">This category cannot be deleted.</string>
+    <string name="category_delete_not_allowed">This set cannot be deleted.</string>
 </resources>

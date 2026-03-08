@@ -8,15 +8,15 @@
     <string name="settings_title_notification">Frequency of notification</string>
     <string name="settings_title_vibration">Vibration</string>
     <string name="settings_title_data_base">Clear database</string>
-    <string name="settings_summary_data_base">Delete all words and category in data base</string>
+    <string name="settings_summary_data_base">Delete all words and sets in database</string>
     <string name="settings_title_version">Version</string>
     <string name="settings_title_support">Support</string>
     <string name="settings_contact_us">Contact with us</string>
-    <string name="settings_choose_category">Choose category</string>
-    <string name="settings_select_category">Fiszki will show words from selected categories</string>
-    <string name="settings_add_category">You should add category first!</string>
-    <string name="settings_choose_category_empty">Selected categories are empty.</string>
-    <string name="settings_click_unClicable">There are not categories or are empty.</string>
+    <string name="settings_choose_category">Choose set</string>
+    <string name="settings_select_category">Fiszki will show words from selected sets</string>
+    <string name="settings_add_category">You should add a set first!</string>
+    <string name="settings_choose_category_empty">Selected sets are empty.</string>
+    <string name="settings_click_unClicable">There are no sets or they are empty.</string>
     <string name="settings_tutorial_info">Check how to explore languages!</string>
     <string name="settings_feedback_email" translatable="false">fiszki@quickclicker.click</string>
     <string name="settings_toolbar_title">Settings</string>
@@ -48,7 +48,7 @@
     <string name="import_format_csv_helper">Example: word,translation</string>
     <string name="import_format_ankidroid">AnkiDroid TXT (tab separated)</string>
     <string name="import_format_ankidroid_helper">Example: word\ttranslation (ignore #separator:tab)</string>
-    <string name="import_csv_pick_category">Select category</string>
+    <string name="import_csv_pick_category">Select set</string>
     <string name="import_csv_success">Imported %d flashcards</string>
     <string name="import_csv_error_format">Invalid CSV format: expected 2 columns (word,translation)</string>
     <string name="import_tsv_error_format">Invalid AnkiDroid format: expected at least 2 columns</string>

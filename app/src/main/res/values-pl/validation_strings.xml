@@ -4,6 +4,6 @@
     <string name="validation_flashcard_same">Taka fiszka już istnieje.</string>
 
     <string name="validation_category_empty">Pole nie może być puste.</string>
-    <string name="validation_category_same">Taka kategoria już istnieje.</string>
+    <string name="validation_category_same">Taki zestaw już istnieje.</string>
 
 </resources>

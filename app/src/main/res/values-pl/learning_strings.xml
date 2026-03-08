@@ -4,20 +4,18 @@
     <string name="learning_toolbar_title">Wybierz zakres ćwiczeń:</string>
 
     <string name="learning_card_all_name">Wszystko</string>
-    <string name="learning_card_category_name">Po kategoriach</string>
+    <string name="learning_card_category_name">Po zestawach</string>
     <string name="learning_card_lang_name">Po językach</string>
 
     <string name="learning_title">Czas na\nćwiczenia!</string>
     <string name="learning_try_all">spróbuj\nwszystko</string>
     <string name="learning_by_language">po języku</string>
-    <string name="learning_by_category">po kategorii</string>
-    <string name="learning_chat">czat</string>
-
-    <string name="learning_by_category_dialog_title">Wybierz kategorie do nauki</string>
+    <string name="learning_by_category">po zestawie</string>
+    <string name="learning_by_category_dialog_title">Wybierz zestawy do nauki</string>
     <string name="learning_by_category_dialog_btn_to_learning">Do nauki!</string>
     <string name="learning_by_category_dialog_btn_back">Wroć</string>
-    <string name="learning_by_category_tost_no_chose">Nie wybrałeś żadnej kategori</string>
-    <string name="learning_by_category_tost_empty_category">Wybrane kategorie są puste</string>
+    <string name="learning_by_category_tost_no_chose">Nie wybrano żadnego zestawu</string>
+    <string name="learning_by_category_tost_empty_category">Wybrane zestawy są puste</string>
 
     <string name="learning_by_lang_dialog_title">Wybierz język do nauki</string>
     <string name="learning_by_lang_dialog_from_text">Z:</string>
@@ -53,12 +51,12 @@
 
     <string name="learning_strict_mode">Tryb ścisły</string>
     <string name="learning_strict_mode_desc">Wymagana pełna precyzja przy wpisywaniu odpowiedzi.\nnp. \'der Vorname\' nie zostanie zaakceptowany jako \'der vorname\'. Litery wielkie i interpunkcja mają znaczenie.</string>
-    <string name="learning_category_label">Kategoria</string>
-    <string name="learning_category_all">Wszystkie kategorie</string>
+    <string name="learning_category_label">Zestaw</string>
+    <string name="learning_category_all">Wszystkie zestawy</string>
     <string name="learning_language_pair_label">Para językowa</string>
     <string name="learning_language_pair_desc">Wybierz, który język chcesz widzieć i który chcesz sprawdzać.</string>
     <string name="learning_start_practice">Rozpocznij ćwiczenia</string>
-    <string name="learning_no_categories">Brak dostępnych kategorii</string>
+    <string name="learning_no_categories">Brak dostępnych zestawów</string>
     <string name="learning_direction_format">%1$s → %2$s</string>
 
 </resources>

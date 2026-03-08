@@ -50,6 +50,7 @@ class LearningCheckActivity : AppCompatActivity() {
     private var mTotalCount = 0
     private var mStrictMode = true
     private var mReversed = false
+    private var mRetrying = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,6 +120,7 @@ class LearningCheckActivity : AppCompatActivity() {
     }
 
     fun drawFlashcard() {
+        mRetrying = false
         mDrawnFlashcard = mAlgorithm.drawCardAlgorithm(mFlashcardsPool)
         mDrawnCategory = mCategoryRepository.getCategoryByID(mDrawnFlashcard.categoryID)!!
         setLangText()
@@ -166,8 +168,10 @@ class LearningCheckActivity : AppCompatActivity() {
         val checker = eu.qm.fiszki.Checker()
         if (checker.check(expectedAnswer, answer, mStrictMode)) {
             HapticFeedback.vibrateCorrect(mActivity)
-            mFlashcardRepository.upFlashcardPassStatistic(mDrawnFlashcard)
-            mFlashcardRepository.upFlashcardPriority(mDrawnFlashcard)
+            if (!mRetrying) {
+                mFlashcardRepository.upFlashcardPassStatistic(mDrawnFlashcard)
+                mFlashcardRepository.upFlashcardPriority(mDrawnFlashcard)
+            }
             mCorrectCount++
             mTotalCount++
             updateStatusCard()
@@ -176,6 +180,7 @@ class LearningCheckActivity : AppCompatActivity() {
             HapticFeedback.vibrateWrong(mActivity)
             mFlashcardRepository.upFlashcardFailStatistic(mDrawnFlashcard)
             mFlashcardRepository.downFlashcardPriority(mDrawnFlashcard)
+            mRetrying = true
             mTotalCount++
             updateStatusCard()
             BadAnswerLearnigDialog(mActivity, mDrawnFlashcard, this, expectedAnswer, answer)

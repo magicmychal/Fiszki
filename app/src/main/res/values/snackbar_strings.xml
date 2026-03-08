@@ -2,7 +2,7 @@
 <resources>
 
     <string name="snackbar_return_word_message">Deleted flashcard.</string>
-    <string name="snackbar_return_category_message">Deleted category.</string>
+    <string name="snackbar_return_category_message">Deleted set.</string>
     <string name="snackbar_return_word_button">Undo</string>
 
 </resources>

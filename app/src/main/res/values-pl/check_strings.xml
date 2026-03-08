@@ -3,6 +3,6 @@
 
     <string name="check_title">Sprawdzenie</string>
     <string name="check_dialog_emptyDB">Nie masz żadnych fiszek. Dodaj kilka aby używać tej funkcjonalności</string>
-    <string name="check_dialog_empty_selected">Wybrane kategorie są pustę, więc nauka będzie z całej puli twoich fiszek.</string>
+    <string name="check_dialog_empty_selected">Wybrane zestawy są puste, więc nauka będzie z całej puli twoich fiszek.</string>
 
 </resources>

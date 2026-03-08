@@ -4,20 +4,18 @@
     <string name="learning_toolbar_title">Select a range of practice:</string>
 
     <string name="learning_card_all_name">All</string>
-    <string name="learning_card_category_name">By category</string>
+    <string name="learning_card_category_name">By set</string>
     <string name="learning_card_lang_name">By language</string>
 
     <string name="learning_title">Time to\npractice!</string>
     <string name="learning_try_all">try all</string>
     <string name="learning_by_language">by language</string>
-    <string name="learning_by_category">by category</string>
-    <string name="learning_chat">chat</string>
-
-    <string name="learning_by_category_dialog_title">Select categories to learn</string>
+    <string name="learning_by_category">by set</string>
+    <string name="learning_by_category_dialog_title">Select sets to learn</string>
     <string name="learning_by_category_dialog_btn_to_learning">Let\'s go!</string>
     <string name="learning_by_category_dialog_btn_back">Back</string>
-    <string name="learning_by_category_tost_no_chose">You did not select any category</string>
-    <string name="learning_by_category_tost_empty_category">Selected categories are empty</string>
+    <string name="learning_by_category_tost_no_chose">You did not select any set</string>
+    <string name="learning_by_category_tost_empty_category">Selected sets are empty</string>
 
     <string name="learning_by_lang_dialog_title">Select language to learn</string>
     <string name="learning_by_lang_dialog_from_text">From:</string>
@@ -53,12 +51,12 @@
 
     <string name="learning_strict_mode">Strict mode</string>
     <string name="learning_strict_mode_desc">Require full precision when typing answers.\ne.g. \'der Vorname\' won\'t be accepted if entered \'der vorname\'. Capitalisation, punctuation matters.</string>
-    <string name="learning_category_label">Category</string>
-    <string name="learning_category_all">All categories</string>
+    <string name="learning_category_label">Set</string>
+    <string name="learning_category_all">All sets</string>
     <string name="learning_language_pair_label">Language pair</string>
     <string name="learning_language_pair_desc">Select which language you want to see and which one you want to test yourself against.</string>
     <string name="learning_start_practice">Start practice</string>
-    <string name="learning_no_categories">No categories available</string>
+    <string name="learning_no_categories">No sets available</string>
     <string name="learning_direction_format">%1$s → %2$s</string>
 
 </resources>

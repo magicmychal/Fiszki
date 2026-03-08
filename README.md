@@ -4,8 +4,8 @@ Fiszki (Polish for "flashcards") is an Android flashcard learning application. I
 
 ## Features
 
-- **My Words** - Create and manage flashcards organized into categories with language pairs (e.g., English -> Polish)
-- **Learning Mode** - Study flashcards by category, language, or all at once with real-time feedback
+- **My Words** - Create and manage flashcards organized into sets with language pairs (e.g., English -> Polish)
+- **Learning Mode** - Study flashcards by set, language, or all at once with real-time feedback
 - **Exam Mode** - Test yourself with a configurable number of questions and review wrong answers
 - **Notification Reminders** - Periodic notifications that prompt you to translate a random flashcard (configurable frequency: 1, 5, 15, 30, or 60 minutes)
 - **Night Mode** - Dark theme support toggled from the navigation drawer
@@ -35,7 +35,7 @@ This means cards you struggle with stay at a low priority, while cards you've ma
 
 ### How Cards Are Picked
 
-During a practice or exam session, the app picks flashcards **randomly** from your selected pool (a specific category or all categories). Every card in the pool has an equal chance of appearing, so you can't predict what comes next. This keeps you on your toes and prevents you from memorising the order rather than the actual words.
+During a practice or exam session, the app picks flashcards **randomly** from your selected pool (a specific set or all sets). Every card in the pool has an equal chance of appearing, so you can't predict what comes next. This keeps you on your toes and prevents you from memorising the order rather than the actual words.
 
 ### Strict Mode vs. Relaxed Mode
 
@@ -65,15 +65,15 @@ Before starting a practice session, you can choose between two answer-checking m
 
 Learning mode is an **open-ended practice session** — there's no fixed number of questions. You keep practising for as long as you want and can finish or skip at any time. Before starting, you choose:
 
-1. **Category** — practise cards from a single category or all categories at once
-2. **Language direction** — if a category has language pairs (e.g., English → Polish), you can reverse the direction to practise both ways
+1. **Set** — practise cards from a single set or all sets at once
+2. **Language direction** — if a set has language pairs (e.g., English → Polish), you can reverse the direction to practise both ways
 3. **Strict/relaxed mode** — how strictly answers are checked
 
 A live status card shows your current correct and total counts so you can track your accuracy during the session.
 
 ### Exam Mode
 
-Exam mode is a **fixed-length test**. You choose the number of questions (5, 10, 15, 25, or 50) before starting, along with the same category, direction, and strictness options as learning mode. The differences are:
+Exam mode is a **fixed-length test**. You choose the number of questions (5, 10, 15, 25, or 50) before starting, along with the same set, direction, and strictness options as learning mode. The differences are:
 
 - There is **no skip button** — you must answer every question
 - If you try to leave early, the app asks you to confirm
@@ -83,7 +83,7 @@ This makes exam mode ideal for testing yourself before a real test or measuring 
 
 ### Notification Reminders
 
-You can enable periodic notifications that pop up a random flashcard from your selected categories. When you tap the notification, you're taken to a quick single-card quiz. Your answer still updates the card's priority and statistics, so even a few seconds of practice throughout the day contributes to your learning.
+You can enable periodic notifications that pop up a random flashcard from your selected sets. When you tap the notification, you're taken to a quick single-card quiz. Your answer still updates the card's priority and statistics, so even a few seconds of practice throughout the day contributes to your learning.
 
 ### Statistics
 
@@ -108,12 +108,8 @@ eu.qm.fiszki/
 │   ├── SplashScreen.kt          # Launcher - routes to tutorial or main
 │   ├── CheckActivity.kt         # Notification-triggered flashcard challenge
 │   ├── ComposeTheme.kt          # FiszkiTheme — bridges XML themes to Compose MaterialTheme
-│   ├── CategoryColors.kt        # Category color definitions
+│   ├── CategoryColors.kt        # Set color definitions
 │   ├── ChangeActivityManager.kt # Navigation helper with transitions
-│   ├── chat/                    # Chat practice mode (fully Compose)
-│   │   ├── ChatActivity.kt      # Activity using setContent {} with ChatScreen
-│   │   ├── ChatScreen.kt        # Compose UI: message bubbles, input bar, toolbar
-│   │   └── ChatMessage.kt       # Message data class
 │   ├── exam/                    # Exam flow
 │   │   ├── ExamActivity.kt      # Setup screen (ComposeView with ExamSetupScreen)
 │   │   ├── ExamScreen.kt        # Compose UI: exam configuration
@@ -124,8 +120,8 @@ eu.qm.fiszki/
 │   │   ├── TitleFonts.kt        # Custom font definitions for Compose
 │   │   └── LearningCheckActivity.kt # Answer checking (XML-based)
 │   └── myWords/                 # Word management
-│       ├── category/            # CategoryActivity (XML-based)
-│       └── flashcards/          # FlashcardsActivity (XML + Compose list items)
+│       ├── category/            # CategoryActivity — set list (XML-based)
+│       └── flashcards/          # FlashcardsActivity — flashcard list (XML + Compose items)
 ├── algorithm/                   # Flashcard selection logic
 │   ├── Algorithm.kt             # Card drawing (random selection)
 │   ├── Drawer.kt                # Random number utility
@@ -135,7 +131,7 @@ eu.qm.fiszki/
 │   ├── DBHelper.kt              # ORMLite database helper (SQLite)
 │   └── DBConfigUtility.kt       # ORM configuration
 ├── dialogs/                     # Material dialogs for all interactions
-│   ├── category/                # Add/edit category dialogs
+│   ├── category/                # Add/edit set dialogs
 │   ├── check/                   # Pass/fail/empty notification dialogs
 │   ├── exam/                    # Exam end, settings, range dialogs
 │   ├── flashcard/               # Add/edit/transform/statistic flashcard dialogs
@@ -145,7 +141,7 @@ eu.qm.fiszki/
 │   └── drawerItem/              # Individual drawer items (notifications, night mode, etc.)
 ├── listeners/                   # Click listeners for flashcard operations
 ├── model/                       # Data models
-│   ├── category/                # Category model, repository, validation
+│   ├── category/                # Set model, repository, validation
 │   └── flashcard/               # Flashcard model, repository, validation
 ├── tutorial/                    # Sliding tutorial pages
 ├── AlarmReceiver.kt             # Notification scheduling via AlarmManager
@@ -178,16 +174,16 @@ eu.qm.fiszki/
 | id | Auto-generated primary key |
 | word | The word to learn |
 | translation | The translation/answer |
-| categoryID | Foreign key to category |
+| categoryID | Foreign key to set |
 | priority | Learning priority (0-5), increases on correct answers |
 | staticPass | Count of correct answers |
 | staticFail | Count of wrong answers |
 
-### Category
+### Set (Category)
 | Field | Description |
 |-------|-------------|
 | id | Auto-generated primary key |
-| category | Category name |
+| category | Set name |
 | langFrom | Source language |
 | langOn | Target language |
 | entryByUser | Whether created by user (vs system) |

@@ -9,10 +9,10 @@
     <string name="drawer_contact_name">Wyślij opinię</string>
 
     <string name="drawer_clear_name">Wyczyść bazę</string>
-    <string name="drawer_clear_sub">Usuń wszystkie słowa i kategorie z bazy</string>
+    <string name="drawer_clear_sub">Usuń wszystkie słowa i zestawy z bazy</string>
 
-    <string name="drawer_select_name">Wybierz kategorie</string>
-    <string name="drawer_select_sub">Fiszki pokażą słowa z wybranych kategorii</string>
+    <string name="drawer_select_name">Wybierz zestaw</string>
+    <string name="drawer_select_sub">Fiszki pokażą słowa z wybranych zestawów</string>
 
     <string name="drawer_settings_name">Ustawienia</string>
 
