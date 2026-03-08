@@ -99,7 +99,7 @@ private fun FlashcardListItem(
                     text = word,
                     fontSize = 22.sp,
                     color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 1,
+                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
 
