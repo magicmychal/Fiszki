@@ -7,6 +7,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
+- FSRS (Free Spaced Repetition Scheduler) v6 algorithm for intelligent card scheduling based on memory strength
+- "Spaced repetition (FSRS)" toggle in Settings to switch between smart scheduling and legacy random draw
+- Automatic rating derivation from learning behavior (speed, accuracy, attempt count) — no manual self-rating needed
+- FSRS state indicator (4 colored dots) on flashcard list items when spaced repetition is enabled
 - Opt-in diagnostic data reporting via Sentry (disabled by default)
 - "Send diagnostic data" toggle in Settings with test crash button
 - Device info sent to Sentry on opt-in (OS, model, resolution, languages)

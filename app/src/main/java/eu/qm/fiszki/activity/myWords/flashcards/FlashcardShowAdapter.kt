@@ -29,7 +29,8 @@ import eu.qm.fiszki.model.flashcard.Flashcard
 class FlashcardShowAdapter(
     private val activity: Activity,
     private val arrayList: ArrayList<Flashcard>,
-    private val categoryColor: Int? = null
+    private val categoryColor: Int? = null,
+    private val useFsrs: Boolean = false
 ) : RecyclerView.Adapter<FlashcardShowAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -51,6 +52,8 @@ class FlashcardShowAdapter(
                     translation = flashcard.getTranslation(),
                     priority = flashcard.priority,
                     categoryColor = categoryColor?.let { Color(it or 0xFF000000.toInt()) },
+                    useFsrs = useFsrs,
+                    lastRating = flashcard.fsrsLastRating,
                     onDoubleClick = {
                         EditAndDeleteFlashcardDialog(activity, flashcard).show()
                     }
@@ -70,6 +73,8 @@ private fun FlashcardListItem(
     translation: String,
     priority: Int,
     categoryColor: Color?,
+    useFsrs: Boolean = false,
+    lastRating: Int = 0,
     onDoubleClick: () -> Unit
 ) {
     val doubleClickListener = doubleClickModifier(onDoubleClick)
@@ -108,10 +113,14 @@ private fun FlashcardListItem(
                 )
             }
 
-            PriorityIndicator(
-                priority = priority,
-                filledColor = categoryColor ?: MaterialTheme.colorScheme.primary
-            )
+            if (useFsrs) {
+                FsrsStateIndicator(lastRating = lastRating)
+            } else {
+                PriorityIndicator(
+                    priority = priority,
+                    filledColor = categoryColor ?: MaterialTheme.colorScheme.primary
+                )
+            }
         }
 
         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
@@ -127,6 +136,30 @@ private fun PriorityIndicator(priority: Int, filledColor: Color) {
     ) {
         repeat(5) { index ->
             val color = if (index < priority) filledColor else emptyColor
+            Canvas(modifier = Modifier.size(8.dp)) {
+                drawCircle(color = color)
+            }
+        }
+    }
+}
+
+@Composable
+private fun FsrsStateIndicator(lastRating: Int) {
+    val emptyColor = MaterialTheme.colorScheme.outlineVariant
+    // Rating values: Again=1, Hard=2, Good=3, Easy=4; 0=none
+    val ratingColors = listOf(
+        Color(0xFFE53935), // Again — red
+        Color(0xFFFB8C00), // Hard — orange
+        Color(0xFF43A047), // Good — green
+        Color(0xFF1E88E5)  // Easy — blue
+    )
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        repeat(4) { index ->
+            val ratingValue = index + 1 // 1-based rating
+            val color = if (lastRating == ratingValue) ratingColors[index] else emptyColor
             Canvas(modifier = Modifier.size(8.dp)) {
                 drawCircle(color = color)
             }

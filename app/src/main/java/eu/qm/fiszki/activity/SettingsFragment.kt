@@ -69,6 +69,7 @@ class SettingsFragment : Fragment() {
         buildColorPalette(view)
         buildLanguageRow(view)
         buildImportCsv(view)
+        buildAlgorithmSwitch(view)
         buildDiagnosticSwitch(view)
         buildClearData(view)
         buildSendFeedback(view)
@@ -312,6 +313,27 @@ class SettingsFragment : Fragment() {
     private fun buildImportCsv(view: View) {
         view.findViewById<View>(R.id.settings_import_csv).setOnClickListener {
             CsvImportBottomSheet().show(childFragmentManager, "csv_import")
+        }
+    }
+
+    private fun buildAlgorithmSwitch(view: View) {
+        val algorithmSwitch = view.findViewById<MaterialSwitch>(R.id.settings_algorithm_switch)
+        val algorithmSummary = view.findViewById<TextView>(R.id.settings_algorithm_summary)
+
+        algorithmSwitch.isChecked = prefs.useFsrsAlgorithm
+        updateAlgorithmSummary(algorithmSummary, prefs.useFsrsAlgorithm)
+
+        algorithmSwitch.setOnCheckedChangeListener { _, isChecked ->
+            prefs.useFsrsAlgorithm = isChecked
+            updateAlgorithmSummary(algorithmSummary, isChecked)
+        }
+    }
+
+    private fun updateAlgorithmSummary(tv: TextView, enabled: Boolean) {
+        tv.text = if (enabled) {
+            getString(R.string.settings_algorithm_summary_on)
+        } else {
+            getString(R.string.settings_algorithm_summary_off)
         }
     }
 

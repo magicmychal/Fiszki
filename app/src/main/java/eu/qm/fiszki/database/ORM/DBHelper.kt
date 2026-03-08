@@ -16,7 +16,7 @@ class DBHelper(context: Context) :
 
     companion object {
         private const val DATABASE_NAME = "Flashcards.db"
-        private const val DATABASE_VERSION = 6
+        private const val DATABASE_VERSION = 7
     }
 
     private var flashcardDao: RuntimeExceptionDao<Flashcard, Int>? = null
@@ -53,6 +53,17 @@ class DBHelper(context: Context) :
         }
         if (newVersion >= 6 && oldVersion < 6) {
             getCategoryDao().executeRaw("ALTER TABLE `category` ADD COLUMN color VARCHAR(255);")
+        }
+        if (newVersion >= 7 && oldVersion < 7) {
+            getFlashcardDao().executeRaw("ALTER TABLE `flashcard` ADD COLUMN fsrsStability DOUBLE DEFAULT 0.0;")
+            getFlashcardDao().executeRaw("ALTER TABLE `flashcard` ADD COLUMN fsrsDifficulty DOUBLE DEFAULT 0.0;")
+            getFlashcardDao().executeRaw("ALTER TABLE `flashcard` ADD COLUMN fsrsElapsedDays INT DEFAULT 0;")
+            getFlashcardDao().executeRaw("ALTER TABLE `flashcard` ADD COLUMN fsrsScheduledDays INT DEFAULT 0;")
+            getFlashcardDao().executeRaw("ALTER TABLE `flashcard` ADD COLUMN fsrsReps INT DEFAULT 0;")
+            getFlashcardDao().executeRaw("ALTER TABLE `flashcard` ADD COLUMN fsrsLapses INT DEFAULT 0;")
+            getFlashcardDao().executeRaw("ALTER TABLE `flashcard` ADD COLUMN fsrsState INT DEFAULT 0;")
+            getFlashcardDao().executeRaw("ALTER TABLE `flashcard` ADD COLUMN fsrsLastReview BIGINT DEFAULT 0;")
+            getFlashcardDao().executeRaw("ALTER TABLE `flashcard` ADD COLUMN fsrsLastRating INT DEFAULT 0;")
         }
     }
 

@@ -17,16 +17,22 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
+import eu.qm.fiszki.Checker
 import eu.qm.fiszki.HapticFeedback
+import eu.qm.fiszki.LocalSharedPreferences
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.ChangeActivityManager
 import eu.qm.fiszki.algorithm.Algorithm
+import eu.qm.fiszki.algorithm.fsrs.FsrsCardSelector
+import eu.qm.fiszki.algorithm.fsrs.FsrsRatingMapper
+import eu.qm.fiszki.algorithm.fsrs.FsrsScheduler
 import eu.qm.fiszki.dialogs.learning.BadAnswerLearnigDialog
 import eu.qm.fiszki.model.category.Category
 import eu.qm.fiszki.model.category.CategoryRepository
 import eu.qm.fiszki.model.flashcard.Flashcard
 import eu.qm.fiszki.model.flashcard.FlashcardRepository
+import java.util.Date
 
 class LearningCheckActivity : AppCompatActivity() {
 
@@ -46,11 +52,18 @@ class LearningCheckActivity : AppCompatActivity() {
     private lateinit var mStatusTotal: TextView
     private lateinit var mCorrectPopup: View
 
+    private lateinit var mPrefs: LocalSharedPreferences
+    private var mFsrsCardSelector: FsrsCardSelector? = null
+    private val mFsrsScheduler = FsrsScheduler()
+
     private var mCorrectCount = 0
     private var mTotalCount = 0
     private var mStrictMode = true
     private var mReversed = false
     private var mRetrying = false
+    private var mCardStartTime = 0L
+    private var mAttemptCount = 0
+    private var mLastEditDistance = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,6 +107,10 @@ class LearningCheckActivity : AppCompatActivity() {
         }
         mStrictMode = intent.getBooleanExtra(ChangeActivityManager.STRICT_MODE_KEY_INTENT, true)
         mReversed = intent.getBooleanExtra(ChangeActivityManager.REVERSED_KEY_INTENT, false)
+        mPrefs = LocalSharedPreferences(mActivity)
+        if (mPrefs.useFsrsAlgorithm) {
+            mFsrsCardSelector = FsrsCardSelector()
+        }
         updateStatusCard()
     }
 
@@ -115,13 +132,37 @@ class LearningCheckActivity : AppCompatActivity() {
 
     private fun buildButtons() {
         findViewById<MaterialButton>(R.id.btn_finish).setOnClickListener { onBackPressedDispatcher.onBackPressed() }
-        findViewById<MaterialButton>(R.id.btn_skip).setOnClickListener { drawFlashcard() }
+        findViewById<MaterialButton>(R.id.btn_skip).setOnClickListener { skipCard() }
         findViewById<MaterialButton>(R.id.btn_check).setOnClickListener { check() }
+    }
+
+    private fun skipCard() {
+        if (mPrefs.useFsrsAlgorithm) {
+            val rating = FsrsRatingMapper.mapToRating(
+                wasSkipped = true,
+                attemptCount = mAttemptCount,
+                isCorrect = false,
+                elapsedTimeMs = 0,
+                editDistance = 0
+            )
+            val updated = mFsrsScheduler.schedule(mDrawnFlashcard.toFsrsCard(), rating, Date())
+            mDrawnFlashcard.applyFsrsCard(updated)
+            mDrawnFlashcard.fsrsLastRating = rating.value
+            mFlashcardRepository.updateFsrsState(mDrawnFlashcard)
+        }
+        drawFlashcard()
     }
 
     fun drawFlashcard() {
         mRetrying = false
-        mDrawnFlashcard = mAlgorithm.drawCardAlgorithm(mFlashcardsPool)
+        mAttemptCount = 0
+        mLastEditDistance = 0
+        mDrawnFlashcard = if (mPrefs.useFsrsAlgorithm) {
+            mFsrsCardSelector!!.selectNext(mFlashcardsPool)
+        } else {
+            mAlgorithm.drawCardAlgorithm(mFlashcardsPool)
+        }
+        mCardStartTime = System.currentTimeMillis()
         mDrawnCategory = mCategoryRepository.getCategoryByID(mDrawnFlashcard.categoryID)!!
         setLangText()
         setCategoryText()
@@ -165,12 +206,32 @@ class LearningCheckActivity : AppCompatActivity() {
     private fun check() {
         val answer = mTranslate.text.toString().trim()
         val expectedAnswer = if (mReversed) mDrawnFlashcard.getWord() else mDrawnFlashcard.getTranslation()
-        val checker = eu.qm.fiszki.Checker()
+        val checker = Checker()
+        mAttemptCount++
         if (checker.check(expectedAnswer, answer, mStrictMode)) {
             HapticFeedback.vibrateCorrect(mActivity)
+            mFlashcardRepository.upFlashcardPassStatistic(mDrawnFlashcard)
             if (!mRetrying) {
-                mFlashcardRepository.upFlashcardPassStatistic(mDrawnFlashcard)
-                mFlashcardRepository.upFlashcardPriority(mDrawnFlashcard)
+                if (mPrefs.useFsrsAlgorithm) {
+                    mLastEditDistance = Checker.editDistance(
+                        expectedAnswer.lowercase(),
+                        answer.lowercase()
+                    )
+                    val elapsedMs = System.currentTimeMillis() - mCardStartTime
+                    val rating = FsrsRatingMapper.mapToRating(
+                        wasSkipped = false,
+                        attemptCount = mAttemptCount,
+                        isCorrect = true,
+                        elapsedTimeMs = elapsedMs,
+                        editDistance = mLastEditDistance
+                    )
+                    val updated = mFsrsScheduler.schedule(mDrawnFlashcard.toFsrsCard(), rating, Date())
+                    mDrawnFlashcard.applyFsrsCard(updated)
+                    mDrawnFlashcard.fsrsLastRating = rating.value
+                    mFlashcardRepository.updateFsrsState(mDrawnFlashcard)
+                } else {
+                    mFlashcardRepository.upFlashcardPriority(mDrawnFlashcard)
+                }
             }
             mCorrectCount++
             mTotalCount++
@@ -179,7 +240,9 @@ class LearningCheckActivity : AppCompatActivity() {
         } else {
             HapticFeedback.vibrateWrong(mActivity)
             mFlashcardRepository.upFlashcardFailStatistic(mDrawnFlashcard)
-            mFlashcardRepository.downFlashcardPriority(mDrawnFlashcard)
+            if (!mPrefs.useFsrsAlgorithm) {
+                mFlashcardRepository.downFlashcardPriority(mDrawnFlashcard)
+            }
             mRetrying = true
             mTotalCount++
             updateStatusCard()

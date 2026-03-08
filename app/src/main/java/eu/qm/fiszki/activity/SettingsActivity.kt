@@ -69,6 +69,7 @@ class SettingsActivity : AppCompatActivity() {
         buildNotificationSection()
         buildNightModeSwitch()
         buildLanguageRow()
+        buildAlgorithmSwitch()
         buildDiagnosticSwitch()
         buildClearData()
         buildSendFeedback()
@@ -279,6 +280,27 @@ class SettingsActivity : AppCompatActivity() {
                 }
                 startActivity(intent)
             }
+        }
+    }
+
+    private fun buildAlgorithmSwitch() {
+        val algorithmSwitch = findViewById<MaterialSwitch>(R.id.settings_algorithm_switch)
+        val algorithmSummary = findViewById<TextView>(R.id.settings_algorithm_summary)
+
+        algorithmSwitch.isChecked = prefs.useFsrsAlgorithm
+        updateAlgorithmSummary(algorithmSummary, prefs.useFsrsAlgorithm)
+
+        algorithmSwitch.setOnCheckedChangeListener { _, isChecked ->
+            prefs.useFsrsAlgorithm = isChecked
+            updateAlgorithmSummary(algorithmSummary, isChecked)
+        }
+    }
+
+    private fun updateAlgorithmSummary(tv: TextView, enabled: Boolean) {
+        tv.text = if (enabled) {
+            getString(R.string.settings_algorithm_summary_on)
+        } else {
+            getString(R.string.settings_algorithm_summary_off)
         }
     }
 

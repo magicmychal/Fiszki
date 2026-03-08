@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.color.MaterialColors
+import eu.qm.fiszki.LocalSharedPreferences
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.ChangeActivityManager
@@ -198,7 +199,8 @@ class FlashcardsActivity : AppCompatActivity() {
         }
 
         val catColor = findCategoryColor(mCurrentCategory.getColor()) ?: defaultCategoryColor()
-        val adapter = FlashcardShowAdapter(mActivity, flashcards, catColor.primary)
+        val useFsrs = LocalSharedPreferences(mActivity).useFsrsAlgorithm
+        val adapter = FlashcardShowAdapter(mActivity, flashcards, catColor.primary, useFsrs)
         mRecycleView.swapAdapter(adapter, false)
     }
 }
