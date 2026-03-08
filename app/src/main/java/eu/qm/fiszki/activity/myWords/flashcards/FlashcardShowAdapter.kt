@@ -147,6 +147,7 @@ private fun PriorityIndicator(priority: Int, filledColor: Color) {
 private fun FsrsStateIndicator(lastRating: Int) {
     val emptyColor = MaterialTheme.colorScheme.outlineVariant
     // Rating values: Again=1, Hard=2, Good=3, Easy=4; 0=none
+    // Dots fill left to right: rating 3 (Good) fills dots 1, 2, 3
     val ratingColors = listOf(
         Color(0xFFE53935), // Again — red
         Color(0xFFFB8C00), // Hard — orange
@@ -159,7 +160,7 @@ private fun FsrsStateIndicator(lastRating: Int) {
     ) {
         repeat(4) { index ->
             val ratingValue = index + 1 // 1-based rating
-            val color = if (lastRating == ratingValue) ratingColors[index] else emptyColor
+            val color = if (ratingValue <= lastRating) ratingColors[index] else emptyColor
             Canvas(modifier = Modifier.size(8.dp)) {
                 drawCircle(color = color)
             }
