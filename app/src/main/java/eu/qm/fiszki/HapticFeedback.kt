@@ -26,7 +26,7 @@ object HapticFeedback {
     fun vibrateWrong(context: Context) {
         val vibrator = getVibrator(context)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
-            vibrator.arePrimitivesSupported(VibrationEffect.Composition.PRIMITIVE_THUD)
+            vibrator.arePrimitivesSupported(VibrationEffect.Composition.PRIMITIVE_THUD)[0]
         ) {
             val composition = VibrationEffect.startComposition()
                 .addPrimitive(VibrationEffect.Composition.PRIMITIVE_THUD, 1.0f)
