@@ -96,6 +96,8 @@
     
     <!-- Disable Sentry auto-init; we initialize manually based on opt-in preference -->
     <meta-data android:name="io.sentry.auto-init" android:value="false" />
+    <meta-data android:name="io.sentry.traces.user-interaction.enable" android:value="true" />
+    <meta-data android:name="io.sentry.breadcrumbs.user-interaction" android:value="true" />
 </application>
 
 </manifest>
