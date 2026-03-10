@@ -7,6 +7,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
+- Unit tests run automatically on every debug build — build fails on test failure
+- Unit tests for FsrsCardSelector, Flashcard model, and Category model
+- Instrumented tests for DB migrations, SharedPreferences defaults, and repository CRUD
 - FSRS (Free Spaced Repetition Scheduler) v6 algorithm for intelligent card scheduling based on memory strength
 - "Spaced repetition (FSRS)" toggle in Settings to switch between smart scheduling and legacy random draw
 - Automatic rating derivation from learning behavior (speed, accuracy, attempt count) — no manual self-rating needed
