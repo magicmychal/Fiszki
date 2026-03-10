@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - "Spaced repetition (FSRS)" toggle in Settings to switch between smart scheduling and legacy random draw
 - Automatic rating derivation from learning behavior (speed, accuracy, attempt count) — no manual self-rating needed
 - FSRS state indicator (4 colored dots) on flashcard list items when spaced repetition is enabled
+- Daily reminder notification now opens the full practice screen instead of the old single-word quiz
 - Opt-in diagnostic data reporting via Sentry (disabled by default)
 - "Send diagnostic data" toggle in Settings with test crash button
 - Device info sent to Sentry on opt-in (OS, model, resolution, languages)

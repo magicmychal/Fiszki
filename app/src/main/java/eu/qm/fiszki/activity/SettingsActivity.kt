@@ -247,6 +247,7 @@ class SettingsActivity : AppCompatActivity() {
                 .map { dayNames[it - 1] }
             daysValue.text = selectedNames.joinToString(", ")
         }
+
     }
 
     // --- General Section ---
