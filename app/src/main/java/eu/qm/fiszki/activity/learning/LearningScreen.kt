@@ -39,6 +39,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.FiszkiTheme
+import io.sentry.compose.SentryTraced
+import io.sentry.compose.SentryModifier.sentryTag
 
 data class PracticeCategoryItem(
     val id: Int?,
@@ -47,7 +49,7 @@ data class PracticeCategoryItem(
     val langOn: String?
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, androidx.compose.ui.ExperimentalComposeUiApi::class)
 @Composable
 fun PracticeSetupScreen(
     title: String,
@@ -67,6 +69,7 @@ fun PracticeSetupScreen(
     val scrollState = rememberScrollState()
     val lines = title.split("\n")
 
+    SentryTraced("practice_setup_screen") {
     Column(
         modifier = modifier.fillMaxSize().verticalScroll(scrollState)
     ) {
@@ -154,7 +157,8 @@ fun PracticeSetupScreen(
             ) {
                 Checkbox(
                     checked = strictMode,
-                    onCheckedChange = { strictMode = it }
+                    onCheckedChange = { strictMode = it },
+                    modifier = Modifier.sentryTag("checkbox_strict_mode")
                 )
                 Column(modifier = Modifier.padding(start = 8.dp, top = 4.dp)) {
                     Text(
@@ -247,7 +251,7 @@ fun PracticeSetupScreen(
             // Start practice button
             Button(
                 onClick = { onStartPractice(strictMode, selectedCategory?.id, reversed) },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().sentryTag("button_start_practice")
             ) {
                 Text(
                     stringResource(R.string.learning_start_practice),
@@ -258,6 +262,7 @@ fun PracticeSetupScreen(
         }
 
         Spacer(modifier = Modifier.height(24.dp))
+    }
     }
 }
 

@@ -86,4 +86,8 @@ class FlashcardRepository(context: Context) {
         flashcard.resetStatictic()
         flashcardDao.update(flashcard)
     }
+
+    fun updateFsrsState(flashcard: Flashcard) {
+        flashcardDao.update(flashcard)
+    }
 }

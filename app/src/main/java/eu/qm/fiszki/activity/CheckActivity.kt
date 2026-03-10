@@ -11,11 +11,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.WindowCompat
 import com.google.android.material.textfield.TextInputEditText
+import eu.qm.fiszki.LocalSharedPreferences
 import eu.qm.fiszki.NightModeController
 import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.findCategoryColor
 import eu.qm.fiszki.algorithm.Algorithm
 import eu.qm.fiszki.algorithm.CatcherFlashcardToAlgorithm
+import eu.qm.fiszki.algorithm.fsrs.FsrsRating
+import eu.qm.fiszki.algorithm.fsrs.FsrsScheduler
+import java.util.Date
 import eu.qm.fiszki.dialogs.check.EmptyDBCheckDialog
 import eu.qm.fiszki.dialogs.check.EmptySelectedCheckDialog
 import eu.qm.fiszki.dialogs.check.FailCheckDialog
@@ -136,15 +140,32 @@ class CheckActivity : AppCompatActivity() {
     }
 
     private fun check() {
+        val prefs = LocalSharedPreferences(this)
         if (mTranslate.text.toString().trim() == mDrawnFlashcard.getTranslation()) {
             eu.qm.fiszki.HapticFeedback.vibrateCorrect(this)
             mFlashcardRepository.upFlashcardPassStatistic(mDrawnFlashcard)
-            mFlashcardRepository.upFlashcardPriority(mDrawnFlashcard)
+            if (prefs.useFsrsAlgorithm) {
+                val scheduler = FsrsScheduler()
+                val updated = scheduler.schedule(mDrawnFlashcard.toFsrsCard(), FsrsRating.Good, Date())
+                mDrawnFlashcard.applyFsrsCard(updated)
+                mDrawnFlashcard.fsrsLastRating = FsrsRating.Good.value
+                mFlashcardRepository.updateFsrsState(mDrawnFlashcard)
+            } else {
+                mFlashcardRepository.upFlashcardPriority(mDrawnFlashcard)
+            }
             PassCheckDialog(this).show()
         } else {
             eu.qm.fiszki.HapticFeedback.vibrateWrong(this)
             mFlashcardRepository.upFlashcardFailStatistic(mDrawnFlashcard)
-            mFlashcardRepository.downFlashcardPriority(mDrawnFlashcard)
+            if (prefs.useFsrsAlgorithm) {
+                val scheduler = FsrsScheduler()
+                val updated = scheduler.schedule(mDrawnFlashcard.toFsrsCard(), FsrsRating.Again, Date())
+                mDrawnFlashcard.applyFsrsCard(updated)
+                mDrawnFlashcard.fsrsLastRating = FsrsRating.Again.value
+                mFlashcardRepository.updateFsrsState(mDrawnFlashcard)
+            } else {
+                mFlashcardRepository.downFlashcardPriority(mDrawnFlashcard)
+            }
             FailCheckDialog(this, mDrawnFlashcard).show()
         }
     }

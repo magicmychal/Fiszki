@@ -19,12 +19,17 @@ android {
         minSdk 31
         targetSdk 35
         versionCode 15
-        versionName '2.00'
+        versionName '2.2'
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            ndk {
+                debugSymbolLevel 'FULL'
+            }
         }
     }
     compileOptions {
@@ -37,6 +42,12 @@ android {
     buildFeatures {
         compose true
         buildConfig true
+    }
+
+    afterEvaluate {
+        tasks.named("assembleDebug") {
+            dependsOn("testDebugUnitTest")
+        }
     }
 }
 
@@ -71,7 +82,16 @@ dependencies {
     implementation 'androidx.activity:activity-compose:1.12.4'
     debugImplementation 'androidx.compose.ui:ui-tooling'
 
+    // Sentry Compose integration (breadcrumbs + performance tracing)
+    // Version must match sentry-android pulled by the Gradle plugin (8.33.0)
+    implementation 'io.sentry:sentry-compose-android:8.33.0'
+
     testImplementation 'junit:junit:4.13.2'
+
+    // Instrumented tests
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test:runner:1.6.2'
+    androidTestImplementation 'androidx.test:core:1.6.1'
 }
 
 
@@ -79,7 +99,9 @@ sentry {
     org = "michal-pawlicki"
     projectName = "android"
 
-    // this will upload your source code to Sentry to show it as part of the stack traces
-    // disable if you don't want to expose your sources
-    includeSourceContext = true
+    // Disable automatic uploads so release builds work without Sentry CLI auth.
+    // The R8 mapping file is still generated for manual upload or Play Console.
+    autoUploadProguardMapping = false
+    includeSourceContext = false
+    autoUploadSourceContext = false
 }

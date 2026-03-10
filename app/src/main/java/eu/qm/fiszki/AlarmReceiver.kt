@@ -9,7 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import androidx.core.app.NotificationCompat
-import eu.qm.fiszki.activity.CheckActivity
+import eu.qm.fiszki.activity.NotificationLaunchActivity
 import java.util.Calendar
 
 class AlarmReceiver : BroadcastReceiver() {
@@ -86,7 +86,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val icon = BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher)
         val pi = PendingIntent.getActivity(
             context, 69,
-            Intent(context, CheckActivity::class.java), PENDING_INTENT_FLAGS
+            Intent(context, NotificationLaunchActivity::class.java), PENDING_INTENT_FLAGS
         )
         val builder = NotificationCompat.Builder(context, CHANNEL_ID).apply {
             setLargeIcon(icon)

@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import io.sentry.compose.SentryModifier.sentryTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,7 +30,8 @@ import eu.qm.fiszki.model.flashcard.Flashcard
 class FlashcardShowAdapter(
     private val activity: Activity,
     private val arrayList: ArrayList<Flashcard>,
-    private val categoryColor: Int? = null
+    private val categoryColor: Int? = null,
+    private val useFsrs: Boolean = false
 ) : RecyclerView.Adapter<FlashcardShowAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -51,6 +53,8 @@ class FlashcardShowAdapter(
                     translation = flashcard.getTranslation(),
                     priority = flashcard.priority,
                     categoryColor = categoryColor?.let { Color(it or 0xFF000000.toInt()) },
+                    useFsrs = useFsrs,
+                    lastRating = flashcard.fsrsLastRating,
                     onDoubleClick = {
                         EditAndDeleteFlashcardDialog(activity, flashcard).show()
                     }
@@ -70,6 +74,8 @@ private fun FlashcardListItem(
     translation: String,
     priority: Int,
     categoryColor: Color?,
+    useFsrs: Boolean = false,
+    lastRating: Int = 0,
     onDoubleClick: () -> Unit
 ) {
     val doubleClickListener = doubleClickModifier(onDoubleClick)
@@ -77,6 +83,7 @@ private fun FlashcardListItem(
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .sentryTag("flashcard_list_item")
             .then(doubleClickListener)
     ) {
         Row(
@@ -94,7 +101,7 @@ private fun FlashcardListItem(
                     text = word,
                     fontSize = 22.sp,
                     color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 1,
+                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
 
@@ -108,10 +115,17 @@ private fun FlashcardListItem(
                 )
             }
 
-            PriorityIndicator(
-                priority = priority,
-                filledColor = categoryColor ?: MaterialTheme.colorScheme.primary
-            )
+            if (useFsrs) {
+                FsrsStateIndicator(
+                    lastRating = lastRating,
+                    filledColor = categoryColor ?: MaterialTheme.colorScheme.primary
+                )
+            } else {
+                PriorityIndicator(
+                    priority = priority,
+                    filledColor = categoryColor ?: MaterialTheme.colorScheme.primary
+                )
+            }
         }
 
         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
@@ -127,6 +141,23 @@ private fun PriorityIndicator(priority: Int, filledColor: Color) {
     ) {
         repeat(5) { index ->
             val color = if (index < priority) filledColor else emptyColor
+            Canvas(modifier = Modifier.size(8.dp)) {
+                drawCircle(color = color)
+            }
+        }
+    }
+}
+
+@Composable
+private fun FsrsStateIndicator(lastRating: Int, filledColor: Color) {
+    val emptyColor = Color(0xFF43A047) // green
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        repeat(4) { index ->
+            val ratingValue = index + 1 // 1-based rating; Again=1, Hard=2, Good=3, Easy=4
+            val color = if (ratingValue <= lastRating) filledColor else emptyColor
             Canvas(modifier = Modifier.size(8.dp)) {
                 drawCircle(color = color)
             }

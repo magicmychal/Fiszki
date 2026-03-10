@@ -40,10 +40,12 @@ import eu.qm.fiszki.R
 import eu.qm.fiszki.activity.learning.AssetFamily
 import eu.qm.fiszki.activity.learning.PracticeCategoryItem
 import eu.qm.fiszki.activity.learning.buildTitleSpanStyle
+import io.sentry.compose.SentryTraced
+import io.sentry.compose.SentryModifier.sentryTag
 
 data class RoundsOption(val value: Int, val label: String)
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, androidx.compose.ui.ExperimentalComposeUiApi::class)
 @Composable
 fun ExamSetupScreen(
     title: String,
@@ -67,6 +69,7 @@ fun ExamSetupScreen(
     val scrollState = rememberScrollState()
     val lines = title.split("\n")
 
+    SentryTraced("exam_setup_screen") {
     Column(
         modifier = modifier.fillMaxSize().verticalScroll(scrollState)
     ) {
@@ -153,7 +156,8 @@ fun ExamSetupScreen(
             ) {
                 Checkbox(
                     checked = strictMode,
-                    onCheckedChange = { strictMode = it }
+                    onCheckedChange = { strictMode = it },
+                    modifier = Modifier.sentryTag("checkbox_strict_mode")
                 )
                 Column(modifier = Modifier.padding(start = 8.dp, top = 4.dp)) {
                     Text(
@@ -283,7 +287,7 @@ fun ExamSetupScreen(
                     }
                 },
                 enabled = selectedRounds != null,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().sentryTag("button_start_exam")
             ) {
                 Text(
                     stringResource(R.string.exam_start),
@@ -294,5 +298,6 @@ fun ExamSetupScreen(
         }
 
         Spacer(modifier = Modifier.height(24.dp))
+    }
     }
 }

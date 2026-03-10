@@ -56,6 +56,11 @@
     <string name="import_csv_found">Znaleziono %d fiszek</string>
     <string name="import_csv_import">Importuj</string>
 
+    <!-- Learning Algorithm -->
+    <string name="settings_algorithm_title">Powtórki interwałowe (FSRS)</string>
+    <string name="settings_algorithm_summary_on">Karty planowane według siły zapamiętywania</string>
+    <string name="settings_algorithm_summary_off">Karty losowane losowo (tradycyjny)</string>
+
     <!-- Diagnostics -->
     <string name="settings_diagnostic_title">Wysyłaj dane diagnostyczne</string>
     <string name="settings_diagnostic_summary">Pomóż ulepszyć Fiszki, udostępniając anonimowe raporty o błędach i logi</string>

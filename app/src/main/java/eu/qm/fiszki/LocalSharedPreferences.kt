@@ -13,6 +13,7 @@ class LocalSharedPreferences(context: Context) {
         private const val KEY_NOTIFICATION_DAYS = "notification_days"
         private const val KEY_COLOR_PALETTE = "color_palette"
         private const val KEY_DIAGNOSTIC_DATA = "diagnostic_data_enabled"
+        private const val KEY_USE_FSRS = "use_fsrs_algorithm"
 
         const val PALETTE_PURPLE = 0
         const val PALETTE_YELLOW = 1
@@ -64,6 +65,12 @@ class LocalSharedPreferences(context: Context) {
         get() = prefs.getBoolean(KEY_DIAGNOSTIC_DATA, false)
         set(value) {
             prefs.edit().putBoolean(KEY_DIAGNOSTIC_DATA, value).apply()
+        }
+
+    var useFsrsAlgorithm: Boolean
+        get() = prefs.getBoolean(KEY_USE_FSRS, true)
+        set(value) {
+            prefs.edit().putBoolean(KEY_USE_FSRS, value).apply()
         }
 
     private fun migrateOldPrefs(context: Context) {
