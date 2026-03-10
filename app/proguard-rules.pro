@@ -28,5 +28,9 @@
 -dontwarn com.afollestad.**
 -keep class com.afollestad.** { *; }
 
+# ORMLite 5.7 — JPA compatibility layer references javax.persistence.* which is
+# not on the Android classpath. We use ORMLite's own @DatabaseField, not JPA.
+-dontwarn javax.persistence.**
+
 # Sentry — ships its own rules but suppress warnings for native integration
 -dontwarn io.sentry.**
