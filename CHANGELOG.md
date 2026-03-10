@@ -6,7 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [2.2.1] - 2026-03-10
+
 ### Added
+- Tablet support: NavigationRail on devices with 600dp+ width, bottom navigation kept on phones
+- Tablet support: split-view on the categories tab (set list + flashcards side by side)
+- Tablet support: 9:16 centered content wrapper for practice and exam check screens on wide displays
+- Runtime orientation helper that locks portrait on phones while allowing sensor rotation on tablets
 - Unit tests run automatically on every debug build — build fails on test failure
 - Unit tests for FsrsCardSelector, Flashcard model, and Category model
 - Instrumented tests for DB migrations, SharedPreferences defaults, and repository CRUD
@@ -22,7 +28,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - INTERNET and ACCESS_NETWORK_STATE permissions (for diagnostics only)
 
 ### Changed
+- Package renamed from eu.qm.fiszki to click.quickclicker.fiszki
+- LearningCheckActivity rewritten in Jetpack Compose (from XML layout)
+- ExamCheckActivity rewritten in Jetpack Compose (from XML layout)
+- ExamBadAnswerActivity wrapped with tablet content wrapper
+- NavHostActivity rewritten in Compose with adaptive navigation (NavigationRail/BottomNav)
+- Screen orientation now controlled at runtime instead of manifest declarations
 - Sentry auto-init disabled; initialization is manual and opt-in only
+
+### Fixed
+- Fixed crash on fresh install caused by R8 obfuscating DBHelper constructor (ProGuard rules updated)
 
 ### Removed
 - Bugfender SDK (replaced by Sentry)

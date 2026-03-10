@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="eu.qm.fiszki.activity.MainActivity"
+    tools:context="click.quickclicker.fiszki.activity.MainActivity"
     android:screenOrientation="portrait">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

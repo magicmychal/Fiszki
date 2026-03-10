@@ -1,7 +1,12 @@
 # ORMLite — models use reflection via @DatabaseField annotations
--keepclassmembers class eu.qm.fiszki.model.** {
+-keepclassmembers class click.quickclicker.fiszki.model.** {
     <fields>;
     <init>();
+}
+
+# ORMLite — DBHelper is instantiated via reflection by OpenHelperManager.getHelper()
+-keep class click.quickclicker.fiszki.database.ORM.DBHelper {
+    public <init>(android.content.Context);
 }
 
 # Serializable classes passed between activities via Intent extras

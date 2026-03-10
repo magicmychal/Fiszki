@@ -12,14 +12,14 @@ repositories {
 }
 
 android {
-    namespace "eu.qm.fiszki"
+    namespace "click.quickclicker.fiszki"
     compileSdk 36
     defaultConfig {
         applicationId 'click.quickclicker.fiszki'
         minSdk 31
         targetSdk 35
-        versionCode 16
-        versionName '2.2'
+        versionCode 17
+        versionName '2.2.1'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -81,6 +81,11 @@ dependencies {
     implementation 'androidx.compose.material:material-icons-extended'
     implementation 'androidx.activity:activity-compose:1.12.4'
     debugImplementation 'androidx.compose.ui:ui-tooling'
+
+    // Material 3 Adaptive (tablet / window-size breakpoints)
+    implementation 'androidx.compose.material3.adaptive:adaptive:1.1.0'
+    implementation 'androidx.compose.material3.adaptive:adaptive-layout:1.1.0'
+    implementation 'androidx.compose.material3.adaptive:adaptive-navigation:1.1.0'
 
     // Sentry Compose integration (breadcrumbs + performance tracing)
     // Version must match sentry-android pulled by the Gradle plugin (8.33.0)
