@@ -24,8 +24,12 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            ndk {
+                debugSymbolLevel 'FULL'
+            }
         }
     }
     compileOptions {
@@ -95,7 +99,9 @@ sentry {
     org = "michal-pawlicki"
     projectName = "android"
 
-    // this will upload your source code to Sentry to show it as part of the stack traces
-    // disable if you don't want to expose your sources
-    includeSourceContext = true
+    // Disable automatic uploads so release builds work without Sentry CLI auth.
+    // The R8 mapping file is still generated for manual upload or Play Console.
+    autoUploadProguardMapping = false
+    includeSourceContext = false
+    autoUploadSourceContext = false
 }
