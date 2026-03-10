@@ -5,7 +5,6 @@ import android.content.Intent
 import android.view.View
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,9 +15,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -190,7 +191,10 @@ private fun CategoryListPane(
                 )
             }
         } else {
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = androidx.compose.foundation.layout.PaddingValues(vertical = 4.dp)
+            ) {
                 items(categories, key = { it.id }) { category ->
                     val isSelected = category.id == selectedCategoryId
                     val count = remember(category.id) {
@@ -215,47 +219,51 @@ private fun CategoryCard(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    val context = LocalContext.current
-    val bgColor = if (isSelected) {
+    val containerColor = if (isSelected) {
         MaterialTheme.colorScheme.secondaryContainer
     } else {
-        MaterialTheme.colorScheme.surface
+        MaterialTheme.colorScheme.surfaceContainerHigh
     }
 
-    Column(
+    Card(
+        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
-            .background(bgColor)
-            .clickable { onClick() }
-            .padding(horizontal = 24.dp, vertical = 12.dp)
+            .padding(horizontal = 16.dp, vertical = 6.dp),
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
+        colors = CardDefaults.cardColors(containerColor = containerColor)
     ) {
-        Text(
-            text = category.getCategory(),
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onSurface
-        )
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
+        ) {
+            Text(
+                text = category.getCategory(),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
 
-        val langFrom = category.getLangFrom()
-        val langOn = category.getLangOn()
-        val langText = if (langFrom.isNullOrEmpty() && langOn.isNullOrEmpty()) {
-            stringResource(R.string.category_no_lang)
-        } else if (langFrom.isNullOrEmpty() || langOn.isNullOrEmpty()) {
-            stringResource(R.string.category_no_lang)
-        } else {
-            stringResource(R.string.category_lang_pair, langFrom, langOn)
+            val langFrom = category.getLangFrom()
+            val langOn = category.getLangOn()
+            val langText = if (langFrom.isNullOrEmpty() && langOn.isNullOrEmpty()) {
+                stringResource(R.string.category_no_lang)
+            } else if (langFrom.isNullOrEmpty() || langOn.isNullOrEmpty()) {
+                stringResource(R.string.category_no_lang)
+            } else {
+                stringResource(R.string.category_lang_pair, langFrom, langOn)
+            }
+            Text(
+                text = langText,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Text(
+                text = stringResource(R.string.category_card_count, cardCount),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
-        Text(
-            text = langText,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        Text(
-            text = stringResource(R.string.category_card_count, cardCount),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
     }
-    HorizontalDivider()
 }
 
 @Composable

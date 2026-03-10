@@ -4,6 +4,7 @@ import android.view.View
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.fragment.app.FragmentActivity
@@ -22,7 +23,7 @@ fun SettingsFragmentHost(
                 id = containerId
             }
         },
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
         update = { view ->
             val fm = fragmentActivity.supportFragmentManager
             if (fm.findFragmentById(containerId) == null) {

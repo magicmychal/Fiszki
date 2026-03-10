@@ -150,7 +150,7 @@ private fun PriorityIndicator(priority: Int, filledColor: Color) {
 
 @Composable
 private fun FsrsStateIndicator(lastRating: Int, filledColor: Color) {
-    val emptyColor = Color(0xFF43A047) // green
+    val emptyColor = MaterialTheme.colorScheme.outlineVariant
     Row(
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically

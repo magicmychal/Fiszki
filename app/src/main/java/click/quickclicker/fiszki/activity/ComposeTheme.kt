@@ -28,6 +28,13 @@ fun FiszkiTheme(content: @Composable () -> Unit) {
     val surface = ctx.resolveColor(com.google.android.material.R.attr.colorSurface, 0xFFFFFBFE)
     val isDark = (surface.red * 0.299f + surface.green * 0.587f + surface.blue * 0.114f) < 0.5f
 
+    val surfaceContainer = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceContainer,
+        if (isDark) 0xFF211F26 else 0xFFF3EDF7)
+    val surfaceContainerLow = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceContainerLow,
+        if (isDark) 0xFF1D1B20 else 0xFFF7F2FA)
+    val surfaceContainerHigh = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceContainerHigh,
+        if (isDark) 0xFF2B2930 else 0xFFECE6F0)
+
     val colorScheme = if (isDark) {
         darkColorScheme(
             primary = ctx.resolveColor(android.R.attr.colorPrimary, 0xFFD0BCFF),
@@ -44,6 +51,9 @@ fun FiszkiTheme(content: @Composable () -> Unit) {
             surfaceVariant = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceVariant, 0xFF49454F),
             onSurfaceVariant = ctx.resolveColor(com.google.android.material.R.attr.colorOnSurfaceVariant, 0xFFCAC4D0),
             outline = ctx.resolveColor(com.google.android.material.R.attr.colorOutline, 0xFF938F99),
+            surfaceContainer = surfaceContainer,
+            surfaceContainerLow = surfaceContainerLow,
+            surfaceContainerHigh = surfaceContainerHigh,
         )
     } else {
         lightColorScheme(
@@ -61,6 +71,9 @@ fun FiszkiTheme(content: @Composable () -> Unit) {
             surfaceVariant = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceVariant, 0xFFE7E0EC),
             onSurfaceVariant = ctx.resolveColor(com.google.android.material.R.attr.colorOnSurfaceVariant, 0xFF49454F),
             outline = ctx.resolveColor(com.google.android.material.R.attr.colorOutline, 0xFF79747E),
+            surfaceContainer = surfaceContainer,
+            surfaceContainerLow = surfaceContainerLow,
+            surfaceContainerHigh = surfaceContainerHigh,
         )
     }
 

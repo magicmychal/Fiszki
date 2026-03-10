@@ -65,7 +65,7 @@ fun AdaptiveNavHost(initialTab: NavTab = NavTab.FLASHCARDS) {
     if (useRail) {
         Row(modifier = Modifier.fillMaxSize()) {
             NavigationRail(
-                containerColor = MaterialTheme.colorScheme.surface
+                containerColor = MaterialTheme.colorScheme.surfaceContainer
             ) {
                 navItems.forEach { item ->
                     NavigationRailItem(
