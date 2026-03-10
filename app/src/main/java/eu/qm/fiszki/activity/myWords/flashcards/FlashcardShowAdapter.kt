@@ -116,7 +116,10 @@ private fun FlashcardListItem(
             }
 
             if (useFsrs) {
-                FsrsStateIndicator(lastRating = lastRating)
+                FsrsStateIndicator(
+                    lastRating = lastRating,
+                    filledColor = categoryColor ?: MaterialTheme.colorScheme.primary
+                )
             } else {
                 PriorityIndicator(
                     priority = priority,
@@ -146,23 +149,15 @@ private fun PriorityIndicator(priority: Int, filledColor: Color) {
 }
 
 @Composable
-private fun FsrsStateIndicator(lastRating: Int) {
-    val emptyColor = MaterialTheme.colorScheme.outlineVariant
-    // Rating values: Again=1, Hard=2, Good=3, Easy=4; 0=none
-    // Dots fill left to right: rating 3 (Good) fills dots 1, 2, 3
-    val ratingColors = listOf(
-        Color(0xFFE53935), // Again — red
-        Color(0xFFFB8C00), // Hard — orange
-        Color(0xFF43A047), // Good — green
-        Color(0xFF1E88E5)  // Easy — blue
-    )
+private fun FsrsStateIndicator(lastRating: Int, filledColor: Color) {
+    val emptyColor = Color(0xFF43A047) // green
     Row(
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         repeat(4) { index ->
-            val ratingValue = index + 1 // 1-based rating
-            val color = if (ratingValue <= lastRating) ratingColors[index] else emptyColor
+            val ratingValue = index + 1 // 1-based rating; Again=1, Hard=2, Good=3, Easy=4
+            val color = if (ratingValue <= lastRating) filledColor else emptyColor
             Canvas(modifier = Modifier.size(8.dp)) {
                 drawCircle(color = color)
             }
