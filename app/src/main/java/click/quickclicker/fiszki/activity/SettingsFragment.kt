@@ -94,6 +94,13 @@ class SettingsFragment : Fragment() {
     private fun buildToolbar(view: View) {
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
         toolbar.setTitle(R.string.settings_toolbar_title)
+
+        // Hide toolbar on tablet — the navigation rail already shows the tab label
+        val widthDp = resources.configuration.screenWidthDp
+        if (widthDp >= 600) {
+            val appBarLayout = toolbar.parent as? View
+            appBarLayout?.visibility = View.GONE
+        }
     }
 
     // --- Notification Section ---
