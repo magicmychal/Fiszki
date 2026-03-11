@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+- Practice and exam setup screens constrained to 500dp max width on tablet instead of stretching full width
+- Practice and exam check screens use the same 500dp max width for consistent sizing across all screens
+- Settings toolbar hidden on tablet where the navigation rail already provides context
+- Night mode toggle uses MaterialSwitch matching all other toggles on the settings page
+- Settings toolbar follows light/dark theme (surface color) instead of always using primary color
+- "Correct!" popup restored to original organic blob shape instead of plain circle
+
+### Fixed
+- Selected set now persists when navigating to practice and back on tablet
+- Set detail pane on tablet no longer goes blank after returning from another screen
+- Flashcard list refreshes immediately after adding a new flashcard on tablet
+- Edit set bottom sheet now slides up correctly on tablet split-view
+- Set color and name changes reflect immediately without needing to switch sets
+
 ## [2.2.1] - 2026-03-10
 
 ### Added
