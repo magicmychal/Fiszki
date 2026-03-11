@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [2.4.0] - 2026-03-11
 
+### Added
+- Recovery dialog when the database cannot be opened — offers to start fresh instead of crashing
+
 ### Changed
 - Migrated database layer from ORMLite to Jetpack Room for improved stability and R8 compatibility
 - Database operations now use compile-time verified queries instead of runtime reflection

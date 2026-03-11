@@ -5,8 +5,11 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import click.quickclicker.fiszki.NightModeController
 import click.quickclicker.fiszki.R
+import click.quickclicker.fiszki.database.FiszkiDatabase
 import click.quickclicker.fiszki.model.category.CategoryRepository
 import click.quickclicker.fiszki.ui.OrientationHelper
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import io.sentry.Sentry
 
 class NavHostActivity : AppCompatActivity() {
 
@@ -21,7 +24,13 @@ class NavHostActivity : AppCompatActivity() {
         NightModeController(this).useTheme()
         OrientationHelper.lockPortraitOnPhone(this)
 
-        CategoryRepository(this).addSystemCategory()
+        try {
+            CategoryRepository(this).addSystemCategory()
+        } catch (e: Exception) {
+            Sentry.captureException(e)
+            showDatabaseErrorDialog(e)
+            return
+        }
 
         val initialTab = resolveTab(intent.getIntExtra(EXTRA_TAB, 0))
 
@@ -32,12 +41,26 @@ class NavHostActivity : AppCompatActivity() {
         }
     }
 
+    private fun showDatabaseErrorDialog(error: Exception) {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(getString(R.string.db_error_title))
+            .setMessage(getString(R.string.db_error_message))
+            .setCancelable(false)
+            .setPositiveButton(getString(R.string.db_error_reset)) { _, _ ->
+                FiszkiDatabase.resetDatabase(this)
+                recreate()
+            }
+            .setNegativeButton(getString(R.string.db_error_close)) { _, _ ->
+                finishAffinity()
+            }
+            .show()
+    }
+
     override fun onNewIntent(intent: android.content.Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
         val tabId = intent.getIntExtra(EXTRA_TAB, -1)
         if (tabId != -1) {
-            // Re-create with the new tab
             recreate()
         }
     }
