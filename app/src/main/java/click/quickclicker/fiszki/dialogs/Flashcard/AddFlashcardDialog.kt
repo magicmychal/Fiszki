@@ -24,7 +24,7 @@ class AddFlashcardDialog(
     private val mFlashcardRepository = FlashcardRepository(mActivity)
     private val mValidationFlashcards = ValidationFlashcards(mActivity)
 
-    fun show() {
+    fun show(): AlertDialog {
         val view = LayoutInflater.from(mActivity).inflate(R.layout.flashcard_add_dialog, null)
         mWordEt = view.findViewById(R.id.add_flashcard_et_word)
         mTranslateEt = view.findViewById(R.id.add_flashcard_et_translation)
@@ -72,6 +72,7 @@ class AddFlashcardDialog(
         }
 
         dialog.show()
+        return dialog
     }
 
     private fun addFlashcard() {

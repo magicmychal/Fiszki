@@ -26,10 +26,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -77,7 +79,7 @@ fun CategoryTabScreen(
         list
     }
 
-    var selectedCategoryId by remember { mutableStateOf<Int?>(null) }
+    var selectedCategoryId by rememberSaveable { mutableStateOf<Int?>(null) }
 
     // Auto-select first if on tablet and nothing selected
     if (isTablet && selectedCategoryId == null && categories.isNotEmpty()) {
@@ -281,7 +283,6 @@ private fun FlashcardDetailPane(
     // For now, use a simpler approach: set the CategoryManagerSingleton and embed a FragmentContainerView
     // that hosts the FlashcardsActivity content.
 
-    // Simplest approach: set CategoryManagerSingleton and use AndroidView with FlashcardsActivity's fragment
     CategoryManagerSingleton.currentCategoryId = category.id
 
     val containerId = remember(category.id) { View.generateViewId() }
@@ -295,14 +296,15 @@ private fun FlashcardDetailPane(
             },
             modifier = modifier,
             update = { view ->
-                // Ensure view ID matches what we expect
                 if (view.id != containerId) {
                     view.id = containerId
                 }
                 val fm = fragmentActivity.supportFragmentManager
                 val tag = "flashcard_detail_${category.id}"
-                if (fm.findFragmentByTag(tag) == null) {
-                    // Remove old fragments in this container
+                val existing = fm.findFragmentByTag(tag)
+                if (existing == null || !existing.isAdded || existing.view?.parent == null) {
+                    // Remove any stale fragment with this tag or in this container
+                    existing?.let { fm.beginTransaction().remove(it).commitNowAllowingStateLoss() }
                     fm.findFragmentById(containerId)?.let { old ->
                         fm.beginTransaction().remove(old).commitNowAllowingStateLoss()
                     }
@@ -312,5 +314,14 @@ private fun FlashcardDetailPane(
                 }
             }
         )
+
+        DisposableEffect(category.id) {
+            onDispose {
+                val fm = fragmentActivity.supportFragmentManager
+                fm.findFragmentById(containerId)?.let { fragment ->
+                    fm.beginTransaction().remove(fragment).commitNowAllowingStateLoss()
+                }
+            }
+        }
     }
 }

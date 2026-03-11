@@ -106,6 +106,7 @@ class FlashcardDetailFragment : Fragment() {
     private fun buildActionChips(view: View) {
         view.findViewById<MaterialButton>(R.id.chip_add_card).setOnClickListener {
             AddFlashcardDialog(requireActivity(), currentCategory.id).show()
+                .setOnDismissListener { updateList() }
         }
 
         view.findViewById<MaterialButton>(R.id.chip_start_review).setOnClickListener {

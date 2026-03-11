@@ -2,9 +2,12 @@ package click.quickclicker.fiszki.activity
 
 import android.app.Activity
 import android.widget.Toast
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.ui.Alignment
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Quiz
@@ -30,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
 import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOWER_BOUND
 import click.quickclicker.fiszki.R
@@ -148,27 +152,38 @@ private fun TabContent(
                 }
             }
 
-            PracticeSetupScreen(
-                title = context.getString(R.string.learning_title),
-                categories = categoryItems,
-                onStartPractice = { strictMode, categoryId, reversed ->
-                    val flashcards = if (categoryId == null) {
-                        flashcardRepository.getAllFlashcards()
-                    } else {
-                        flashcardRepository.getFlashcardsByCategoryID(categoryId)
-                    }
-                    if (flashcards.isEmpty()) {
-                        Toast.makeText(context, R.string.learning_no_flashcards, Toast.LENGTH_LONG).show()
-                    } else if (activity != null) {
-                        ChangeActivityManager(activity).goToLearningCheck(
-                            flashcards = flashcards,
-                            strictMode = strictMode,
-                            reversed = reversed
-                        )
-                    }
-                },
-                modifier = modifier
-            )
+            val contentModifier = if (isTablet) {
+                Modifier.widthIn(max = 500.dp)
+            } else {
+                modifier
+            }
+            val wrapModifier = if (isTablet) modifier else Modifier
+            Box(
+                modifier = wrapModifier.fillMaxSize(),
+                contentAlignment = Alignment.TopCenter
+            ) {
+                PracticeSetupScreen(
+                    title = context.getString(R.string.learning_title),
+                    categories = categoryItems,
+                    onStartPractice = { strictMode, categoryId, reversed ->
+                        val flashcards = if (categoryId == null) {
+                            flashcardRepository.getAllFlashcards()
+                        } else {
+                            flashcardRepository.getFlashcardsByCategoryID(categoryId)
+                        }
+                        if (flashcards.isEmpty()) {
+                            Toast.makeText(context, R.string.learning_no_flashcards, Toast.LENGTH_LONG).show()
+                        } else if (activity != null) {
+                            ChangeActivityManager(activity).goToLearningCheck(
+                                flashcards = flashcards,
+                                strictMode = strictMode,
+                                reversed = reversed
+                            )
+                        }
+                    },
+                    modifier = contentModifier
+                )
+            }
         }
         NavTab.EXAM -> {
             val categoryRepository = CategoryRepository(context)
@@ -198,35 +213,46 @@ private fun TabContent(
                 RoundsOption(value = it, label = it.toString())
             }
 
-            ExamSetupScreen(
-                title = context.getString(R.string.exam_title),
-                categories = categoryItems,
-                roundsOptions = roundsOptions,
-                onStartExam = { strictMode, categoryId, reversed, rounds ->
-                    val flashcards = if (categoryId == null) {
-                        flashcardRepository.getAllFlashcards()
-                    } else {
-                        flashcardRepository.getFlashcardsByCategoryID(categoryId)
-                    }
-                    if (flashcards.isEmpty()) {
-                        Toast.makeText(context, R.string.exam_no_flashcards, Toast.LENGTH_LONG).show()
-                    } else if (activity != null) {
-                        val categoryName = if (categoryId == null) {
-                            context.getString(R.string.learning_category_all)
+            val contentModifier = if (isTablet) {
+                Modifier.widthIn(max = 500.dp)
+            } else {
+                modifier
+            }
+            val wrapModifier = if (isTablet) modifier else Modifier
+            Box(
+                modifier = wrapModifier.fillMaxSize(),
+                contentAlignment = Alignment.TopCenter
+            ) {
+                ExamSetupScreen(
+                    title = context.getString(R.string.exam_title),
+                    categories = categoryItems,
+                    roundsOptions = roundsOptions,
+                    onStartExam = { strictMode, categoryId, reversed, rounds ->
+                        val flashcards = if (categoryId == null) {
+                            flashcardRepository.getAllFlashcards()
                         } else {
-                            categoryRepository.getCategoryByID(categoryId)?.getCategory()
+                            flashcardRepository.getFlashcardsByCategoryID(categoryId)
                         }
-                        val category = if (categoryId != null) categoryRepository.getCategoryByID(categoryId) else null
-                        val languagePair = if (category != null && !category.getLangFrom().isNullOrEmpty() && !category.getLangOn().isNullOrEmpty()) {
-                            val from = if (reversed) category.getLangOn() else category.getLangFrom()
-                            val to = if (reversed) category.getLangFrom() else category.getLangOn()
-                            "$from to $to"
-                        } else null
-                        ChangeActivityManager(activity).goToExamCheck(flashcards, rounds, categoryName, languagePair)
-                    }
-                },
-                modifier = modifier
-            )
+                        if (flashcards.isEmpty()) {
+                            Toast.makeText(context, R.string.exam_no_flashcards, Toast.LENGTH_LONG).show()
+                        } else if (activity != null) {
+                            val categoryName = if (categoryId == null) {
+                                context.getString(R.string.learning_category_all)
+                            } else {
+                                categoryRepository.getCategoryByID(categoryId)?.getCategory()
+                            }
+                            val category = if (categoryId != null) categoryRepository.getCategoryByID(categoryId) else null
+                            val languagePair = if (category != null && !category.getLangFrom().isNullOrEmpty() && !category.getLangOn().isNullOrEmpty()) {
+                                val from = if (reversed) category.getLangOn() else category.getLangFrom()
+                                val to = if (reversed) category.getLangFrom() else category.getLangOn()
+                                "$from to $to"
+                            } else null
+                            ChangeActivityManager(activity).goToExamCheck(flashcards, rounds, categoryName, languagePair)
+                        }
+                    },
+                    modifier = contentModifier
+                )
+            }
         }
         NavTab.SETTINGS -> {
             val fragmentActivity = context as? FragmentActivity
