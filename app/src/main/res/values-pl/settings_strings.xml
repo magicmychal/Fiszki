@@ -56,6 +56,21 @@
     <string name="import_csv_found">Znaleziono %d fiszek</string>
     <string name="import_csv_import">Importuj</string>
 
+    <!-- Learning Algorithm -->
+    <string name="settings_algorithm_title">Powtórki interwałowe (FSRS)</string>
+    <string name="settings_algorithm_summary_on">Karty planowane według siły zapamiętywania</string>
+    <string name="settings_algorithm_summary_off">Karty losowane losowo (tradycyjny)</string>
+
+    <!-- Diagnostics -->
+    <string name="settings_diagnostic_title">Wysyłaj dane diagnostyczne</string>
+    <string name="settings_diagnostic_summary">Pomóż ulepszyć Fiszki, udostępniając anonimowe raporty o błędach i logi</string>
+    <string name="settings_test_crash_title">Testuj raport o awarii</string>
+    <string name="settings_test_crash_summary">Wymuś awarię, aby sprawdzić czy raportowanie działa</string>
+
+    <!-- Reminder schedule dialog -->
+    <string name="settings_notification_schedule">Harmonogram przypomnień</string>
+    <string name="settings_notification_schedule_summary">Godzina i dni</string>
+
     <!-- Day names -->
     <string name="day_monday">Pon</string>
     <string name="day_tuesday">Wt</string>
@@ -64,5 +79,14 @@
     <string name="day_friday">Pt</string>
     <string name="day_saturday">Sob</string>
     <string name="day_sunday">Ndz</string>
+
+    <!-- Day initials for toggle buttons -->
+    <string name="day_initial_sunday">N</string>
+    <string name="day_initial_monday">P</string>
+    <string name="day_initial_tuesday">W</string>
+    <string name="day_initial_wednesday">Ś</string>
+    <string name="day_initial_thursday">C</string>
+    <string name="day_initial_friday">P</string>
+    <string name="day_initial_saturday">S</string>
 
 </resources>

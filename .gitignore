@@ -70,3 +70,9 @@ Thumbs.db
 
 
 
+
+# Sentry Config File
+sentry.properties
+
+#Bugdender
+bugfender.properties

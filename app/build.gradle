@@ -1,5 +1,11 @@
+
+plugins {
+    id 'io.sentry.android.gradle' version '6.1.0'
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'org.jetbrains.kotlin.plugin.compose'
+apply plugin: 'com.google.devtools.ksp'
 
 repositories {
     google()
@@ -7,19 +13,24 @@ repositories {
 }
 
 android {
-    namespace "eu.qm.fiszki"
+    namespace "click.quickclicker.fiszki"
     compileSdk 36
     defaultConfig {
         applicationId 'click.quickclicker.fiszki'
         minSdk 31
         targetSdk 35
-        versionCode 15
-        versionName '2.00'
+        versionCode 20
+        versionName '2.4.1'
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            ndk {
+                debugSymbolLevel 'FULL'
+            }
         }
     }
     compileOptions {
@@ -31,13 +42,26 @@ android {
     }
     buildFeatures {
         compose true
+        buildConfig true
+    }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
+    afterEvaluate {
+        tasks.named("assembleDebug") {
+            dependsOn("testDebugUnitTest")
+        }
     }
 }
 
 dependencies {
-    // ORMLite 5.7 (upgraded from local 4.48 JARs to fix ashmem pinning deprecation)
-    implementation 'com.j256.ormlite:ormlite-android:5.7'
-    implementation 'com.j256.ormlite:ormlite-core:5.7'
+    // Room (replaced ORMLite 5.7)
+    implementation 'androidx.room:room-runtime:2.7.1'
+    implementation 'androidx.room:room-ktx:2.7.1'
+    ksp 'androidx.room:room-compiler:2.7.1'
 
     implementation('com.mikepenz:materialdrawer:8.4.5') {
         transitive = true
@@ -65,5 +89,36 @@ dependencies {
     implementation 'androidx.activity:activity-compose:1.12.4'
     debugImplementation 'androidx.compose.ui:ui-tooling'
 
+    // Material 3 Adaptive (tablet / window-size breakpoints)
+    implementation 'androidx.compose.material3.adaptive:adaptive:1.1.0'
+    implementation 'androidx.compose.material3.adaptive:adaptive-layout:1.1.0'
+    implementation 'androidx.compose.material3.adaptive:adaptive-navigation:1.1.0'
+
+    // Sentry Compose integration (breadcrumbs + performance tracing)
+    // Version must match sentry-android pulled by the Gradle plugin (8.33.0)
+    implementation 'io.sentry:sentry-compose-android:8.33.0'
+
     testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.robolectric:robolectric:4.14.1'
+    testImplementation 'androidx.test.ext:junit:1.2.1'
+    testImplementation 'androidx.compose.ui:ui-test-junit4'
+    debugImplementation 'androidx.compose.ui:ui-test-manifest'
+
+    // Instrumented tests
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test:runner:1.6.2'
+    androidTestImplementation 'androidx.test:core:1.6.1'
+    androidTestImplementation 'androidx.room:room-testing:2.7.1'
+}
+
+
+sentry {
+    org = "michal-pawlicki"
+    projectName = "android"
+
+    // Disable automatic uploads so release builds work without Sentry CLI auth.
+    // The R8 mapping file is still generated for manual upload or Play Console.
+    autoUploadProguardMapping = false
+    includeSourceContext = false
+    autoUploadSourceContext = false
 }

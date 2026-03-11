@@ -57,6 +57,21 @@
     <string name="import_csv_found">Found %d flashcards</string>
     <string name="import_csv_import">Import</string>
 
+    <!-- Learning Algorithm -->
+    <string name="settings_algorithm_title">Spaced repetition (FSRS)</string>
+    <string name="settings_algorithm_summary_on">Cards scheduled by memory strength</string>
+    <string name="settings_algorithm_summary_off">Cards drawn randomly (legacy)</string>
+
+    <!-- Diagnostics -->
+    <string name="settings_diagnostic_title">Send diagnostic data</string>
+    <string name="settings_diagnostic_summary">Help improve Fiszki by sharing anonymous crash reports and logs</string>
+    <string name="settings_test_crash_title">Test crash report</string>
+    <string name="settings_test_crash_summary">Force a crash to verify diagnostic reporting works</string>
+
+    <!-- Reminder schedule dialog -->
+    <string name="settings_notification_schedule">Reminder schedule</string>
+    <string name="settings_notification_schedule_summary">Time and days</string>
+
     <!-- Day names -->
     <string name="day_monday">Mon</string>
     <string name="day_tuesday">Tue</string>
@@ -65,5 +80,14 @@
     <string name="day_friday">Fri</string>
     <string name="day_saturday">Sat</string>
     <string name="day_sunday">Sun</string>
+
+    <!-- Day initials for toggle buttons -->
+    <string name="day_initial_sunday">S</string>
+    <string name="day_initial_monday">M</string>
+    <string name="day_initial_tuesday">T</string>
+    <string name="day_initial_wednesday">W</string>
+    <string name="day_initial_thursday">T</string>
+    <string name="day_initial_friday">F</string>
+    <string name="day_initial_saturday">S</string>
 
 </resources>
