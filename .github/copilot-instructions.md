@@ -32,8 +32,8 @@ Requires JDK 11+ (Kotlin JVM toolchain targets Java 11). Uses Gradle wrapper (no
 
 ### Layer Structure
 
-- **Models** (`model/`): `Flashcard` and `Category` are ORMLite-annotated data classes persisted to SQLite. Each has a `Repository` class (DAO pattern via `OrmLiteSqliteOpenHelper`) and a `Validation` class for input checking.
-- **Database** (`database/ORM/`): `DBHelper` extends `OrmLiteSqliteOpenHelper`, manages schema migrations (currently version 5). `DBConfigUtility` generates ORMLite config. Config file at `res/raw/ormlite_config.txt`.
+- **Models** (`model/`): `Flashcard` and `Category` are Room-annotated entity classes persisted to SQLite. Each has a `Repository` class wrapping Room DAO methods and a `Validation` class for input checking.
+- **Database** (`database/`): `FiszkiDatabase` extends `RoomDatabase` (singleton via `getInstance()`). `FlashcardDao` and `CategoryDao` are Room `@Dao` interfaces with compile-time verified SQL queries. Current schema version is 8.
 - **Navigation**: Single-Activity architecture via `NavHostActivity` with bottom navigation. Fragments for main tabs: `LearningFragment`, `ExamFragment`, `CategoryFragment`. Compose UI used in learning/exam/chat screens and flashcard list items.
 - **Activities** (`activity/`): `CheckActivity` (notification answer checking), `LearningCheckActivity`, `ExamCheckActivity`, `ChatActivity` (fully Compose), flashcard/category management via `myWords/`.
 - **Dialogs** (`dialogs/`): Material dialog classes organized by feature (flashcard CRUD, category CRUD, check results, exam settings, learning settings). Uses `afollestad:material-dialogs:0.9.6.0` (pre-AndroidX, converted via Jetifier).
@@ -59,7 +59,7 @@ Flashcards belong to categories. Categories have `langFrom`/`langOn` fields for 
 
 ## Key Dependencies
 
-- **ORMLite** 5.7: SQLite ORM (annotations on model classes, DAO pattern)
+- **Jetpack Room** 2.7: SQLite ORM with compile-time query verification (`@Entity`, `@Dao`, `@Database`)
 - **material-dialogs** 0.9.6.0: Dialog framework (Jetifier-converted)
 - **Jetpack Compose**: Primary UI toolkit. Used for learning setup (`LearningScreen`), exam setup (`ExamScreen`), chat mode (`ChatScreen`), flashcard list items, and theming (`ComposeTheme`/`FiszkiTheme`)
 - **Google Fonts (Compose)**: Roboto Flex, Roboto Mono, Roboto Serif, Porter Sans Block

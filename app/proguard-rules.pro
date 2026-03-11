@@ -1,13 +1,5 @@
-# ORMLite — models use reflection via @DatabaseField annotations
--keepclassmembers class click.quickclicker.fiszki.model.** {
-    <fields>;
-    <init>();
-}
-
-# ORMLite — DBHelper is instantiated via reflection by OpenHelperManager.getHelper()
--keep class click.quickclicker.fiszki.database.ORM.DBHelper {
-    public <init>(android.content.Context);
-}
+# Room uses compile-time code generation, not reflection — no special keep rules needed.
+# Model classes are preserved via Serializable keep rules below.
 
 # Serializable classes passed between activities via Intent extras
 -keepclassmembers class * implements java.io.Serializable {
@@ -27,10 +19,6 @@
 # Material Dialogs (afollestad) — legacy library, keep to be safe
 -dontwarn com.afollestad.**
 -keep class com.afollestad.** { *; }
-
-# ORMLite 5.7 — JPA compatibility layer references javax.persistence.* which is
-# not on the Android classpath. We use ORMLite's own @DatabaseField, not JPA.
--dontwarn javax.persistence.**
 
 # Sentry — ships its own rules but suppress warnings for native integration
 -dontwarn io.sentry.**
