@@ -41,6 +41,8 @@ class FlashcardDetailFragment : Fragment() {
         }
     }
 
+    var onCategoryDeleted: (() -> Unit)? = null
+
     private var categoryId: Int = 0
     private lateinit var flashcardRepository: FlashcardRepository
     private lateinit var categoryRepository: CategoryRepository
@@ -106,6 +108,7 @@ class FlashcardDetailFragment : Fragment() {
     private fun buildActionChips(view: View) {
         view.findViewById<MaterialButton>(R.id.chip_add_card).setOnClickListener {
             AddFlashcardDialog(requireActivity(), currentCategory.id).show()
+                .setOnDismissListener { updateList() }
         }
 
         view.findViewById<MaterialButton>(R.id.chip_start_review).setOnClickListener {
@@ -119,7 +122,19 @@ class FlashcardDetailFragment : Fragment() {
 
         view.findViewById<MaterialButton>(R.id.chip_edit_category).setOnClickListener {
             val bottomSheet = EditCategoryBottomSheet.newInstance(currentCategory.id)
-            bottomSheet.show(parentFragmentManager, "EditCategoryBottomSheet")
+            bottomSheet.show(childFragmentManager, "EditCategoryBottomSheet")
+            childFragmentManager.executePendingTransactions()
+            bottomSheet.dialog?.setOnDismissListener {
+                bottomSheet.dismiss()
+                val updated = categoryRepository.getCategoryByID(categoryId)
+                if (updated == null) {
+                    onCategoryDeleted?.invoke()
+                    return@setOnDismissListener
+                }
+                currentCategory = updated
+                view?.let { v -> buildHeroHeader(v) }
+                updateList()
+            }
         }
     }
 

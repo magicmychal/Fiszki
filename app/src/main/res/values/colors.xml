@@ -69,12 +69,16 @@
     <color name="colorTertiaryYellow">#4E6544</color>
     <color name="colorOnTertiaryYellow">#FFFFFF</color>
     <color name="colorTertiaryContainerYellow">#D0EBC1</color>
+    <color name="colorOnTertiaryContainerYellow">#0C1F08</color>
     <color name="colorSurfaceYellow">#FFFBFF</color>
     <color name="colorOnSurfaceYellow">#1E1B16</color>
     <color name="colorSurfaceVariantYellow">#EDE1CF</color>
     <color name="colorOnSurfaceVariantYellow">#4D4639</color>
+    <color name="colorSurfaceContainerLowestYellow">#FFFFFF</color>
+    <color name="colorSurfaceContainerLowYellow">#FBF5ED</color>
     <color name="colorSurfaceContainerYellow">#F5EFE7</color>
     <color name="colorSurfaceContainerHighYellow">#EFE9E1</color>
+    <color name="colorSurfaceContainerHighestYellow">#E9E3DC</color>
     <color name="colorOutlineYellow">#7F7667</color>
     <color name="colorOutlineVariantYellow">#D0C5B4</color>
 
@@ -88,12 +92,20 @@
     <color name="colorSecondaryContainerYellowNight">#55442A</color>
     <color name="colorOnSecondaryContainerYellowNight">#F8E0BB</color>
     <color name="colorTertiaryYellowNight">#B5CFA7</color>
+    <color name="colorOnTertiaryYellowNight">#213618</color>
+    <color name="colorTertiaryContainerYellowNight">#374D2E</color>
+    <color name="colorOnTertiaryContainerYellowNight">#D0EBC1</color>
     <color name="colorSurfaceYellowNight">#1E1B16</color>
     <color name="colorOnSurfaceYellowNight">#E9E1D9</color>
     <color name="colorSurfaceVariantYellowNight">#4D4639</color>
     <color name="colorOnSurfaceVariantYellowNight">#D0C5B4</color>
+    <color name="colorSurfaceContainerLowestYellowNight">#191611</color>
+    <color name="colorSurfaceContainerLowYellowNight">#271F14</color>
     <color name="colorSurfaceContainerYellowNight">#2B2720</color>
+    <color name="colorSurfaceContainerHighYellowNight">#36312A</color>
+    <color name="colorSurfaceContainerHighestYellowNight">#413C35</color>
     <color name="colorOutlineYellowNight">#999080</color>
+    <color name="colorOutlineVariantYellowNight">#4D4639</color>
 
     <!-- Category color palette -->
     <color name="cat_lavender_primary">#6750A4</color>

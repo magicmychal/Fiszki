@@ -1,10 +1,13 @@
 package click.quickclicker.fiszki.model.flashcard
 
-import com.j256.ormlite.field.DatabaseField
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import click.quickclicker.fiszki.algorithm.fsrs.FsrsCard
 import click.quickclicker.fiszki.algorithm.fsrs.FsrsState
 import java.io.Serializable
 
+@Entity(tableName = "flashcard")
 class Flashcard : Serializable {
 
     companion object {
@@ -15,54 +18,55 @@ class Flashcard : Serializable {
         const val columnFlashcardCategoryID = "categoryID"
     }
 
-    @DatabaseField(generatedId = true, allowGeneratedIdInsert = true)
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     var id: Int = 0
 
-    @DatabaseField
-    private var word: String? = null
+    @JvmField
+    @ColumnInfo(name = "word")
+    var word: String? = null
 
-    @DatabaseField
-    private var translation: String? = null
+    @JvmField
+    @ColumnInfo(name = "translation")
+    var translation: String? = null
 
-    @DatabaseField
+    @ColumnInfo(name = "priority")
     var priority: Int = 0
 
-    @DatabaseField
+    @ColumnInfo(name = "categoryID")
     var categoryID: Int = 0
 
-    @DatabaseField
+    @ColumnInfo(name = "staticFail", defaultValue = "0")
     var staticFail: Int = 0
-        private set
 
-    @DatabaseField
+    @ColumnInfo(name = "staticPass", defaultValue = "0")
     var staticPass: Int = 0
-        private set
 
-    @DatabaseField(columnName = "fsrsStability", defaultValue = "0.0")
+    @ColumnInfo(name = "fsrsStability", defaultValue = "0.0")
     var fsrsStability: Double = 0.0
 
-    @DatabaseField(columnName = "fsrsDifficulty", defaultValue = "0.0")
+    @ColumnInfo(name = "fsrsDifficulty", defaultValue = "0.0")
     var fsrsDifficulty: Double = 0.0
 
-    @DatabaseField(columnName = "fsrsElapsedDays", defaultValue = "0")
+    @ColumnInfo(name = "fsrsElapsedDays", defaultValue = "0")
     var fsrsElapsedDays: Int = 0
 
-    @DatabaseField(columnName = "fsrsScheduledDays", defaultValue = "0")
+    @ColumnInfo(name = "fsrsScheduledDays", defaultValue = "0")
     var fsrsScheduledDays: Int = 0
 
-    @DatabaseField(columnName = "fsrsReps", defaultValue = "0")
+    @ColumnInfo(name = "fsrsReps", defaultValue = "0")
     var fsrsReps: Int = 0
 
-    @DatabaseField(columnName = "fsrsLapses", defaultValue = "0")
+    @ColumnInfo(name = "fsrsLapses", defaultValue = "0")
     var fsrsLapses: Int = 0
 
-    @DatabaseField(columnName = "fsrsState", defaultValue = "0")
+    @ColumnInfo(name = "fsrsState", defaultValue = "0")
     var fsrsState: Int = 0
 
-    @DatabaseField(columnName = "fsrsLastReview", defaultValue = "0")
+    @ColumnInfo(name = "fsrsLastReview", defaultValue = "0")
     var fsrsLastReview: Long = 0L
 
-    @DatabaseField(columnName = "fsrsLastRating", defaultValue = "0")
+    @ColumnInfo(name = "fsrsLastRating", defaultValue = "0")
     var fsrsLastRating: Int = 0
 
     constructor()

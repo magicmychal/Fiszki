@@ -1,9 +1,8 @@
 package click.quickclicker.fiszki.model.category
 
 import android.content.Context
-import com.j256.ormlite.android.apptools.OpenHelperManager
 import click.quickclicker.fiszki.R
-import click.quickclicker.fiszki.database.ORM.DBHelper
+import click.quickclicker.fiszki.database.FiszkiDatabase
 
 class CategoryRepository(private val context: Context) {
 
@@ -11,16 +10,15 @@ class CategoryRepository(private val context: Context) {
         const val addCategoryName = "ADDNEWCATEGORY"
     }
 
-    private val dbHelper: DBHelper = OpenHelperManager.getHelper(context, DBHelper::class.java)
-    private val categoryDao = dbHelper.getCategoryDao()
+    private val dao = FiszkiDatabase.getInstance(context).categoryDao()
 
-    fun getAllCategory(): ArrayList<Category> = ArrayList(categoryDao.queryForAll())
+    fun getAllCategory(): ArrayList<Category> = ArrayList(dao.getAll())
 
     fun addCategory(category: Category) {
-        categoryDao.create(category)
+        dao.insert(category)
     }
 
-    fun countCategory(): Int = categoryDao.countOf().toInt()
+    fun countCategory(): Int = dao.count()
 
     fun addSystemCategory() {
         val firstCategory = Category().apply {
@@ -28,65 +26,56 @@ class CategoryRepository(private val context: Context) {
             setCategory(context.resources.getString(R.string.uncategory))
             isEntryByUser = false
         }
-        categoryDao.createIfNotExists(firstCategory)
+        dao.insertIfNotExists(firstCategory)
         if (getCategoryByID(1)?.categoryDB != firstCategory.categoryDB) {
             updateCategory(firstCategory)
         }
         // delete addCategory from version<1.7
-        val addCategory = categoryDao.queryForId(2)
+        val addCategory = dao.getById(2)
         if (addCategory != null && addCategory.getCategory() == addCategoryName && !addCategory.isEntryByUser) {
-            categoryDao.delete(addCategory)
+            dao.delete(addCategory)
         }
     }
 
     fun getCategoryByName(name: String): Category? {
-        val arrayList = ArrayList(categoryDao.queryForEq(Category.columnCategoryCategory, name))
-        return if (arrayList.isNotEmpty()) arrayList[0] else null
+        return dao.getByName(name)
     }
 
     fun getCategoryByID(id: Int): Category? {
-        val arrayList = ArrayList(categoryDao.queryForEq(Category.columnCategoryId, id))
-        return if (arrayList.isNotEmpty()) arrayList[0] else null
+        return dao.getById(id)
     }
 
     fun getUserCategory(): ArrayList<Category> {
-        return ArrayList(categoryDao.queryForEq(Category.columnCategoryEntryByUsers, true))
+        return ArrayList(dao.getUserCategories())
     }
 
     fun updateCategory(category: Category) {
-        categoryDao.update(category)
+        dao.update(category)
     }
 
     fun deleteCategory(category: Category) {
-        categoryDao.delete(category)
+        dao.delete(category)
     }
 
     fun deleteCategories(categories: ArrayList<Category>) {
         for (category in categories) {
-            categoryDao.delete(category)
+            dao.delete(category)
         }
     }
 
     fun getChosenCategory(): ArrayList<Category> {
-        return ArrayList(categoryDao.queryForEq(Category.columnCategoryChosen, true))
+        return ArrayList(dao.getChosenCategories())
     }
 
     fun getCategoryByLang(langFrom: String, langOn: String): ArrayList<Category> {
-        val categories = ArrayList<Category>()
-        val categoryFrom = ArrayList(categoryDao.queryForEq(Category.columnCategoryLangFrom, langFrom))
-        for (cat in categoryFrom) {
-            if (cat.getLangOn() != null && cat.getLangOn() == langOn) {
-                categories.add(cat)
-            }
-        }
-        return categories
+        return ArrayList(dao.getByLangFromAndLangOn(langFrom, langOn))
     }
 
     fun getCategoryByLangFrom(langFrom: String): ArrayList<Category> {
-        return ArrayList(categoryDao.queryForEq(Category.columnCategoryLangFrom, langFrom))
+        return ArrayList(dao.getByLangFrom(langFrom))
     }
 
     fun getCategoryByLangOn(langOn: String): ArrayList<Category> {
-        return ArrayList(categoryDao.queryForEq(Category.columnCategoryLangOn, langOn))
+        return ArrayList(dao.getByLangOn(langOn))
     }
 }

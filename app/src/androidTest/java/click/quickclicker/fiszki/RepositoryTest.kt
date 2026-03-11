@@ -1,14 +1,16 @@
 package click.quickclicker.fiszki
 
+import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import click.quickclicker.fiszki.database.ORM.DBHelper
+import click.quickclicker.fiszki.database.CategoryDao
+import click.quickclicker.fiszki.database.FlashcardDao
+import click.quickclicker.fiszki.database.FiszkiDatabase
 import click.quickclicker.fiszki.model.category.Category
 import click.quickclicker.fiszki.model.flashcard.Flashcard
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -17,42 +19,42 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class RepositoryTest {
 
-    private lateinit var dbHelper: DBHelper
+    private lateinit var db: FiszkiDatabase
+    private lateinit var flashcardDao: FlashcardDao
+    private lateinit var categoryDao: CategoryDao
 
     @Before
     fun setUp() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        context.deleteDatabase("Flashcards.db")
-        dbHelper = DBHelper(context)
+        db = Room.inMemoryDatabaseBuilder(context, FiszkiDatabase::class.java)
+            .allowMainThreadQueries()
+            .build()
+        flashcardDao = db.flashcardDao()
+        categoryDao = db.categoryDao()
     }
 
     @After
     fun tearDown() {
-        dbHelper.close()
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
-        context.deleteDatabase("Flashcards.db")
+        db.close()
     }
 
     // --- Flashcard tests ---
 
     @Test
     fun addFlashcard_getAllFlashcards_returnsIt() {
-        val dao = dbHelper.getFlashcardDao()
         val card = Flashcard()
         card.setWord("apple")
         card.setTranslation("jablko")
         card.categoryID = 1
-        dao.create(card)
+        flashcardDao.insert(card)
 
-        val all = dao.queryForAll()
+        val all = flashcardDao.getAll()
         assertEquals(1, all.size)
         assertEquals("apple", all[0].getWord())
     }
 
     @Test
     fun getFlashcardsByCategoryID_filtersCorrectly() {
-        val dao = dbHelper.getFlashcardDao()
-
         val card1 = Flashcard().apply {
             setWord("a"); setTranslation("b"); categoryID = 1
         }
@@ -62,33 +64,32 @@ class RepositoryTest {
         val card3 = Flashcard().apply {
             setWord("e"); setTranslation("f"); categoryID = 1
         }
-        dao.create(card1)
-        dao.create(card2)
-        dao.create(card3)
+        flashcardDao.insert(card1)
+        flashcardDao.insert(card2)
+        flashcardDao.insert(card3)
 
-        val cat1Cards = ArrayList(dao.queryForEq(Flashcard.columnFlashcardCategoryID, 1))
+        val cat1Cards = flashcardDao.getByCategoryID(1)
         assertEquals(2, cat1Cards.size)
 
-        val cat2Cards = ArrayList(dao.queryForEq(Flashcard.columnFlashcardCategoryID, 2))
+        val cat2Cards = flashcardDao.getByCategoryID(2)
         assertEquals(1, cat2Cards.size)
     }
 
     @Test
     fun deleteFlashcard_removesFromAll() {
-        val dao = dbHelper.getFlashcardDao()
         val card = Flashcard().apply {
             setWord("x"); setTranslation("y"); categoryID = 1
         }
-        dao.create(card)
-        assertEquals(1, dao.queryForAll().size)
+        flashcardDao.insert(card)
+        val inserted = flashcardDao.getAll()
+        assertEquals(1, inserted.size)
 
-        dao.delete(card)
-        assertEquals(0, dao.queryForAll().size)
+        flashcardDao.delete(inserted[0])
+        assertEquals(0, flashcardDao.getAll().size)
     }
 
     @Test
     fun fsrsFields_persistCorrectly() {
-        val dao = dbHelper.getFlashcardDao()
         val card = Flashcard().apply {
             setWord("test"); setTranslation("test"); categoryID = 1
             fsrsStability = 12.5
@@ -98,9 +99,9 @@ class RepositoryTest {
             fsrsState = 2  // Review
             fsrsLastReview = 1700000000000L
         }
-        dao.create(card)
+        flashcardDao.insert(card)
 
-        val retrieved = dao.queryForAll().first()
+        val retrieved = flashcardDao.getAll().first()
         assertEquals(12.5, retrieved.fsrsStability, 0.001)
         assertEquals(6.3, retrieved.fsrsDifficulty, 0.001)
         assertEquals(5, retrieved.fsrsReps)
@@ -113,37 +114,33 @@ class RepositoryTest {
 
     @Test
     fun addCategory_getAllCategory_returnsIt() {
-        val dao = dbHelper.getCategoryDao()
         val cat = Category().apply {
             setCategory("Animals")
             isEntryByUser = true
         }
-        dao.create(cat)
+        categoryDao.insert(cat)
 
-        val all = dao.queryForAll()
+        val all = categoryDao.getAll()
         assertEquals(1, all.size)
         assertEquals("Animals", all[0].getCategory())
     }
 
     @Test
     fun getCategoryByID_returnsCorrectCategory() {
-        val dao = dbHelper.getCategoryDao()
         val cat = Category().apply {
             id = 10
             setCategory("Food")
             isEntryByUser = true
         }
-        dao.createIfNotExists(cat)
+        categoryDao.insertIfNotExists(cat)
 
-        val result = dao.queryForId(10)
+        val result = categoryDao.getById(10)
         assertNotNull(result)
-        assertEquals("Food", result.getCategory())
+        assertEquals("Food", result!!.getCategory())
     }
 
     @Test
     fun getUserCategory_onlyReturnsUserCreated() {
-        val dao = dbHelper.getCategoryDao()
-
         val systemCat = Category().apply {
             setCategory("System")
             isEntryByUser = false
@@ -152,25 +149,25 @@ class RepositoryTest {
             setCategory("My Set")
             isEntryByUser = true
         }
-        dao.create(systemCat)
-        dao.create(userCat)
+        categoryDao.insert(systemCat)
+        categoryDao.insert(userCat)
 
-        val userOnly = ArrayList(dao.queryForEq(Category.columnCategoryEntryByUsers, true))
+        val userOnly = categoryDao.getUserCategories()
         assertEquals(1, userOnly.size)
         assertEquals("My Set", userOnly[0].getCategory())
     }
 
     @Test
     fun deleteCategory_removesIt() {
-        val dao = dbHelper.getCategoryDao()
         val cat = Category().apply {
             setCategory("ToDelete")
             isEntryByUser = true
         }
-        dao.create(cat)
-        assertEquals(1, dao.queryForAll().size)
+        categoryDao.insert(cat)
+        assertEquals(1, categoryDao.getAll().size)
 
-        dao.delete(cat)
-        assertTrue(dao.queryForAll().isEmpty())
+        val inserted = categoryDao.getAll()[0]
+        categoryDao.delete(inserted)
+        assertTrue(categoryDao.getAll().isEmpty())
     }
 }

@@ -114,6 +114,18 @@
         app:icon="@drawable/ic_export_csv"
         app:iconTint="?attr/colorOnSurface" />
 
+    <!-- Import set (CSV) button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_import_csv"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/import_set_csv"
+        app:icon="@drawable/ic_import_csv"
+        app:iconTint="?attr/colorOnSurface" />
+
     <!-- Delete category button (only shown for user-created categories) -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_delete_category"

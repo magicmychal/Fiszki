@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="db_error_title">Błąd bazy danych</string>
+    <string name="db_error_message">Coś poszło nie tak z bazą danych i aplikacja nie może się uruchomić. Możesz zresetować bazę danych, aby zacząć od nowa — to usunie wszystkie fiszki i zestawy.</string>
+    <string name="db_error_reset">Zacznij od nowa</string>
+    <string name="db_error_close">Zamknij aplikację</string>
+</resources>
+

@@ -60,7 +60,9 @@ class AlarmReceiver : BroadcastReceiver() {
             val intent = Intent(context, AlarmReceiver::class.java)
             val pi = PendingIntent.getBroadcast(context, REQUEST_CODE, intent, PENDING_INTENT_FLAGS)
             val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarm.timeInMillis, pi)
+            if (am.canScheduleExactAlarms()) {
+                am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarm.timeInMillis, pi)
+            }
         }
 
         fun cancel(context: Context) {

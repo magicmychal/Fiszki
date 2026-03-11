@@ -1,8 +1,12 @@
 package click.quickclicker.fiszki.model.category
 
-import com.j256.ormlite.field.DatabaseField
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import java.io.Serializable
 
+@Entity(tableName = "category")
 class Category : Serializable {
 
     companion object {
@@ -15,28 +19,45 @@ class Category : Serializable {
         const val columnCategoryColor = "color"
     }
 
-    @DatabaseField(generatedId = true, allowGeneratedIdInsert = true)
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     var id: Int = 0
 
-    @DatabaseField
-    private var category: String? = null
+    @JvmField
+    @ColumnInfo(name = "category")
+    var category: String? = null
 
-    @DatabaseField(columnName = "entryByUser", defaultValue = "true")
+    @ColumnInfo(name = "entryByUser", defaultValue = "1")
     var isEntryByUser: Boolean = false
 
-    @DatabaseField(columnName = "chosen", defaultValue = "false")
+    @ColumnInfo(name = "chosen", defaultValue = "0")
     var isChosen: Boolean = false
 
-    @DatabaseField
-    private var langOn: String? = null
+    @JvmField
+    @ColumnInfo(name = "langOn")
+    var langOn: String? = null
 
-    @DatabaseField
-    private var langFrom: String? = null
+    @JvmField
+    @ColumnInfo(name = "langFrom")
+    var langFrom: String? = null
 
-    @DatabaseField(columnName = "color")
-    private var color: String? = null
+    @JvmField
+    @ColumnInfo(name = "color")
+    var color: String? = null
 
     constructor()
+
+    @Ignore
+    constructor(id: Int, category: String?, isEntryByUser: Boolean, isChosen: Boolean,
+                langOn: String?, langFrom: String?, color: String?) {
+        this.id = id
+        this.category = category
+        this.isEntryByUser = isEntryByUser
+        this.isChosen = isChosen
+        this.langOn = langOn
+        this.langFrom = langFrom
+        this.color = color
+    }
 
     val categoryDB: String
         get() = category ?: ""
