@@ -35,17 +35,31 @@ fun FiszkiTheme(content: @Composable () -> Unit) {
     val surfaceContainerHigh = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceContainerHigh,
         if (isDark) 0xFF2B2930 else 0xFFECE6F0)
 
+    val primary = ctx.resolveColor(android.R.attr.colorPrimary,
+        if (isDark) 0xFFD0BCFF else 0xFF6750A4)
+    val primaryContainer = ctx.resolveColor(com.google.android.material.R.attr.colorPrimaryContainer,
+        if (isDark) 0xFF4F378B else 0xFFEADDFF)
+
+    // Derive tertiary container from primary when not set in theme — keeps TimePicker on-theme
+    val tertiaryContainer = ctx.resolveColor(com.google.android.material.R.attr.colorTertiaryContainer,
+        primaryContainer.value.toLong())
+    val onTertiaryContainer = ctx.resolveColor(com.google.android.material.R.attr.colorOnTertiaryContainer,
+        ctx.resolveColor(com.google.android.material.R.attr.colorOnPrimaryContainer,
+            if (isDark) 0xFFEADDFF else 0xFF21005D).value.toLong())
+
     val colorScheme = if (isDark) {
         darkColorScheme(
-            primary = ctx.resolveColor(android.R.attr.colorPrimary, 0xFFD0BCFF),
+            primary = primary,
             onPrimary = ctx.resolveColor(com.google.android.material.R.attr.colorOnPrimary, 0xFF381E72),
-            primaryContainer = ctx.resolveColor(com.google.android.material.R.attr.colorPrimaryContainer, 0xFF4F378B),
+            primaryContainer = primaryContainer,
             onPrimaryContainer = ctx.resolveColor(com.google.android.material.R.attr.colorOnPrimaryContainer, 0xFFEADDFF),
             secondary = ctx.resolveColor(com.google.android.material.R.attr.colorSecondary, 0xFFCCC2DC),
             onSecondary = ctx.resolveColor(com.google.android.material.R.attr.colorOnSecondary, 0xFF332D41),
             secondaryContainer = ctx.resolveColor(com.google.android.material.R.attr.colorSecondaryContainer, 0xFF4A4458),
             onSecondaryContainer = ctx.resolveColor(com.google.android.material.R.attr.colorOnSecondaryContainer, 0xFFE8DEF8),
             tertiary = ctx.resolveColor(com.google.android.material.R.attr.colorTertiary, 0xFFEFB8C8),
+            tertiaryContainer = tertiaryContainer,
+            onTertiaryContainer = onTertiaryContainer,
             surface = surface,
             onSurface = ctx.resolveColor(com.google.android.material.R.attr.colorOnSurface, 0xFFE6E1E5),
             surfaceVariant = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceVariant, 0xFF49454F),
@@ -57,15 +71,17 @@ fun FiszkiTheme(content: @Composable () -> Unit) {
         )
     } else {
         lightColorScheme(
-            primary = ctx.resolveColor(android.R.attr.colorPrimary, 0xFF6750A4),
+            primary = primary,
             onPrimary = ctx.resolveColor(com.google.android.material.R.attr.colorOnPrimary, 0xFFFFFFFF),
-            primaryContainer = ctx.resolveColor(com.google.android.material.R.attr.colorPrimaryContainer, 0xFFEADDFF),
+            primaryContainer = primaryContainer,
             onPrimaryContainer = ctx.resolveColor(com.google.android.material.R.attr.colorOnPrimaryContainer, 0xFF21005D),
             secondary = ctx.resolveColor(com.google.android.material.R.attr.colorSecondary, 0xFF625B71),
             onSecondary = ctx.resolveColor(com.google.android.material.R.attr.colorOnSecondary, 0xFFFFFFFF),
             secondaryContainer = ctx.resolveColor(com.google.android.material.R.attr.colorSecondaryContainer, 0xFFE8DEF8),
             onSecondaryContainer = ctx.resolveColor(com.google.android.material.R.attr.colorOnSecondaryContainer, 0xFF1D192B),
             tertiary = ctx.resolveColor(com.google.android.material.R.attr.colorTertiary, 0xFF7D5260),
+            tertiaryContainer = tertiaryContainer,
+            onTertiaryContainer = onTertiaryContainer,
             surface = surface,
             onSurface = ctx.resolveColor(com.google.android.material.R.attr.colorOnSurface, 0xFF1C1B1F),
             surfaceVariant = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceVariant, 0xFFE7E0EC),
