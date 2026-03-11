@@ -8,4 +8,9 @@
     <string name="edit_category_delete_button">Usuń zestaw</string>
     <string name="export_set_csv">Eksportuj zestaw (CSV)</string>
     <string name="export_csv_empty">Brak fiszek do eksportu</string>
+    <string name="import_set_csv">Importuj zestaw (CSV)</string>
+    <string name="import_set_csv_success">Zaimportowano %d fiszek</string>
+    <string name="import_set_csv_error_format">Nieprawidłowy format CSV: oczekiwano 2 kolumn (słowo,tłumaczenie)</string>
+    <string name="import_set_csv_error_empty">Plik jest pusty lub nie zawiera prawidłowych wierszy</string>
+    <string name="import_set_csv_error_read">Nie można odczytać pliku</string>
 </resources>

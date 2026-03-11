@@ -41,6 +41,8 @@ class FlashcardDetailFragment : Fragment() {
         }
     }
 
+    var onCategoryDeleted: (() -> Unit)? = null
+
     private var categoryId: Int = 0
     private lateinit var flashcardRepository: FlashcardRepository
     private lateinit var categoryRepository: CategoryRepository
@@ -124,7 +126,12 @@ class FlashcardDetailFragment : Fragment() {
             childFragmentManager.executePendingTransactions()
             bottomSheet.dialog?.setOnDismissListener {
                 bottomSheet.dismiss()
-                currentCategory = categoryRepository.getCategoryByID(categoryId) ?: return@setOnDismissListener
+                val updated = categoryRepository.getCategoryByID(categoryId)
+                if (updated == null) {
+                    onCategoryDeleted?.invoke()
+                    return@setOnDismissListener
+                }
+                currentCategory = updated
                 view?.let { v -> buildHeroHeader(v) }
                 updateList()
             }

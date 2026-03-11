@@ -68,8 +68,13 @@ class FlashcardsActivity : AppCompatActivity() {
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         if (hasFocus) {
-            mCurrentCategory = CategoryRepository(mActivity)
-                .getCategoryByID(CategoryManagerSingleton.currentCategoryId)!!
+            val cat = CategoryRepository(mActivity)
+                .getCategoryByID(CategoryManagerSingleton.currentCategoryId)
+            if (cat == null) {
+                finish()
+                return
+            }
+            mCurrentCategory = cat
             buildHeroHeader()
             updateListView()
         }

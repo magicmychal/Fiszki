@@ -36,16 +36,16 @@ class AddFlashcardDialog(
             .setNegativeButton(R.string.flashcard_edit_done) { dlg, _ -> dlg.dismiss() }
             .create()
 
-        dialog.setOnShowListener {
-            // Apply rounded background with dynamic surface container high color
-            val surfaceTypedValue = TypedValue()
-            mActivity.theme.resolveAttribute(com.google.android.material.R.attr.colorSurfaceContainerHigh, surfaceTypedValue, true)
-            val bgDrawable = android.graphics.drawable.GradientDrawable().apply {
-                setColor(surfaceTypedValue.data)
-                cornerRadius = 28 * mActivity.resources.displayMetrics.density
-            }
-            dialog.window?.setBackgroundDrawable(bgDrawable)
+        // Apply rounded background before showing to avoid layout jump
+        val surfaceTypedValue = TypedValue()
+        mActivity.theme.resolveAttribute(com.google.android.material.R.attr.colorSurfaceContainerHigh, surfaceTypedValue, true)
+        val bgDrawable = android.graphics.drawable.GradientDrawable().apply {
+            setColor(surfaceTypedValue.data)
+            cornerRadius = 28 * mActivity.resources.displayMetrics.density
+        }
+        dialog.window?.setBackgroundDrawable(bgDrawable)
 
+        dialog.setOnShowListener {
             // Style the title
             val titleView = dialog.findViewById<TextView>(androidx.appcompat.R.id.alertTitle)
             titleView?.textSize = 24f

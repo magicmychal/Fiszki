@@ -28,19 +28,11 @@ fun FiszkiTheme(content: @Composable () -> Unit) {
     val surface = ctx.resolveColor(com.google.android.material.R.attr.colorSurface, 0xFFFFFBFE)
     val isDark = (surface.red * 0.299f + surface.green * 0.587f + surface.blue * 0.114f) < 0.5f
 
-    val surfaceContainer = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceContainer,
-        if (isDark) 0xFF211F26 else 0xFFF3EDF7)
-    val surfaceContainerLow = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceContainerLow,
-        if (isDark) 0xFF1D1B20 else 0xFFF7F2FA)
-    val surfaceContainerHigh = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceContainerHigh,
-        if (isDark) 0xFF2B2930 else 0xFFECE6F0)
-
     val primary = ctx.resolveColor(android.R.attr.colorPrimary,
         if (isDark) 0xFFD0BCFF else 0xFF6750A4)
     val primaryContainer = ctx.resolveColor(com.google.android.material.R.attr.colorPrimaryContainer,
         if (isDark) 0xFF4F378B else 0xFFEADDFF)
 
-    // Derive tertiary container from primary when not set in theme — keeps TimePicker on-theme
     val tertiaryContainer = ctx.resolveColor(com.google.android.material.R.attr.colorTertiaryContainer,
         primaryContainer.value.toLong())
     val onTertiaryContainer = ctx.resolveColor(com.google.android.material.R.attr.colorOnTertiaryContainer,
@@ -58,6 +50,7 @@ fun FiszkiTheme(content: @Composable () -> Unit) {
             secondaryContainer = ctx.resolveColor(com.google.android.material.R.attr.colorSecondaryContainer, 0xFF4A4458),
             onSecondaryContainer = ctx.resolveColor(com.google.android.material.R.attr.colorOnSecondaryContainer, 0xFFE8DEF8),
             tertiary = ctx.resolveColor(com.google.android.material.R.attr.colorTertiary, 0xFFEFB8C8),
+            onTertiary = ctx.resolveColor(com.google.android.material.R.attr.colorOnTertiary, 0xFF492532),
             tertiaryContainer = tertiaryContainer,
             onTertiaryContainer = onTertiaryContainer,
             surface = surface,
@@ -65,9 +58,12 @@ fun FiszkiTheme(content: @Composable () -> Unit) {
             surfaceVariant = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceVariant, 0xFF49454F),
             onSurfaceVariant = ctx.resolveColor(com.google.android.material.R.attr.colorOnSurfaceVariant, 0xFFCAC4D0),
             outline = ctx.resolveColor(com.google.android.material.R.attr.colorOutline, 0xFF938F99),
-            surfaceContainer = surfaceContainer,
-            surfaceContainerLow = surfaceContainerLow,
-            surfaceContainerHigh = surfaceContainerHigh,
+            outlineVariant = ctx.resolveColor(com.google.android.material.R.attr.colorOutlineVariant, 0xFF49454F),
+            surfaceContainerLowest = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceContainerLowest, 0xFF0F0D13),
+            surfaceContainerLow = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceContainerLow, 0xFF1D1B20),
+            surfaceContainer = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceContainer, 0xFF211F26),
+            surfaceContainerHigh = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceContainerHigh, 0xFF2B2930),
+            surfaceContainerHighest = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceContainerHighest, 0xFF36343B),
         )
     } else {
         lightColorScheme(
@@ -80,6 +76,7 @@ fun FiszkiTheme(content: @Composable () -> Unit) {
             secondaryContainer = ctx.resolveColor(com.google.android.material.R.attr.colorSecondaryContainer, 0xFFE8DEF8),
             onSecondaryContainer = ctx.resolveColor(com.google.android.material.R.attr.colorOnSecondaryContainer, 0xFF1D192B),
             tertiary = ctx.resolveColor(com.google.android.material.R.attr.colorTertiary, 0xFF7D5260),
+            onTertiary = ctx.resolveColor(com.google.android.material.R.attr.colorOnTertiary, 0xFFFFFFFF),
             tertiaryContainer = tertiaryContainer,
             onTertiaryContainer = onTertiaryContainer,
             surface = surface,
@@ -87,9 +84,12 @@ fun FiszkiTheme(content: @Composable () -> Unit) {
             surfaceVariant = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceVariant, 0xFFE7E0EC),
             onSurfaceVariant = ctx.resolveColor(com.google.android.material.R.attr.colorOnSurfaceVariant, 0xFF49454F),
             outline = ctx.resolveColor(com.google.android.material.R.attr.colorOutline, 0xFF79747E),
-            surfaceContainer = surfaceContainer,
-            surfaceContainerLow = surfaceContainerLow,
-            surfaceContainerHigh = surfaceContainerHigh,
+            outlineVariant = ctx.resolveColor(com.google.android.material.R.attr.colorOutlineVariant, 0xFFCAC4D0),
+            surfaceContainerLowest = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceContainerLowest, 0xFFFFFFFF),
+            surfaceContainerLow = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceContainerLow, 0xFFF7F2FA),
+            surfaceContainer = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceContainer, 0xFFF3EDF7),
+            surfaceContainerHigh = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceContainerHigh, 0xFFECE6F0),
+            surfaceContainerHighest = ctx.resolveColor(com.google.android.material.R.attr.colorSurfaceContainerHighest, 0xFFE6E0E9),
         )
     }
 

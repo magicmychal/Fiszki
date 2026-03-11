@@ -115,6 +115,10 @@ fun CategoryTabScreen(
                     activity = activity,
                     fragmentActivity = context as? FragmentActivity,
                     onDataChanged = { refresh() },
+                    onCategoryDeleted = {
+                        selectedCategoryId = null
+                        refresh()
+                    },
                     modifier = Modifier.weight(1f).fillMaxHeight()
                 )
             } else {
@@ -275,6 +279,7 @@ private fun FlashcardDetailPane(
     activity: Activity?,
     fragmentActivity: FragmentActivity?,
     onDataChanged: () -> Unit,
+    onCategoryDeleted: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     // Embed FlashcardsActivity content via AndroidView wrapping the existing Fragment/Activity pattern
@@ -308,9 +313,13 @@ private fun FlashcardDetailPane(
                     fm.findFragmentById(containerId)?.let { old ->
                         fm.beginTransaction().remove(old).commitNowAllowingStateLoss()
                     }
+                    val fragment = FlashcardDetailFragment.newInstance(category.id)
+                    fragment.onCategoryDeleted = onCategoryDeleted
                     fm.beginTransaction()
-                        .replace(containerId, FlashcardDetailFragment.newInstance(category.id), tag)
+                        .replace(containerId, fragment, tag)
                         .commitNowAllowingStateLoss()
+                } else {
+                    (existing as? FlashcardDetailFragment)?.onCategoryDeleted = onCategoryDeleted
                 }
             }
         )

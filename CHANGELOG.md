@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+- Combined reminder schedule dialog with modern time picker and day-of-week toggles in a single view
+
 ### Changed
 - Practice and exam setup screens constrained to 500dp max width on tablet instead of stretching full width
 - Practice and exam check screens use the same 500dp max width for consistent sizing across all screens
@@ -13,6 +16,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Night mode toggle uses MaterialSwitch matching all other toggles on the settings page
 - Settings toolbar follows light/dark theme (surface color) instead of always using primary color
 - "Correct!" popup restored to original organic blob shape instead of plain circle
+- Navigation rail icons centered vertically on tablet
+- All theme colors (including time picker) now follow the active light/dark/yellow theme
 
 ### Fixed
 - Selected set now persists when navigating to practice and back on tablet
@@ -20,6 +25,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Flashcard list refreshes immediately after adding a new flashcard on tablet
 - Edit set bottom sheet now slides up correctly on tablet split-view
 - Set color and name changes reflect immediately without needing to switch sets
+- Content no longer overlaps the status bar on tablet
+- Add flashcard dialog no longer jumps down after opening
 
 ## [2.2.1] - 2026-03-10
 
