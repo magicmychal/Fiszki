@@ -6,7 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [2.3.0] - 2026-03-11
+
 ### Added
+- CSV import directly from the edit set screen — pick a two-column CSV file and flashcards are added to the current set
 - Combined reminder schedule dialog with modern time picker and day-of-week toggles in a single view
 
 ### Changed
@@ -18,8 +21,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - "Correct!" popup restored to original organic blob shape instead of plain circle
 - Navigation rail icons centered vertically on tablet
 - All theme colors (including time picker) now follow the active light/dark/yellow theme
+- Complete yellow theme palette — all M3 surface container, tertiary, and outline tokens now defined for both light and dark variants
 
 ### Fixed
+- Crash when deleting multiple sets one by one on phone (NullPointerException in FlashcardsActivity)
+- Set list on tablet now updates immediately after deleting a set
 - Selected set now persists when navigating to practice and back on tablet
 - Set detail pane on tablet no longer goes blank after returning from another screen
 - Flashcard list refreshes immediately after adding a new flashcard on tablet
@@ -27,6 +33,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Set color and name changes reflect immediately without needing to switch sets
 - Content no longer overlaps the status bar on tablet
 - Add flashcard dialog no longer jumps down after opening
+- Alarm receiver no longer crashes when exact alarm permission is not granted
 
 ## [2.2.1] - 2026-03-10
 
