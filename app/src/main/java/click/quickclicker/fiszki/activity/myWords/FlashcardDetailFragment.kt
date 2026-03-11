@@ -120,7 +120,14 @@ class FlashcardDetailFragment : Fragment() {
 
         view.findViewById<MaterialButton>(R.id.chip_edit_category).setOnClickListener {
             val bottomSheet = EditCategoryBottomSheet.newInstance(currentCategory.id)
-            bottomSheet.show(parentFragmentManager, "EditCategoryBottomSheet")
+            bottomSheet.show(childFragmentManager, "EditCategoryBottomSheet")
+            childFragmentManager.executePendingTransactions()
+            bottomSheet.dialog?.setOnDismissListener {
+                bottomSheet.dismiss()
+                currentCategory = categoryRepository.getCategoryByID(categoryId) ?: return@setOnDismissListener
+                view?.let { v -> buildHeroHeader(v) }
+                updateList()
+            }
         }
     }
 
