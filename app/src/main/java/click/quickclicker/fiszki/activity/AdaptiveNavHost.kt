@@ -3,9 +3,11 @@ package click.quickclicker.fiszki.activity
 import android.app.Activity
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.ui.Alignment
 import androidx.compose.material.icons.Icons
@@ -71,20 +73,26 @@ fun AdaptiveNavHost(initialTab: NavTab = NavTab.FLASHCARDS) {
             NavigationRail(
                 containerColor = MaterialTheme.colorScheme.surfaceContainer
             ) {
-                navItems.forEach { item ->
+                navItems.forEachIndexed { index, item ->
+                    if (index == 0) {
+                        Spacer(Modifier.weight(1f))
+                    }
                     NavigationRailItem(
                         selected = selectedTab == item.tab,
                         onClick = { selectedTab = item.tab },
                         icon = { Icon(item.icon, contentDescription = null) },
                         label = { Text(stringResource(item.labelRes)) }
                     )
+                    if (index == navItems.lastIndex) {
+                        Spacer(Modifier.weight(1f))
+                    }
                 }
             }
             VerticalDivider()
             TabContent(
                 selectedTab = selectedTab,
                 isTablet = true,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f).statusBarsPadding()
             )
         }
     } else {
