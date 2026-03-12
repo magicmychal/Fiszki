@@ -2,10 +2,15 @@ package click.quickclicker.fiszki.activity.exam
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import click.quickclicker.fiszki.NightModeController
@@ -23,6 +28,7 @@ class ExamActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         NightModeController(this).useTheme()
+        enableEdgeToEdge()
         OrientationHelper.lockPortraitOnPhone(this)
         setContentView(R.layout.activity_exam)
 
@@ -31,9 +37,27 @@ class ExamActivity : AppCompatActivity() {
                 finish()
             }
         })
+        handleWindowInsets()
         buildToolbar()
         buildFAB()
         buildBottomNav()
+    }
+
+    private fun handleWindowInsets() {
+        val fab = findViewById<FloatingActionButton>(R.id.fab)
+        val lp = fab.layoutParams as ViewGroup.MarginLayoutParams
+        val originalLeft = lp.leftMargin
+        val originalBottom = lp.bottomMargin
+        val originalRight = lp.rightMargin
+        ViewCompat.setOnApplyWindowInsetsListener(fab) { v, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                leftMargin = originalLeft + bars.left
+                bottomMargin = originalBottom + bars.bottom
+                rightMargin = originalRight + bars.right
+            }
+            WindowInsetsCompat.CONSUMED
+        }
     }
 
     private fun buildToolbar() {

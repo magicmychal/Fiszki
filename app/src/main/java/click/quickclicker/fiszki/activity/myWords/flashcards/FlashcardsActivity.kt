@@ -2,17 +2,22 @@ package click.quickclicker.fiszki.activity.myWords.flashcards
 
 import android.app.Activity
 import android.graphics.Canvas
+import androidx.activity.enableEdgeToEdge
 import android.graphics.Paint
 import android.graphics.RectF
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -43,6 +48,7 @@ class FlashcardsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         NightModeController(this).useTheme()
+        enableEdgeToEdge()
         OrientationHelper.lockPortraitOnPhone(this)
         setContentView(R.layout.flashcards_activity)
         init()
@@ -53,6 +59,7 @@ class FlashcardsActivity : AppCompatActivity() {
                 overridePendingTransition(R.anim.right_out, R.anim.left_in)
             }
         })
+        handleWindowInsets()
         buildHeroHeader()
         buildActionChips()
         buildListView()
@@ -64,6 +71,32 @@ class FlashcardsActivity : AppCompatActivity() {
         mEmptyFlashcard = findViewById(R.id.empty_category_text)
         mCurrentCategory = CategoryRepository(mActivity)
             .getCategoryByID(CategoryManagerSingleton.currentCategoryId)!!
+    }
+
+    private fun handleWindowInsets() {
+        // Add top margin to back button so it sits below the status bar
+        val backButton = findViewById<ImageButton>(R.id.btn_back)
+        val originalTopMargin = 16 // dp value from XML
+        ViewCompat.setOnApplyWindowInsetsListener(backButton) { v, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+            val lp = v.layoutParams as android.widget.FrameLayout.LayoutParams
+            lp.topMargin = originalTopMargin.dpToPx() + bars.top
+            v.layoutParams = lp
+            WindowInsetsCompat.CONSUMED
+        }
+
+        // Add bottom padding to RecyclerView so content scrolls above the nav bar
+        val recyclerView = findViewById<RecyclerView>(R.id.listview_flashcard)
+        val originalBottomPadding = recyclerView.paddingBottom
+        ViewCompat.setOnApplyWindowInsetsListener(recyclerView) { v, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+            v.updatePadding(bottom = originalBottomPadding + bars.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
+    }
+
+    private fun Int.dpToPx(): Int {
+        return (this * resources.displayMetrics.density).toInt()
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -102,8 +135,6 @@ class FlashcardsActivity : AppCompatActivity() {
             intArrayOf(catColor.primary, catColor.container)
         )
         heroHeader.background = gradient
-        @Suppress("DEPRECATION")
-        window.statusBarColor = catColor.primary
         WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = false
 
         findViewById<View>(R.id.btn_back).setOnClickListener {

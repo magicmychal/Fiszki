@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.ui.Alignment
@@ -71,6 +72,7 @@ fun AdaptiveNavHost(initialTab: NavTab = NavTab.FLASHCARDS) {
     if (useRail) {
         Row(modifier = Modifier.fillMaxSize()) {
             NavigationRail(
+                modifier = Modifier.statusBarsPadding(),
                 containerColor = MaterialTheme.colorScheme.surfaceContainer
             ) {
                 navItems.forEachIndexed { index, item ->
@@ -92,7 +94,7 @@ fun AdaptiveNavHost(initialTab: NavTab = NavTab.FLASHCARDS) {
             TabContent(
                 selectedTab = selectedTab,
                 isTablet = true,
-                modifier = Modifier.weight(1f).statusBarsPadding()
+                modifier = Modifier.weight(1f).safeDrawingPadding()
             )
         }
     } else {

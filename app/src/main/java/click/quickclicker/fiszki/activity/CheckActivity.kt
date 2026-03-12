@@ -2,6 +2,7 @@ package click.quickclicker.fiszki.activity
 
 import android.app.Activity
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import android.text.InputType
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -9,7 +10,10 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.google.android.material.textfield.TextInputEditText
 import click.quickclicker.fiszki.LocalSharedPreferences
 import click.quickclicker.fiszki.NightModeController
@@ -47,8 +51,10 @@ class CheckActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         NightModeController(this).useTheme()
+        enableEdgeToEdge()
         OrientationHelper.lockPortraitOnPhone(this)
         setContentView(R.layout.activity_check)
+        handleWindowInsets()
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 finish()
@@ -105,12 +111,20 @@ class CheckActivity : AppCompatActivity() {
         }
     }
 
+    private fun handleWindowInsets() {
+        val contentView = findViewById<View>(R.id.content_check)
+        val originalBottom = contentView.paddingBottom
+        ViewCompat.setOnApplyWindowInsetsListener(contentView) { v, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+            v.updatePadding(bottom = originalBottom + bars.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
+    }
+
     private fun applyCategoryColor() {
         val catColor = findCategoryColor(mDrawnCategory.getColor()) ?: return
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.setBackgroundColor(catColor.primary)
-        @Suppress("DEPRECATION")
-        window.statusBarColor = catColor.primary
         WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = false
     }
 

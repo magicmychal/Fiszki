@@ -5,12 +5,14 @@ import android.app.AlarmManager
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import androidx.activity.enableEdgeToEdge
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -18,6 +20,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.materialswitch.MaterialSwitch
 import click.quickclicker.fiszki.AlarmReceiver
@@ -54,10 +59,12 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mNightModeController = NightModeController(this)
         mNightModeController.useTheme()
+        enableEdgeToEdge()
         OrientationHelper.lockPortraitOnPhone(this)
         setContentView(R.layout.activity_settings)
 
         prefs = LocalSharedPreferences(this)
+        handleWindowInsets()
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -90,6 +97,16 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
         updateScheduleSubtitle()
+    }
+
+    private fun handleWindowInsets() {
+        val scrollView = findViewById<ScrollView>(R.id.settings_scroll_view)
+        val originalBottom = scrollView.paddingBottom
+        ViewCompat.setOnApplyWindowInsetsListener(scrollView) { v, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+            v.updatePadding(bottom = originalBottom + bars.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
     }
 
     private fun buildToolbar() {

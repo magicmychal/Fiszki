@@ -17,8 +17,7 @@
             android:id="@+id/hero_header"
             android:layout_width="match_parent"
             android:layout_height="356dp"
-            android:background="@drawable/hero_gradient_background"
-            android:fitsSystemWindows="true">
+            android:background="@drawable/hero_gradient_background">
 
             <!-- Back button -->
             <ImageButton

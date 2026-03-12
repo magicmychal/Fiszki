@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+- App now uses edge-to-edge display — content extends behind transparent system bars for a more immersive experience
+- Hero gradient on flashcard set screen draws behind the status bar
+- Navigation bar is now transparent, letting the app background show through
+
+### Removed
+- Unused XML layouts for learning check, exam check, and exam summary screens (migrated to Compose)
+
 ## [2.4.0] - 2026-03-11
 
 ### Added

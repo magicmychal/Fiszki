@@ -62,9 +62,9 @@ class CategoryFragment : Fragment() {
     private fun handleWindowInsets(view: View) {
         val contentLayout = view.findViewById<LinearLayout>(R.id.category_content_layout)
         ViewCompat.setOnApplyWindowInsetsListener(contentLayout) { v, insets ->
-            val statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
-            v.setPadding(v.paddingLeft, statusBarHeight, v.paddingRight, v.paddingBottom)
-            insets
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+            v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
+            WindowInsetsCompat.CONSUMED
         }
     }
 

@@ -2,9 +2,12 @@ package click.quickclicker.fiszki.activity.learning
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import click.quickclicker.fiszki.NightModeController
@@ -26,6 +29,7 @@ class LearningActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         NightModeController(this).useTheme()
+        enableEdgeToEdge()
         OrientationHelper.lockPortraitOnPhone(this)
         setContentView(R.layout.activity_learning)
 
@@ -70,6 +74,7 @@ class LearningActivity : AppCompatActivity() {
                 PracticeSetupScreen(
                     title = getString(R.string.learning_title),
                     categories = categoryItems,
+                    modifier = Modifier.systemBarsPadding(),
                     onStartPractice = { strictMode, categoryId, reversed ->
                         val flashcards = if (categoryId == null) {
                             mFlashcardRepository.getAllFlashcards()
