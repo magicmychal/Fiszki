@@ -98,6 +98,7 @@ class AlarmReceiver : BroadcastReceiver() {
             setContentText(context.getString(R.string.notification_message))
             setContentIntent(pi)
             setAutoCancel(true)
+            setCategory(NotificationCompat.CATEGORY_REMINDER)
         }
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         nm.notify(100, builder.build())
