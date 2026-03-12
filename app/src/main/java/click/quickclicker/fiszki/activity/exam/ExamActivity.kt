@@ -29,6 +29,7 @@ class ExamActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         NightModeController(this).useTheme()
         enableEdgeToEdge()
+        window.isNavigationBarContrastEnforced = false
         OrientationHelper.lockPortraitOnPhone(this)
         setContentView(R.layout.activity_exam)
 

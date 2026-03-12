@@ -24,6 +24,7 @@ class NavHostActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         NightModeController(this).useTheme()
         enableEdgeToEdge()
+        window.isNavigationBarContrastEnforced = false
         OrientationHelper.lockPortraitOnPhone(this)
 
         try {

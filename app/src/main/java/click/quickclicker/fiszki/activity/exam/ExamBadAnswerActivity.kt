@@ -41,6 +41,7 @@ class ExamBadAnswerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         NightModeController(this).useTheme()
         enableEdgeToEdge()
+        window.isNavigationBarContrastEnforced = false
         OrientationHelper.lockPortraitOnPhone(this)
         mActivity = this
         @Suppress("UNCHECKED_CAST")

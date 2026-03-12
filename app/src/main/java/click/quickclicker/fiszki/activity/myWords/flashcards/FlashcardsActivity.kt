@@ -49,6 +49,7 @@ class FlashcardsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         NightModeController(this).useTheme()
         enableEdgeToEdge()
+        window.isNavigationBarContrastEnforced = false
         OrientationHelper.lockPortraitOnPhone(this)
         setContentView(R.layout.flashcards_activity)
         init()

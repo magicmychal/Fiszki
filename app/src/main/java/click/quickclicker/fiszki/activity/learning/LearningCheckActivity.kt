@@ -20,6 +20,7 @@ class LearningCheckActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         NightModeController(this).useTheme()
         enableEdgeToEdge()
+        window.isNavigationBarContrastEnforced = false
         OrientationHelper.lockPortraitOnPhone(this)
 
         @Suppress("UNCHECKED_CAST")

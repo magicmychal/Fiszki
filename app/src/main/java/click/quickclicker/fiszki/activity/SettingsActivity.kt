@@ -60,6 +60,7 @@ class SettingsActivity : AppCompatActivity() {
         mNightModeController = NightModeController(this)
         mNightModeController.useTheme()
         enableEdgeToEdge()
+        window.isNavigationBarContrastEnforced = false
         OrientationHelper.lockPortraitOnPhone(this)
         setContentView(R.layout.activity_settings)
 

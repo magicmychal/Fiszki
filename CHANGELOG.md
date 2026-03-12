@@ -10,7 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Flashcard list items now appear as elevated cards with rounded corners, matching the set list style
 - App now uses edge-to-edge display — content extends behind transparent system bars for a more immersive experience
 - Hero gradient on flashcard set screen draws behind the status bar
-- Navigation bar is now transparent, letting the app background show through
+- Navigation bar is now fully transparent — the app's bottom navigation color extends seamlessly into the gesture bar area
+- Now targets Android 16 (SDK 36) for latest platform compliance
 
 ### Removed
 - Unused XML layouts for learning check, exam check, and exam summary screens (migrated to Compose)
