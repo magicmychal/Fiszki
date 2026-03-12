@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Changed
+- Back gestures now show the system predictive back animation (back-to-home, cross-activity) instead of an instant transition
 - Flashcard list items now appear as elevated cards with rounded corners, matching the set list style
 - App now uses edge-to-edge display — content extends behind transparent system bars for a more immersive experience
 - Hero gradient on flashcard set screen draws behind the status bar

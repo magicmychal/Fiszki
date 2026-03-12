@@ -7,7 +7,7 @@ import android.text.InputType
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
-import androidx.activity.OnBackPressedCallback
+
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
@@ -56,11 +56,6 @@ class CheckActivity : AppCompatActivity() {
         OrientationHelper.lockPortraitOnPhone(this)
         setContentView(R.layout.activity_check)
         handleWindowInsets()
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                finish()
-            }
-        })
         setToolbar()
         init()
         buildDoneKey()

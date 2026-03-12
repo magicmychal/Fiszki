@@ -11,7 +11,7 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
+
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -53,13 +53,6 @@ class FlashcardsActivity : AppCompatActivity() {
         OrientationHelper.lockPortraitOnPhone(this)
         setContentView(R.layout.flashcards_activity)
         init()
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                finish()
-                @Suppress("DEPRECATION")
-                overridePendingTransition(R.anim.right_out, R.anim.left_in)
-            }
-        })
         handleWindowInsets()
         buildHeroHeader()
         buildActionChips()

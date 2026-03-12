@@ -15,7 +15,7 @@ import android.view.View
 import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
+
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -67,11 +67,6 @@ class SettingsActivity : AppCompatActivity() {
         prefs = LocalSharedPreferences(this)
         handleWindowInsets()
 
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                finish()
-            }
-        })
         buildToolbar()
         buildNotificationSection()
         buildNightModeSwitch()

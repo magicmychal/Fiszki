@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
+
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.ui.Modifier
@@ -36,11 +36,6 @@ class LearningActivity : AppCompatActivity() {
 
         mFlashcardRepository = FlashcardRepository(this)
         mCategoryRepository = CategoryRepository(this)
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                finish()
-            }
-        })
         buildComposeContent()
         buildBottomNav()
     }

@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
+
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
@@ -33,11 +33,6 @@ class ExamActivity : AppCompatActivity() {
         OrientationHelper.lockPortraitOnPhone(this)
         setContentView(R.layout.activity_exam)
 
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                finish()
-            }
-        })
         handleWindowInsets()
         buildToolbar()
         buildFAB()
