@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Changed
-- Back gestures now show the system predictive back animation (back-to-home, cross-activity) instead of an instant transition
+- All activity transitions now use the system default animations, enabling the predictive back preview on every screen
 - Flashcard list items now appear as elevated cards with rounded corners, matching the set list style
 - App now uses edge-to-edge display — content extends behind transparent system bars for a more immersive experience
 - Hero gradient on flashcard set screen draws behind the status bar
@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Now targets Android 16 (SDK 36) for latest platform compliance
 
 ### Removed
+- Removed "Someone is up!" Sentry message sent on every app launch
 - Unused XML layouts for learning check, exam check, and exam summary screens (migrated to Compose)
 
 ## [2.4.0] - 2026-03-11

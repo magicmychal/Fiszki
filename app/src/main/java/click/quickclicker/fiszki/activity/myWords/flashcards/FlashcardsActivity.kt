@@ -44,6 +44,7 @@ class FlashcardsActivity : AppCompatActivity() {
     private lateinit var mRecycleView: RecyclerView
     private lateinit var mCurrentCategory: Category
     private lateinit var mFlashcardRepository: FlashcardRepository
+    private var mLastFingerprint: List<String> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -223,6 +224,10 @@ class FlashcardsActivity : AppCompatActivity() {
 
     private fun updateListView() {
         val flashcards = mFlashcardRepository.getFlashcardsByCategoryID(mCurrentCategory.id)
+
+        val fingerprint = flashcards.map { "${it.id}:${it.word}:${it.translation}:${it.priority}:${it.fsrsLastRating}" }
+        if (fingerprint == mLastFingerprint) return
+        mLastFingerprint = fingerprint
 
         if (flashcards.isEmpty()) {
             mEmptyFlashcard.visibility = View.VISIBLE

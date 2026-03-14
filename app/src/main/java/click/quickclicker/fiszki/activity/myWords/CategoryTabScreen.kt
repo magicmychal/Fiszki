@@ -142,10 +142,6 @@ fun CategoryTabScreen(
             onCategoryClick = { cat ->
                 CategoryManagerSingleton.currentCategoryId = cat.id
                 context.startActivity(Intent(context, FlashcardsActivity::class.java))
-                activity?.let {
-                    @Suppress("DEPRECATION")
-                    it.overridePendingTransition(R.anim.right_in, R.anim.left_out)
-                }
             },
             onAddCategory = {
                 if (activity != null) {
