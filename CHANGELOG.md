@@ -6,6 +6,59 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+- All activity transitions now use the system default animations, enabling the predictive back preview on every screen
+- Flashcard list items now appear as elevated cards with rounded corners, matching the set list style
+- App now uses edge-to-edge display — content extends behind transparent system bars for a more immersive experience
+- Hero gradient on flashcard set screen draws behind the status bar
+- Navigation bar is now fully transparent — the app's bottom navigation color extends seamlessly into the gesture bar area
+- Now targets Android 16 (SDK 36) for latest platform compliance
+
+### Removed
+- Removed "Someone is up!" Sentry message sent on every app launch
+- Unused XML layouts for learning check, exam check, and exam summary screens (migrated to Compose)
+
+## [2.4.0] - 2026-03-11
+
+### Added
+- Recovery dialog when the database cannot be opened — offers to start fresh instead of crashing
+
+### Changed
+- Migrated database layer from ORMLite to Jetpack Room for improved stability and R8 compatibility
+- Database operations now use compile-time verified queries instead of runtime reflection
+
+### Removed
+- ORMLite dependency (replaced by Jetpack Room)
+
+## [2.3.0] - 2026-03-11
+
+### Added
+- CSV import directly from the edit set screen — pick a two-column CSV file and flashcards are added to the current set
+- Combined reminder schedule dialog with modern time picker and day-of-week toggles in a single view
+
+### Changed
+- Practice and exam setup screens constrained to 500dp max width on tablet instead of stretching full width
+- Practice and exam check screens use the same 500dp max width for consistent sizing across all screens
+- Settings toolbar hidden on tablet where the navigation rail already provides context
+- Night mode toggle uses MaterialSwitch matching all other toggles on the settings page
+- Settings toolbar follows light/dark theme (surface color) instead of always using primary color
+- "Correct!" popup restored to original organic blob shape instead of plain circle
+- Navigation rail icons centered vertically on tablet
+- All theme colors (including time picker) now follow the active light/dark/yellow theme
+- Complete yellow theme palette — all M3 surface container, tertiary, and outline tokens now defined for both light and dark variants
+
+### Fixed
+- Crash when deleting multiple sets one by one on phone (NullPointerException in FlashcardsActivity)
+- Set list on tablet now updates immediately after deleting a set
+- Selected set now persists when navigating to practice and back on tablet
+- Set detail pane on tablet no longer goes blank after returning from another screen
+- Flashcard list refreshes immediately after adding a new flashcard on tablet
+- Edit set bottom sheet now slides up correctly on tablet split-view
+- Set color and name changes reflect immediately without needing to switch sets
+- Content no longer overlaps the status bar on tablet
+- Add flashcard dialog no longer jumps down after opening
+- Alarm receiver no longer crashes when exact alarm permission is not granted
+
 ## [2.2.1] - 2026-03-10
 
 ### Added

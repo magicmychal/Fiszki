@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -39,6 +40,8 @@ class ExamBadAnswerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         NightModeController(this).useTheme()
+        enableEdgeToEdge()
+        window.isNavigationBarContrastEnforced = false
         OrientationHelper.lockPortraitOnPhone(this)
         mActivity = this
         @Suppress("UNCHECKED_CAST")

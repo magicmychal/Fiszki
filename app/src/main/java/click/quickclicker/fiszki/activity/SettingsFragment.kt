@@ -16,18 +16,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.materialswitch.MaterialSwitch
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
 import click.quickclicker.fiszki.AlarmReceiver
 import click.quickclicker.fiszki.FiszkiApplication
 import click.quickclicker.fiszki.LocalSharedPreferences
 import click.quickclicker.fiszki.NightModeController
 import click.quickclicker.fiszki.R
+import click.quickclicker.fiszki.dialogs.ReminderScheduleDialogFragment
 import click.quickclicker.fiszki.dialogs.csv.CsvImportBottomSheet
 import click.quickclicker.fiszki.model.category.CategoryRepository
 import click.quickclicker.fiszki.model.flashcard.FlashcardRepository
@@ -37,8 +35,7 @@ class SettingsFragment : Fragment() {
     private lateinit var mNightModeController: NightModeController
     private lateinit var prefs: LocalSharedPreferences
     private lateinit var notificationSwitch: MaterialSwitch
-    private lateinit var timeValue: TextView
-    private lateinit var daysValue: TextView
+    private lateinit var scheduleValue: TextView
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -89,23 +86,29 @@ class SettingsFragment : Fragment() {
                 notificationSwitch.isChecked = false
             }
         }
-        updateNotificationSubtitles()
+        updateScheduleSubtitle()
     }
 
     private fun buildToolbar(view: View) {
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
         toolbar.setTitle(R.string.settings_toolbar_title)
+
+        // Hide toolbar on tablet — the navigation rail already shows the tab label
+        val widthDp = resources.configuration.screenWidthDp
+        if (widthDp >= 600) {
+            val appBarLayout = toolbar.parent as? View
+            appBarLayout?.visibility = View.GONE
+        }
     }
 
     // --- Notification Section ---
 
     private fun buildNotificationSection(view: View) {
         notificationSwitch = view.findViewById(R.id.settings_notification_switch)
-        timeValue = view.findViewById(R.id.settings_notification_time_value)
-        daysValue = view.findViewById(R.id.settings_notification_days_value)
+        scheduleValue = view.findViewById(R.id.settings_notification_schedule_value)
 
         notificationSwitch.isChecked = prefs.notificationEnabled
-        updateNotificationSubtitles()
+        updateScheduleSubtitle()
 
         notificationSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -116,12 +119,8 @@ class SettingsFragment : Fragment() {
             }
         }
 
-        view.findViewById<View>(R.id.settings_notification_time_row).setOnClickListener {
-            showTimePicker()
-        }
-
-        view.findViewById<View>(R.id.settings_notification_days_row).setOnClickListener {
-            showDayPicker()
+        view.findViewById<View>(R.id.settings_notification_schedule_row).setOnClickListener {
+            showScheduleDialog()
         }
     }
 
@@ -161,70 +160,33 @@ class SettingsFragment : Fragment() {
         AlarmReceiver.scheduleNext(ctx)
     }
 
-    private fun showTimePicker() {
-        val picker = MaterialTimePicker.Builder()
-            .setTimeFormat(TimeFormat.CLOCK_24H)
-            .setHour(prefs.notificationHour)
-            .setMinute(prefs.notificationMinute)
-            .setTitleText(R.string.settings_notification_time)
-            .build()
-
-        picker.addOnPositiveButtonClickListener {
-            prefs.notificationHour = picker.hour
-            prefs.notificationMinute = picker.minute
-            updateNotificationSubtitles()
+    private fun showScheduleDialog() {
+        val dialog = ReminderScheduleDialogFragment.newInstance(
+            prefs.notificationHour,
+            prefs.notificationMinute,
+            prefs.notificationDays
+        )
+        dialog.onScheduleConfirmed = { hour, minute, days ->
+            prefs.notificationHour = hour
+            prefs.notificationMinute = minute
+            prefs.notificationDays = days
+            updateScheduleSubtitle()
             if (prefs.notificationEnabled) {
-                AlarmReceiver.cancel(requireContext())
-                AlarmReceiver.scheduleNext(requireContext())
+                val ctx = requireContext()
+                AlarmReceiver.cancel(ctx)
+                if (days.isNotEmpty()) {
+                    AlarmReceiver.scheduleNext(ctx)
+                }
             }
         }
-
-        picker.show(childFragmentManager, "time_picker")
+        dialog.show(childFragmentManager, "schedule_dialog")
     }
 
-    private fun showDayPicker() {
-        val ctx = requireContext()
-        val dayNames = arrayOf(
-            getString(R.string.day_monday),
-            getString(R.string.day_tuesday),
-            getString(R.string.day_wednesday),
-            getString(R.string.day_thursday),
-            getString(R.string.day_friday),
-            getString(R.string.day_saturday),
-            getString(R.string.day_sunday)
-        )
-        val currentDays = prefs.notificationDays
-        val checked = BooleanArray(7) { i -> currentDays.contains((i + 1).toString()) }
-
-        com.google.android.material.dialog.MaterialAlertDialogBuilder(ctx)
-            .setTitle(R.string.settings_notification_days)
-            .setMultiChoiceItems(dayNames, checked) { _, which, isChecked ->
-                checked[which] = isChecked
-            }
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                val selected = mutableSetOf<String>()
-                for (i in checked.indices) {
-                    if (checked[i]) selected.add((i + 1).toString())
-                }
-                prefs.notificationDays = selected
-                updateNotificationSubtitles()
-                if (prefs.notificationEnabled) {
-                    AlarmReceiver.cancel(ctx)
-                    if (selected.isNotEmpty()) {
-                        AlarmReceiver.scheduleNext(ctx)
-                    }
-                }
-            }
-            .setNegativeButton(android.R.string.cancel, null)
-            .show()
-    }
-
-    private fun updateNotificationSubtitles() {
-        timeValue.text = String.format("%02d:%02d", prefs.notificationHour, prefs.notificationMinute)
-
+    private fun updateScheduleSubtitle() {
+        val time = String.format("%02d:%02d", prefs.notificationHour, prefs.notificationMinute)
         val days = prefs.notificationDays
-        if (days.size == 7) {
-            daysValue.text = getString(R.string.settings_notification_days_everyday)
+        val daysPart = if (days.size == 7) {
+            getString(R.string.settings_notification_days_everyday)
         } else {
             val dayNames = arrayOf(
                 getString(R.string.day_monday),
@@ -238,14 +200,15 @@ class SettingsFragment : Fragment() {
             val selectedNames = (1..7)
                 .filter { days.contains(it.toString()) }
                 .map { dayNames[it - 1] }
-            daysValue.text = selectedNames.joinToString(", ")
+            selectedNames.joinToString(", ")
         }
+        scheduleValue.text = "$time \u2022 $daysPart"
     }
 
     // --- General Section ---
 
     private fun buildNightModeSwitch(view: View) {
-        val nightModeSwitch = view.findViewById<SwitchCompat>(R.id.settings_night_mode_switch)
+        val nightModeSwitch = view.findViewById<MaterialSwitch>(R.id.settings_night_mode_switch)
         nightModeSwitch.isChecked = mNightModeController.getStatus() != 0
         nightModeSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
