@@ -7,7 +7,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
+import click.quickclicker.fiszki.ui.BlobShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -282,7 +282,7 @@ fun LearningCheckScreen(
                 Box(
                     modifier = Modifier
                         .size(220.dp)
-                        .background(Color(0xFF388E3C), RoundedCornerShape(50))
+                        .background(Color(0xFF376A3E), BlobShape)
                         .padding(16.dp),
                     contentAlignment = Alignment.Center
                 ) {

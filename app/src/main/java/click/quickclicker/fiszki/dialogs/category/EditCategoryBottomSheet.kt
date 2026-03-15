@@ -2,6 +2,7 @@ package click.quickclicker.fiszki.dialogs.category
 
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -10,11 +11,11 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputEditText
 import click.quickclicker.fiszki.R
@@ -25,8 +26,11 @@ import click.quickclicker.fiszki.activity.findCategoryColor
 import click.quickclicker.fiszki.model.category.Category
 import click.quickclicker.fiszki.model.category.CategoryRepository
 import click.quickclicker.fiszki.model.category.ValidationCategory
+import click.quickclicker.fiszki.model.flashcard.Flashcard
 import click.quickclicker.fiszki.model.flashcard.FlashcardRepository
+import java.io.BufferedReader
 import java.io.File
+import java.io.InputStreamReader
 
 class EditCategoryBottomSheet : BottomSheetDialogFragment() {
 
@@ -34,6 +38,11 @@ class EditCategoryBottomSheet : BottomSheetDialogFragment() {
     private lateinit var category: Category
     private var selectedColor: CategoryColor = defaultCategoryColor()
     private val colorViews = mutableListOf<View>()
+
+    private val csvPickerLauncher =
+        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+            if (uri != null) importCsv(uri)
+        }
 
     companion object {
         private const val ARG_CATEGORY_ID = "category_id"
@@ -96,6 +105,12 @@ class EditCategoryBottomSheet : BottomSheetDialogFragment() {
         val exportBtn = view.findViewById<MaterialButton>(R.id.btn_export_csv)
         exportBtn.setOnClickListener {
             exportCsv()
+        }
+
+        // Import CSV button
+        val importBtn = view.findViewById<MaterialButton>(R.id.btn_import_csv)
+        importBtn.setOnClickListener {
+            csvPickerLauncher.launch(arrayOf("text/csv", "text/comma-separated-values", "text/plain"))
         }
 
         // Delete button — only for user-created categories
@@ -222,6 +237,100 @@ class EditCategoryBottomSheet : BottomSheetDialogFragment() {
         startActivity(Intent.createChooser(shareIntent, null))
     }
 
+    private fun importCsv(uri: Uri) {
+        val ctx = context ?: return
+
+        try {
+            val rows = mutableListOf<Pair<String, String>>()
+            ctx.contentResolver.openInputStream(uri)?.use { inputStream ->
+                BufferedReader(InputStreamReader(inputStream, Charsets.UTF_8)).use { reader ->
+                    var firstLine = true
+                    reader.forEachLine { rawLine ->
+                        var line = rawLine
+                        if (firstLine) {
+                            line = line.removePrefix("\uFEFF")
+                            firstLine = false
+                        }
+                        if (line.isBlank()) return@forEachLine
+
+                        val columns = parseCsvLine(line)
+                        if (columns.size != 2) {
+                            throw CsvFormatException()
+                        }
+                        val word = columns[0].trim()
+                        val translation = columns[1].trim()
+                        if (word.isEmpty() || translation.isEmpty()) {
+                            throw CsvFormatException()
+                        }
+                        rows.add(word to translation)
+                    }
+                }
+            } ?: run {
+                Toast.makeText(ctx, R.string.import_set_csv_error_read, Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            if (rows.isEmpty()) {
+                Toast.makeText(ctx, R.string.import_set_csv_error_empty, Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            val flashcards = ArrayList<Flashcard>()
+            for ((word, translation) in rows) {
+                flashcards.add(Flashcard().apply {
+                    setWord(word)
+                    setTranslation(translation)
+                    categoryID = category.id
+                    priority = 0
+                })
+            }
+
+            FlashcardRepository(ctx).addFlashcards(flashcards)
+            Toast.makeText(ctx, getString(R.string.import_set_csv_success, flashcards.size), Toast.LENGTH_SHORT).show()
+            dismiss()
+        } catch (e: CsvFormatException) {
+            Toast.makeText(ctx, R.string.import_set_csv_error_format, Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Toast.makeText(ctx, R.string.import_set_csv_error_read, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun parseCsvLine(line: String): List<String> {
+        val result = mutableListOf<String>()
+        val current = StringBuilder()
+        var inQuotes = false
+        var i = 0
+
+        while (i < line.length) {
+            val c = line[i]
+            when {
+                inQuotes -> {
+                    if (c == '"') {
+                        if (i + 1 < line.length && line[i + 1] == '"') {
+                            current.append('"')
+                            i++
+                        } else {
+                            inQuotes = false
+                        }
+                    } else {
+                        current.append(c)
+                    }
+                }
+                c == '"' -> inQuotes = true
+                c == ',' -> {
+                    result.add(current.toString())
+                    current.clear()
+                }
+                else -> current.append(c)
+            }
+            i++
+        }
+        result.add(current.toString())
+        return result
+    }
+
+    private class CsvFormatException : Exception()
+
     private fun escapeCsvField(value: String): String {
         return if (value.contains(',') || value.contains('"') || value.contains('\n')) {
             "\"${value.replace("\"", "\"\"")}\""
@@ -251,26 +360,5 @@ class EditCategoryBottomSheet : BottomSheetDialogFragment() {
         categoryRepository.deleteCategory(category)
 
         dismiss()
-
-        val activity = activity ?: return
-        val rootView = activity.findViewById<View>(android.R.id.content)
-
-        val colorPrimary = TypedValue().let { tv ->
-            activity.theme.resolveAttribute(android.R.attr.colorPrimary, tv, true)
-            tv.data
-        }
-
-        Snackbar.make(rootView, R.string.snackbar_return_category_message, Snackbar.LENGTH_LONG)
-            .setAction(R.string.snackbar_return_word_button) {
-                categoryRepository.addCategory(category)
-                if (flashcards.isNotEmpty()) {
-                    flashcardRepository.addFlashcards(flashcards)
-                }
-                activity.onWindowFocusChanged(true)
-            }
-            .setActionTextColor(colorPrimary)
-            .show()
-
-        activity.onWindowFocusChanged(true)
     }
 }

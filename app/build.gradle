@@ -5,6 +5,7 @@ plugins {
 
 apply plugin: 'com.android.application'
 apply plugin: 'org.jetbrains.kotlin.plugin.compose'
+apply plugin: 'com.google.devtools.ksp'
 
 repositories {
     google()
@@ -17,9 +18,9 @@ android {
     defaultConfig {
         applicationId 'click.quickclicker.fiszki'
         minSdk 31
-        targetSdk 35
-        versionCode 17
-        versionName '2.2.1'
+        targetSdk 36
+        versionCode 21
+        versionName '2.5.0'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -43,6 +44,11 @@ android {
         compose true
         buildConfig true
     }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 
     afterEvaluate {
         tasks.named("assembleDebug") {
@@ -52,9 +58,10 @@ android {
 }
 
 dependencies {
-    // ORMLite 5.7 (upgraded from local 4.48 JARs to fix ashmem pinning deprecation)
-    implementation 'com.j256.ormlite:ormlite-android:5.7'
-    implementation 'com.j256.ormlite:ormlite-core:5.7'
+    // Room (replaced ORMLite 5.7)
+    implementation 'androidx.room:room-runtime:2.7.1'
+    implementation 'androidx.room:room-ktx:2.7.1'
+    ksp 'androidx.room:room-compiler:2.7.1'
 
     implementation('com.mikepenz:materialdrawer:8.4.5') {
         transitive = true
@@ -92,11 +99,16 @@ dependencies {
     implementation 'io.sentry:sentry-compose-android:8.33.0'
 
     testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.robolectric:robolectric:4.14.1'
+    testImplementation 'androidx.test.ext:junit:1.2.1'
+    testImplementation 'androidx.compose.ui:ui-test-junit4'
+    debugImplementation 'androidx.compose.ui:ui-test-manifest'
 
     // Instrumented tests
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test:runner:1.6.2'
     androidTestImplementation 'androidx.test:core:1.6.1'
+    androidTestImplementation 'androidx.room:room-testing:2.7.1'
 }
 
 

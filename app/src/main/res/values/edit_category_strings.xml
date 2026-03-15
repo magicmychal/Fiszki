@@ -8,5 +8,10 @@
     <string name="edit_category_delete_button">Delete set</string>
     <string name="export_set_csv">Export set (CSV)</string>
     <string name="export_csv_empty">No flashcards to export</string>
+    <string name="import_set_csv">Import set (CSV)</string>
+    <string name="import_set_csv_success">Imported %d flashcards</string>
+    <string name="import_set_csv_error_format">Invalid CSV format: expected 2 columns (word,translation)</string>
+    <string name="import_set_csv_error_empty">File is empty or has no valid rows</string>
+    <string name="import_set_csv_error_read">Could not read the file</string>
 
 </resources>

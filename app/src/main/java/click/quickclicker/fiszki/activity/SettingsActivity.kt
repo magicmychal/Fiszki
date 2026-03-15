@@ -5,24 +5,26 @@ import android.app.AlarmManager
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import androidx.activity.enableEdgeToEdge
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
+
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.materialswitch.MaterialSwitch
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
 import click.quickclicker.fiszki.AlarmReceiver
 import click.quickclicker.fiszki.FiszkiApplication
 import click.quickclicker.fiszki.LocalSharedPreferences
@@ -32,6 +34,7 @@ import click.quickclicker.fiszki.ui.OrientationHelper
 import click.quickclicker.fiszki.activity.exam.ExamActivity
 import click.quickclicker.fiszki.activity.learning.LearningActivity
 import click.quickclicker.fiszki.activity.myWords.category.CategoryActivity
+import click.quickclicker.fiszki.dialogs.ReminderScheduleDialogFragment
 import click.quickclicker.fiszki.model.category.CategoryRepository
 import click.quickclicker.fiszki.model.flashcard.FlashcardRepository
 
@@ -40,8 +43,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var mNightModeController: NightModeController
     private lateinit var prefs: LocalSharedPreferences
     private lateinit var notificationSwitch: MaterialSwitch
-    private lateinit var timeValue: TextView
-    private lateinit var daysValue: TextView
+    private lateinit var scheduleValue: TextView
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -57,16 +59,14 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mNightModeController = NightModeController(this)
         mNightModeController.useTheme()
+        enableEdgeToEdge()
+        window.isNavigationBarContrastEnforced = false
         OrientationHelper.lockPortraitOnPhone(this)
         setContentView(R.layout.activity_settings)
 
         prefs = LocalSharedPreferences(this)
+        handleWindowInsets()
 
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                finish()
-            }
-        })
         buildToolbar()
         buildNotificationSection()
         buildNightModeSwitch()
@@ -92,7 +92,17 @@ class SettingsActivity : AppCompatActivity() {
                 notificationSwitch.isChecked = false
             }
         }
-        updateNotificationSubtitles()
+        updateScheduleSubtitle()
+    }
+
+    private fun handleWindowInsets() {
+        val scrollView = findViewById<ScrollView>(R.id.settings_scroll_view)
+        val originalBottom = scrollView.paddingBottom
+        ViewCompat.setOnApplyWindowInsetsListener(scrollView) { v, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+            v.updatePadding(bottom = originalBottom + bars.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
     }
 
     private fun buildToolbar() {
@@ -108,11 +118,10 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun buildNotificationSection() {
         notificationSwitch = findViewById(R.id.settings_notification_switch)
-        timeValue = findViewById(R.id.settings_notification_time_value)
-        daysValue = findViewById(R.id.settings_notification_days_value)
+        scheduleValue = findViewById(R.id.settings_notification_schedule_value)
 
         notificationSwitch.isChecked = prefs.notificationEnabled
-        updateNotificationSubtitles()
+        updateScheduleSubtitle()
 
         notificationSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -123,12 +132,8 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<View>(R.id.settings_notification_time_row).setOnClickListener {
-            showTimePicker()
-        }
-
-        findViewById<View>(R.id.settings_notification_days_row).setOnClickListener {
-            showDayPicker()
+        findViewById<View>(R.id.settings_notification_schedule_row).setOnClickListener {
+            showScheduleDialog()
         }
     }
 
@@ -169,71 +174,32 @@ class SettingsActivity : AppCompatActivity() {
         AlarmReceiver.scheduleNext(this)
     }
 
-    private fun showTimePicker() {
-        val picker = MaterialTimePicker.Builder()
-            .setTimeFormat(TimeFormat.CLOCK_24H)
-            .setHour(prefs.notificationHour)
-            .setMinute(prefs.notificationMinute)
-            .setTitleText(R.string.settings_notification_time)
-            .build()
-
-        picker.addOnPositiveButtonClickListener {
-            prefs.notificationHour = picker.hour
-            prefs.notificationMinute = picker.minute
-            updateNotificationSubtitles()
+    private fun showScheduleDialog() {
+        val dialog = ReminderScheduleDialogFragment.newInstance(
+            prefs.notificationHour,
+            prefs.notificationMinute,
+            prefs.notificationDays
+        )
+        dialog.onScheduleConfirmed = { hour, minute, days ->
+            prefs.notificationHour = hour
+            prefs.notificationMinute = minute
+            prefs.notificationDays = days
+            updateScheduleSubtitle()
             if (prefs.notificationEnabled) {
                 AlarmReceiver.cancel(this)
-                AlarmReceiver.scheduleNext(this)
+                if (days.isNotEmpty()) {
+                    AlarmReceiver.scheduleNext(this)
+                }
             }
         }
-
-        picker.show(supportFragmentManager, "time_picker")
+        dialog.show(supportFragmentManager, "schedule_dialog")
     }
 
-    private fun showDayPicker() {
-        val dayNames = arrayOf(
-            getString(R.string.day_monday),
-            getString(R.string.day_tuesday),
-            getString(R.string.day_wednesday),
-            getString(R.string.day_thursday),
-            getString(R.string.day_friday),
-            getString(R.string.day_saturday),
-            getString(R.string.day_sunday)
-        )
-        val currentDays = prefs.notificationDays
-        val checked = BooleanArray(7) { i -> currentDays.contains((i + 1).toString()) }
-
-        com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.settings_notification_days)
-            .setMultiChoiceItems(dayNames, checked) { _, which, isChecked ->
-                checked[which] = isChecked
-            }
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                val selected = mutableSetOf<String>()
-                for (i in checked.indices) {
-                    if (checked[i]) selected.add((i + 1).toString())
-                }
-                prefs.notificationDays = selected
-                updateNotificationSubtitles()
-                if (prefs.notificationEnabled) {
-                    AlarmReceiver.cancel(this)
-                    if (selected.isNotEmpty()) {
-                        AlarmReceiver.scheduleNext(this)
-                    }
-                }
-            }
-            .setNegativeButton(android.R.string.cancel, null)
-            .show()
-    }
-
-    private fun updateNotificationSubtitles() {
-        // Time
-        timeValue.text = String.format("%02d:%02d", prefs.notificationHour, prefs.notificationMinute)
-
-        // Days
+    private fun updateScheduleSubtitle() {
+        val time = String.format("%02d:%02d", prefs.notificationHour, prefs.notificationMinute)
         val days = prefs.notificationDays
-        if (days.size == 7) {
-            daysValue.text = getString(R.string.settings_notification_days_everyday)
+        val daysPart = if (days.size == 7) {
+            getString(R.string.settings_notification_days_everyday)
         } else {
             val dayNames = arrayOf(
                 getString(R.string.day_monday),
@@ -247,15 +213,15 @@ class SettingsActivity : AppCompatActivity() {
             val selectedNames = (1..7)
                 .filter { days.contains(it.toString()) }
                 .map { dayNames[it - 1] }
-            daysValue.text = selectedNames.joinToString(", ")
+            selectedNames.joinToString(", ")
         }
-
+        scheduleValue.text = "$time \u2022 $daysPart"
     }
 
     // --- General Section ---
 
     private fun buildNightModeSwitch() {
-        val nightModeSwitch = findViewById<SwitchCompat>(R.id.settings_night_mode_switch)
+        val nightModeSwitch = findViewById<MaterialSwitch>(R.id.settings_night_mode_switch)
         nightModeSwitch.isChecked = mNightModeController.getStatus() != 0
         nightModeSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {

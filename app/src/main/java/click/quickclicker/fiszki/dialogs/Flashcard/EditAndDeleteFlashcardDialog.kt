@@ -67,7 +67,8 @@ class EditAndDeleteFlashcardDialog(
     }
 
     private fun mindfulSnackbar() {
-        Snackbar.make(mActivity.currentFocus!!, R.string.snackbar_return_category_message, Snackbar.LENGTH_LONG)
+        val anchor = mActivity.currentFocus ?: mActivity.window.decorView
+        Snackbar.make(anchor, R.string.snackbar_return_word_message, Snackbar.LENGTH_LONG)
             .setAction(R.string.snackbar_return_word_button) {
                 mFlashcardRepository.addFlashcard(mFlashcard)
                 mActivity.onWindowFocusChanged(true)

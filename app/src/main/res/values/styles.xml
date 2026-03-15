@@ -5,17 +5,12 @@
         <item name="colorPrimaryDark">@color/colorPrimaryNew</item>
         <item name="colorAccent">@color/colorPrimaryNew</item>
         <item name="android:colorBackground">@color/colorSurfaceNew</item>
-        <item name="android:statusBarColor">@color/colorPrimaryNew</item>
-        <item name="android:navigationBarColor">@color/colorSurfaceContainerNew</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:navigationBarColor">@color/colorSurfaceContainerNew</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.Material3.Dark.ActionBar" />
@@ -24,7 +19,6 @@
 
     <style name="SplashTheme" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
-        <item name="android:statusBarColor">@color/colorPrimaryNew</item>
     </style>
 
     <style name="AppTheme.Yellow" parent="Theme.Material3.Light.NoActionBar">
@@ -39,17 +33,19 @@
         <item name="colorTertiary">@color/colorTertiaryYellow</item>
         <item name="colorOnTertiary">@color/colorOnTertiaryYellow</item>
         <item name="colorTertiaryContainer">@color/colorTertiaryContainerYellow</item>
+        <item name="colorOnTertiaryContainer">@color/colorOnTertiaryContainerYellow</item>
         <item name="colorSurface">@color/colorSurfaceYellow</item>
         <item name="colorOnSurface">@color/colorOnSurfaceYellow</item>
         <item name="colorSurfaceVariant">@color/colorSurfaceVariantYellow</item>
         <item name="colorOnSurfaceVariant">@color/colorOnSurfaceVariantYellow</item>
+        <item name="colorSurfaceContainerLowest">@color/colorSurfaceContainerLowestYellow</item>
+        <item name="colorSurfaceContainerLow">@color/colorSurfaceContainerLowYellow</item>
         <item name="colorSurfaceContainer">@color/colorSurfaceContainerYellow</item>
         <item name="colorSurfaceContainerHigh">@color/colorSurfaceContainerHighYellow</item>
+        <item name="colorSurfaceContainerHighest">@color/colorSurfaceContainerHighestYellow</item>
         <item name="colorOutline">@color/colorOutlineYellow</item>
         <item name="colorOutlineVariant">@color/colorOutlineVariantYellow</item>
         <item name="android:colorBackground">@color/colorSurfaceYellow</item>
-        <item name="android:statusBarColor">@color/colorPrimaryYellow</item>
-        <item name="android:navigationBarColor">@color/colorSurfaceContainerYellow</item>
     </style>
 
     <style name="NightMode.Yellow" parent="Theme.Material3.Dark.NoActionBar">
@@ -62,15 +58,21 @@
         <item name="colorSecondaryContainer">@color/colorSecondaryContainerYellowNight</item>
         <item name="colorOnSecondaryContainer">@color/colorOnSecondaryContainerYellowNight</item>
         <item name="colorTertiary">@color/colorTertiaryYellowNight</item>
+        <item name="colorOnTertiary">@color/colorOnTertiaryYellowNight</item>
+        <item name="colorTertiaryContainer">@color/colorTertiaryContainerYellowNight</item>
+        <item name="colorOnTertiaryContainer">@color/colorOnTertiaryContainerYellowNight</item>
         <item name="colorSurface">@color/colorSurfaceYellowNight</item>
         <item name="colorOnSurface">@color/colorOnSurfaceYellowNight</item>
         <item name="colorSurfaceVariant">@color/colorSurfaceVariantYellowNight</item>
         <item name="colorOnSurfaceVariant">@color/colorOnSurfaceVariantYellowNight</item>
+        <item name="colorSurfaceContainerLowest">@color/colorSurfaceContainerLowestYellowNight</item>
+        <item name="colorSurfaceContainerLow">@color/colorSurfaceContainerLowYellowNight</item>
         <item name="colorSurfaceContainer">@color/colorSurfaceContainerYellowNight</item>
+        <item name="colorSurfaceContainerHigh">@color/colorSurfaceContainerHighYellowNight</item>
+        <item name="colorSurfaceContainerHighest">@color/colorSurfaceContainerHighestYellowNight</item>
         <item name="colorOutline">@color/colorOutlineYellowNight</item>
+        <item name="colorOutlineVariant">@color/colorOutlineVariantYellowNight</item>
         <item name="android:windowBackground">@color/colorSurfaceYellowNight</item>
-        <item name="android:statusBarColor">@color/colorPrimaryYellowNight</item>
-        <item name="android:navigationBarColor">@color/colorSurfaceContainerYellowNight</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
@@ -79,8 +81,6 @@
         <item name="colorPrimaryDark">@color/colorOnPrimaryNight</item>
         <item name="colorAccent">@color/colorPrimaryNight</item>
         <item name="android:windowBackground">@color/colorSurfaceNight</item>
-        <item name="android:statusBarColor">@color/colorPrimaryNight</item>
-        <item name="android:navigationBarColor">@color/colorSurfaceNight</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
 

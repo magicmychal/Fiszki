@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="db_error_title">Database error</string>
+    <string name="db_error_message">Something went wrong with the database and the app cannot start. You can reset the database to start fresh — this will remove all your flashcards and sets.</string>
+    <string name="db_error_reset">Start fresh</string>
+    <string name="db_error_close">Close app</string>
+</resources>
+

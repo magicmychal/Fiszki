@@ -3,14 +3,15 @@ package click.quickclicker.fiszki.activity.myWords.flashcards
 import android.app.Activity
 import android.view.ViewGroup
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -55,7 +56,7 @@ class FlashcardShowAdapter(
                     categoryColor = categoryColor?.let { Color(it or 0xFF000000.toInt()) },
                     useFsrs = useFsrs,
                     lastRating = flashcard.fsrsLastRating,
-                    onDoubleClick = {
+                    onClick = {
                         EditAndDeleteFlashcardDialog(activity, flashcard).show()
                     }
                 )
@@ -76,20 +77,24 @@ private fun FlashcardListItem(
     categoryColor: Color?,
     useFsrs: Boolean = false,
     lastRating: Int = 0,
-    onDoubleClick: () -> Unit
+    onClick: () -> Unit
 ) {
-    val doubleClickListener = doubleClickModifier(onDoubleClick)
-
-    Column(
+    ElevatedCard(
+        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
-            .sentryTag("flashcard_list_item")
-            .then(doubleClickListener)
+            .padding(horizontal = 16.dp, vertical = 6.dp)
+            .sentryTag("flashcard_list_item"),
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 1.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+        )
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 24.dp, top = 12.dp, bottom = 12.dp),
+                .padding(horizontal = 16.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
@@ -127,8 +132,6 @@ private fun FlashcardListItem(
                 )
             }
         }
-
-        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
     }
 }
 
@@ -165,16 +168,3 @@ private fun FsrsStateIndicator(lastRating: Int, filledColor: Color) {
     }
 }
 
-@Composable
-private fun doubleClickModifier(onDoubleClick: () -> Unit): Modifier {
-    var lastClickTime = androidx.compose.runtime.remember { androidx.compose.runtime.mutableLongStateOf(0L) }
-    return Modifier.clickable {
-        val now = System.currentTimeMillis()
-        if (now - lastClickTime.longValue < 300) {
-            onDoubleClick()
-            lastClickTime.longValue = 0
-        } else {
-            lastClickTime.longValue = now
-        }
-    }
-}

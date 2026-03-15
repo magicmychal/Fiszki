@@ -7,26 +7,28 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:fitsSystemWindows="true"
+            android:background="?attr/colorSurface">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                android:background="?attr/colorSurface"
+                app:titleTextColor="?attr/colorOnSurface" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
         <ScrollView
+            android:id="@+id/settings_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
@@ -84,9 +86,9 @@
 
                 </LinearLayout>
 
-                <!-- Reminder time -->
+                <!-- Reminder schedule (time + days) -->
                 <LinearLayout
-                    android:id="@+id/settings_notification_time_row"
+                    android:id="@+id/settings_notification_schedule_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -99,39 +101,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/settings_notification_time"
+                        android:text="@string/settings_notification_schedule"
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/settings_notification_time_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:textColor="?android:attr/textColorSecondary"
-                        android:paddingTop="2dp" />
-
-                </LinearLayout>
-
-                <!-- Reminder days -->
-                <LinearLayout
-                    android:id="@+id/settings_notification_days_row"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_notification_days"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/settings_notification_days_value"
+                        android:id="@+id/settings_notification_schedule_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
@@ -173,7 +147,7 @@
                         android:text="@string/drawer_nightmode"
                         android:textSize="16sp" />
 
-                    <androidx.appcompat.widget.SwitchCompat
+                    <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/settings_night_mode_switch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />

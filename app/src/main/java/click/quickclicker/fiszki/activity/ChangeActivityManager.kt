@@ -30,12 +30,10 @@ class ChangeActivityManager(private val activity: Activity) {
             putExtra(REVERSED_KEY_INTENT, reversed)
         }
         activity.startActivity(goLearning)
-        @Suppress("DEPRECATION") activity.overridePendingTransition(R.anim.right_in, R.anim.left_out)
     }
 
     fun exitLearningCheck() {
         activity.finish()
-        @Suppress("DEPRECATION") activity.overridePendingTransition(R.anim.right_out, R.anim.left_in)
     }
 
     fun goToExamCheck(
@@ -55,7 +53,6 @@ class ChangeActivityManager(private val activity: Activity) {
         }
         activity.startActivity(goLearning)
         activity.finish()
-        @Suppress("DEPRECATION") activity.overridePendingTransition(R.anim.right_in, R.anim.left_out)
     }
 
     fun exitExamCheck() {
@@ -65,7 +62,6 @@ class ChangeActivityManager(private val activity: Activity) {
         }
         activity.startActivity(intent)
         activity.finish()
-        @Suppress("DEPRECATION") activity.overridePendingTransition(R.anim.right_out, R.anim.left_in)
     }
 
     fun goToExamSummary(summaryData: click.quickclicker.fiszki.dialogs.exam.ExamSummaryData) {
@@ -74,7 +70,6 @@ class ChangeActivityManager(private val activity: Activity) {
         }
         activity.startActivity(intent)
         activity.finish()
-        @Suppress("DEPRECATION") activity.overridePendingTransition(R.anim.right_in, R.anim.left_out)
     }
 
     fun exitExamBadAnswer() {
@@ -84,7 +79,6 @@ class ChangeActivityManager(private val activity: Activity) {
         }
         activity.startActivity(intent)
         activity.finish()
-        @Suppress("DEPRECATION") activity.overridePendingTransition(R.anim.right_out, R.anim.left_in)
     }
 
     fun resetMain() {

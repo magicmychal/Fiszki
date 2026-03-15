@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.activity.OnBackPressedCallback
+
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -35,11 +35,6 @@ class CategoryActivity : AppCompatActivity() {
         OrientationHelper.lockPortraitOnPhone(this)
         setContentView(R.layout.category_activity)
         init()
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                finish()
-            }
-        })
         buildAddButton()
         buildList()
         buildBottomNav()

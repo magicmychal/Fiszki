@@ -1,56 +1,56 @@
 package click.quickclicker.fiszki.model.flashcard
 
 import android.content.Context
-import com.j256.ormlite.android.apptools.OpenHelperManager
-import click.quickclicker.fiszki.database.ORM.DBHelper
+import click.quickclicker.fiszki.database.FiszkiDatabase
 
 class FlashcardRepository(context: Context) {
 
-    val dbHelper: DBHelper = OpenHelperManager.getHelper(context, DBHelper::class.java)
-    val flashcardDao = dbHelper.getFlashcardDao()
+    private val dao = FiszkiDatabase.getInstance(context).flashcardDao()
     var flashcardList: ArrayList<Flashcard> = arrayListOf()
-    private val qb = flashcardDao.queryBuilder()
 
     fun getAllFlashcards(): ArrayList<Flashcard> {
-        flashcardList = ArrayList(flashcardDao.queryForAll())
+        flashcardList = ArrayList(dao.getAll())
         return flashcardList
     }
 
-    fun countFlashcards(): Int = flashcardDao.countOf().toInt()
+    fun countFlashcards(): Int = dao.count()
 
     fun addFlashcard(flashcard: Flashcard) {
-        flashcardDao.create(flashcard)
+        dao.insert(flashcard)
     }
 
     fun addFlashcards(arrayListFlashcards: ArrayList<Flashcard>) {
-        for (flashcard in arrayListFlashcards) {
-            flashcardDao.create(flashcard)
-        }
+        dao.insertAll(arrayListFlashcards)
     }
 
     fun getFlashcardByName(name: String): Flashcard? {
-        flashcardList = ArrayList(flashcardDao.queryForEq(Flashcard.columnFlashcardWord, name))
-        return if (flashcardList.isNotEmpty()) flashcardList[0] else null
+        val result = dao.getByWord(name)
+        if (result != null) {
+            flashcardList = arrayListOf(result)
+        } else {
+            flashcardList = arrayListOf()
+        }
+        return result
     }
 
     fun isFirst(): Boolean = getAllFlashcards().size == 1
 
     fun deleteFlashcard(flashcard: Flashcard) {
-        flashcardDao.delete(flashcard)
+        dao.delete(flashcard)
     }
 
     fun deleteFlashcards(flashcards: ArrayList<Flashcard>) {
         for (flashcard in flashcards) {
-            flashcardDao.delete(flashcard)
+            dao.delete(flashcard)
         }
     }
 
     fun updateFlashcard(flashcard: Flashcard) {
-        flashcardDao.update(flashcard)
+        dao.update(flashcard)
     }
 
     fun getFlashcardsByPriority(priority: Int): ArrayList<Flashcard> {
-        return ArrayList(flashcardDao.queryForEq(Flashcard.columnFlashcardPriority, priority))
+        return ArrayList(dao.getByPriority(priority))
     }
 
     fun getRandomFlashcardByPririty(priority: Int): Flashcard {
@@ -59,35 +59,35 @@ class FlashcardRepository(context: Context) {
     }
 
     fun getFlashcardsByCategoryID(categoryID: Int): ArrayList<Flashcard> {
-        return ArrayList(flashcardDao.queryForEq(Flashcard.columnFlashcardCategoryID, categoryID))
+        return ArrayList(dao.getByCategoryID(categoryID))
     }
 
     fun upFlashcardFailStatistic(flashcard: Flashcard) {
         flashcard.upStaticFail()
-        flashcardDao.update(flashcard)
+        dao.update(flashcard)
     }
 
     fun upFlashcardPassStatistic(flashcard: Flashcard) {
         flashcard.upStaticPass()
-        flashcardDao.update(flashcard)
+        dao.update(flashcard)
     }
 
     fun upFlashcardPriority(flashcard: Flashcard) {
         flashcard.upPriority()
-        flashcardDao.update(flashcard)
+        dao.update(flashcard)
     }
 
     fun downFlashcardPriority(flashcard: Flashcard) {
         flashcard.downPriority()
-        flashcardDao.update(flashcard)
+        dao.update(flashcard)
     }
 
     fun resetFlashcardStatistic(flashcard: Flashcard) {
         flashcard.resetStatictic()
-        flashcardDao.update(flashcard)
+        dao.update(flashcard)
     }
 
     fun updateFsrsState(flashcard: Flashcard) {
-        flashcardDao.update(flashcard)
+        dao.update(flashcard)
     }
 }

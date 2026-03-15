@@ -3,12 +3,17 @@ package click.quickclicker.fiszki.activity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mikepenz.materialdrawer.widget.MaterialDrawerSliderView
@@ -35,10 +40,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         NightModeController(this).useTheme()
+        enableEdgeToEdge()
+        window.isNavigationBarContrastEnforced = false
         OrientationHelper.lockPortraitOnPhone(this)
         setContentView(R.layout.activity_main)
 
         init()
+        handleWindowInsets()
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -84,6 +92,23 @@ class MainActivity : AppCompatActivity() {
         mCategoryRepository = CategoryRepository(mActivity)
         mFlashcardRepository = FlashcardRepository(mActivity)
     }
+
+    private fun handleWindowInsets() {
+        val fab = findViewById<FloatingActionButton>(R.id.fab_add_flashcard)
+        val lp = fab.layoutParams as android.view.ViewGroup.MarginLayoutParams
+        val originalMargins = Margins(lp.leftMargin, lp.bottomMargin, lp.rightMargin)
+        ViewCompat.setOnApplyWindowInsetsListener(fab) { v, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updateLayoutParams<android.view.ViewGroup.MarginLayoutParams> {
+                leftMargin = originalMargins.left + bars.left
+                bottomMargin = originalMargins.bottom + bars.bottom
+                rightMargin = originalMargins.right + bars.right
+            }
+            WindowInsetsCompat.CONSUMED
+        }
+    }
+
+    private data class Margins(val left: Int, val bottom: Int, val right: Int)
 
     private fun buildDrawer() {
         mDrawerLayout = findViewById(R.id.drawer_layout)
