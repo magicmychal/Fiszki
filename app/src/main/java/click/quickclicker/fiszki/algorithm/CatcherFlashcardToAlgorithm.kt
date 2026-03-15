@@ -10,11 +10,6 @@ class CatcherFlashcardToAlgorithm(context: Context) {
 
     private val categoryRepository = CategoryRepository(context)
     private val flashcardRepository = FlashcardRepository(context)
-    private val draw = Drawer()
-
-    fun getFlashcardToAlgoritmByPriority(priority: Int, flashcards: ArrayList<Flashcard>): Flashcard {
-        return flashcards[draw.drawInteger(flashcards.size)]
-    }
 
     fun getFlashcardsFromChosenCategoryToNotification(): ArrayList<Flashcard> {
         val flashcards = ArrayList<Flashcard>()
