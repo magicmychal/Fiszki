@@ -154,8 +154,8 @@ fun LearningCheckScreen(
         }
     }
 
-    // Focus input on launch
-    LaunchedEffect(Unit) {
+    // Focus input on launch and every time a new card is shown
+    LaunchedEffect(currentFlashcard) {
         focusRequester.requestFocus()
         keyboardController?.show()
     }
@@ -168,6 +168,8 @@ fun LearningCheckScreen(
             onRetry = {
                 showBadAnswerDialog = false
                 answerText = ""
+                focusRequester.requestFocus()
+                keyboardController?.show()
             },
             onSkip = {
                 showBadAnswerDialog = false
