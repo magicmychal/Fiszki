@@ -55,6 +55,12 @@ android {
             dependsOn("testDebugUnitTest")
         }
     }
+
+    sourceSets {
+        main {
+            assets.srcDirs += ['../assets']
+        }
+    }
 }
 
 dependencies {
@@ -97,6 +103,9 @@ dependencies {
     // Sentry Compose integration (breadcrumbs + performance tracing)
     // Version must match sentry-android pulled by the Gradle plugin (8.33.0)
     implementation 'io.sentry:sentry-compose-android:8.33.0'
+
+    // Markdown → HTML conversion (JetBrains markdown, GFM flavour — tables + links)
+    implementation 'org.jetbrains:markdown-jvm:0.7.3'
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.robolectric:robolectric:4.14.1'

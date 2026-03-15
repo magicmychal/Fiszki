@@ -70,6 +70,7 @@ class SettingsFragment : Fragment() {
         buildDiagnosticSwitch(view)
         buildClearData(view)
         buildSendFeedback(view)
+        buildAbout(view)
         buildVersion(view)
     }
 
@@ -355,6 +356,12 @@ class SettingsFragment : Fragment() {
                 data = Uri.parse("mailto:fiszki@quickclicker.click")
             }
             startActivity(emailIntent)
+        }
+    }
+
+    private fun buildAbout(view: View) {
+        view.findViewById<View>(R.id.settings_about).setOnClickListener {
+            startActivity(Intent(requireContext(), AboutActivity::class.java))
         }
     }
 

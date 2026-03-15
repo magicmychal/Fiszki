@@ -75,6 +75,9 @@
         <activity
             android:name=".activity.SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.AboutActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

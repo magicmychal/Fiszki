@@ -88,5 +88,10 @@
     <string name="day_initial_thursday">C</string>
     <string name="day_initial_friday">P</string>
     <string name="day_initial_saturday">S</string>
+    <!-- About -->
+    <string name="settings_about_title">O aplikacji</string>
+    <string name="settings_about_summary">Informacje, zmiany i autorzy</string>
+    <string name="about_toolbar_title">O aplikacji</string>
+    <string name="about_load_error">Nie udało się załadować treści. Sprawdź połączenie z internetem.</string>
 
 </resources>

@@ -89,5 +89,10 @@
     <string name="day_initial_thursday">T</string>
     <string name="day_initial_friday">F</string>
     <string name="day_initial_saturday">S</string>
+    <!-- About -->
+    <string name="settings_about_title">About</string>
+    <string name="settings_about_summary">App info, changelog and credits</string>
+    <string name="about_toolbar_title">About</string>
+    <string name="about_load_error">Could not load content.</string>
 
 </resources>

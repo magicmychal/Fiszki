@@ -32,5 +32,7 @@
     <string name="nav_flashcards">Fiszki</string>
     <string name="nav_learning_mode">Ćwiczenia</string>
     <string name="nav_exam">Egzamin</string>
+    <string name="nav_settings">Ustawienia</string>
+    <string name="home_categories_header">Zestawy</string>
 
 </resources>
