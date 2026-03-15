@@ -1,29 +1,10 @@
 <resources>
     <string name="app_name" translatable="false">Fiszki</string>
-    <string name="hello_world">Hello world!</string>
-
-    <string name="title_activity_learning_mode" translatable="false">LearningModeActivity</string>
-
 
     <string name="card_name_my_word">My words</string>
     <string name="card_name_learning">Practice</string>
     <string name="card_name_exam">Exam</string>
 
     <string name="back_press_toast">Press again to close the application</string>
-    <string name="title_activity_my_category" translatable="false">MyCategoryActivity</string>
-    <string name="title_activity_main2" translatable="false">Main2Activity</string>
-    <string name="action_settings" translatable="false">Settings</string>
-    <string name="section_format" translatable="false">Hello World from section: %1$d</string>
-    <string name="title_activity_my_flashcards" translatable="false">MyFlashcardsActivity</string>
-    <string name="title_activity_my_words" translatable="false">MyWordsActivity</string>
-    <string name="title_activity_scrolling" translatable="false">ScrollingActivity</string>
-    <string name="title_activity_learning" translatable="false">LearningActivity</string>
-    <string name="title_activity_check" translatable="false">CheckActivity</string>
-    <string name="title_activity_exam" translatable="false">ExamActivity</string>
-    <string name="title_activity_exam_check" translatable="false">ExamCheckActivity</string>
-    <string name="title_activity_exam_results" translatable="false">ExamResultsActivity</string>
-    <string name="title_activity_exam_bad_answer" translatable="false">ExamBadAnswerActivity</string>
-
-    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-8148281006844656/7625653527</string>
 </resources>
 

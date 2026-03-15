@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [2.5.0] - 2026-03-15
+
 ### Added
 - "About" screen in Settings that renders a Markdown document (`assets/about_en.md` / `assets/about_pl.md`) with full table and link support, automatically selecting the correct language at runtime
 - About screen uses a WebView with theme-aware CSS so it correctly follows light, dark, and yellow themes
@@ -13,13 +15,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Changed
 - Markdown rendering replaced with a WebView + JetBrains markdown-jvm (GFM flavour) approach, fixing broken tables and non-clickable links
 - About content is bundled with the app from the `assets/` folder — no network request needed, always up to date at compile time
-
-### Fixed
-- Crash when deleting the last flashcard in a set — `currentFocus` was null when the dialog held focus, causing a NullPointerException in the undo snackbar
-- Undo snackbar after deleting a flashcard now correctly shows "Deleted flashcard." instead of "Deleted set."
-- Input field in practice session now automatically receives focus when a new card is shown, including after correct answers, skips, and retries after a wrong answer
-
-### Changed
 - All activity transitions now use the system default animations, enabling the predictive back preview on every screen
 - Flashcard list items now appear as elevated cards with rounded corners, matching the set list style
 - App now uses edge-to-edge display — content extends behind transparent system bars for a more immersive experience
@@ -27,9 +22,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Navigation bar is now fully transparent — the app's bottom navigation color extends seamlessly into the gesture bar area
 - Now targets Android 16 (SDK 36) for latest platform compliance
 
+### Fixed
+- Crash when deleting the last flashcard in a set — `currentFocus` was null when the dialog held focus, causing a NullPointerException in the undo snackbar
+- Undo snackbar after deleting a flashcard now correctly shows "Deleted flashcard." instead of "Deleted set."
+- Input field in practice session now automatically receives focus when a new card is shown, including after correct answers, skips, and retries after a wrong answer
+
 ### Removed
 - Removed "Someone is up!" Sentry message sent on every app launch
 - Unused XML layouts for learning check, exam check, and exam summary screens (migrated to Compose)
+- Unused animation, layout, and XML resource files left over from the Compose migration
+- Legacy activity title strings and dead ad-unit ID from string resources
+- Unused Kotlin classes: ShowCategoryAdapter, FlashcardClick, Rules, and incomplete priority-based algorithm code (PriorityCount, MultiplierPoints, Drawer)
+- Unused mipmap icons (edit, delete, border color in black/white variants)
 
 ## [2.4.0] - 2026-03-11
 
