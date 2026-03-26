@@ -20,7 +20,7 @@ import click.quickclicker.fiszki.Alert
 import click.quickclicker.fiszki.NightModeController
 import click.quickclicker.fiszki.R
 import click.quickclicker.fiszki.ui.OrientationHelper
-import click.quickclicker.fiszki.dialogs.flashcard.AddFlashcardDialogFragment
+import click.quickclicker.fiszki.activity.myWords.flashcards.AddFlashcardActivity
 import click.quickclicker.fiszki.drawer.DrawerMain
 import click.quickclicker.fiszki.model.category.CategoryRepository
 import click.quickclicker.fiszki.model.flashcard.FlashcardRepository
@@ -121,8 +121,10 @@ class MainActivity : AppCompatActivity() {
     private fun buildFAB() {
         mFab = findViewById(R.id.fab_add_flashcard)
         mFab.setOnClickListener {
-            AddFlashcardDialogFragment.newInstance(1)
-                .show(supportFragmentManager, "QuickAddFlashcard")
+            startActivity(
+                Intent(this, AddFlashcardActivity::class.java)
+                    .putExtra(AddFlashcardActivity.EXTRA_CATEGORY_ID, 1)
+            )
         }
     }
 

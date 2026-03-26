@@ -38,6 +38,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,7 +55,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentContainerView
 import click.quickclicker.fiszki.R
 import click.quickclicker.fiszki.activity.learning.RobotoSerifFamily
-import click.quickclicker.fiszki.dialogs.category.AddCategoryDialogFragment
+import click.quickclicker.fiszki.activity.myWords.category.CreateSetActivity
 import click.quickclicker.fiszki.activity.myWords.flashcards.FlashcardsActivity
 import click.quickclicker.fiszki.model.category.Category
 import click.quickclicker.fiszki.model.category.CategoryRepository
@@ -92,6 +94,19 @@ fun CategoryTabScreen(
         refreshTrigger++
     }
 
+    // Refresh when returning from CreateSetActivity or other activities
+    @Suppress("DEPRECATION")
+    val lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                refresh()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
+
     if (isTablet) {
         Row(modifier = modifier.fillMaxSize()) {
             CategoryListPane(
@@ -100,10 +115,7 @@ fun CategoryTabScreen(
                 selectedCategoryId = selectedCategoryId,
                 onCategoryClick = { selectedCategoryId = it.id },
                 onAddCategory = {
-                    (context as? FragmentActivity)?.let { fa ->
-                        AddCategoryDialogFragment().also { it.onDismissed = { refresh() } }
-                            .show(fa.supportFragmentManager, "AddCategory")
-                    }
+                    context.startActivity(Intent(context, CreateSetActivity::class.java))
                 },
                 modifier = Modifier.width(320.dp).fillMaxHeight()
             )
@@ -144,10 +156,7 @@ fun CategoryTabScreen(
                 context.startActivity(Intent(context, FlashcardsActivity::class.java))
             },
             onAddCategory = {
-                (context as? FragmentActivity)?.let { fa ->
-                    AddCategoryDialogFragment().also { it.onDismissed = { refresh() } }
-                        .show(fa.supportFragmentManager, "AddCategory")
-                }
+                context.startActivity(Intent(context, CreateSetActivity::class.java))
             },
             modifier = modifier.fillMaxSize()
         )
@@ -165,6 +174,7 @@ private fun CategoryListPane(
 ) {
     Scaffold(
         modifier = modifier,
+        contentWindowInsets = WindowInsets(0),
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onAddCategory,

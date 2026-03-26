@@ -56,9 +56,8 @@ import click.quickclicker.fiszki.activity.defaultCategoryColor
 import click.quickclicker.fiszki.activity.findCategoryColor
 import click.quickclicker.fiszki.activity.learning.RobotoSerifFamily
 import click.quickclicker.fiszki.activity.myWords.CategoryManagerSingleton
-import click.quickclicker.fiszki.dialogs.category.EditCategoryBottomSheet
-import click.quickclicker.fiszki.dialogs.flashcard.AddFlashcardDialogFragment
-import click.quickclicker.fiszki.dialogs.flashcard.EditFlashcardDialogFragment
+import click.quickclicker.fiszki.activity.myWords.category.EditSetActivity
+import android.content.Intent
 import click.quickclicker.fiszki.model.category.CategoryRepository
 import click.quickclicker.fiszki.model.flashcard.Flashcard
 import click.quickclicker.fiszki.model.flashcard.FlashcardRepository
@@ -67,8 +66,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.Surface
 import androidx.compose.material3.SwipeToDismissBoxState
 import androidx.compose.ui.graphics.Color
 
@@ -86,8 +88,10 @@ class FlashcardsActivity : AppCompatActivity() {
                     activity = this,
                     onBack = { onBackPressedDispatcher.onBackPressed() },
                     onEditCategory = { categoryId ->
-                        val bottomSheet = EditCategoryBottomSheet.newInstance(categoryId)
-                        bottomSheet.show(supportFragmentManager, "EditCategoryBottomSheet")
+                        startActivity(
+                            android.content.Intent(this, EditSetActivity::class.java)
+                                .putExtra(EditSetActivity.EXTRA_CATEGORY_ID, categoryId)
+                        )
                     }
                 )
             }
@@ -133,6 +137,9 @@ private fun FlashcardsScreen(
         if (hasFocus) refreshTrigger++
     }
 
+    val catContainerColor = Color(catColor.container or 0xFF000000.toInt())
+    val catPrimaryColor = Color(catColor.primary or 0xFF000000.toInt())
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -143,17 +150,18 @@ private fun FlashcardsScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface
+                    containerColor = catContainerColor,
+                    navigationIconContentColor = catPrimaryColor
                 )
             )
         },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    AddFlashcardDialogFragment.newInstance(category.id).also {
-                        it.onDismissed = { refreshTrigger++ }
-                    }.show((context as AppCompatActivity).supportFragmentManager, "AddFlashcard")
+                    context.startActivity(
+                        Intent(context, AddFlashcardActivity::class.java)
+                            .putExtra(AddFlashcardActivity.EXTRA_CATEGORY_ID, category.id)
+                    )
                 },
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary,
@@ -190,7 +198,33 @@ private fun FlashcardsScreen(
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurface
                     )
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
+                    // Edit Collection chip
+                    Surface(
+                        onClick = { onEditCategory(category.id) },
+                        shape = RoundedCornerShape(50),
+                        color = MaterialTheme.colorScheme.surfaceContainerLow
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                Icons.Default.Edit,
+                                contentDescription = null,
+                                modifier = Modifier.size(16.dp),
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(
+                                text = stringResource(R.string.action_edit_category),
+                                style = MaterialTheme.typography.labelLarge,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(6.dp))
                     Text(
                         text = stringResource(R.string.flashcard_collection_count, flashcards.size),
                         style = MaterialTheme.typography.bodyMedium,
@@ -222,10 +256,10 @@ private fun FlashcardsScreen(
                             refreshTrigger++
                         },
                         onEdit = {
-                            EditFlashcardDialogFragment.newInstance(flashcard.id).also {
-                            it.onDismissed = { refreshTrigger++ }
-                            it.onDeleted = { refreshTrigger++ }
-                        }.show((context as AppCompatActivity).supportFragmentManager, "EditFlashcard")
+                            context.startActivity(
+                                Intent(context, EditFlashcardActivity::class.java)
+                                    .putExtra(EditFlashcardActivity.EXTRA_FLASHCARD_ID, flashcard.id)
+                            )
                         },
                         catColorPrimary = catColor.primary,
                         useFsrs = useFsrs

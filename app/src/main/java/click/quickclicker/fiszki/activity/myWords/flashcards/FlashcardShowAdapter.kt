@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.recyclerview.widget.RecyclerView
 import click.quickclicker.fiszki.activity.FiszkiTheme
 import click.quickclicker.fiszki.activity.learning.RobotoSerifFamily
-import click.quickclicker.fiszki.dialogs.flashcard.EditFlashcardDialogFragment
+import android.content.Intent
 import click.quickclicker.fiszki.model.flashcard.Flashcard
 
 class FlashcardShowAdapter(
@@ -58,9 +58,10 @@ class FlashcardShowAdapter(
                     useFsrs = useFsrs,
                     lastRating = flashcard.fsrsLastRating,
                     onClick = {
-                        EditFlashcardDialogFragment.newInstance(flashcard.id).also {
-                            it.onDismissed = { notifyDataSetChanged() }
-                        }.show(activity.supportFragmentManager, "EditFlashcard")
+                        activity.startActivity(
+                            Intent(activity, EditFlashcardActivity::class.java)
+                                .putExtra(EditFlashcardActivity.EXTRA_FLASHCARD_ID, flashcard.id)
+                        )
                     }
                 )
             }

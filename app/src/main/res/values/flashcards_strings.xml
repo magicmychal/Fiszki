@@ -34,7 +34,7 @@
     <string name="nav_exam">Exam</string>
     <string name="nav_settings">Settings</string>
 
-    <string name="action_edit_category">Edit Set</string>
+    <string name="action_edit_category">Edit Collection</string>
     <string name="flashcard_vocabulary_deck_label">Vocabulary Deck</string>
     <string name="flashcard_collection_count">%d cards in this collection</string>
 
@@ -43,5 +43,29 @@
     <string name="category_word_count">%d Words</string>
     <string name="category_mastery_label">MASTERY</string>
     <string name="category_mastery_percent">%d%%</string>
+
+    <string name="add_flashcard_screen_title">Add New Word</string>
+    <string name="add_flashcard_headline_1">Capture a new</string>
+    <string name="add_flashcard_headline_2">expression.</string>
+    <string name="add_flashcard_tip_label">Tip:</string>
+    <string name="add_flashcard_tip_text">To make typing easier during practice, try to avoid special characters where possible.</string>
+    <string name="add_flashcard_source_word_label">Source Word</string>
+    <string name="add_flashcard_source_word_hint">e.g., Mama</string>
+    <string name="add_flashcard_source_word_helper">The word in the language you are learning.</string>
+    <string name="add_flashcard_translation_label">Translation</string>
+    <string name="add_flashcard_translation_hint">e.g., Mother</string>
+    <string name="add_flashcard_translation_helper">The meaning in your native tongue.</string>
+    <string name="add_flashcard_button">Add to Set</string>
+
+    <string name="edit_flashcard_screen_title">Update Word</string>
+    <string name="edit_flashcard_overline">Editing Entry</string>
+    <string name="edit_flashcard_headline_1">Refining</string>
+    <string name="edit_flashcard_headline_2">Language</string>
+    <string name="edit_flashcard_description">Adjust translations to keep your study sessions accurate and effective.</string>
+    <string name="edit_flashcard_source_lang_with">Source Language (%1$s)</string>
+    <string name="edit_flashcard_target_lang_with">Target Language (%1$s)</string>
+    <string name="edit_flashcard_tip_text">Keeping translations simple helps you type them faster and more accurately during practice.</string>
+    <string name="edit_flashcard_save_button">Save Changes</string>
+    <string name="edit_flashcard_delete_button">Delete Word</string>
 
 </resources>

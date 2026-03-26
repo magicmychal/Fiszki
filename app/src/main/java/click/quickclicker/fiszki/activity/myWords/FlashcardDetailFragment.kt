@@ -22,8 +22,8 @@ import click.quickclicker.fiszki.R
 import click.quickclicker.fiszki.activity.ChangeActivityManager
 import click.quickclicker.fiszki.activity.defaultCategoryColor
 import click.quickclicker.fiszki.activity.findCategoryColor
-import click.quickclicker.fiszki.dialogs.category.EditCategoryBottomSheet
-import click.quickclicker.fiszki.dialogs.flashcard.AddFlashcardDialogFragment
+import click.quickclicker.fiszki.activity.myWords.category.EditSetActivity
+import click.quickclicker.fiszki.activity.myWords.flashcards.AddFlashcardActivity
 import click.quickclicker.fiszki.model.category.Category
 import click.quickclicker.fiszki.model.category.CategoryRepository
 import click.quickclicker.fiszki.model.flashcard.FlashcardRepository
@@ -73,7 +73,12 @@ class FlashcardDetailFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        currentCategory = categoryRepository.getCategoryByID(categoryId) ?: return
+        val updated = categoryRepository.getCategoryByID(categoryId)
+        if (updated == null) {
+            onCategoryDeleted?.invoke()
+            return
+        }
+        currentCategory = updated
         view?.let { buildHeroHeader(it) }
         updateList()
     }
@@ -107,9 +112,10 @@ class FlashcardDetailFragment : Fragment() {
 
     private fun buildActionChips(view: View) {
         view.findViewById<MaterialButton>(R.id.chip_add_card).setOnClickListener {
-            AddFlashcardDialogFragment.newInstance(currentCategory.id).also {
-                it.onDismissed = { updateList() }
-            }.show(childFragmentManager, "AddFlashcard")
+            startActivity(
+                android.content.Intent(requireContext(), AddFlashcardActivity::class.java)
+                    .putExtra(AddFlashcardActivity.EXTRA_CATEGORY_ID, currentCategory.id)
+            )
         }
 
         view.findViewById<MaterialButton>(R.id.chip_start_review).setOnClickListener {
@@ -122,20 +128,10 @@ class FlashcardDetailFragment : Fragment() {
         }
 
         view.findViewById<MaterialButton>(R.id.chip_edit_category).setOnClickListener {
-            val bottomSheet = EditCategoryBottomSheet.newInstance(currentCategory.id)
-            bottomSheet.show(childFragmentManager, "EditCategoryBottomSheet")
-            childFragmentManager.executePendingTransactions()
-            bottomSheet.dialog?.setOnDismissListener {
-                bottomSheet.dismiss()
-                val updated = categoryRepository.getCategoryByID(categoryId)
-                if (updated == null) {
-                    onCategoryDeleted?.invoke()
-                    return@setOnDismissListener
-                }
-                currentCategory = updated
-                view?.let { v -> buildHeroHeader(v) }
-                updateList()
-            }
+            startActivity(
+                android.content.Intent(requireContext(), EditSetActivity::class.java)
+                    .putExtra(EditSetActivity.EXTRA_CATEGORY_ID, currentCategory.id)
+            )
         }
     }
 

@@ -1,10 +1,11 @@
 package click.quickclicker.fiszki.listeners.flashcard
 
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import click.quickclicker.fiszki.dialogs.flashcard.EditFlashcardDialogFragment
+import click.quickclicker.fiszki.activity.myWords.flashcards.EditFlashcardActivity
 import click.quickclicker.fiszki.model.flashcard.Flashcard
 
 class FlashcardClick(
@@ -25,8 +26,10 @@ class FlashcardClick(
         } else if (clickCount == 2) {
             // Double click
             clickCount = 0
-            EditFlashcardDialogFragment.newInstance(flashcard.id)
-                .show(activity.supportFragmentManager, "EditFlashcard")
+            activity.startActivity(
+                Intent(activity, EditFlashcardActivity::class.java)
+                    .putExtra(EditFlashcardActivity.EXTRA_FLASHCARD_ID, flashcard.id)
+            )
         }
     }
 }

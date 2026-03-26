@@ -6,16 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [2.6.0] - 2026-03-26
+
 ### Added
-- "About" screen in Settings that renders a Markdown document (`assets/about_en.md` / `assets/about_pl.md`) with full table and link support, automatically selecting the correct language at runtime
+- Full-screen "Create New Set" activity with editorial design: info banner, bento-style language selectors with bottom sheet picker, filled text fields, and prominent CTA button
+- Full-screen "Edit Set Details" activity with editorial design: section headers, bento language selectors, CSV import/export cards, danger zone for deletion, and fixed "Save Changes" bottom bar
+- Full-screen "Add Flashcard" activity — after adding a word the user stays on the screen to add more; fields clear and focus returns to the first input
+- Full-screen "Edit Flashcard" activity with language-aware field labels, save and delete actions
+- "Edit Collection" chip button in the flashcard list header for quick access to set settings
+- Category color now tints the top app bar across flashcard list, add/edit flashcard, and edit set screens
+- Reusable shared composables: `SectionHeader`, `FilledTextField`, `BentoLanguageSelector`, `LanguagePickerSheet`
+- "About" screen in Settings that renders a Markdown document with full table and link support
 - About screen uses a WebView with theme-aware CSS so it correctly follows light, dark, and yellow themes
 - Mastery progress bars on each set card showing learning progress based on answer statistics
 - Editorial Expressive design system: warm amber/gold palette, serif typography (Roboto Serif), card-based layouts with 24dp rounded corners
 
 ### Changed
-- Migrated Add Flashcard, Edit Flashcard, Add Set, and Edit Set dialogs from XML layouts to Jetpack Compose
-- Quick-add flashcard dialog on the home screen now uses the same Compose-based Add Flashcard dialog
-- Reusable color picker and language dropdown composables shared across set dialogs
+- "Create New Set" upgraded from a small dialog to a full-screen editorial activity
+- "Edit Set Details" upgraded from a bottom sheet to a full-screen editorial activity with explicit save
+- "Add Flashcard" upgraded from a dialog to a full-screen editorial activity
+- "Edit Flashcard" upgraded from a dialog to a full-screen editorial activity
+- Language selection now uses a searchable bottom sheet instead of dropdown menus
+- Add set FAB positioned closer to the bottom navigation bar
 - Complete visual overhaul matching the Editorial Expressive design system across all screens
 - New color palette: warm amber primary (#8B6B23), mossy green tertiary (#4A6547), chocolate secondary (#6C5D3F) — replacing the previous purple defaults
 - Set list screen redesigned with italic serif headline, "CURATED LIBRARY" label, and editorial card layout with mastery progress bars
@@ -40,6 +52,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Set list no longer has a cutoff before the navigation bar
 
 ### Removed
+- `AddCategoryDialogFragment` (replaced by `CreateSetActivity`)
+- `EditCategoryBottomSheet` (replaced by `EditSetActivity`)
+- `AddFlashcardDialogFragment` (replaced by `AddFlashcardActivity`)
+- `EditFlashcardDialogFragment` (replaced by `EditFlashcardActivity`)
 - Removed "Someone is up!" Sentry message sent on every app launch
 - Unused XML layouts for learning check, exam check, and exam summary screens (migrated to Compose)
 
