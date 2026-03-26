@@ -131,10 +131,17 @@ private fun FlashcardsScreen(
         findCategoryColor(category.getColor()) ?: defaultCategoryColor()
     }
 
-    // Refresh when window regains focus (e.g. returning from edit dialog)
-    var hasFocus by remember { mutableStateOf(true) }
-    LaunchedEffect(hasFocus) {
-        if (hasFocus) refreshTrigger++
+    // Refresh when returning from another activity (e.g. edit set, add flashcard)
+    @Suppress("DEPRECATION")
+    val lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current
+    androidx.compose.runtime.DisposableEffect(lifecycleOwner) {
+        val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
+            if (event == androidx.lifecycle.Lifecycle.Event.ON_RESUME) {
+                refreshTrigger++
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
     val catContainerColor = Color(catColor.container or 0xFF000000.toInt())
