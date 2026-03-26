@@ -2,7 +2,6 @@ package click.quickclicker.fiszki.activity.learning
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
@@ -29,7 +28,6 @@ class LearningActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         NightModeController(this).useTheme()
-        enableEdgeToEdge()
         window.isNavigationBarContrastEnforced = false
         OrientationHelper.lockPortraitOnPhone(this)
         setContentView(R.layout.activity_learning)

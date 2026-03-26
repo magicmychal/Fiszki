@@ -23,6 +23,8 @@ class FlashcardRepository(context: Context) {
         dao.insertAll(arrayListFlashcards)
     }
 
+    fun getFlashcardByID(id: Int): Flashcard? = dao.getById(id)
+
     fun getFlashcardByName(name: String): Flashcard? {
         val result = dao.getByWord(name)
         if (result != null) {

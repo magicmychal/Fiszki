@@ -35,7 +35,13 @@
     <string name="nav_settings">Settings</string>
 
     <string name="action_edit_category">Edit Set</string>
-    <string name="home_title">Fiszki</string>
-    <string name="home_categories_header">Sets</string>
+    <string name="flashcard_vocabulary_deck_label">Vocabulary Deck</string>
+    <string name="flashcard_collection_count">%d cards in this collection</string>
+
+    <string name="home_title">Your Flashcard Sets</string>
+    <string name="home_categories_header">Curated Library</string>
+    <string name="category_word_count">%d Words</string>
+    <string name="category_mastery_label">MASTERY</string>
+    <string name="category_mastery_percent">%d%%</string>
 
 </resources>

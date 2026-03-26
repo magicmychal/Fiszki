@@ -2,9 +2,34 @@
 
     <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimaryNew</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryNew</item>
-        <item name="colorAccent">@color/colorPrimaryNew</item>
+        <item name="colorOnPrimary">@color/colorOnPrimaryNew</item>
+        <item name="colorPrimaryContainer">@color/colorPrimaryContainerNew</item>
+        <item name="colorOnPrimaryContainer">@color/colorOnPrimaryContainerNew</item>
+        <item name="colorSecondary">@color/colorSecondaryNew</item>
+        <item name="colorOnSecondary">@color/colorOnSecondaryNew</item>
+        <item name="colorSecondaryContainer">@color/colorSecondaryContainerNew</item>
+        <item name="colorOnSecondaryContainer">@color/colorOnSecondaryContainerNew</item>
+        <item name="colorTertiary">@color/colorTertiaryNew</item>
+        <item name="colorOnTertiary">@color/colorOnTertiaryNew</item>
+        <item name="colorTertiaryContainer">@color/colorTertiaryContainerNew</item>
+        <item name="colorOnTertiaryContainer">@color/colorOnTertiaryContainerNew</item>
+        <item name="colorSurface">@color/colorSurfaceNew</item>
+        <item name="colorOnSurface">@color/colorOnSurfaceNew</item>
+        <item name="colorSurfaceVariant">@color/colorSurfaceVariantNew</item>
+        <item name="colorOnSurfaceVariant">@color/colorOnSurfaceVariantNew</item>
+        <item name="colorSurfaceContainerLowest">@color/colorSurfaceContainerLowestNew</item>
+        <item name="colorSurfaceContainerLow">@color/colorSurfaceContainerLowNew</item>
+        <item name="colorSurfaceContainer">@color/colorSurfaceContainerNew</item>
+        <item name="colorSurfaceContainerHigh">@color/colorSurfaceContainerHighNew</item>
+        <item name="colorSurfaceContainerHighest">@color/colorSurfaceContainerHighestNew</item>
+        <item name="colorOutline">@color/colorOutlineNew</item>
+        <item name="colorOutlineVariant">@color/colorOutlineVariantNew</item>
+        <item name="colorError">@color/colorErrorNew</item>
+        <item name="colorOnError">@color/colorOnErrorNew</item>
+        <item name="colorErrorContainer">@color/colorErrorContainerNew</item>
+        <item name="colorOnErrorContainer">@color/colorOnErrorContainerNew</item>
         <item name="android:colorBackground">@color/colorSurfaceNew</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -46,6 +71,7 @@
         <item name="colorOutline">@color/colorOutlineYellow</item>
         <item name="colorOutlineVariant">@color/colorOutlineVariantYellow</item>
         <item name="android:colorBackground">@color/colorSurfaceYellow</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="NightMode.Yellow" parent="Theme.Material3.Dark.NoActionBar">
@@ -77,10 +103,30 @@
     </style>
 
     <style name="NightMode" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimaryNight</item>
-        <item name="colorPrimaryDark">@color/colorOnPrimaryNight</item>
-        <item name="colorAccent">@color/colorPrimaryNight</item>
-        <item name="android:windowBackground">@color/colorSurfaceNight</item>
+        <item name="colorPrimary">@color/colorPrimaryNewNight</item>
+        <item name="colorOnPrimary">@color/colorOnPrimaryNewNight</item>
+        <item name="colorPrimaryContainer">@color/colorPrimaryContainerNewNight</item>
+        <item name="colorOnPrimaryContainer">@color/colorOnPrimaryContainerNewNight</item>
+        <item name="colorSecondary">@color/colorSecondaryNewNight</item>
+        <item name="colorOnSecondary">@color/colorOnSecondaryNewNight</item>
+        <item name="colorSecondaryContainer">@color/colorSecondaryContainerNewNight</item>
+        <item name="colorOnSecondaryContainer">@color/colorOnSecondaryContainerNewNight</item>
+        <item name="colorTertiary">@color/colorTertiaryNewNight</item>
+        <item name="colorOnTertiary">@color/colorOnTertiaryNewNight</item>
+        <item name="colorTertiaryContainer">@color/colorTertiaryContainerNewNight</item>
+        <item name="colorOnTertiaryContainer">@color/colorOnTertiaryContainerNewNight</item>
+        <item name="colorSurface">@color/colorSurfaceNewNight</item>
+        <item name="colorOnSurface">@color/colorOnSurfaceNewNight</item>
+        <item name="colorSurfaceVariant">@color/colorSurfaceVariantNewNight</item>
+        <item name="colorOnSurfaceVariant">@color/colorOnSurfaceVariantNewNight</item>
+        <item name="colorSurfaceContainerLowest">@color/colorSurfaceContainerLowestNewNight</item>
+        <item name="colorSurfaceContainerLow">@color/colorSurfaceContainerLowNewNight</item>
+        <item name="colorSurfaceContainer">@color/colorSurfaceContainerNewNight</item>
+        <item name="colorSurfaceContainerHigh">@color/colorSurfaceContainerHighNewNight</item>
+        <item name="colorSurfaceContainerHighest">@color/colorSurfaceContainerHighestNewNight</item>
+        <item name="colorOutline">@color/colorOutlineNewNight</item>
+        <item name="colorOutlineVariant">@color/colorOutlineVariantNewNight</item>
+        <item name="android:windowBackground">@color/colorSurfaceNewNight</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
 

@@ -1,18 +1,18 @@
 package click.quickclicker.fiszki.activity.myWords.flashcards
 
-import android.app.Activity
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,16 +20,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import io.sentry.compose.SentryModifier.sentryTag
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.recyclerview.widget.RecyclerView
 import click.quickclicker.fiszki.activity.FiszkiTheme
-import click.quickclicker.fiszki.dialogs.flashcard.EditAndDeleteFlashcardDialog
+import click.quickclicker.fiszki.activity.learning.RobotoSerifFamily
+import click.quickclicker.fiszki.dialogs.flashcard.EditFlashcardDialogFragment
 import click.quickclicker.fiszki.model.flashcard.Flashcard
 
 class FlashcardShowAdapter(
-    private val activity: Activity,
+    private val activity: AppCompatActivity,
     private val arrayList: ArrayList<Flashcard>,
     private val categoryColor: Int? = null,
     private val useFsrs: Boolean = false
@@ -57,7 +58,9 @@ class FlashcardShowAdapter(
                     useFsrs = useFsrs,
                     lastRating = flashcard.fsrsLastRating,
                     onClick = {
-                        EditAndDeleteFlashcardDialog(activity, flashcard).show()
+                        EditFlashcardDialogFragment.newInstance(flashcard.id).also {
+                            it.onDismissed = { notifyDataSetChanged() }
+                        }.show(activity.supportFragmentManager, "EditFlashcard")
                     }
                 )
             }
@@ -79,46 +82,52 @@ private fun FlashcardListItem(
     lastRating: Int = 0,
     onClick: () -> Unit
 ) {
-    ElevatedCard(
+    Surface(
         onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 6.dp)
             .sentryTag("flashcard_list_item"),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 1.dp),
-        colors = CardDefaults.elevatedCardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        )
+        shape = RoundedCornerShape(24.dp),
+        color = MaterialTheme.colorScheme.surfaceContainerLow
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 12.dp),
+                .padding(horizontal = 20.dp, vertical = 18.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 12.dp)
-            ) {
-                Text(
-                    text = word,
-                    fontSize = 22.sp,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
+            // Word (bold serif, editorial)
+            Text(
+                text = word,
+                style = MaterialTheme.typography.titleMedium,
+                fontFamily = RobotoSerifFamily,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(0.35f, fill = false)
+            )
 
-                Text(
-                    text = translation,
-                    fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(top = 2.dp)
-                )
-            }
+            // Arrow separator
+            Text(
+                text = "\u2192",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(horizontal = 12.dp)
+            )
+
+            // Translation
+            Text(
+                text = translation,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(0.45f)
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
 
             if (useFsrs) {
                 FsrsStateIndicator(
@@ -159,7 +168,7 @@ private fun FsrsStateIndicator(lastRating: Int, filledColor: Color) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         repeat(4) { index ->
-            val ratingValue = index + 1 // 1-based rating; Again=1, Hard=2, Good=3, Easy=4
+            val ratingValue = index + 1
             val color = if (ratingValue <= lastRating) filledColor else emptyColor
             Canvas(modifier = Modifier.size(8.dp)) {
                 drawCircle(color = color)
@@ -167,4 +176,3 @@ private fun FsrsStateIndicator(lastRating: Int, filledColor: Color) {
         }
     }
 }
-

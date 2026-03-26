@@ -3,26 +3,31 @@ package click.quickclicker.fiszki.activity.myWords
 import android.app.Activity
 import android.content.Intent
 import android.view.View
-import android.widget.Toast
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -35,22 +40,20 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentContainerView
 import click.quickclicker.fiszki.R
-import click.quickclicker.fiszki.activity.ChangeActivityManager
-import click.quickclicker.fiszki.activity.findCategoryColor
-import click.quickclicker.fiszki.activity.defaultCategoryColor
-import click.quickclicker.fiszki.dialogs.category.AddCategoryDialog
-import click.quickclicker.fiszki.dialogs.category.EditCategoryBottomSheet
-import click.quickclicker.fiszki.dialogs.flashcard.AddFlashcardDialog
-import click.quickclicker.fiszki.dialogs.flashcard.EditAndDeleteFlashcardDialog
+import click.quickclicker.fiszki.activity.learning.RobotoSerifFamily
+import click.quickclicker.fiszki.dialogs.category.AddCategoryDialogFragment
 import click.quickclicker.fiszki.activity.myWords.flashcards.FlashcardsActivity
 import click.quickclicker.fiszki.model.category.Category
 import click.quickclicker.fiszki.model.category.CategoryRepository
@@ -81,7 +84,6 @@ fun CategoryTabScreen(
 
     var selectedCategoryId by rememberSaveable { mutableStateOf<Int?>(null) }
 
-    // Auto-select first if on tablet and nothing selected
     if (isTablet && selectedCategoryId == null && categories.isNotEmpty()) {
         selectedCategoryId = categories[0].id
     }
@@ -92,21 +94,20 @@ fun CategoryTabScreen(
 
     if (isTablet) {
         Row(modifier = modifier.fillMaxSize()) {
-            // Left: category list
             CategoryListPane(
                 categories = categories,
                 flashcardRepository = flashcardRepository,
                 selectedCategoryId = selectedCategoryId,
                 onCategoryClick = { selectedCategoryId = it.id },
                 onAddCategory = {
-                    if (activity != null) {
-                        AddCategoryDialog(activity).show().setOnDismissListener { refresh() }
+                    (context as? FragmentActivity)?.let { fa ->
+                        AddCategoryDialogFragment().also { it.onDismissed = { refresh() } }
+                            .show(fa.supportFragmentManager, "AddCategory")
                     }
                 },
                 modifier = Modifier.width(320.dp).fillMaxHeight()
             )
             VerticalDivider()
-            // Right: flashcard detail
             val selectedCategory = selectedCategoryId?.let { id -> categories.find { it.id == id } }
             if (selectedCategory != null) {
                 FlashcardDetailPane(
@@ -134,7 +135,6 @@ fun CategoryTabScreen(
             }
         }
     } else {
-        // Phone: category list, clicking launches FlashcardsActivity
         CategoryListPane(
             categories = categories,
             flashcardRepository = flashcardRepository,
@@ -144,8 +144,9 @@ fun CategoryTabScreen(
                 context.startActivity(Intent(context, FlashcardsActivity::class.java))
             },
             onAddCategory = {
-                if (activity != null) {
-                    AddCategoryDialog(activity).show().setOnDismissListener { refresh() }
+                (context as? FragmentActivity)?.let { fa ->
+                    AddCategoryDialogFragment().also { it.onDismissed = { refresh() } }
+                        .show(fa.supportFragmentManager, "AddCategory")
                 }
             },
             modifier = modifier.fillMaxSize()
@@ -162,62 +163,97 @@ private fun CategoryListPane(
     onAddCategory: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
-    Column(modifier = modifier) {
-        // Header
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 24.dp, end = 8.dp, top = 16.dp, bottom = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = stringResource(R.string.home_categories_header),
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.weight(1f)
-            )
-            IconButton(onClick = onAddCategory) {
+    Scaffold(
+        modifier = modifier,
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onAddCategory,
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+                shape = RoundedCornerShape(50)
+            ) {
                 Icon(Icons.Default.Add, contentDescription = stringResource(R.string.category_positive_btn_text))
             }
         }
-
-        if (categories.isEmpty()) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
+    ) { padding ->
+        Column(modifier = Modifier.padding(top = padding.calculateTopPadding())) {
+            // Editorial header
+            Column(
+                modifier = Modifier.padding(start = 24.dp, top = 32.dp, end = 24.dp, bottom = 8.dp)
             ) {
                 Text(
-                    stringResource(R.string.category_empty_text),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    text = stringResource(R.string.home_categories_header).uppercase(),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    letterSpacing = 1.5.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = stringResource(R.string.home_title),
+                    style = MaterialTheme.typography.headlineLarge,
+                    fontFamily = RobotoSerifFamily,
+                    fontStyle = FontStyle.Italic,
+                    fontWeight = FontWeight.Normal,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
-        } else {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = androidx.compose.foundation.layout.PaddingValues(vertical = 4.dp)
-            ) {
-                items(categories, key = { it.id }) { category ->
-                    val isSelected = category.id == selectedCategoryId
-                    val count = remember(category.id) {
-                        flashcardRepository.getFlashcardsByCategoryID(category.id).size
-                    }
-                    CategoryCard(
-                        category = category,
-                        cardCount = count,
-                        isSelected = isSelected,
-                        onClick = { onCategoryClick(category) }
+
+            if (categories.isEmpty()) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        stringResource(R.string.category_empty_text),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
+                }
+            } else {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(
+                        start = 16.dp, end = 16.dp, top = 12.dp,
+                        bottom = padding.calculateBottomPadding() + 16.dp
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    items(categories, key = { it.id }) { category ->
+                        val isSelected = category.id == selectedCategoryId
+                        val flashcards = remember(category.id) {
+                            flashcardRepository.getFlashcardsByCategoryID(category.id)
+                        }
+                        val count = flashcards.size
+                        val mastery = remember(category.id) {
+                            computeMastery(flashcards)
+                        }
+                        CategoryCard(
+                            category = category,
+                            cardCount = count,
+                            masteryPercent = mastery,
+                            isSelected = isSelected,
+                            onClick = { onCategoryClick(category) }
+                        )
+                    }
                 }
             }
         }
     }
 }
 
+private fun computeMastery(flashcards: List<Flashcard>): Int {
+    if (flashcards.isEmpty()) return 0
+    val totalAttempts = flashcards.sumOf { it.staticPass + it.staticFail }
+    if (totalAttempts == 0) return 0
+    val totalPass = flashcards.sumOf { it.staticPass }
+    return ((totalPass.toFloat() / totalAttempts) * 100).toInt()
+}
+
 @Composable
 private fun CategoryCard(
     category: Category,
     cardCount: Int,
+    masteryPercent: Int,
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
@@ -227,42 +263,92 @@ private fun CategoryCard(
         MaterialTheme.colorScheme.surfaceContainerLow
     }
 
-    ElevatedCard(
+    Surface(
         onClick = onClick,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 6.dp),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 1.dp),
-        colors = CardDefaults.elevatedCardColors(containerColor = containerColor)
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(24.dp),
+        color = containerColor
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
+            modifier = Modifier.padding(24.dp)
         ) {
-            Text(
-                text = category.getCategory(),
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface
-            )
+            // Row: set name + word count pill
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = category.getCategory(),
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontFamily = RobotoSerifFamily,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f, fill = false)
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Surface(
+                    shape = RoundedCornerShape(50),
+                    color = MaterialTheme.colorScheme.tertiaryContainer
+                ) {
+                    Text(
+                        text = stringResource(R.string.category_word_count, cardCount),
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onTertiaryContainer,
+                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp)
+                    )
+                }
+            }
 
+            // Language pair subtitle
             val langFrom = category.getLangFrom()
             val langOn = category.getLangOn()
-            val langText = if (langFrom.isNullOrEmpty() && langOn.isNullOrEmpty()) {
-                stringResource(R.string.category_no_lang)
-            } else if (langFrom.isNullOrEmpty() || langOn.isNullOrEmpty()) {
-                stringResource(R.string.category_no_lang)
-            } else {
-                stringResource(R.string.category_lang_pair, langFrom, langOn)
+            if (!langFrom.isNullOrEmpty() && !langOn.isNullOrEmpty()) {
+                Text(
+                    text = stringResource(R.string.category_lang_pair, langFrom, langOn),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
             }
-            Text(
-                text = langText,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Text(
-                text = stringResource(R.string.category_card_count, cardCount),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Mastery row: label + percentage
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(R.string.category_mastery_label),
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary,
+                    letterSpacing = 1.sp
+                )
+                Text(
+                    text = stringResource(R.string.category_mastery_percent, masteryPercent),
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
+            Spacer(modifier = Modifier.height(6.dp))
+
+            // Mastery progress bar
+            LinearProgressIndicator(
+                progress = { masteryPercent / 100f },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(6.dp)
+                    .clip(RoundedCornerShape(3.dp)),
+                color = MaterialTheme.colorScheme.tertiary,
+                trackColor = MaterialTheme.colorScheme.surfaceContainerHighest,
             )
         }
     }
@@ -278,12 +364,6 @@ private fun FlashcardDetailPane(
     onCategoryDeleted: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    // Embed FlashcardsActivity content via AndroidView wrapping the existing Fragment/Activity pattern
-    // For tablet split-view, we embed the FlashcardsActivity layout via a FragmentContainerView
-    // containing a FlashcardDetailFragment.
-    // For now, use a simpler approach: set the CategoryManagerSingleton and embed a FragmentContainerView
-    // that hosts the FlashcardsActivity content.
-
     CategoryManagerSingleton.currentCategoryId = category.id
 
     val containerId = remember(category.id) { View.generateViewId() }
@@ -304,7 +384,6 @@ private fun FlashcardDetailPane(
                 val tag = "flashcard_detail_${category.id}"
                 val existing = fm.findFragmentByTag(tag)
                 if (existing == null || !existing.isAdded || existing.view?.parent == null) {
-                    // Remove any stale fragment with this tag or in this container
                     existing?.let { fm.beginTransaction().remove(it).commitNowAllowingStateLoss() }
                     fm.findFragmentById(containerId)?.let { old ->
                         fm.beginTransaction().remove(old).commitNowAllowingStateLoss()

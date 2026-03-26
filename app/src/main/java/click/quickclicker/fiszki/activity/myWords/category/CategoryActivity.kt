@@ -17,7 +17,7 @@ import click.quickclicker.fiszki.ui.OrientationHelper
 import click.quickclicker.fiszki.activity.SettingsActivity
 import click.quickclicker.fiszki.activity.exam.ExamActivity
 import click.quickclicker.fiszki.activity.learning.LearningActivity
-import click.quickclicker.fiszki.dialogs.category.AddCategoryDialog
+import click.quickclicker.fiszki.dialogs.category.AddCategoryDialogFragment
 import click.quickclicker.fiszki.model.category.Category
 import click.quickclicker.fiszki.model.category.CategoryRepository
 import click.quickclicker.fiszki.model.flashcard.FlashcardRepository
@@ -55,7 +55,9 @@ class CategoryActivity : AppCompatActivity() {
     private fun buildAddButton() {
         val addBtn = findViewById<ImageButton>(R.id.btn_add_category)
         addBtn.setOnClickListener {
-            AddCategoryDialog(mActivity).show()
+            AddCategoryDialogFragment().also {
+                it.onDismissed = { updateList() }
+            }.show(supportFragmentManager, "AddCategory")
         }
     }
 

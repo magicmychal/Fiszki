@@ -34,6 +34,8 @@
     <string name="learning_check_dialog_your_answer">Your answer:</string>
     <string name="learning_check_dialog_your_answer_label">You entered</string>
 
+    <string name="learning_check_dialog_bad_title">Not quite</string>
+    <string name="learning_check_dialog_bad_subtitle">Don\'t worry, it\'s part of learning.</string>
     <string name="learning_check_dialog_skip_btn">Skip flashcard</string>
     <string name="learning_check_dialog_skip_btn_new">Skip this time</string>
     <string name="learning_check_dialog_retry_btn">Try typing again</string>
@@ -58,5 +60,19 @@
     <string name="learning_start_practice">Start practice</string>
     <string name="learning_no_categories">No sets available</string>
     <string name="learning_direction_format">%1$s → %2$s</string>
+
+    <string name="learning_setup_label">Practice</string>
+    <string name="learning_setup_title">Setup Your Practice</string>
+    <string name="learning_setup_subtitle">Tailor your study session to match your current learning goals.</string>
+    <string name="learning_session_type">Session Type</string>
+    <string name="learning_session_strict">Strict</string>
+    <string name="learning_session_strict_desc">Exact match required</string>
+    <string name="learning_session_relaxed">Relaxed</string>
+    <string name="learning_session_relaxed_desc">Case-insensitive</string>
+    <string name="learning_focus_areas">Focus Areas</string>
+    <string name="learning_focus_all_sets">All sets</string>
+    <string name="learning_selected_count">%d SELECTED</string>
+    <string name="learning_direction_label">Direction</string>
+    <string name="learning_begin_session">Begin Practice Session</string>
 
 </resources>

@@ -1,33 +1,64 @@
 package click.quickclicker.fiszki.dialogs.category
 
 import android.content.Intent
-import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.textfield.MaterialAutoCompleteTextView
-import com.google.android.material.textfield.TextInputEditText
 import click.quickclicker.fiszki.R
 import click.quickclicker.fiszki.activity.CATEGORY_COLORS
 import click.quickclicker.fiszki.activity.CategoryColor
+import click.quickclicker.fiszki.activity.FiszkiTheme
 import click.quickclicker.fiszki.activity.defaultCategoryColor
 import click.quickclicker.fiszki.activity.findCategoryColor
+import click.quickclicker.fiszki.activity.learning.RobotoSerifFamily
 import click.quickclicker.fiszki.model.category.Category
 import click.quickclicker.fiszki.model.category.CategoryRepository
 import click.quickclicker.fiszki.model.category.ValidationCategory
 import click.quickclicker.fiszki.model.flashcard.Flashcard
 import click.quickclicker.fiszki.model.flashcard.FlashcardRepository
+import click.quickclicker.fiszki.ui.ColorPickerRow
+import click.quickclicker.fiszki.ui.LanguageDropdown
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
@@ -37,7 +68,11 @@ class EditCategoryBottomSheet : BottomSheetDialogFragment() {
     private var categoryId: Int = 0
     private lateinit var category: Category
     private var selectedColor: CategoryColor = defaultCategoryColor()
-    private val colorViews = mutableListOf<View>()
+
+    // Mutable state for Compose → Shell bridge
+    private var currentName: String = ""
+    private var currentLangFrom: String = ""
+    private var currentLangOn: String = ""
 
     private val csvPickerLauncher =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
@@ -60,144 +95,65 @@ class EditCategoryBottomSheet : BottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.bottom_sheet_edit_category, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        categoryId = arguments?.getInt(ARG_CATEGORY_ID) ?: return
-        val context = requireContext()
-        val categoryRepository = CategoryRepository(context)
-        category = categoryRepository.getCategoryByID(categoryId) ?: return
-
-        val nameEt = view.findViewById<TextInputEditText>(R.id.edit_category_name)
-        val langFromEt = view.findViewById<MaterialAutoCompleteTextView>(R.id.edit_category_lang_from)
-        val langOnEt = view.findViewById<MaterialAutoCompleteTextView>(R.id.edit_category_lang_on)
-
-        nameEt.setText(category.getCategory())
-        langFromEt.setText(category.getLangFrom() ?: "")
-        langOnEt.setText(category.getLangOn() ?: "")
-
-        val languages = context.resources.getStringArray(R.array.support_lang)
-        val adapter = ArrayAdapter(context, android.R.layout.simple_dropdown_item_1line, languages)
-        langFromEt.setAdapter(adapter)
-        langOnEt.setAdapter(adapter)
-
-        // Save on focus loss or when user navigates away
-        nameEt.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) saveCategory(nameEt, langFromEt, langOnEt, categoryRepository)
-        }
-        langFromEt.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) saveCategory(nameEt, langFromEt, langOnEt, categoryRepository)
-        }
-        langOnEt.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) saveCategory(nameEt, langFromEt, langOnEt, categoryRepository)
-        }
-
-        // Color picker
+    ): View {
+        categoryId = arguments?.getInt(ARG_CATEGORY_ID) ?: 0
+        val ctx = requireContext()
+        val categoryRepository = CategoryRepository(ctx)
+        category = categoryRepository.getCategoryByID(categoryId) ?: Category()
         selectedColor = findCategoryColor(category.getColor()) ?: defaultCategoryColor()
-        val colorContainer = view.findViewById<LinearLayout>(R.id.color_picker_container)
-        buildColorPicker(colorContainer, nameEt, langFromEt, langOnEt, categoryRepository)
 
-        // Export CSV button
-        val exportBtn = view.findViewById<MaterialButton>(R.id.btn_export_csv)
-        exportBtn.setOnClickListener {
-            exportCsv()
-        }
+        currentName = category.getCategory() ?: ""
+        currentLangFrom = category.getLangFrom() ?: ""
+        currentLangOn = category.getLangOn() ?: ""
 
-        // Import CSV button
-        val importBtn = view.findViewById<MaterialButton>(R.id.btn_import_csv)
-        importBtn.setOnClickListener {
-            csvPickerLauncher.launch(arrayOf("text/csv", "text/comma-separated-values", "text/plain"))
-        }
-
-        // Delete button — only for user-created categories
-        val deleteBtn = view.findViewById<MaterialButton>(R.id.btn_delete_category)
-        if (category.isEntryByUser) {
-            deleteBtn.visibility = View.VISIBLE
-            deleteBtn.setOnClickListener {
-                showDeleteConfirmation(categoryRepository)
+        return ComposeView(ctx).apply {
+            setContent {
+                FiszkiTheme {
+                    EditCategorySheetContent(
+                        category = category,
+                        selectedColor = selectedColor,
+                        name = currentName,
+                        onNameChange = { currentName = it },
+                        langFrom = currentLangFrom,
+                        onLangFromChange = { currentLangFrom = it },
+                        langOn = currentLangOn,
+                        onLangOnChange = { currentLangOn = it },
+                        onColorSelect = {
+                            selectedColor = it
+                            saveCategory()
+                        },
+                        languages = ctx.resources.getStringArray(R.array.support_lang).toList(),
+                        onExportCsv = { exportCsv() },
+                        onImportCsv = {
+                            csvPickerLauncher.launch(
+                                arrayOf("text/csv", "text/comma-separated-values", "text/plain")
+                            )
+                        },
+                        showDelete = category.isEntryByUser,
+                        onDelete = {
+                            showDeleteConfirmation()
+                        }
+                    )
+                }
             }
         }
     }
 
     override fun onPause() {
         super.onPause()
-        val view = view ?: return
-        val context = context ?: return
-        val nameEt = view.findViewById<TextInputEditText>(R.id.edit_category_name)
-        val langFromEt = view.findViewById<MaterialAutoCompleteTextView>(R.id.edit_category_lang_from)
-        val langOnEt = view.findViewById<MaterialAutoCompleteTextView>(R.id.edit_category_lang_on)
-        val categoryRepository = CategoryRepository(context)
-        saveCategory(nameEt, langFromEt, langOnEt, categoryRepository)
+        saveCategory()
     }
 
-    private fun buildColorPicker(
-        container: LinearLayout,
-        nameEt: TextInputEditText,
-        langFromEt: MaterialAutoCompleteTextView,
-        langOnEt: MaterialAutoCompleteTextView,
-        categoryRepository: CategoryRepository
-    ) {
-        colorViews.clear()
-        val ctx = requireContext()
-        val sizePx = (36 * ctx.resources.displayMetrics.density).toInt()
-        val marginPx = (8 * ctx.resources.displayMetrics.density).toInt()
-        val strokePx = (3 * ctx.resources.displayMetrics.density).toInt()
-
-        for (catColor in CATEGORY_COLORS) {
-            val circleView = View(ctx)
-            val params = LinearLayout.LayoutParams(sizePx, sizePx)
-            params.marginEnd = marginPx
-            circleView.layoutParams = params
-
-            updateCircleDrawable(circleView, catColor, catColor == selectedColor, strokePx)
-
-            circleView.setOnClickListener {
-                selectedColor = catColor
-                category.setColor(String.format("#%06X", 0xFFFFFF and catColor.primary))
-                for ((i, v) in colorViews.withIndex()) {
-                    updateCircleDrawable(v, CATEGORY_COLORS[i], CATEGORY_COLORS[i] == selectedColor, strokePx)
-                }
-                saveCategory(nameEt, langFromEt, langOnEt, categoryRepository)
-            }
-
-            colorViews.add(circleView)
-            container.addView(circleView)
-        }
-    }
-
-    private fun updateCircleDrawable(view: View, catColor: CategoryColor, isSelected: Boolean, strokePx: Int) {
-        val drawable = GradientDrawable()
-        drawable.shape = GradientDrawable.OVAL
-        drawable.setColor(catColor.primary)
-        if (isSelected) {
-            val onSurface = android.util.TypedValue().let { tv ->
-                view.context.theme.resolveAttribute(com.google.android.material.R.attr.colorOnSurface, tv, true)
-                tv.data
-            }
-            drawable.setStroke(strokePx, onSurface)
-        }
-        view.background = drawable
-    }
-
-    private fun saveCategory(
-        nameEt: TextInputEditText,
-        langFromEt: MaterialAutoCompleteTextView,
-        langOnEt: MaterialAutoCompleteTextView,
-        categoryRepository: CategoryRepository
-    ) {
-        val context = context ?: return
-        category.setCategory(nameEt.text.toString().trim())
-        category.setLangFrom(langFromEt.text.toString().trim())
-        category.setLangOn(langOnEt.text.toString().trim())
+    private fun saveCategory() {
+        val ctx = context ?: return
+        category.setCategory(currentName.trim())
+        category.setLangFrom(currentLangFrom.trim())
+        category.setLangOn(currentLangOn.trim())
         category.setColor(String.format("#%06X", 0xFFFFFF and selectedColor.primary))
 
-        val validation = ValidationCategory(context)
+        val validation = ValidationCategory(ctx)
         if (validation.validate(category)) {
-            categoryRepository.updateCategory(category)
+            CategoryRepository(ctx).updateCategory(category)
         }
     }
 
@@ -339,26 +295,171 @@ class EditCategoryBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
-    private fun showDeleteConfirmation(categoryRepository: CategoryRepository) {
+    private fun showDeleteConfirmation() {
         val ctx = context ?: return
-        MaterialAlertDialogBuilder(ctx)
+        com.google.android.material.dialog.MaterialAlertDialogBuilder(ctx)
             .setMessage(getString(R.string.edit_category_delete_message))
             .setPositiveButton(R.string.button_action_yes) { _, _ ->
-                deleteCategoryWithFlashcards(categoryRepository)
+                deleteCategoryWithFlashcards()
             }
             .setNegativeButton(R.string.button_action_no, null)
             .show()
     }
 
-    private fun deleteCategoryWithFlashcards(categoryRepository: CategoryRepository) {
+    private fun deleteCategoryWithFlashcards() {
         val ctx = context ?: return
+        val categoryRepository = CategoryRepository(ctx)
         val flashcardRepository = FlashcardRepository(ctx)
         val flashcards = flashcardRepository.getFlashcardsByCategoryID(category.id)
         if (flashcards.isNotEmpty()) {
             flashcardRepository.deleteFlashcards(flashcards)
         }
         categoryRepository.deleteCategory(category)
-
         dismiss()
+    }
+}
+
+@Composable
+private fun EditCategorySheetContent(
+    category: Category,
+    selectedColor: CategoryColor,
+    name: String,
+    onNameChange: (String) -> Unit,
+    langFrom: String,
+    onLangFromChange: (String) -> Unit,
+    langOn: String,
+    onLangOnChange: (String) -> Unit,
+    onColorSelect: (CategoryColor) -> Unit,
+    languages: List<String>,
+    onExportCsv: () -> Unit,
+    onImportCsv: () -> Unit,
+    showDelete: Boolean,
+    onDelete: () -> Unit
+) {
+    var nameState by remember { mutableStateOf(name) }
+    var langFromState by remember { mutableStateOf(langFrom) }
+    var langOnState by remember { mutableStateOf(langOn) }
+    var colorState by remember { mutableStateOf(selectedColor) }
+
+    Column(
+        modifier = Modifier
+            .padding(24.dp)
+            .verticalScroll(rememberScrollState())
+    ) {
+        // Drag handle
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
+            Box(
+                modifier = Modifier
+                    .width(32.dp)
+                    .height(4.dp)
+                    .clip(RoundedCornerShape(2.dp))
+                    .then(
+                        Modifier.background(MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f))
+                    )
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = stringResource(R.string.edit_category_title),
+            style = MaterialTheme.typography.headlineSmall,
+            fontFamily = RobotoSerifFamily,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedTextField(
+            value = nameState,
+            onValueChange = {
+                nameState = it
+                onNameChange(it)
+            },
+            label = { Text(stringResource(R.string.category_dialog_et_name)) },
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Row(modifier = Modifier.fillMaxWidth()) {
+            LanguageDropdown(
+                value = langFromState,
+                onValueChange = {
+                    langFromState = it
+                    onLangFromChange(it)
+                },
+                label = stringResource(R.string.category_dialog_lang_from),
+                languages = languages,
+                modifier = Modifier.weight(1f)
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+            LanguageDropdown(
+                value = langOnState,
+                onValueChange = {
+                    langOnState = it
+                    onLangOnChange(it)
+                },
+                label = stringResource(R.string.category_dialog_lang_on),
+                languages = languages,
+                modifier = Modifier.weight(1f)
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = stringResource(R.string.edit_category_color),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+
+        ColorPickerRow(
+            colors = CATEGORY_COLORS,
+            selected = colorState,
+            onSelect = {
+                colorState = it
+                onColorSelect(it)
+            }
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+
+        HorizontalDivider()
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            OutlinedButton(onClick = onExportCsv) {
+                Text(stringResource(R.string.export_set_csv))
+            }
+            OutlinedButton(onClick = onImportCsv) {
+                Text(stringResource(R.string.import_set_csv))
+            }
+        }
+
+        if (showDelete) {
+            Spacer(modifier = Modifier.height(16.dp))
+            HorizontalDivider()
+            Spacer(modifier = Modifier.height(16.dp))
+
+            TextButton(onClick = onDelete) {
+                Icon(
+                    Icons.Default.Delete,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    stringResource(R.string.edit_category_delete_button),
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }

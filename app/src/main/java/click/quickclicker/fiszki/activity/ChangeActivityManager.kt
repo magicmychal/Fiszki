@@ -81,8 +81,12 @@ class ChangeActivityManager(private val activity: Activity) {
         activity.finish()
     }
 
-    fun resetMain() {
+    fun resetMain(tabId: Int = 0) {
+        val intent = Intent(activity, NavHostActivity::class.java)
+        if (tabId != 0) {
+            intent.putExtra(NavHostActivity.EXTRA_TAB, tabId)
+        }
         activity.finish()
-        activity.startActivity(Intent(activity, NavHostActivity::class.java))
+        activity.startActivity(intent)
     }
 }

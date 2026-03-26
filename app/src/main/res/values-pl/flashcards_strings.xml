@@ -33,6 +33,13 @@
     <string name="nav_learning_mode">Ćwiczenia</string>
     <string name="nav_exam">Egzamin</string>
     <string name="nav_settings">Ustawienia</string>
-    <string name="home_categories_header">Zestawy</string>
+    <string name="flashcard_vocabulary_deck_label">Zestaw słówek</string>
+    <string name="flashcard_collection_count">%d fiszek w zestawie</string>
+
+    <string name="home_title">Twoje zestawy fiszek</string>
+    <string name="home_categories_header">Twoja biblioteka</string>
+    <string name="category_word_count">%d fiszek</string>
+    <string name="category_mastery_label">OPANOWANIE</string>
+    <string name="category_mastery_percent">%d%%</string>
 
 </resources>

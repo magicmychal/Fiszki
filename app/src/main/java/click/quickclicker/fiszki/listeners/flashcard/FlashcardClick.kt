@@ -1,14 +1,14 @@
 package click.quickclicker.fiszki.listeners.flashcard
 
-import android.app.Activity
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import click.quickclicker.fiszki.dialogs.flashcard.EditAndDeleteFlashcardDialog
+import androidx.appcompat.app.AppCompatActivity
+import click.quickclicker.fiszki.dialogs.flashcard.EditFlashcardDialogFragment
 import click.quickclicker.fiszki.model.flashcard.Flashcard
 
 class FlashcardClick(
-    private val activity: Activity,
+    private val activity: AppCompatActivity,
     private val flashcard: Flashcard
 ) : View.OnClickListener {
 
@@ -25,7 +25,8 @@ class FlashcardClick(
         } else if (clickCount == 2) {
             // Double click
             clickCount = 0
-            EditAndDeleteFlashcardDialog(activity, flashcard).show()
+            EditFlashcardDialogFragment.newInstance(flashcard.id)
+                .show(activity.supportFragmentManager, "EditFlashcard")
         }
     }
 }

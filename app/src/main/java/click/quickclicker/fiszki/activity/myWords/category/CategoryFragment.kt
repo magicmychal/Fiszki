@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import click.quickclicker.fiszki.R
-import click.quickclicker.fiszki.dialogs.category.AddCategoryDialog
+import click.quickclicker.fiszki.dialogs.category.AddCategoryDialogFragment
 import click.quickclicker.fiszki.model.category.Category
 import click.quickclicker.fiszki.model.category.CategoryRepository
 import click.quickclicker.fiszki.model.flashcard.FlashcardRepository
@@ -49,8 +49,9 @@ class CategoryFragment : Fragment() {
     private fun buildAddButton(view: View) {
         val addBtn = view.findViewById<ImageButton>(R.id.btn_add_category)
         addBtn.setOnClickListener {
-            val dialog = AddCategoryDialog(requireActivity()).show()
-            dialog.setOnDismissListener { updateList() }
+            AddCategoryDialogFragment().also {
+                it.onDismissed = { updateList() }
+            }.show(childFragmentManager, "AddCategory")
         }
     }
 

@@ -34,6 +34,8 @@
     <string name="learning_check_dialog_your_answer">Twoja odpowiedź:</string>
     <string name="learning_check_dialog_your_answer_label">Wpisałeś</string>
 
+    <string name="learning_check_dialog_bad_title">Prawie dobrze</string>
+    <string name="learning_check_dialog_bad_subtitle">Nie martw się, to część nauki.</string>
     <string name="learning_check_dialog_skip_btn">Pomiń fiszkę</string>
     <string name="learning_check_dialog_skip_btn_new">Pomiń tym razem</string>
     <string name="learning_check_dialog_retry_btn">Spróbuj wpisać ponownie</string>
@@ -58,5 +60,19 @@
     <string name="learning_start_practice">Rozpocznij ćwiczenia</string>
     <string name="learning_no_categories">Brak dostępnych zestawów</string>
     <string name="learning_direction_format">%1$s → %2$s</string>
+
+    <string name="learning_setup_label">Ćwiczenia</string>
+    <string name="learning_setup_title">Przygotuj ćwiczenia</string>
+    <string name="learning_setup_subtitle">Dostosuj sesję nauki do swoich aktualnych celów.</string>
+    <string name="learning_session_type">Typ sesji</string>
+    <string name="learning_session_strict">Ścisły</string>
+    <string name="learning_session_strict_desc">Wymagane dokładne dopasowanie</string>
+    <string name="learning_session_relaxed">Swobodny</string>
+    <string name="learning_session_relaxed_desc">Bez rozróżniania wielkości liter</string>
+    <string name="learning_focus_areas">Obszary nauki</string>
+    <string name="learning_focus_all_sets">Wszystkie zestawy</string>
+    <string name="learning_selected_count">%d WYBRANYCH</string>
+    <string name="learning_direction_label">Kierunek</string>
+    <string name="learning_begin_session">Rozpocznij sesję</string>
 
 </resources>

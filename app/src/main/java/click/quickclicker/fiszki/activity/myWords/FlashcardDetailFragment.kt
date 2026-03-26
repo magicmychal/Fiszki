@@ -23,7 +23,7 @@ import click.quickclicker.fiszki.activity.ChangeActivityManager
 import click.quickclicker.fiszki.activity.defaultCategoryColor
 import click.quickclicker.fiszki.activity.findCategoryColor
 import click.quickclicker.fiszki.dialogs.category.EditCategoryBottomSheet
-import click.quickclicker.fiszki.dialogs.flashcard.AddFlashcardDialog
+import click.quickclicker.fiszki.dialogs.flashcard.AddFlashcardDialogFragment
 import click.quickclicker.fiszki.model.category.Category
 import click.quickclicker.fiszki.model.category.CategoryRepository
 import click.quickclicker.fiszki.model.flashcard.FlashcardRepository
@@ -107,8 +107,9 @@ class FlashcardDetailFragment : Fragment() {
 
     private fun buildActionChips(view: View) {
         view.findViewById<MaterialButton>(R.id.chip_add_card).setOnClickListener {
-            AddFlashcardDialog(requireActivity(), currentCategory.id).show()
-                .setOnDismissListener { updateList() }
+            AddFlashcardDialogFragment.newInstance(currentCategory.id).also {
+                it.onDismissed = { updateList() }
+            }.show(childFragmentManager, "AddFlashcard")
         }
 
         view.findViewById<MaterialButton>(R.id.chip_start_review).setOnClickListener {
@@ -180,7 +181,7 @@ class FlashcardDetailFragment : Fragment() {
         emptyText.visibility = if (flashcards.isEmpty()) View.VISIBLE else View.GONE
         val catColor = findCategoryColor(currentCategory.getColor()) ?: defaultCategoryColor()
         val useFsrs = LocalSharedPreferences(requireContext()).useFsrsAlgorithm
-        val adapter = FlashcardShowAdapter(requireActivity(), flashcards, catColor.primary, useFsrs)
+        val adapter = FlashcardShowAdapter(requireActivity() as androidx.appcompat.app.AppCompatActivity, flashcards, catColor.primary, useFsrs)
         recyclerView.swapAdapter(adapter, false)
     }
 }

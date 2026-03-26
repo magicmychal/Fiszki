@@ -23,6 +23,9 @@ interface FlashcardDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(flashcards: List<Flashcard>)
 
+    @Query("SELECT * FROM flashcard WHERE id = :id LIMIT 1")
+    fun getById(id: Int): Flashcard?
+
     @Query("SELECT * FROM flashcard WHERE word = :name LIMIT 1")
     fun getByWord(name: String): Flashcard?
 
