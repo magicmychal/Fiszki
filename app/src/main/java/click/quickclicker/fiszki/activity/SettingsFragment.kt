@@ -77,7 +77,6 @@ class SettingsFragment : Fragment() {
     private var notificationsEnabled = mutableStateOf(false)
     private var scheduleText = mutableStateOf("")
     private var nightModeEnabled = mutableStateOf(false)
-    private var paletteLabel = mutableStateOf("")
     private var fsrsEnabled = mutableStateOf(false)
     private var diagnosticEnabled = mutableStateOf(false)
     private var versionName = mutableStateOf("")
@@ -111,7 +110,6 @@ class SettingsFragment : Fragment() {
         nightModeEnabled.value = mNightModeController.getStatus() != 0
         fsrsEnabled.value = prefs.useFsrsAlgorithm
         diagnosticEnabled.value = prefs.diagnosticDataEnabled
-        updatePaletteLabel()
         updateScheduleSubtitle()
         updateVersionName()
     }
@@ -138,7 +136,6 @@ class SettingsFragment : Fragment() {
         val notifEnabled by remember { notificationsEnabled }
         val schedule by remember { scheduleText }
         val nightMode by remember { nightModeEnabled }
-        val palette by remember { paletteLabel }
         val fsrs by remember { fsrsEnabled }
         val diagnostic by remember { diagnosticEnabled }
         val version by remember { versionName }
@@ -295,15 +292,6 @@ class SettingsFragment : Fragment() {
                         )
                     )
                 }
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Color palette
-            SettingsRow(
-                title = stringResource(R.string.settings_color_palette),
-                subtitle = palette,
-                onClick = { showColorPaletteDialog() }
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -544,35 +532,6 @@ class SettingsFragment : Fragment() {
             selectedNames.joinToString(", ")
         }
         scheduleText.value = "$time \u2022 $daysPart"
-    }
-
-    private fun showColorPaletteDialog() {
-        val options = arrayOf(
-            getString(R.string.settings_color_palette_summary_purple),
-            getString(R.string.settings_color_palette_summary_yellow)
-        )
-        val current = prefs.colorPalette
-        com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.settings_color_palette)
-            .setSingleChoiceItems(options, current) { dialog, which ->
-                if (which != current) {
-                    prefs.colorPalette = which
-                    updatePaletteLabel()
-                    dialog.dismiss()
-                    ChangeActivityManager(requireActivity()).resetMain(R.id.nav_settings)
-                } else {
-                    dialog.dismiss()
-                }
-            }
-            .show()
-    }
-
-    private fun updatePaletteLabel() {
-        paletteLabel.value = if (prefs.colorPalette == LocalSharedPreferences.PALETTE_YELLOW) {
-            getString(R.string.settings_color_palette_summary_yellow)
-        } else {
-            getString(R.string.settings_color_palette_summary_purple)
-        }
     }
 
     private fun openLanguageSettings() {
