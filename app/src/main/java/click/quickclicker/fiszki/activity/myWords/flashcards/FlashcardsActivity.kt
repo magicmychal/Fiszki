@@ -33,12 +33,16 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -112,7 +116,20 @@ private fun FlashcardsScreen(
     val prefs = remember { LocalSharedPreferences(context) }
     val useFsrs = prefs.useFsrsAlgorithm
 
-    var refreshTrigger by remember { mutableIntStateOf(0) }
+    var refreshTrigger by rememberSaveable { mutableIntStateOf(0) }
+
+    // Refresh when returning from another activity (e.g. edit set, add flashcard)
+    @Suppress("DEPRECATION")
+    val lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                refreshTrigger++
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
 
     val category = remember(refreshTrigger) {
         categoryRepository.getCategoryByID(CategoryManagerSingleton.currentCategoryId)
@@ -129,19 +146,6 @@ private fun FlashcardsScreen(
 
     val catColor = remember(category.getColor()) {
         findCategoryColor(category.getColor()) ?: defaultCategoryColor()
-    }
-
-    // Refresh when returning from another activity (e.g. edit set, add flashcard)
-    @Suppress("DEPRECATION")
-    val lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current
-    androidx.compose.runtime.DisposableEffect(lifecycleOwner) {
-        val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
-            if (event == androidx.lifecycle.Lifecycle.Event.ON_RESUME) {
-                refreshTrigger++
-            }
-        }
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
     val catContainerColor = Color(catColor.container or 0xFF000000.toInt())

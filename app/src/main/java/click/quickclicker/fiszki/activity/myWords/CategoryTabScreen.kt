@@ -117,6 +117,7 @@ fun CategoryTabScreen(
                 onAddCategory = {
                     context.startActivity(Intent(context, CreateSetActivity::class.java))
                 },
+                refreshTrigger = refreshTrigger,
                 modifier = Modifier.width(320.dp).fillMaxHeight()
             )
             VerticalDivider()
@@ -158,6 +159,7 @@ fun CategoryTabScreen(
             onAddCategory = {
                 context.startActivity(Intent(context, CreateSetActivity::class.java))
             },
+            refreshTrigger = refreshTrigger,
             modifier = modifier.fillMaxSize()
         )
     }
@@ -170,6 +172,7 @@ private fun CategoryListPane(
     selectedCategoryId: Int?,
     onCategoryClick: (Category) -> Unit,
     onAddCategory: () -> Unit,
+    refreshTrigger: Int = 0,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -230,11 +233,11 @@ private fun CategoryListPane(
                 ) {
                     items(categories, key = { it.id }) { category ->
                         val isSelected = category.id == selectedCategoryId
-                        val flashcards = remember(category.id) {
+                        val flashcards = remember(refreshTrigger, category.id) {
                             flashcardRepository.getFlashcardsByCategoryID(category.id)
                         }
                         val count = flashcards.size
-                        val mastery = remember(category.id) {
+                        val mastery = remember(refreshTrigger, category.id) {
                             computeMastery(flashcards)
                         }
                         CategoryCard(
