@@ -130,7 +130,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun buildToolbar() {
         mToolbar = findViewById(R.id.toolbar)
-        mToolbar.title = resources.getString(R.string.app_name)
+        mToolbar.title = ""
         mToolbar.setNavigationIcon(R.drawable.ic_menu_white_36px)
         mToolbar.setNavigationOnClickListener {
             mDrawerLayout.openDrawer(GravityCompat.START)
