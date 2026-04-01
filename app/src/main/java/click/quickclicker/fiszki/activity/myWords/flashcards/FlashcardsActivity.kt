@@ -37,8 +37,10 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.Lifecycle
@@ -76,7 +78,12 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Surface
 import androidx.compose.material3.SwipeToDismissBoxState
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.ui.graphics.Color
+import kotlinx.coroutines.launch
 
 class FlashcardsActivity : AppCompatActivity() {
 
@@ -116,6 +123,11 @@ private fun FlashcardsScreen(
     val prefs = remember { LocalSharedPreferences(context) }
     val useFsrs = prefs.useFsrsAlgorithm
 
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+    val deletedMessage = stringResource(R.string.snackbar_return_word_message)
+    val undoLabel = stringResource(R.string.snackbar_return_word_button)
+
     var refreshTrigger by rememberSaveable { mutableIntStateOf(0) }
 
     // Refresh when returning from another activity (e.g. edit set, add flashcard)
@@ -140,8 +152,11 @@ private fun FlashcardsScreen(
         return
     }
 
-    val flashcards = remember(refreshTrigger) {
-        flashcardRepository.getFlashcardsByCategoryID(category.id)
+    // Mutable state list for optimistic UI updates (undo support)
+    val flashcards = remember { mutableStateListOf<Flashcard>() }
+    LaunchedEffect(refreshTrigger) {
+        flashcards.clear()
+        flashcards.addAll(flashcardRepository.getFlashcardsByCategoryID(category.id))
     }
 
     val catColor = remember(category.getColor()) {
@@ -152,6 +167,7 @@ private fun FlashcardsScreen(
     val catPrimaryColor = Color(catColor.primary or 0xFF000000.toInt())
 
     Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = { },
@@ -263,8 +279,26 @@ private fun FlashcardsScreen(
                     SwipeToDeleteItem(
                         flashcard = flashcard,
                         onDelete = {
+                            val deletedFlashcard = flashcard
+                            val deletedIndex = flashcards.indexOfFirst { it.id == flashcard.id }
+                                .coerceAtLeast(0)
                             flashcardRepository.deleteFlashcard(flashcard)
-                            refreshTrigger++
+                            flashcards.removeAll { it.id == flashcard.id }
+
+                            coroutineScope.launch {
+                                val result = snackbarHostState.showSnackbar(
+                                    message = deletedMessage,
+                                    actionLabel = undoLabel,
+                                    duration = SnackbarDuration.Short
+                                )
+                                if (result == SnackbarResult.ActionPerformed) {
+                                    flashcardRepository.addFlashcard(deletedFlashcard)
+                                    flashcards.add(
+                                        deletedIndex.coerceIn(0, flashcards.size),
+                                        deletedFlashcard
+                                    )
+                                }
+                            }
                         },
                         onEdit = {
                             context.startActivity(
@@ -301,6 +335,13 @@ private fun SwipeToDeleteItem(
         }
     )
 
+    // Reset dismiss state when item re-enters composition after undo
+    LaunchedEffect(dismissState.currentValue) {
+        if (dismissState.currentValue != SwipeToDismissBoxValue.Settled) {
+            dismissState.snapTo(SwipeToDismissBoxValue.Settled)
+        }
+    }
+
     val isSwiping = dismissState.targetValue != SwipeToDismissBoxValue.Settled
 
     SwipeToDismissBox(
@@ -311,7 +352,7 @@ private fun SwipeToDeleteItem(
                     .fillMaxSize()
                     .background(
                         if (isSwiping) MaterialTheme.colorScheme.error
-                        else MaterialTheme.colorScheme.surface
+                        else MaterialTheme.colorScheme.background
                     )
                     .padding(end = 24.dp),
                 contentAlignment = Alignment.CenterEnd
