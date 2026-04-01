@@ -47,4 +47,9 @@
     <string name="exam_summary_correct">Poprawne odpowiedzi: %d</string>
     <string name="exam_summary_incorrect">Niepoprawne odpowiedzi: %d</string>
     <string name="exam_summary_incorrect_section">Niepoprawne odpowiedzi</string>
+
+    <string name="exam_setup_label">Egzamin</string>
+    <string name="exam_setup_title">Sprawdź swoją wiedzę</string>
+    <string name="exam_setup_subtitle">Sprawdź się w sesji egzaminacyjnej.</string>
+    <string name="exam_begin_session">Rozpocznij egzamin</string>
 </resources>

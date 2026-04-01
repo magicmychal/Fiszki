@@ -85,7 +85,7 @@ class TabletSetupScreenTest {
             }
         }
 
-        composeTestRule.onNodeWithText("Strict mode").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Session Type").assertIsDisplayed()
     }
 
     @Test
@@ -133,7 +133,7 @@ class TabletSetupScreenTest {
             }
         }
 
-        composeTestRule.onNodeWithText("Strict mode").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Session Type").assertIsDisplayed()
     }
 
     @Test
@@ -151,6 +151,6 @@ class TabletSetupScreenTest {
         }
 
         composeTestRule.onNodeWithTag("practice_phone").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Strict mode").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Session Type").assertIsDisplayed()
     }
 }

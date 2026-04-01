@@ -19,4 +19,27 @@
     <string name="edit_category_color">Kolor</string>
     <string name="category_lang_pair">%1$s - %2$s</string>
     <string name="category_delete_not_allowed">Tego zestawu nie można usunąć.</string>
+
+    <string name="create_set_title">Nowy Zestaw</string>
+    <string name="create_set_info_banner">Fiszki można dodawać lub importować przez CSV w widoku \'Edytuj Zestaw\' po utworzeniu zestawu.</string>
+    <string name="create_set_details_section">Szczegóły</string>
+    <string name="create_set_name_hint">np. Starożytna Greka</string>
+    <string name="create_set_source_language">Język źródłowy</string>
+    <string name="create_set_target_language">Język docelowy</string>
+    <string name="create_set_select_language">Wybierz język</string>
+    <string name="create_set_button">Utwórz Zestaw</string>
+    <string name="create_set_helper">Dostosuj ustawienia, aby zacząć dodawać fiszki.</string>
+    <string name="edit_set_title">Edytuj Zestaw</string>
+    <string name="edit_set_general_settings">Ustawienia ogólne</string>
+    <string name="edit_set_details_label">Szczegóły</string>
+    <string name="edit_set_data_management">Zarządzanie danymi</string>
+    <string name="edit_set_csv_workflow">Praca z CSV</string>
+    <string name="edit_set_csv_description">Usprawnij materiały do nauki, importując duże partie słów lub archiwizując swoje postępy.</string>
+    <string name="edit_set_import_csv">Importuj z CSV</string>
+    <string name="edit_set_import_csv_formats">formaty .csv, .xlsx</string>
+    <string name="edit_set_export_csv">Eksportuj do CSV</string>
+    <string name="edit_set_export_csv_subtitle">Pobierz kopię zapasową</string>
+    <string name="edit_set_danger_zone">Strefa zagrożenia</string>
+    <string name="edit_set_delete">Usuń ten zestaw</string>
+    <string name="edit_set_save">Zapisz zmiany</string>
 </resources>

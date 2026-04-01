@@ -5,7 +5,6 @@ import android.app.AlarmManager
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import androidx.activity.enableEdgeToEdge
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -59,7 +58,6 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mNightModeController = NightModeController(this)
         mNightModeController.useTheme()
-        enableEdgeToEdge()
         window.isNavigationBarContrastEnforced = false
         OrientationHelper.lockPortraitOnPhone(this)
         setContentView(R.layout.activity_settings)

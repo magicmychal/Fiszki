@@ -19,4 +19,27 @@
     <string name="edit_category_color">Color</string>
     <string name="category_lang_pair">%1$s - %2$s</string>
     <string name="category_delete_not_allowed">This set cannot be deleted.</string>
+
+    <string name="create_set_title">New Set</string>
+    <string name="create_set_info_banner">Cards can be added or imported via CSV in the \'Edit Set\' view once your set is created.</string>
+    <string name="create_set_details_section">Details</string>
+    <string name="create_set_name_hint">e.g. Ancient Greek</string>
+    <string name="create_set_source_language">Source Language</string>
+    <string name="create_set_target_language">Target Language</string>
+    <string name="create_set_select_language">Select Language</string>
+    <string name="create_set_button">Create Set</string>
+    <string name="create_set_helper">Finalize settings to start adding your cards.</string>
+    <string name="edit_set_title">Edit Set</string>
+    <string name="edit_set_general_settings">General Settings</string>
+    <string name="edit_set_details_label">Details</string>
+    <string name="edit_set_data_management">Data Management</string>
+    <string name="edit_set_csv_workflow">CSV Workflow</string>
+    <string name="edit_set_csv_description">Streamline your study materials by importing large batches of words or archiving your progress.</string>
+    <string name="edit_set_import_csv">Import from CSV</string>
+    <string name="edit_set_import_csv_formats">.csv, .xlsx formats</string>
+    <string name="edit_set_export_csv">Export to CSV</string>
+    <string name="edit_set_export_csv_subtitle">Download backup</string>
+    <string name="edit_set_danger_zone">Danger Zone</string>
+    <string name="edit_set_delete">Delete this study set</string>
+    <string name="edit_set_save">Save Changes</string>
 </resources>

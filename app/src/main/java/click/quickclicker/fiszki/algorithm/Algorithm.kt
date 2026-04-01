@@ -6,35 +6,65 @@ import click.quickclicker.fiszki.model.flashcard.FlashcardRepository
 
 class Algorithm(context: Context) {
 
-    var draw: Int = 0
     private val flashcardRepository = FlashcardRepository(context)
     private val catcherFlashcardToAlgorithm = CatcherFlashcardToAlgorithm(context)
+    private val drawer = Drawer()
     private var lastDrawnFlashcard: Flashcard? = null
 
     fun drawCardAlgorithm(flashcardPool: ArrayList<Flashcard>): Flashcard {
-        // TODO: Implement priority-based algorithm using PriorityCount, MultiplierPoints, Drawer
-        // For now, uses random selection from the pool
+        if (flashcardPool.isEmpty()) {
+            throw IllegalArgumentException("Flashcard pool cannot be empty")
+        }
 
-        // If pool has only one card, return it (no choice)
         if (flashcardPool.size == 1) {
             lastDrawnFlashcard = flashcardPool[0]
             return flashcardPool[0]
         }
 
-        // If pool has multiple cards, ensure we don't draw the same card twice in a row
-        var drawnCard = flashcardPool.random()
+        val priorityCount = PriorityCount(flashcardPool).priorityCount() ?: return flashcardPool.random()
+        val multiplierPoints = MultiplierPoints(priorityCount).multipler()
+
+        val maxRange = multiplierPoints[4]
+        if (maxRange <= 0) return drawRandomAvoidingLast(flashcardPool)
+
+        var drawnCard: Flashcard? = null
         var attempts = 0
         val maxAttempts = 10
 
-        // Try to draw a different card than the last one
-        while (lastDrawnFlashcard != null &&
-               drawnCard.id == lastDrawnFlashcard?.id &&
-               attempts < maxAttempts) {
-            drawnCard = flashcardPool.random()
+        while (attempts < maxAttempts) {
+            val randomPoint = drawer.drawInteger(maxRange)
+            val selectedPriority = when {
+                randomPoint < multiplierPoints[0] -> 1
+                randomPoint < multiplierPoints[1] -> 2
+                randomPoint < multiplierPoints[2] -> 3
+                randomPoint < multiplierPoints[3] -> 4
+                else -> 5
+            }
+
+            val cardsWithPriority = flashcardPool.filter { it.priority == selectedPriority || (it.priority == 0 && selectedPriority == 1) }
+            if (cardsWithPriority.isNotEmpty()) {
+                val candidate = cardsWithPriority.random()
+                if (candidate.id != lastDrawnFlashcard?.id || flashcardPool.size <= 1) {
+                    drawnCard = candidate
+                    break
+                }
+            }
             attempts++
         }
 
-        lastDrawnFlashcard = drawnCard
-        return drawnCard
+        val finalCard = drawnCard ?: drawRandomAvoidingLast(flashcardPool)
+        lastDrawnFlashcard = finalCard
+        return finalCard
+    }
+
+    private fun drawRandomAvoidingLast(pool: ArrayList<Flashcard>): Flashcard {
+        var candidate = pool.random()
+        if (pool.size > 1 && candidate.id == lastDrawnFlashcard?.id) {
+            val remaining = pool.filter { it.id != lastDrawnFlashcard?.id }
+            if (remaining.isNotEmpty()) {
+                candidate = remaining.random()
+            }
+        }
+        return candidate
     }
 }

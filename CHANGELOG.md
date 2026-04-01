@@ -6,28 +6,62 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [2.7.0] - 2026-04-01
+
 ### Added
-- "About" screen in Settings that renders a Markdown document (`assets/about_en.md` / `assets/about_pl.md`) with full table and link support, automatically selecting the correct language at runtime
+- Full-screen "Create New Set" activity with editorial design: info banner, bento-style language selectors with bottom sheet picker, filled text fields, and prominent CTA button
+- Full-screen "Edit Set Details" activity with editorial design: section headers, bento language selectors, CSV import/export cards, danger zone for deletion, and fixed "Save Changes" bottom bar
+- Full-screen "Add Flashcard" activity — after adding a word the user stays on the screen to add more; fields clear and focus returns to the first input
+- Full-screen "Edit Flashcard" activity with language-aware field labels, save and delete actions
+- "Edit Collection" chip button in the flashcard list header for quick access to set settings
+- Category color now tints the top app bar across flashcard list, add/edit flashcard, and edit set screens
+- Reusable shared composables: `SectionHeader`, `FilledTextField`, `BentoLanguageSelector`, `LanguagePickerSheet`
+- "About" screen in Settings that renders a Markdown document with full table and link support
 - About screen uses a WebView with theme-aware CSS so it correctly follows light, dark, and yellow themes
+- Mastery progress bars on each set card showing learning progress based on answer statistics
+- Editorial Expressive design system: warm amber/gold palette, serif typography (Roboto Serif), card-based layouts with 24dp rounded corners
 
 ### Changed
+- "Create New Set" upgraded from a small dialog to a full-screen editorial activity
+- "Edit Set Details" upgraded from a bottom sheet to a full-screen editorial activity with explicit save
+- "Add Flashcard" upgraded from a dialog to a full-screen editorial activity
+- "Edit Flashcard" upgraded from a dialog to a full-screen editorial activity
+- Language selection now uses a searchable bottom sheet instead of dropdown menus
+- Add set FAB positioned closer to the bottom navigation bar
+- Modernized UI to Material 3 and improved card selection algorithm
+- Updated Compose theme to new colour variant and swipe-to-delete styling
+- Complete visual overhaul matching the Editorial Expressive design system across all screens
+- New color palette: warm amber primary (#8B6B23), mossy green tertiary (#4A6547), chocolate secondary (#6C5D3F) — replacing the previous purple defaults
+- Set list screen redesigned with italic serif headline, "CURATED LIBRARY" label, and editorial card layout with mastery progress bars
+- Flashcard list screen migrated from XML to Compose with editorial header ("VOCABULARY DECK" label + serif set name + card count) and swipe-to-delete
+- Flashcard list items now use serif bold font for the source word in primary color
+- Settings screen migrated from XML to Compose with editorial layout: section headers with dividers, reminder time/days cards, and danger zone styling for clear data
+- Practice session screen now shows the word in serif font, progress label uses primary color
+- Incorrect answer dialog redesigned: title changed to "Not quite" with encouraging subtitle "Don't worry, it's part of learning."
+- Exam summary screen uses serif fonts for headings, primary-colored section labels
 - Markdown rendering replaced with a WebView + JetBrains markdown-jvm (GFM flavour) approach, fixing broken tables and non-clickable links
 - About content is bundled with the app from the `assets/` folder — no network request needed, always up to date at compile time
-
-### Fixed
-- Crash when deleting the last flashcard in a set — `currentFocus` was null when the dialog held focus, causing a NullPointerException in the undo snackbar
-- Undo snackbar after deleting a flashcard now correctly shows "Deleted flashcard." instead of "Deleted set."
-- Input field in practice session now automatically receives focus when a new card is shown, including after correct answers, skips, and retries after a wrong answer
-
-### Changed
 - All activity transitions now use the system default animations, enabling the predictive back preview on every screen
-- Flashcard list items now appear as elevated cards with rounded corners, matching the set list style
 - App now uses edge-to-edge display — content extends behind transparent system bars for a more immersive experience
 - Hero gradient on flashcard set screen draws behind the status bar
 - Navigation bar is now fully transparent — the app's bottom navigation color extends seamlessly into the gesture bar area
 - Now targets Android 16 (SDK 36) for latest platform compliance
 
+### Fixed
+- Flashcard list now refreshes immediately when returning from add/edit/delete operations
+- Set list card counts and mastery percentages update immediately after changes
+- Flashcard list screen now closes automatically when the set is deleted from the edit screen
+- Crash when deleting the last flashcard in a set — `currentFocus` was null when the dialog held focus, causing a NullPointerException in the undo snackbar
+- Undo snackbar after deleting a flashcard now correctly shows "Deleted flashcard." instead of "Deleted set."
+- Input field in practice session now automatically receives focus when a new card is shown, including after correct answers, skips, and retries after a wrong answer
+- Set list no longer has a cutoff before the navigation bar
+
 ### Removed
+- Color palette option from settings (app now uses a single color scheme)
+- `AddCategoryDialogFragment` (replaced by `CreateSetActivity`)
+- `EditCategoryBottomSheet` (replaced by `EditSetActivity`)
+- `AddFlashcardDialogFragment` (replaced by `AddFlashcardActivity`)
+- `EditFlashcardDialogFragment` (replaced by `EditFlashcardActivity`)
 - Removed "Someone is up!" Sentry message sent on every app launch
 - Unused XML layouts for learning check, exam check, and exam summary screens (migrated to Compose)
 

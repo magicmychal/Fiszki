@@ -47,5 +47,9 @@
     <string name="exam_summary_incorrect">Incorrect answers: %d</string>
     <string name="exam_summary_incorrect_section">Incorrect answers</string>
 
+    <string name="exam_setup_label">Exam</string>
+    <string name="exam_setup_title">Test Your Knowledge</string>
+    <string name="exam_setup_subtitle">Challenge yourself with a timed exam session.</string>
+    <string name="exam_begin_session">Begin Exam Session</string>
 
 </resources>

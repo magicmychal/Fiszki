@@ -2,7 +2,6 @@ package click.quickclicker.fiszki.activity.exam
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import android.view.View
 import android.view.ViewGroup
 
@@ -28,7 +27,6 @@ class ExamActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         NightModeController(this).useTheme()
-        enableEdgeToEdge()
         window.isNavigationBarContrastEnforced = false
         OrientationHelper.lockPortraitOnPhone(this)
         setContentView(R.layout.activity_exam)

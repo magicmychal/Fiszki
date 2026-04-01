@@ -3,7 +3,6 @@ package click.quickclicker.fiszki.activity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -21,7 +20,7 @@ import click.quickclicker.fiszki.Alert
 import click.quickclicker.fiszki.NightModeController
 import click.quickclicker.fiszki.R
 import click.quickclicker.fiszki.ui.OrientationHelper
-import click.quickclicker.fiszki.dialogs.flashcard.QuicklyAddFlashcardDialog
+import click.quickclicker.fiszki.activity.myWords.flashcards.AddFlashcardActivity
 import click.quickclicker.fiszki.drawer.DrawerMain
 import click.quickclicker.fiszki.model.category.CategoryRepository
 import click.quickclicker.fiszki.model.flashcard.FlashcardRepository
@@ -40,7 +39,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         NightModeController(this).useTheme()
-        enableEdgeToEdge()
         window.isNavigationBarContrastEnforced = false
         OrientationHelper.lockPortraitOnPhone(this)
         setContentView(R.layout.activity_main)
@@ -123,13 +121,16 @@ class MainActivity : AppCompatActivity() {
     private fun buildFAB() {
         mFab = findViewById(R.id.fab_add_flashcard)
         mFab.setOnClickListener {
-            QuicklyAddFlashcardDialog(mActivity).show()
+            startActivity(
+                Intent(this, AddFlashcardActivity::class.java)
+                    .putExtra(AddFlashcardActivity.EXTRA_CATEGORY_ID, 1)
+            )
         }
     }
 
     private fun buildToolbar() {
         mToolbar = findViewById(R.id.toolbar)
-        mToolbar.title = resources.getString(R.string.app_name)
+        mToolbar.title = ""
         mToolbar.setNavigationIcon(R.drawable.ic_menu_white_36px)
         mToolbar.setNavigationOnClickListener {
             mDrawerLayout.openDrawer(GravityCompat.START)

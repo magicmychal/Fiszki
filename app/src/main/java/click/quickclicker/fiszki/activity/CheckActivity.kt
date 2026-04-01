@@ -2,7 +2,6 @@ package click.quickclicker.fiszki.activity
 
 import android.app.Activity
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import android.text.InputType
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -51,7 +50,6 @@ class CheckActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         NightModeController(this).useTheme()
-        enableEdgeToEdge()
         window.isNavigationBarContrastEnforced = false
         OrientationHelper.lockPortraitOnPhone(this)
         setContentView(R.layout.activity_check)

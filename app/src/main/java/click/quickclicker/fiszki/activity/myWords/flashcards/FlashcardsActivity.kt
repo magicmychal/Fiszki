@@ -1,243 +1,435 @@
 package click.quickclicker.fiszki.activity.myWords.flashcards
 
 import android.app.Activity
-import android.graphics.Canvas
-import androidx.activity.enableEdgeToEdge
-import android.graphics.Paint
-import android.graphics.RectF
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.view.View
-import android.widget.ImageButton
-import android.widget.TextView
 import android.widget.Toast
-
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.color.MaterialColors
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberSwipeToDismissBoxState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import click.quickclicker.fiszki.LocalSharedPreferences
 import click.quickclicker.fiszki.NightModeController
 import click.quickclicker.fiszki.R
 import click.quickclicker.fiszki.ui.OrientationHelper
 import click.quickclicker.fiszki.activity.ChangeActivityManager
+import click.quickclicker.fiszki.activity.FiszkiTheme
 import click.quickclicker.fiszki.activity.defaultCategoryColor
 import click.quickclicker.fiszki.activity.findCategoryColor
+import click.quickclicker.fiszki.activity.learning.RobotoSerifFamily
 import click.quickclicker.fiszki.activity.myWords.CategoryManagerSingleton
-import click.quickclicker.fiszki.dialogs.category.EditCategoryBottomSheet
-import click.quickclicker.fiszki.dialogs.flashcard.AddFlashcardDialog
-import click.quickclicker.fiszki.model.category.Category
+import click.quickclicker.fiszki.activity.myWords.category.EditSetActivity
+import android.content.Intent
 import click.quickclicker.fiszki.model.category.CategoryRepository
+import click.quickclicker.fiszki.model.flashcard.Flashcard
 import click.quickclicker.fiszki.model.flashcard.FlashcardRepository
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.Surface
+import androidx.compose.material3.SwipeToDismissBoxState
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
+import androidx.compose.ui.graphics.Color
+import kotlinx.coroutines.launch
 
 class FlashcardsActivity : AppCompatActivity() {
-
-    private lateinit var mActivity: Activity
-    private lateinit var mEmptyFlashcard: TextView
-    private lateinit var mRecycleView: RecyclerView
-    private lateinit var mCurrentCategory: Category
-    private lateinit var mFlashcardRepository: FlashcardRepository
-    private var mLastFingerprint: List<String> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         NightModeController(this).useTheme()
-        enableEdgeToEdge()
         window.isNavigationBarContrastEnforced = false
         OrientationHelper.lockPortraitOnPhone(this)
-        setContentView(R.layout.flashcards_activity)
-        init()
-        handleWindowInsets()
-        buildHeroHeader()
-        buildActionChips()
-        buildListView()
-    }
 
-    private fun init() {
-        mActivity = this
-        mFlashcardRepository = FlashcardRepository(mActivity)
-        mEmptyFlashcard = findViewById(R.id.empty_category_text)
-        mCurrentCategory = CategoryRepository(mActivity)
-            .getCategoryByID(CategoryManagerSingleton.currentCategoryId)!!
-    }
-
-    private fun handleWindowInsets() {
-        // Add top margin to back button so it sits below the status bar
-        val backButton = findViewById<ImageButton>(R.id.btn_back)
-        val originalTopMargin = 16 // dp value from XML
-        ViewCompat.setOnApplyWindowInsetsListener(backButton) { v, insets ->
-            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
-            val lp = v.layoutParams as android.widget.FrameLayout.LayoutParams
-            lp.topMargin = originalTopMargin.dpToPx() + bars.top
-            v.layoutParams = lp
-            WindowInsetsCompat.CONSUMED
-        }
-
-        // Add bottom padding to RecyclerView so content scrolls above the nav bar
-        val recyclerView = findViewById<RecyclerView>(R.id.listview_flashcard)
-        val originalBottomPadding = recyclerView.paddingBottom
-        ViewCompat.setOnApplyWindowInsetsListener(recyclerView) { v, insets ->
-            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
-            v.updatePadding(bottom = originalBottomPadding + bars.bottom)
-            WindowInsetsCompat.CONSUMED
-        }
-    }
-
-    private fun Int.dpToPx(): Int {
-        return (this * resources.displayMetrics.density).toInt()
-    }
-
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        if (hasFocus) {
-            val cat = CategoryRepository(mActivity)
-                .getCategoryByID(CategoryManagerSingleton.currentCategoryId)
-            if (cat == null) {
-                finish()
-                return
-            }
-            mCurrentCategory = cat
-            buildHeroHeader()
-            updateListView()
-        }
-    }
-
-    private fun buildHeroHeader() {
-        val categoryName = findViewById<TextView>(R.id.hero_category_name)
-        val subtitle = findViewById<TextView>(R.id.hero_subtitle)
-
-        categoryName.text = mCurrentCategory.getCategory() ?: getString(R.string.flashcard_toolbar_null_category)
-
-        val langFrom = mCurrentCategory.getLangFrom()
-        val langOn = mCurrentCategory.getLangOn()
-        if (!langFrom.isNullOrEmpty() && !langOn.isNullOrEmpty()) {
-            subtitle.text = "$langFrom → $langOn"
-        } else {
-            subtitle.visibility = View.GONE
-        }
-
-        // Apply category color to hero gradient + status bar
-        val catColor = findCategoryColor(mCurrentCategory.getColor()) ?: defaultCategoryColor()
-        val heroHeader = findViewById<View>(R.id.hero_header)
-        val gradient = GradientDrawable(
-            GradientDrawable.Orientation.TOP_BOTTOM,
-            intArrayOf(catColor.primary, catColor.container)
-        )
-        heroHeader.background = gradient
-        WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = false
-
-        findViewById<View>(R.id.btn_back).setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
-        }
-    }
-
-    private fun buildActionChips() {
-        findViewById<MaterialButton>(R.id.chip_add_card).setOnClickListener {
-            AddFlashcardDialog(mActivity, mCurrentCategory.id).show()
-        }
-
-        findViewById<MaterialButton>(R.id.chip_start_review).setOnClickListener {
-            val flashcards = mFlashcardRepository.getFlashcardsByCategoryID(mCurrentCategory.id)
-            if (flashcards.isEmpty()) {
-                Toast.makeText(mActivity, R.string.flashcard_empty_text, Toast.LENGTH_SHORT).show()
-            } else {
-                ChangeActivityManager(mActivity).goToLearningCheck(flashcards)
+        setContent {
+            FiszkiTheme {
+                FlashcardsScreen(
+                    activity = this,
+                    onBack = { onBackPressedDispatcher.onBackPressed() },
+                    onEditCategory = { categoryId ->
+                        startActivity(
+                            android.content.Intent(this, EditSetActivity::class.java)
+                                .putExtra(EditSetActivity.EXTRA_CATEGORY_ID, categoryId)
+                        )
+                    }
+                )
             }
         }
-
-        findViewById<MaterialButton>(R.id.chip_edit_category).setOnClickListener {
-            val bottomSheet = EditCategoryBottomSheet.newInstance(mCurrentCategory.id)
-            bottomSheet.show(supportFragmentManager, "EditCategoryBottomSheet")
-        }
     }
+}
 
-    private fun buildListView() {
-        mRecycleView = findViewById(R.id.listview_flashcard)
-        mRecycleView.layoutManager = LinearLayoutManager(this)
-        attachSwipeToDelete()
-    }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun FlashcardsScreen(
+    activity: Activity,
+    onBack: () -> Unit,
+    onEditCategory: (Int) -> Unit
+) {
+    val context = LocalContext.current
+    val categoryRepository = remember { CategoryRepository(context) }
+    val flashcardRepository = remember { FlashcardRepository(context) }
+    val prefs = remember { LocalSharedPreferences(context) }
+    val useFsrs = prefs.useFsrsAlgorithm
 
-    private fun attachSwipeToDelete() {
-        val swipeHandler = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean = false
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+    val deletedMessage = stringResource(R.string.snackbar_return_word_message)
+    val undoLabel = stringResource(R.string.snackbar_return_word_button)
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.bindingAdapterPosition
-                val flashcards = mFlashcardRepository.getFlashcardsByCategoryID(mCurrentCategory.id)
-                if (position in flashcards.indices) {
-                    val flashcard = flashcards[position]
-                    mFlashcardRepository.deleteFlashcard(flashcard)
-                }
-                updateListView()
+    var refreshTrigger by rememberSaveable { mutableIntStateOf(0) }
+
+    // Refresh when returning from another activity (e.g. edit set, add flashcard)
+    @Suppress("DEPRECATION")
+    val lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                refreshTrigger++
             }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
 
-            override fun onChildDraw(
-                c: Canvas,
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                dX: Float,
-                dY: Float,
-                actionState: Int,
-                isCurrentlyActive: Boolean
-            ) {
-                if (dX < 0) {
-                    val itemView = viewHolder.itemView
-                    val backgroundColor = MaterialColors.getColor(itemView, android.R.attr.colorError)
-                    val iconColor = MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorOnError)
-                    val paint = Paint().apply { color = backgroundColor }
+    val category = remember(refreshTrigger) {
+        categoryRepository.getCategoryByID(CategoryManagerSingleton.currentCategoryId)
+    }
 
-                    val background = RectF(
-                        itemView.right + dX,
-                        itemView.top.toFloat(),
-                        itemView.right.toFloat(),
-                        itemView.bottom.toFloat()
+    if (category == null) {
+        LaunchedEffect(Unit) { (context as? Activity)?.finish() }
+        return
+    }
+
+    // Mutable state list for optimistic UI updates (undo support)
+    val flashcards = remember { mutableStateListOf<Flashcard>() }
+    LaunchedEffect(refreshTrigger) {
+        flashcards.clear()
+        flashcards.addAll(flashcardRepository.getFlashcardsByCategoryID(category.id))
+    }
+
+    val catColor = remember(category.getColor()) {
+        findCategoryColor(category.getColor()) ?: defaultCategoryColor()
+    }
+
+    val catContainerColor = Color(catColor.container or 0xFF000000.toInt())
+    val catPrimaryColor = Color(catColor.primary or 0xFF000000.toInt())
+
+    Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        topBar = {
+            TopAppBar(
+                title = { },
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = catContainerColor,
+                    navigationIconContentColor = catPrimaryColor
+                )
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    context.startActivity(
+                        Intent(context, AddFlashcardActivity::class.java)
+                            .putExtra(AddFlashcardActivity.EXTRA_CATEGORY_ID, category.id)
                     )
-                    c.drawRect(background, paint)
+                },
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+                shape = RoundedCornerShape(50)
+            ) {
+                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.action_add_new_card))
+            }
+        }
+    ) { padding ->
+        val navBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding),
+            contentPadding = PaddingValues(bottom = 80.dp + navBarPadding)
+        ) {
+            // Editorial header
+            item {
+                Column(
+                    modifier = Modifier.padding(start = 24.dp, top = 8.dp, end = 24.dp, bottom = 16.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.flashcard_vocabulary_deck_label).uppercase(),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        letterSpacing = 1.5.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = category.getCategory() ?: "",
+                        style = MaterialTheme.typography.headlineLarge,
+                        fontFamily = RobotoSerifFamily,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    // Edit Collection chip
+                    Surface(
+                        onClick = { onEditCategory(category.id) },
+                        shape = RoundedCornerShape(50),
+                        color = MaterialTheme.colorScheme.surfaceContainerLow
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                Icons.Default.Edit,
+                                contentDescription = null,
+                                modifier = Modifier.size(16.dp),
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(
+                                text = stringResource(R.string.action_edit_category),
+                                style = MaterialTheme.typography.labelLarge,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text(
+                        text = stringResource(R.string.flashcard_collection_count, flashcards.size),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
 
-                    val deleteIcon = ContextCompat.getDrawable(itemView.context, R.drawable.ic_delete_24)?.mutate()
-                    if (deleteIcon != null) {
-                        deleteIcon.setTint(iconColor)
-                        val iconMargin = (itemView.height - deleteIcon.intrinsicHeight) / 2
-                        val iconTop = itemView.top + iconMargin
-                        val iconLeft = itemView.right - iconMargin - deleteIcon.intrinsicWidth
-                        val iconRight = itemView.right - iconMargin
-                        val iconBottom = iconTop + deleteIcon.intrinsicHeight
-                        deleteIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
-                        deleteIcon.draw(c)
+            if (flashcards.isEmpty()) {
+                item {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            stringResource(R.string.flashcard_empty_text),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
                     }
                 }
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+            } else {
+                itemsIndexed(flashcards, key = { _, f -> f.id }) { _, flashcard ->
+                    SwipeToDeleteItem(
+                        flashcard = flashcard,
+                        onDelete = {
+                            val deletedFlashcard = flashcard
+                            val deletedIndex = flashcards.indexOfFirst { it.id == flashcard.id }
+                                .coerceAtLeast(0)
+                            flashcardRepository.deleteFlashcard(flashcard)
+                            flashcards.removeAll { it.id == flashcard.id }
+
+                            coroutineScope.launch {
+                                val result = snackbarHostState.showSnackbar(
+                                    message = deletedMessage,
+                                    actionLabel = undoLabel,
+                                    duration = SnackbarDuration.Short
+                                )
+                                if (result == SnackbarResult.ActionPerformed) {
+                                    flashcardRepository.addFlashcard(deletedFlashcard)
+                                    flashcards.add(
+                                        deletedIndex.coerceIn(0, flashcards.size),
+                                        deletedFlashcard
+                                    )
+                                }
+                            }
+                        },
+                        onEdit = {
+                            context.startActivity(
+                                Intent(context, EditFlashcardActivity::class.java)
+                                    .putExtra(EditFlashcardActivity.EXTRA_FLASHCARD_ID, flashcard.id)
+                            )
+                        },
+                        catColorPrimary = catColor.primary,
+                        useFsrs = useFsrs
+                    )
+                }
             }
         }
-        ItemTouchHelper(swipeHandler).attachToRecyclerView(mRecycleView)
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SwipeToDeleteItem(
+    flashcard: Flashcard,
+    onDelete: () -> Unit,
+    onEdit: () -> Unit,
+    catColorPrimary: Int,
+    useFsrs: Boolean
+) {
+    val dismissState = rememberSwipeToDismissBoxState(
+        confirmValueChange = { value ->
+            if (value == SwipeToDismissBoxValue.EndToStart) {
+                onDelete()
+                true
+            } else {
+                false
+            }
+        }
+    )
+
+    // Reset dismiss state when item re-enters composition after undo
+    LaunchedEffect(dismissState.currentValue) {
+        if (dismissState.currentValue != SwipeToDismissBoxValue.Settled) {
+            dismissState.snapTo(SwipeToDismissBoxValue.Settled)
+        }
     }
 
-    private fun updateListView() {
-        val flashcards = mFlashcardRepository.getFlashcardsByCategoryID(mCurrentCategory.id)
+    val isSwiping = dismissState.targetValue != SwipeToDismissBoxValue.Settled
 
-        val fingerprint = flashcards.map { "${it.id}:${it.word}:${it.translation}:${it.priority}:${it.fsrsLastRating}" }
-        if (fingerprint == mLastFingerprint) return
-        mLastFingerprint = fingerprint
+    SwipeToDismissBox(
+        state = dismissState,
+        backgroundContent = {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        if (isSwiping) MaterialTheme.colorScheme.error
+                        else MaterialTheme.colorScheme.background
+                    )
+                    .padding(end = 24.dp),
+                contentAlignment = Alignment.CenterEnd
+            ) {
+                if (isSwiping) {
+                    Icon(
+                        Icons.Default.Delete,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onError
+                    )
+                }
+            }
+        },
+        enableDismissFromStartToEnd = false,
+        enableDismissFromEndToStart = true
+    ) {
+        FlashcardListItemInline(
+            word = flashcard.getWord(),
+            translation = flashcard.getTranslation(),
+            priority = flashcard.priority,
+            categoryColor = Color(catColorPrimary or 0xFF000000.toInt()),
+            useFsrs = useFsrs,
+            lastRating = flashcard.fsrsLastRating,
+            onClick = onEdit
+        )
+    }
+}
 
-        if (flashcards.isEmpty()) {
-            mEmptyFlashcard.visibility = View.VISIBLE
-        } else {
-            mEmptyFlashcard.visibility = View.GONE
+@Composable
+private fun FlashcardListItemInline(
+    word: String,
+    translation: String,
+    priority: Int,
+    categoryColor: Color,
+    useFsrs: Boolean,
+    lastRating: Int,
+    onClick: () -> Unit
+) {
+    androidx.compose.material3.Surface(
+        onClick = onClick,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 6.dp),
+        shape = RoundedCornerShape(24.dp),
+        color = MaterialTheme.colorScheme.surfaceContainerLow
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 18.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = word,
+                style = MaterialTheme.typography.titleMedium,
+                fontFamily = RobotoSerifFamily,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary,
+                maxLines = 2,
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                modifier = Modifier.weight(0.35f, fill = false)
+            )
+            Text(
+                text = "\u2192",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(horizontal = 12.dp)
+            )
+            Text(
+                text = translation,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 2,
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                modifier = Modifier.weight(0.45f)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
         }
-
-        val catColor = findCategoryColor(mCurrentCategory.getColor()) ?: defaultCategoryColor()
-        val useFsrs = LocalSharedPreferences(mActivity).useFsrsAlgorithm
-        val adapter = FlashcardShowAdapter(mActivity, flashcards, catColor.primary, useFsrs)
-        mRecycleView.swapAdapter(adapter, false)
     }
 }

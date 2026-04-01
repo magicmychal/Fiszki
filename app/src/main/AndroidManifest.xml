@@ -51,6 +51,18 @@
             android:name=".activity.myWords.flashcards.FlashcardsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".activity.myWords.category.CreateSetActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.myWords.category.EditSetActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.myWords.flashcards.AddFlashcardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.myWords.flashcards.EditFlashcardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".activity.learning.LearningActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
