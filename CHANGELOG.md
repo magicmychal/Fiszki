@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-## [2.6.0] - 2026-03-26
+## [2.7.0] - 2026-04-01
 
 ### Added
 - Full-screen "Create New Set" activity with editorial design: info banner, bento-style language selectors with bottom sheet picker, filled text fields, and prominent CTA button
@@ -28,6 +28,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - "Edit Flashcard" upgraded from a dialog to a full-screen editorial activity
 - Language selection now uses a searchable bottom sheet instead of dropdown menus
 - Add set FAB positioned closer to the bottom navigation bar
+- Modernized UI to Material 3 and improved card selection algorithm
+- Updated Compose theme to new colour variant and swipe-to-delete styling
 - Complete visual overhaul matching the Editorial Expressive design system across all screens
 - New color palette: warm amber primary (#8B6B23), mossy green tertiary (#4A6547), chocolate secondary (#6C5D3F) — replacing the previous purple defaults
 - Set list screen redesigned with italic serif headline, "CURATED LIBRARY" label, and editorial card layout with mastery progress bars
@@ -46,12 +48,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Now targets Android 16 (SDK 36) for latest platform compliance
 
 ### Fixed
+- Flashcard list now refreshes immediately when returning from add/edit/delete operations
+- Set list card counts and mastery percentages update immediately after changes
+- Flashcard list screen now closes automatically when the set is deleted from the edit screen
 - Crash when deleting the last flashcard in a set — `currentFocus` was null when the dialog held focus, causing a NullPointerException in the undo snackbar
 - Undo snackbar after deleting a flashcard now correctly shows "Deleted flashcard." instead of "Deleted set."
 - Input field in practice session now automatically receives focus when a new card is shown, including after correct answers, skips, and retries after a wrong answer
 - Set list no longer has a cutoff before the navigation bar
 
 ### Removed
+- Color palette option from settings (app now uses a single color scheme)
 - `AddCategoryDialogFragment` (replaced by `CreateSetActivity`)
 - `EditCategoryBottomSheet` (replaced by `EditSetActivity`)
 - `AddFlashcardDialogFragment` (replaced by `AddFlashcardActivity`)
