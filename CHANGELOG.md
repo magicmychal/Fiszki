@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Algorithm debug report shown after practice sessions when enabled in Settings, displaying per-card FSRS data (rating, difficulty, stability, retrievability, interval, reps, lapses) and session summary
 - "About the algorithm" page in Settings explaining how FSRS, ratings, card states, and mastery work
 - "About" link in Settings to view app info and credits
+- FSRS memory stats (state, difficulty, stability, retrievability, interval, reps, lapses, last rating) shown on the Edit Flashcard screen when spaced repetition is active
 
 ### Changed
 - Mastery percentage now uses average FSRS retrievability when spaced repetition is active, reflecting actual recall probability instead of historical pass rate

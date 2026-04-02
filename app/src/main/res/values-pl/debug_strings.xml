@@ -35,4 +35,10 @@
     <string name="debug_stability_days">%s dni</string>
     <string name="debug_interval_days">%d dni</string>
     <string name="debug_skipped">Pominięto</string>
+
+    <!-- Flashcard detail FSRS stats -->
+    <string name="debug_flashcard_stats_header">Statystyki pamięci</string>
+    <string name="debug_flashcard_stats_tip">Dowiedz się, co oznaczają te wartości w Ustawienia \u2192 O algorytmie.</string>
+    <string name="debug_flashcard_last_rating">Ostatnia ocena</string>
+    <string name="debug_flashcard_not_reviewed">Jeszcze nie powtarzano</string>
 </resources>
