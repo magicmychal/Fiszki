@@ -38,7 +38,7 @@ class LearningFragment : Fragment() {
 
         composeView.setContent {
             FiszkiTheme {
-                val allCategories = mCategoryRepository.getAllCategory()
+                val allCategories = mCategoryRepository.getUserCategory()
                 val categoryItems = buildList {
                     add(
                         PracticeCategoryItem(

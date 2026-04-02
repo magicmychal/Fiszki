@@ -14,8 +14,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Changed
 - Mastery percentage now uses average FSRS retrievability when spaced repetition is active, reflecting actual recall probability instead of historical pass rate
 
+### Removed
+- "No set" system category no longer appears as a selectable chip in practice and exam setup screens
+
 ### Fixed
 - Restored "Send diagnostic data" toggle to the redesigned Settings screen
+- Direction card in practice setup now animates out smoothly when switching back to "All sets" (was disappearing instantly)
 
 ## [2.7.0] - 2026-04-01
 

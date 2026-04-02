@@ -140,7 +140,7 @@ private fun TabContent(
         NavTab.LEARNING -> {
             val categoryRepository = CategoryRepository(context)
             val flashcardRepository = FlashcardRepository(context)
-            val allCategories = categoryRepository.getAllCategory()
+            val allCategories = categoryRepository.getUserCategory()
             val categoryItems = buildList {
                 add(
                     PracticeCategoryItem(
@@ -198,7 +198,7 @@ private fun TabContent(
         NavTab.EXAM -> {
             val categoryRepository = CategoryRepository(context)
             val flashcardRepository = FlashcardRepository(context)
-            val allCategories = categoryRepository.getAllCategory()
+            val allCategories = categoryRepository.getUserCategory()
             val categoryItems = buildList {
                 add(
                     PracticeCategoryItem(

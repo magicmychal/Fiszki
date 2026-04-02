@@ -219,52 +219,50 @@ fun PracticeSetupScreen(
                 enter = fadeIn() + expandVertically(),
                 exit = fadeOut() + shrinkVertically()
             ) {
-                if (showDirection) {
-                    Column {
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Surface(
-                            shape = RoundedCornerShape(24.dp),
-                            color = MaterialTheme.colorScheme.surfaceContainerLow,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 24.dp)
-                        ) {
-                            Column(modifier = Modifier.padding(24.dp)) {
-                                Text(
-                                    text = stringResource(R.string.learning_direction_label),
-                                    style = MaterialTheme.typography.titleLarge,
-                                    color = MaterialTheme.colorScheme.onSurface,
-                                    modifier = Modifier.padding(bottom = 16.dp)
+                Column {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Surface(
+                        shape = RoundedCornerShape(24.dp),
+                        color = MaterialTheme.colorScheme.surfaceContainerLow,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp)
+                    ) {
+                        Column(modifier = Modifier.padding(24.dp)) {
+                            Text(
+                                text = stringResource(R.string.learning_direction_label),
+                                style = MaterialTheme.typography.titleLarge,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier.padding(bottom = 16.dp)
+                            )
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                DirectionChip(
+                                    label = stringResource(
+                                        R.string.learning_direction_format,
+                                        langFrom ?: "",
+                                        langOn ?: ""
+                                    ),
+                                    selected = !reversed,
+                                    onClick = { reversed = false },
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .sentryTag("chip_direction_normal")
                                 )
-                                Row(
-                                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                                    modifier = Modifier.fillMaxWidth()
-                                ) {
-                                    DirectionChip(
-                                        label = stringResource(
-                                            R.string.learning_direction_format,
-                                            langFrom ?: "",
-                                            langOn ?: ""
-                                        ),
-                                        selected = !reversed,
-                                        onClick = { reversed = false },
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .sentryTag("chip_direction_normal")
-                                    )
-                                    DirectionChip(
-                                        label = stringResource(
-                                            R.string.learning_direction_format,
-                                            langOn ?: "",
-                                            langFrom ?: ""
-                                        ),
-                                        selected = reversed,
-                                        onClick = { reversed = true },
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .sentryTag("chip_direction_reversed")
-                                    )
-                                }
+                                DirectionChip(
+                                    label = stringResource(
+                                        R.string.learning_direction_format,
+                                        langOn ?: "",
+                                        langFrom ?: ""
+                                    ),
+                                    selected = reversed,
+                                    onClick = { reversed = true },
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .sentryTag("chip_direction_reversed")
+                                )
                             }
                         }
                     }
