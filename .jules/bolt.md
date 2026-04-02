@@ -1,0 +1,3 @@
+## 2025-05-15 - [Inefficient Database Pattern: Fetch-then-Count/Delete]
+**Learning:** The codebase contained multiple instances where the entire contents of a Room database table (or category filter) were fetched into memory (as `ArrayList<Entity>`) just to get a `size` count or to perform a loop-based deletion. This is an anti-pattern that leads to high memory pressure and slow UI performance, especially in list adapters like `CategoryShowAdapter.onBindViewHolder`.
+**Action:** Always use specific SQL queries like `COUNT(*)` for size checks and `@Query("DELETE FROM ...")` or batch `@Delete` for multiple items. Use these in DAOs and Repositories rather than fetching and processing lists in memory.

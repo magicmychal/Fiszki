@@ -35,16 +35,18 @@ class FlashcardRepository(context: Context) {
         return result
     }
 
-    fun isFirst(): Boolean = getAllFlashcards().size == 1
+    fun isFirst(): Boolean = dao.count() == 1
 
     fun deleteFlashcard(flashcard: Flashcard) {
         dao.delete(flashcard)
     }
 
     fun deleteFlashcards(flashcards: ArrayList<Flashcard>) {
-        for (flashcard in flashcards) {
-            dao.delete(flashcard)
-        }
+        dao.delete(flashcards)
+    }
+
+    fun deleteAllFlashcards() {
+        dao.deleteAll()
     }
 
     fun updateFlashcard(flashcard: Flashcard) {
@@ -62,6 +64,10 @@ class FlashcardRepository(context: Context) {
 
     fun getFlashcardsByCategoryID(categoryID: Int): ArrayList<Flashcard> {
         return ArrayList(dao.getByCategoryID(categoryID))
+    }
+
+    fun countFlashcardsByCategoryID(categoryID: Int): Int {
+        return dao.countByCategoryID(categoryID)
     }
 
     fun upFlashcardFailStatistic(flashcard: Flashcard) {
