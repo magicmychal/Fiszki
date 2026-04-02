@@ -61,6 +61,14 @@
     <string name="settings_algorithm_summary_on">Karty planowane według siły zapamiętywania</string>
     <string name="settings_algorithm_summary_off">Karty losowane losowo (tradycyjny)</string>
 
+    <!-- Algorithm info -->
+    <string name="settings_algorithm_info_title">O algorytmie</string>
+    <string name="settings_algorithm_info_summary">Dowiedz się jak działają FSRS i biegłość</string>
+
+    <!-- Debug algorithm -->
+    <string name="settings_debug_algorithm_title">Raport debugowania algorytmu</string>
+    <string name="settings_debug_algorithm_summary">Pokaż szczegóły FSRS po każdej sesji nauki</string>
+
     <!-- Diagnostics -->
     <string name="settings_diagnostic_title">Wysyłaj dane diagnostyczne</string>
     <string name="settings_diagnostic_summary">Pomóż ulepszyć Fiszki, udostępniając anonimowe raporty o błędach i logi</string>

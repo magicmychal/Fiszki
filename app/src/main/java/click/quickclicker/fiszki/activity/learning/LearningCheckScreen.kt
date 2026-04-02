@@ -1,6 +1,7 @@
 package click.quickclicker.fiszki.activity.learning
 
 import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -38,9 +39,11 @@ import click.quickclicker.fiszki.HapticFeedback
 import click.quickclicker.fiszki.LocalSharedPreferences
 import click.quickclicker.fiszki.R
 import click.quickclicker.fiszki.algorithm.Algorithm
+import click.quickclicker.fiszki.algorithm.debug.SessionCardRecord
 import click.quickclicker.fiszki.algorithm.fsrs.FsrsCardSelector
 import click.quickclicker.fiszki.algorithm.fsrs.FsrsRatingMapper
 import click.quickclicker.fiszki.algorithm.fsrs.FsrsScheduler
+import click.quickclicker.fiszki.algorithm.fsrs.FsrsState
 import click.quickclicker.fiszki.model.category.CategoryRepository
 import click.quickclicker.fiszki.model.flashcard.Flashcard
 import click.quickclicker.fiszki.model.flashcard.FlashcardRepository
@@ -64,6 +67,7 @@ fun LearningCheckScreen(
 
     val prefs = remember { LocalSharedPreferences(context) }
     val useFsrs = prefs.useFsrsAlgorithm
+    val debugEnabled = prefs.debugAlgorithmEnabled
     val algorithm = remember { Algorithm(context) }
     val categoryRepository = remember { CategoryRepository(context) }
     val flashcardRepository = remember { FlashcardRepository(context) }
@@ -78,6 +82,9 @@ fun LearningCheckScreen(
     var retrying by remember { mutableStateOf(false) }
     var attemptCount by remember { mutableIntStateOf(0) }
     var cardStartTime by remember { mutableLongStateOf(System.currentTimeMillis()) }
+
+    val sessionHistory = remember { mutableStateListOf<SessionCardRecord>() }
+    var showDebugReport by remember { mutableStateOf(false) }
 
     var showBadAnswerDialog by remember { mutableStateOf(false) }
     var badAnswerExpected by remember { mutableStateOf("") }
@@ -115,16 +122,63 @@ fun LearningCheckScreen(
             if (activity != null) HapticFeedback.vibrateCorrect(activity)
             flashcardRepository.upFlashcardPassStatistic(currentFlashcard)
             if (!retrying) {
+                val elapsed = System.currentTimeMillis() - cardStartTime
+                val stabilityBefore = currentFlashcard.fsrsStability
+                val difficultyBefore = currentFlashcard.fsrsDifficulty
+                val fsrsStateBefore = FsrsState.entries[currentFlashcard.fsrsState]
                 if (useFsrs) {
                     val ed = Checker.editDistance(expected.lowercase(), answer.lowercase())
-                    val elapsed = System.currentTimeMillis() - cardStartTime
                     val rating = FsrsRatingMapper.mapToRating(false, attemptCount, true, elapsed, ed)
-                    val updated = fsrsScheduler.schedule(currentFlashcard.toFsrsCard(), rating, Date())
+                    val cardBefore = currentFlashcard.toFsrsCard()
+                    val retrievability = fsrsScheduler.retrievability(cardBefore)
+                    val updated = fsrsScheduler.schedule(cardBefore, rating, Date())
                     currentFlashcard.applyFsrsCard(updated)
                     currentFlashcard.fsrsLastRating = rating.value
                     flashcardRepository.updateFsrsState(currentFlashcard)
+                    if (debugEnabled) {
+                        sessionHistory.add(SessionCardRecord(
+                            word = currentFlashcard.getWord(),
+                            translation = currentFlashcard.getTranslation(),
+                            rating = rating,
+                            attemptCount = attemptCount,
+                            elapsedTimeMs = elapsed,
+                            wasSkipped = false,
+                            wasCorrect = true,
+                            stabilityBefore = stabilityBefore,
+                            stabilityAfter = updated.stability,
+                            difficultyBefore = difficultyBefore,
+                            difficultyAfter = updated.difficulty,
+                            retrievability = retrievability,
+                            scheduledDays = updated.scheduledDays,
+                            fsrsState = updated.state,
+                            reps = updated.reps,
+                            lapses = updated.lapses,
+                            priority = currentFlashcard.priority
+                        ))
+                    }
                 } else {
                     flashcardRepository.upFlashcardPriority(currentFlashcard)
+                    if (debugEnabled) {
+                        sessionHistory.add(SessionCardRecord(
+                            word = currentFlashcard.getWord(),
+                            translation = currentFlashcard.getTranslation(),
+                            rating = null,
+                            attemptCount = attemptCount,
+                            elapsedTimeMs = elapsed,
+                            wasSkipped = false,
+                            wasCorrect = true,
+                            stabilityBefore = stabilityBefore,
+                            stabilityAfter = currentFlashcard.fsrsStability,
+                            difficultyBefore = difficultyBefore,
+                            difficultyAfter = currentFlashcard.fsrsDifficulty,
+                            retrievability = 0.0,
+                            scheduledDays = 0,
+                            fsrsState = fsrsStateBefore,
+                            reps = currentFlashcard.fsrsReps,
+                            lapses = currentFlashcard.fsrsLapses,
+                            priority = currentFlashcard.priority
+                        ))
+                    }
                 }
             }
             correctCount++
@@ -176,12 +230,59 @@ fun LearningCheckScreen(
             },
             onSkip = {
                 showBadAnswerDialog = false
+                val elapsed = System.currentTimeMillis() - cardStartTime
+                val stabilityBefore = currentFlashcard.fsrsStability
+                val difficultyBefore = currentFlashcard.fsrsDifficulty
+                val fsrsStateBefore = FsrsState.entries[currentFlashcard.fsrsState]
                 if (useFsrs) {
                     val rating = FsrsRatingMapper.mapToRating(true, attemptCount, false, 0, 0)
-                    val updated = fsrsScheduler.schedule(currentFlashcard.toFsrsCard(), rating, Date())
+                    val cardBefore = currentFlashcard.toFsrsCard()
+                    val retrievability = fsrsScheduler.retrievability(cardBefore)
+                    val updated = fsrsScheduler.schedule(cardBefore, rating, Date())
                     currentFlashcard.applyFsrsCard(updated)
                     currentFlashcard.fsrsLastRating = rating.value
                     flashcardRepository.updateFsrsState(currentFlashcard)
+                    if (debugEnabled) {
+                        sessionHistory.add(SessionCardRecord(
+                            word = currentFlashcard.getWord(),
+                            translation = currentFlashcard.getTranslation(),
+                            rating = rating,
+                            attemptCount = attemptCount,
+                            elapsedTimeMs = elapsed,
+                            wasSkipped = true,
+                            wasCorrect = false,
+                            stabilityBefore = stabilityBefore,
+                            stabilityAfter = updated.stability,
+                            difficultyBefore = difficultyBefore,
+                            difficultyAfter = updated.difficulty,
+                            retrievability = retrievability,
+                            scheduledDays = updated.scheduledDays,
+                            fsrsState = updated.state,
+                            reps = updated.reps,
+                            lapses = updated.lapses,
+                            priority = currentFlashcard.priority
+                        ))
+                    }
+                } else if (debugEnabled) {
+                    sessionHistory.add(SessionCardRecord(
+                        word = currentFlashcard.getWord(),
+                        translation = currentFlashcard.getTranslation(),
+                        rating = null,
+                        attemptCount = attemptCount,
+                        elapsedTimeMs = elapsed,
+                        wasSkipped = true,
+                        wasCorrect = false,
+                        stabilityBefore = stabilityBefore,
+                        stabilityAfter = currentFlashcard.fsrsStability,
+                        difficultyBefore = difficultyBefore,
+                        difficultyAfter = currentFlashcard.fsrsDifficulty,
+                        retrievability = 0.0,
+                        scheduledDays = 0,
+                        fsrsState = fsrsStateBefore,
+                        reps = currentFlashcard.fsrsReps,
+                        lapses = currentFlashcard.fsrsLapses,
+                        priority = currentFlashcard.priority
+                    ))
                 }
                 drawNext()
             }
@@ -197,12 +298,25 @@ fun LearningCheckScreen(
     }
     val wordText = if (reversed) currentFlashcard.getTranslation() else currentFlashcard.getWord()
 
+    fun handleFinish() {
+        if (debugEnabled && sessionHistory.isNotEmpty()) {
+            showDebugReport = true
+        } else {
+            onFinish()
+        }
+    }
+
+    // Intercept system back press to show debug report
+    BackHandler(enabled = !showDebugReport) {
+        handleFinish()
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.learning_check_toolbar_title)) },
                 navigationIcon = {
-                    IconButton(onClick = onFinish) {
+                    IconButton(onClick = { handleFinish() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
                     }
                 },
@@ -338,12 +452,59 @@ fun LearningCheckScreen(
                     // Skip button (text style)
                     TextButton(
                         onClick = {
+                            val elapsed = System.currentTimeMillis() - cardStartTime
+                            val stabilityBefore = currentFlashcard.fsrsStability
+                            val difficultyBefore = currentFlashcard.fsrsDifficulty
+                            val fsrsStateBefore = FsrsState.entries[currentFlashcard.fsrsState]
                             if (useFsrs) {
                                 val rating = FsrsRatingMapper.mapToRating(true, attemptCount, false, 0, 0)
-                                val updated = fsrsScheduler.schedule(currentFlashcard.toFsrsCard(), rating, Date())
+                                val cardBefore = currentFlashcard.toFsrsCard()
+                                val retrievability = fsrsScheduler.retrievability(cardBefore)
+                                val updated = fsrsScheduler.schedule(cardBefore, rating, Date())
                                 currentFlashcard.applyFsrsCard(updated)
                                 currentFlashcard.fsrsLastRating = rating.value
                                 flashcardRepository.updateFsrsState(currentFlashcard)
+                                if (debugEnabled) {
+                                    sessionHistory.add(SessionCardRecord(
+                                        word = currentFlashcard.getWord(),
+                                        translation = currentFlashcard.getTranslation(),
+                                        rating = rating,
+                                        attemptCount = attemptCount,
+                                        elapsedTimeMs = elapsed,
+                                        wasSkipped = true,
+                                        wasCorrect = false,
+                                        stabilityBefore = stabilityBefore,
+                                        stabilityAfter = updated.stability,
+                                        difficultyBefore = difficultyBefore,
+                                        difficultyAfter = updated.difficulty,
+                                        retrievability = retrievability,
+                                        scheduledDays = updated.scheduledDays,
+                                        fsrsState = updated.state,
+                                        reps = updated.reps,
+                                        lapses = updated.lapses,
+                                        priority = currentFlashcard.priority
+                                    ))
+                                }
+                            } else if (debugEnabled) {
+                                sessionHistory.add(SessionCardRecord(
+                                    word = currentFlashcard.getWord(),
+                                    translation = currentFlashcard.getTranslation(),
+                                    rating = null,
+                                    attemptCount = attemptCount,
+                                    elapsedTimeMs = elapsed,
+                                    wasSkipped = true,
+                                    wasCorrect = false,
+                                    stabilityBefore = stabilityBefore,
+                                    stabilityAfter = currentFlashcard.fsrsStability,
+                                    difficultyBefore = difficultyBefore,
+                                    difficultyAfter = currentFlashcard.fsrsDifficulty,
+                                    retrievability = 0.0,
+                                    scheduledDays = 0,
+                                    fsrsState = fsrsStateBefore,
+                                    reps = currentFlashcard.fsrsReps,
+                                    lapses = currentFlashcard.fsrsLapses,
+                                    priority = currentFlashcard.priority
+                                ))
                             }
                             drawNext()
                         },
@@ -406,5 +567,17 @@ fun LearningCheckScreen(
                 }
             }
         }
+    }
+
+    // Debug report full-screen overlay
+    if (showDebugReport) {
+        AlgorithmDebugReportScreen(
+            sessionHistory = sessionHistory,
+            useFsrs = useFsrs,
+            onClose = {
+                showDebugReport = false
+                onFinish()
+            }
+        )
     }
 }

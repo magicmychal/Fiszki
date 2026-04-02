@@ -62,6 +62,14 @@
     <string name="settings_algorithm_summary_on">Cards scheduled by memory strength</string>
     <string name="settings_algorithm_summary_off">Cards drawn randomly (legacy)</string>
 
+    <!-- Algorithm info -->
+    <string name="settings_algorithm_info_title">About the algorithm</string>
+    <string name="settings_algorithm_info_summary">Learn how FSRS and mastery work</string>
+
+    <!-- Debug algorithm -->
+    <string name="settings_debug_algorithm_title">Algorithm debug report</string>
+    <string name="settings_debug_algorithm_summary">Show FSRS details after each practice session</string>
+
     <!-- Diagnostics -->
     <string name="settings_diagnostic_title">Send diagnostic data</string>
     <string name="settings_diagnostic_summary">Help improve Fiszki by sharing anonymous crash reports and logs</string>

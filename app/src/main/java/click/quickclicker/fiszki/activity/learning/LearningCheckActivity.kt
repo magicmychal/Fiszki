@@ -2,11 +2,9 @@ package click.quickclicker.fiszki.activity.learning
 
 import android.os.Build
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import click.quickclicker.fiszki.NightModeController
-import click.quickclicker.fiszki.R
 import click.quickclicker.fiszki.activity.ChangeActivityManager
 import click.quickclicker.fiszki.activity.FiszkiTheme
 import click.quickclicker.fiszki.model.flashcard.Flashcard
@@ -33,12 +31,6 @@ class LearningCheckActivity : AppCompatActivity() {
         val strictMode = intent.getBooleanExtra(ChangeActivityManager.STRICT_MODE_KEY_INTENT, true)
         val reversed = intent.getBooleanExtra(ChangeActivityManager.REVERSED_KEY_INTENT, false)
 
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                ChangeActivityManager(this@LearningCheckActivity).exitLearningCheck()
-            }
-        })
-
         setContent {
             FiszkiTheme {
                 TabletContentWrapper {
@@ -46,7 +38,7 @@ class LearningCheckActivity : AppCompatActivity() {
                         flashcardsPool = flashcardsPool,
                         strictMode = strictMode,
                         reversed = reversed,
-                        onFinish = { onBackPressedDispatcher.onBackPressed() }
+                        onFinish = { ChangeActivityManager(this@LearningCheckActivity).exitLearningCheck() }
                     )
                 }
             }

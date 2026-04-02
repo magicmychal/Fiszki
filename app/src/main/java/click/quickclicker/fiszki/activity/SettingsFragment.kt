@@ -78,6 +78,7 @@ class SettingsFragment : Fragment() {
     private var scheduleText = mutableStateOf("")
     private var nightModeEnabled = mutableStateOf(false)
     private var fsrsEnabled = mutableStateOf(false)
+    private var debugAlgorithmEnabled = mutableStateOf(false)
     private var diagnosticEnabled = mutableStateOf(false)
     private var versionName = mutableStateOf("")
 
@@ -109,6 +110,7 @@ class SettingsFragment : Fragment() {
         notificationsEnabled.value = prefs.notificationEnabled
         nightModeEnabled.value = mNightModeController.getStatus() != 0
         fsrsEnabled.value = prefs.useFsrsAlgorithm
+        debugAlgorithmEnabled.value = prefs.debugAlgorithmEnabled
         diagnosticEnabled.value = prefs.diagnosticDataEnabled
         updateScheduleSubtitle()
         updateVersionName()
@@ -137,6 +139,7 @@ class SettingsFragment : Fragment() {
         val schedule by remember { scheduleText }
         val nightMode by remember { nightModeEnabled }
         val fsrs by remember { fsrsEnabled }
+        val debugAlgorithm by remember { debugAlgorithmEnabled }
         val diagnostic by remember { diagnosticEnabled }
         val version by remember { versionName }
 
@@ -325,6 +328,24 @@ class SettingsFragment : Fragment() {
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            // About the algorithm
+            SettingsRow(
+                title = stringResource(R.string.settings_algorithm_info_title),
+                subtitle = stringResource(R.string.settings_algorithm_info_summary),
+                onClick = { openAlgorithmInfo() }
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // About the app
+            SettingsRow(
+                title = stringResource(R.string.settings_about_title),
+                subtitle = stringResource(R.string.settings_about_summary),
+                onClick = { openAbout() }
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
             // Diagnostic data
             SettingsRow(
                 title = stringResource(R.string.settings_diagnostic_title),
@@ -339,6 +360,28 @@ class SettingsFragment : Fragment() {
                             if (checked) {
                                 (requireActivity().application as FiszkiApplication).initSentry()
                             }
+                        },
+                        colors = SwitchDefaults.colors(
+                            checkedTrackColor = MaterialTheme.colorScheme.primary,
+                            checkedThumbColor = MaterialTheme.colorScheme.onPrimary
+                        )
+                    )
+                }
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Debug algorithm
+            SettingsRow(
+                title = stringResource(R.string.settings_debug_algorithm_title),
+                subtitle = stringResource(R.string.settings_debug_algorithm_summary),
+                onClick = { /* toggle handled by switch */ },
+                trailing = {
+                    Switch(
+                        checked = debugAlgorithm,
+                        onCheckedChange = { checked ->
+                            prefs.debugAlgorithmEnabled = checked
+                            debugAlgorithmEnabled.value = checked
                         },
                         colors = SwitchDefaults.colors(
                             checkedTrackColor = MaterialTheme.colorScheme.primary,
@@ -576,6 +619,14 @@ class SettingsFragment : Fragment() {
         startActivity(Intent(Intent.ACTION_SENDTO).apply {
             data = Uri.parse("mailto:fiszki@quickclicker.click")
         })
+    }
+
+    private fun openAlgorithmInfo() {
+        startActivity(Intent(requireContext(), AlgorithmInfoActivity::class.java))
+    }
+
+    private fun openAbout() {
+        startActivity(Intent(requireContext(), AboutActivity::class.java))
     }
 
     private fun showClearDataDialog() {

@@ -59,6 +59,8 @@ import click.quickclicker.fiszki.activity.myWords.category.CreateSetActivity
 import click.quickclicker.fiszki.activity.myWords.flashcards.FlashcardsActivity
 import click.quickclicker.fiszki.model.category.Category
 import click.quickclicker.fiszki.model.category.CategoryRepository
+import click.quickclicker.fiszki.LocalSharedPreferences
+import click.quickclicker.fiszki.algorithm.fsrs.FsrsScheduler
 import click.quickclicker.fiszki.model.flashcard.Flashcard
 import click.quickclicker.fiszki.model.flashcard.FlashcardRepository
 
@@ -71,6 +73,8 @@ fun CategoryTabScreen(
     val activity = context as? Activity
     val categoryRepository = remember { CategoryRepository(context) }
     val flashcardRepository = remember { FlashcardRepository(context) }
+    val prefs = remember { LocalSharedPreferences(context) }
+    val useFsrs = prefs.useFsrsAlgorithm
 
     var refreshTrigger by remember { mutableIntStateOf(0) }
 
@@ -112,6 +116,7 @@ fun CategoryTabScreen(
             CategoryListPane(
                 categories = categories,
                 flashcardRepository = flashcardRepository,
+                useFsrs = useFsrs,
                 selectedCategoryId = selectedCategoryId,
                 onCategoryClick = { selectedCategoryId = it.id },
                 onAddCategory = {
@@ -151,6 +156,7 @@ fun CategoryTabScreen(
         CategoryListPane(
             categories = categories,
             flashcardRepository = flashcardRepository,
+            useFsrs = useFsrs,
             selectedCategoryId = null,
             onCategoryClick = { cat ->
                 CategoryManagerSingleton.currentCategoryId = cat.id
@@ -169,6 +175,7 @@ fun CategoryTabScreen(
 private fun CategoryListPane(
     categories: List<Category>,
     flashcardRepository: FlashcardRepository,
+    useFsrs: Boolean,
     selectedCategoryId: Int?,
     onCategoryClick: (Category) -> Unit,
     onAddCategory: () -> Unit,
@@ -238,7 +245,7 @@ private fun CategoryListPane(
                         }
                         val count = flashcards.size
                         val mastery = remember(refreshTrigger, category.id) {
-                            computeMastery(flashcards)
+                            computeMastery(flashcards, useFsrs)
                         }
                         CategoryCard(
                             category = category,
@@ -254,8 +261,16 @@ private fun CategoryListPane(
     }
 }
 
-private fun computeMastery(flashcards: List<Flashcard>): Int {
+private fun computeMastery(flashcards: List<Flashcard>, useFsrs: Boolean): Int {
     if (flashcards.isEmpty()) return 0
+    if (useFsrs) {
+        val scheduler = FsrsScheduler()
+        val now = java.util.Date()
+        val totalRetrievability = flashcards.sumOf { card ->
+            scheduler.retrievability(card.toFsrsCard(), now)
+        }
+        return ((totalRetrievability / flashcards.size) * 100).toInt()
+    }
     val totalAttempts = flashcards.sumOf { it.staticPass + it.staticFail }
     if (totalAttempts == 0) return 0
     val totalPass = flashcards.sumOf { it.staticPass }

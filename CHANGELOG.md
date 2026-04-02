@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+- Algorithm debug report shown after practice sessions when enabled in Settings, displaying per-card FSRS data (rating, difficulty, stability, retrievability, interval, reps, lapses) and session summary
+- "About the algorithm" page in Settings explaining how FSRS, ratings, card states, and mastery work
+- "About" link in Settings to view app info and credits
+
+### Changed
+- Mastery percentage now uses average FSRS retrievability when spaced repetition is active, reflecting actual recall probability instead of historical pass rate
+
 ### Fixed
 - Restored "Send diagnostic data" toggle to the redesigned Settings screen
 

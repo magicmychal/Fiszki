@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Algorithm Debug Report -->
+    <string name="debug_report_title">Algorithm Debug Report</string>
+    <string name="debug_report_close">Close</string>
+    <string name="debug_summary_total">Total cards: %d</string>
+    <string name="debug_summary_correct">Correct: %1$d / %2$d (%3$s)</string>
+    <string name="debug_summary_algorithm">Algorithm: %s</string>
+    <string name="debug_algorithm_fsrs">FSRS</string>
+    <string name="debug_algorithm_legacy">Legacy (random)</string>
+    <string name="debug_summary_states">States: %s</string>
+    <string name="debug_card_state">State</string>
+    <string name="debug_card_rating">Rating</string>
+    <string name="debug_card_difficulty">Difficulty</string>
+    <string name="debug_card_stability">Stability</string>
+    <string name="debug_card_retrievability">Retrievability</string>
+    <string name="debug_card_interval">Interval</string>
+    <string name="debug_card_reps">Reps</string>
+    <string name="debug_card_lapses">Lapses</string>
+    <string name="debug_card_attempts">Attempts</string>
+    <string name="debug_card_time">Time</string>
+    <string name="debug_card_priority">Priority</string>
+    <string name="debug_difficulty_easy">Easy</string>
+    <string name="debug_difficulty_medium">Medium</string>
+    <string name="debug_difficulty_hard">Hard</string>
+    <string name="debug_difficulty_very_hard">Very Hard</string>
+    <string name="debug_state_new">New</string>
+    <string name="debug_state_learning">Learning</string>
+    <string name="debug_state_review">Review</string>
+    <string name="debug_state_relearning">Relearning</string>
+    <string name="debug_rating_again">Again</string>
+    <string name="debug_rating_hard">Hard</string>
+    <string name="debug_rating_good">Good</string>
+    <string name="debug_rating_easy">Easy</string>
+    <string name="debug_stability_days">%s days</string>
+    <string name="debug_interval_days">%d days</string>
+    <string name="debug_skipped">Skipped</string>
+</resources>

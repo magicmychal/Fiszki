@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Algorithm Debug Report -->
+    <string name="debug_report_title">Raport debugowania algorytmu</string>
+    <string name="debug_report_close">Zamknij</string>
+    <string name="debug_summary_total">Liczba kart: %d</string>
+    <string name="debug_summary_correct">Poprawne: %1$d / %2$d (%3$s)</string>
+    <string name="debug_summary_algorithm">Algorytm: %s</string>
+    <string name="debug_algorithm_fsrs">FSRS</string>
+    <string name="debug_algorithm_legacy">Tradycyjny (losowy)</string>
+    <string name="debug_summary_states">Stany: %s</string>
+    <string name="debug_card_state">Stan</string>
+    <string name="debug_card_rating">Ocena</string>
+    <string name="debug_card_difficulty">Trudność</string>
+    <string name="debug_card_stability">Stabilność</string>
+    <string name="debug_card_retrievability">Odtwarzalność</string>
+    <string name="debug_card_interval">Interwał</string>
+    <string name="debug_card_reps">Powtórzenia</string>
+    <string name="debug_card_lapses">Pomyłki</string>
+    <string name="debug_card_attempts">Próby</string>
+    <string name="debug_card_time">Czas</string>
+    <string name="debug_card_priority">Priorytet</string>
+    <string name="debug_difficulty_easy">Łatwa</string>
+    <string name="debug_difficulty_medium">Średnia</string>
+    <string name="debug_difficulty_hard">Trudna</string>
+    <string name="debug_difficulty_very_hard">Bardzo trudna</string>
+    <string name="debug_state_new">Nowa</string>
+    <string name="debug_state_learning">Nauka</string>
+    <string name="debug_state_review">Powtórka</string>
+    <string name="debug_state_relearning">Powtórna nauka</string>
+    <string name="debug_rating_again">Ponów</string>
+    <string name="debug_rating_hard">Trudne</string>
+    <string name="debug_rating_good">Dobre</string>
+    <string name="debug_rating_easy">Łatwe</string>
+    <string name="debug_stability_days">%s dni</string>
+    <string name="debug_interval_days">%d dni</string>
+    <string name="debug_skipped">Pominięto</string>
+</resources>
