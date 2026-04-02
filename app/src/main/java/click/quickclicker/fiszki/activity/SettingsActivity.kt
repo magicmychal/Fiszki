@@ -311,8 +311,8 @@ class SettingsActivity : AppCompatActivity() {
         val flashcardRepository = FlashcardRepository(this)
         val categoryRepository = CategoryRepository(this)
 
-        flashcardRepository.deleteFlashcards(flashcardRepository.getAllFlashcards())
-        categoryRepository.deleteCategories(categoryRepository.getAllCategory())
+        flashcardRepository.deleteAllFlashcards()
+        categoryRepository.deleteAllCategories()
         AlarmReceiver.cancel(this)
         prefs.notificationEnabled = false
         notificationSwitch.isChecked = false

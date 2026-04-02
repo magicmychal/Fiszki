@@ -32,8 +32,17 @@ interface FlashcardDao {
     @Delete
     fun delete(flashcard: Flashcard)
 
+    @Delete
+    fun delete(flashcards: List<Flashcard>)
+
+    @Query("DELETE FROM flashcard")
+    fun deleteAll()
+
     @Update
     fun update(flashcard: Flashcard)
+
+    @Query("SELECT COUNT(*) FROM flashcard WHERE categoryID = :categoryID")
+    fun countByCategoryID(categoryID: Int): Int
 
     @Query("SELECT * FROM flashcard WHERE priority = :priority")
     fun getByPriority(priority: Int): List<Flashcard>

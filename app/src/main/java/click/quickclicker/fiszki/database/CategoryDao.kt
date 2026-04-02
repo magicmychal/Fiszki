@@ -29,6 +29,12 @@ interface CategoryDao {
     @Delete
     fun delete(category: Category)
 
+    @Delete
+    fun delete(categories: List<Category>)
+
+    @Query("DELETE FROM category")
+    fun deleteAll()
+
     @Query("SELECT * FROM category WHERE id = :id LIMIT 1")
     fun getById(id: Int): Category?
 

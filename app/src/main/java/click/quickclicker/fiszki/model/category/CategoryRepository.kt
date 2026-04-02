@@ -58,9 +58,11 @@ class CategoryRepository(private val context: Context) {
     }
 
     fun deleteCategories(categories: ArrayList<Category>) {
-        for (category in categories) {
-            dao.delete(category)
-        }
+        dao.delete(categories)
+    }
+
+    fun deleteAllCategories() {
+        dao.deleteAll()
     }
 
     fun getChosenCategory(): ArrayList<Category> {
