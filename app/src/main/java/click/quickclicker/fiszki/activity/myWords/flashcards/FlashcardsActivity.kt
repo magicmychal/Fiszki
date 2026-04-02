@@ -167,6 +167,7 @@ private fun FlashcardsScreen(
     val catPrimaryColor = Color(catColor.primary or 0xFF000000.toInt())
 
     Scaffold(
+        contentWindowInsets = WindowInsets(0),
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
             TopAppBar(

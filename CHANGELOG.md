@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Fixed
 - Restored "Send diagnostic data" toggle to the redesigned Settings screen
 - Direction card in practice setup now animates out smoothly when switching back to "All sets" (was disappearing instantly)
+- Flashcard list now scrolls behind a transparent navigation bar instead of being cut off by it
 
 ## [2.7.0] - 2026-04-01
 
