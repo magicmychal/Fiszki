@@ -68,4 +68,6 @@
     <string name="edit_flashcard_save_button">Zapisz zmiany</string>
     <string name="edit_flashcard_delete_button">Usuń słowo</string>
 
+    <string name="detail_pane_header">Słowa w zestawie</string>
+
 </resources>

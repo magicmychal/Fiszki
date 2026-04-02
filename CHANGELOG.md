@@ -13,6 +13,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - FSRS memory stats (state, difficulty, stability, retrievability, interval, reps, lapses, last rating) shown on the Edit Flashcard screen when spaced repetition is active
 
 ### Changed
+- Tablet split-view detail pane for Flashcard Sets now uses a native Compose 2-column word card grid instead of the old XML fragment, with word/translation cards, mastery indicators, and "Edit Collection" button
+- Selected set in tablet view now shows a vertical accent bar on the left edge
 - Mastery percentage now uses average FSRS retrievability when spaced repetition is active, reflecting actual recall probability instead of historical pass rate
 
 ### Removed
