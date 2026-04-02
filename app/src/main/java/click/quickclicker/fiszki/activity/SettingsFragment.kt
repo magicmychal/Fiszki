@@ -323,6 +323,31 @@ class SettingsFragment : Fragment() {
                 onClick = { openFeedbackEmail() }
             )
 
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Diagnostic data
+            SettingsRow(
+                title = stringResource(R.string.settings_diagnostic_title),
+                subtitle = stringResource(R.string.settings_diagnostic_summary),
+                onClick = { /* toggle handled by switch */ },
+                trailing = {
+                    Switch(
+                        checked = diagnostic,
+                        onCheckedChange = { checked ->
+                            prefs.diagnosticDataEnabled = checked
+                            diagnosticEnabled.value = checked
+                            if (checked) {
+                                (requireActivity().application as FiszkiApplication).initSentry()
+                            }
+                        },
+                        colors = SwitchDefaults.colors(
+                            checkedTrackColor = MaterialTheme.colorScheme.primary,
+                            checkedThumbColor = MaterialTheme.colorScheme.onPrimary
+                        )
+                    )
+                }
+            )
+
             Spacer(modifier = Modifier.height(32.dp))
 
             // --- CLEAR DATA (Danger Zone) ---
