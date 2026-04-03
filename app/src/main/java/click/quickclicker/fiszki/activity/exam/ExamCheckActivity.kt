@@ -9,7 +9,6 @@ import click.quickclicker.fiszki.NightModeController
 import click.quickclicker.fiszki.R
 import click.quickclicker.fiszki.activity.ChangeActivityManager
 import click.quickclicker.fiszki.activity.FiszkiTheme
-import click.quickclicker.fiszki.dialogs.exam.EndExamDialog
 import click.quickclicker.fiszki.model.flashcard.Flashcard
 import click.quickclicker.fiszki.ui.OrientationHelper
 import click.quickclicker.fiszki.ui.TabletContentWrapper
@@ -47,11 +46,7 @@ class ExamCheckActivity : AppCompatActivity() {
                             ChangeActivityManager(this@ExamCheckActivity).exitExamCheck()
                         },
                         onShowSummary = { summaryData ->
-                            EndExamDialog(
-                                this@ExamCheckActivity,
-                                summaryData,
-                                ArrayList<Flashcard>()
-                            ).show()
+                            ChangeActivityManager(this@ExamCheckActivity).goToExamSummary(summaryData)
                         }
                     )
                 }
