@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
 import click.quickclicker.fiszki.R
@@ -151,12 +152,12 @@ class CsvImportBottomSheet : BottomSheetDialogFragment() {
                     }
                 }
             } ?: run {
-                Toast.makeText(ctx, R.string.import_csv_error_read, Toast.LENGTH_SHORT).show()
+                showErrorSnackbar(R.string.import_csv_error_read)
                 return
             }
 
             if (rows.isEmpty()) {
-                Toast.makeText(ctx, R.string.import_csv_error_empty, Toast.LENGTH_SHORT).show()
+                showErrorSnackbar(R.string.import_csv_error_empty)
                 resetUI()
                 return
             }
@@ -175,13 +176,13 @@ class CsvImportBottomSheet : BottomSheetDialogFragment() {
             importButton.visibility = View.GONE
 
         } catch (e: CsvFormatException) {
-            Toast.makeText(ctx, R.string.import_csv_error_format, Toast.LENGTH_SHORT).show()
+            showErrorSnackbar(R.string.import_csv_error_format)
             resetUI()
         } catch (e: TsvFormatException) {
-            Toast.makeText(ctx, R.string.import_tsv_error_format, Toast.LENGTH_SHORT).show()
+            showErrorSnackbar(R.string.import_tsv_error_format)
             resetUI()
         } catch (e: Exception) {
-            Toast.makeText(ctx, R.string.import_csv_error_read, Toast.LENGTH_SHORT).show()
+            showErrorSnackbar(R.string.import_csv_error_read)
             resetUI()
         }
     }
@@ -241,6 +242,11 @@ class CsvImportBottomSheet : BottomSheetDialogFragment() {
         FlashcardRepository(ctx).addFlashcards(flashcards)
         Toast.makeText(ctx, getString(R.string.import_csv_success, flashcards.size), Toast.LENGTH_SHORT).show()
         dismiss()
+    }
+
+    private fun showErrorSnackbar(messageRes: Int) {
+        val anchor = view ?: return
+        Snackbar.make(anchor, messageRes, 5000).show()
     }
 
     private fun resetUI() {
