@@ -27,7 +27,7 @@ After each answer, the algorithm assigns a rating based on your performance:
 |---|---|
 | **Easy** | Correct on 1st attempt, answered within 2 minutes, exact match |
 | **Good** | Correct on 1st attempt, but took longer or had minor typos |
-| **Hard** | Correct, but only after multiple attempts |
+| **Hard** | Correct, but only after a retry (wrong answer followed by a correct one) |
 | **Again** | Skipped or gave up |
 
 ### Key Concepts

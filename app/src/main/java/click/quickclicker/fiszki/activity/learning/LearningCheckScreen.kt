@@ -79,7 +79,6 @@ fun LearningCheckScreen(
     var answerText by rememberSaveable { mutableStateOf("") }
     var buttonsEnabled by remember { mutableStateOf(true) }
     var showCorrectPopup by remember { mutableStateOf(false) }
-    var retrying by remember { mutableStateOf(false) }
     var attemptCount by remember { mutableIntStateOf(0) }
     var cardStartTime by remember { mutableLongStateOf(System.currentTimeMillis()) }
 
@@ -103,7 +102,6 @@ fun LearningCheckScreen(
     }
 
     fun drawNext() {
-        retrying = false
         attemptCount = 0
         currentFlashcard = if (useFsrs) fsrsCardSelector!!.selectNext(pool)
         else algorithm.drawCardAlgorithm(pool)
@@ -121,64 +119,65 @@ fun LearningCheckScreen(
         if (checker.check(expected, answer, strictMode)) {
             if (activity != null) HapticFeedback.vibrateCorrect(activity)
             flashcardRepository.upFlashcardPassStatistic(currentFlashcard)
-            if (!retrying) {
-                val elapsed = System.currentTimeMillis() - cardStartTime
-                val stabilityBefore = currentFlashcard.fsrsStability
-                val difficultyBefore = currentFlashcard.fsrsDifficulty
-                val fsrsStateBefore = FsrsState.entries[currentFlashcard.fsrsState]
-                if (useFsrs) {
-                    val ed = Checker.editDistance(expected.lowercase(), answer.lowercase())
-                    val rating = FsrsRatingMapper.mapToRating(false, attemptCount, true, elapsed, ed)
-                    val cardBefore = currentFlashcard.toFsrsCard()
-                    val retrievability = fsrsScheduler.retrievability(cardBefore)
-                    val updated = fsrsScheduler.schedule(cardBefore, rating, Date())
-                    currentFlashcard.applyFsrsCard(updated)
-                    currentFlashcard.fsrsLastRating = rating.value
-                    flashcardRepository.updateFsrsState(currentFlashcard)
-                    if (debugEnabled) {
-                        sessionHistory.add(SessionCardRecord(
-                            word = currentFlashcard.getWord(),
-                            translation = currentFlashcard.getTranslation(),
-                            rating = rating,
-                            attemptCount = attemptCount,
-                            elapsedTimeMs = elapsed,
-                            wasSkipped = false,
-                            wasCorrect = true,
-                            stabilityBefore = stabilityBefore,
-                            stabilityAfter = updated.stability,
-                            difficultyBefore = difficultyBefore,
-                            difficultyAfter = updated.difficulty,
-                            retrievability = retrievability,
-                            scheduledDays = updated.scheduledDays,
-                            fsrsState = updated.state,
-                            reps = updated.reps,
-                            lapses = updated.lapses,
-                            priority = currentFlashcard.priority
-                        ))
-                    }
-                } else {
-                    flashcardRepository.upFlashcardPriority(currentFlashcard)
-                    if (debugEnabled) {
-                        sessionHistory.add(SessionCardRecord(
-                            word = currentFlashcard.getWord(),
-                            translation = currentFlashcard.getTranslation(),
-                            rating = null,
-                            attemptCount = attemptCount,
-                            elapsedTimeMs = elapsed,
-                            wasSkipped = false,
-                            wasCorrect = true,
-                            stabilityBefore = stabilityBefore,
-                            stabilityAfter = currentFlashcard.fsrsStability,
-                            difficultyBefore = difficultyBefore,
-                            difficultyAfter = currentFlashcard.fsrsDifficulty,
-                            retrievability = 0.0,
-                            scheduledDays = 0,
-                            fsrsState = fsrsStateBefore,
-                            reps = currentFlashcard.fsrsReps,
-                            lapses = currentFlashcard.fsrsLapses,
-                            priority = currentFlashcard.priority
-                        ))
-                    }
+            val elapsed = System.currentTimeMillis() - cardStartTime
+            val stabilityBefore = currentFlashcard.fsrsStability
+            val difficultyBefore = currentFlashcard.fsrsDifficulty
+            val fsrsStateBefore = FsrsState.entries[currentFlashcard.fsrsState]
+            if (useFsrs) {
+                // Always update FSRS state on correct answer — attemptCount > 1
+                // ensures the mapper returns Hard for retried cards
+                val ed = Checker.editDistance(expected.lowercase(), answer.lowercase())
+                val rating = FsrsRatingMapper.mapToRating(false, attemptCount, true, elapsed, ed)
+                val cardBefore = currentFlashcard.toFsrsCard()
+                val retrievability = fsrsScheduler.retrievability(cardBefore)
+                val updated = fsrsScheduler.schedule(cardBefore, rating, Date())
+                currentFlashcard.applyFsrsCard(updated)
+                currentFlashcard.fsrsLastRating = rating.value
+                flashcardRepository.updateFsrsState(currentFlashcard)
+                if (debugEnabled) {
+                    sessionHistory.add(SessionCardRecord(
+                        word = currentFlashcard.getWord(),
+                        translation = currentFlashcard.getTranslation(),
+                        rating = rating,
+                        attemptCount = attemptCount,
+                        elapsedTimeMs = elapsed,
+                        wasSkipped = false,
+                        wasCorrect = true,
+                        stabilityBefore = stabilityBefore,
+                        stabilityAfter = updated.stability,
+                        difficultyBefore = difficultyBefore,
+                        difficultyAfter = updated.difficulty,
+                        retrievability = retrievability,
+                        scheduledDays = updated.scheduledDays,
+                        fsrsState = updated.state,
+                        reps = updated.reps,
+                        lapses = updated.lapses,
+                        priority = currentFlashcard.priority
+                    ))
+                }
+            } else if (attemptCount == 1) {
+                // Legacy path: only update priority on first-attempt success
+                flashcardRepository.upFlashcardPriority(currentFlashcard)
+                if (debugEnabled) {
+                    sessionHistory.add(SessionCardRecord(
+                        word = currentFlashcard.getWord(),
+                        translation = currentFlashcard.getTranslation(),
+                        rating = null,
+                        attemptCount = attemptCount,
+                        elapsedTimeMs = elapsed,
+                        wasSkipped = false,
+                        wasCorrect = true,
+                        stabilityBefore = stabilityBefore,
+                        stabilityAfter = currentFlashcard.fsrsStability,
+                        difficultyBefore = difficultyBefore,
+                        difficultyAfter = currentFlashcard.fsrsDifficulty,
+                        retrievability = 0.0,
+                        scheduledDays = 0,
+                        fsrsState = fsrsStateBefore,
+                        reps = currentFlashcard.fsrsReps,
+                        lapses = currentFlashcard.fsrsLapses,
+                        priority = currentFlashcard.priority
+                    ))
                 }
             }
             correctCount++
@@ -188,12 +187,9 @@ fun LearningCheckScreen(
         } else {
             if (activity != null) HapticFeedback.vibrateWrong(activity)
             flashcardRepository.upFlashcardFailStatistic(currentFlashcard)
-            if (useFsrs) {
-                fsrsCardSelector!!.reinsertForRetry(currentFlashcard)
-            } else {
+            if (!useFsrs) {
                 flashcardRepository.downFlashcardPriority(currentFlashcard)
             }
-            retrying = true
             totalCount++
             badAnswerExpected = expected
             badAnswerUser = answer
@@ -230,6 +226,9 @@ fun LearningCheckScreen(
             },
             onSkip = {
                 showBadAnswerDialog = false
+                if (useFsrs) {
+                    fsrsCardSelector!!.reinsertForRetry(currentFlashcard)
+                }
                 val elapsed = System.currentTimeMillis() - cardStartTime
                 val stabilityBefore = currentFlashcard.fsrsStability
                 val difficultyBefore = currentFlashcard.fsrsDifficulty

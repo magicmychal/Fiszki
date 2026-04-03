@@ -27,7 +27,7 @@ Po kazdej odpowiedzi algorytm przypisuje ocene na podstawie Twojego wyniku:
 |---|---|
 | **Latwe** | Poprawna odpowiedz za pierwszym razem, w ciagu 2 minut, dokladne dopasowanie |
 | **Dobre** | Poprawna odpowiedz za pierwszym razem, ale dluzej lub z drobnymi literowkami |
-| **Trudne** | Poprawna odpowiedz, ale dopiero po kilku probach |
+| **Trudne** | Poprawna odpowiedź, ale dopiero po ponownej próbie (błędna odpowiedź, a następnie poprawna) |
 | **Ponow** | Pominieto lub poddano sie |
 
 ### Kluczowe pojecia

@@ -14,7 +14,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Exam round choices now adapt dynamically based on the number of cards in the selected set (capped at 50)
 - Exam no longer uses the practice/FSRS algorithm; it uses a dedicated shuffle-based card selector with no repetition
 
-## [2.8.0]
+### Fixed
+- Practice mode now correctly rates a retried flashcard as Hard instead of Easy when the user answers wrong, retries, and then answers correctly
+
+## [2.8.0] - 2026-04-02
 
 ### Added
 - Algorithm debug report shown after practice sessions when enabled in Settings, displaying per-card FSRS data (rating, difficulty, stability, retrievability, interval, reps, lapses) and session summary

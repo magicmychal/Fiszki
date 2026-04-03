@@ -79,6 +79,8 @@ class FsrsRatingMapperTest {
 
     @Test
     fun correctSecondAttempt_returnsHard() {
+        // Covers the "retry after wrong answer" scenario:
+        // user types wrong, clicks "Try again", then types correctly
         val rating = FsrsRatingMapper.mapToRating(
             wasSkipped = false,
             attemptCount = 2,
