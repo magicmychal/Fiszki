@@ -4,19 +4,22 @@ import click.quickclicker.fiszki.model.flashcard.Flashcard
 
 class PriorityCount(private val flashcards: ArrayList<Flashcard>) {
 
-    private val priority = IntArray(5)
+    private val priorityCounts = IntArray(5)
+    val groupedCards = Array(5) { mutableListOf<Flashcard>() }
 
     fun priorityCount(): IntArray? {
         if (flashcards.isEmpty()) return null
         for (flashcard in flashcards) {
-            when (flashcard.priority) {
-                1 -> priority[0]++
-                2 -> priority[1]++
-                3 -> priority[2]++
-                4 -> priority[3]++
-                5 -> priority[4]++
+            val p = when (flashcard.priority) {
+                0, 1 -> 1
+                2 -> 2
+                3 -> 3
+                4 -> 4
+                else -> 5
             }
+            priorityCounts[p - 1]++
+            groupedCards[p - 1].add(flashcard)
         }
-        return priority
+        return priorityCounts
     }
 }
