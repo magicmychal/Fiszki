@@ -54,12 +54,14 @@ import io.sentry.compose.SentryModifier.sentryTag
 
 data class RoundsOption(val value: Int, val label: String)
 
+/** Sentinel value indicating "test all cards in the set". */
+const val EXAM_ROUNDS_ALL = -1
+
 @OptIn(ExperimentalLayoutApi::class, androidx.compose.ui.ExperimentalComposeUiApi::class)
 @Composable
 fun ExamSetupScreen(
     title: String,
     categories: List<PracticeCategoryItem>,
-    roundsOptions: List<RoundsOption>,
     onStartExam: (strictMode: Boolean, categoryId: Int?, reversed: Boolean, rounds: Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -70,6 +72,17 @@ fun ExamSetupScreen(
 
     val selectedCategory = categories.getOrNull(selectedCategoryIndex)
     val isAllSelected = selectedCategory?.id == null
+
+    val allRoundsLabel = stringResource(R.string.exam_rounds_all)
+    val roundsOptions = remember(selectedCategory) {
+        val cardCount = selectedCategory?.cardCount ?: 0
+        buildList {
+            add(RoundsOption(value = EXAM_ROUNDS_ALL, label = allRoundsLabel))
+            listOf(5, 10, 15, 25, 50).forEach { n ->
+                if (n <= cardCount) add(RoundsOption(value = n, label = n.toString()))
+            }
+        }
+    }
     val selectedRounds = roundsOptions.getOrNull(selectedRoundsIndex)
 
     val scrollState = rememberScrollState()
@@ -198,6 +211,7 @@ fun ExamSetupScreen(
                                 onClick = {
                                     selectedCategoryIndex = index
                                     reversed = false
+                                    selectedRoundsIndex = 0
                                 },
                                 modifier = Modifier.sentryTag("chip_category_$index")
                             )

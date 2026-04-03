@@ -40,13 +40,15 @@ class ExamFragment : Fragment() {
         composeView.setContent {
             FiszkiTheme {
                 val allCategories = mCategoryRepository.getAllCategory()
+                val totalCardCount = mFlashcardRepository.countFlashcards()
                 val categoryItems = buildList {
                     add(
                         PracticeCategoryItem(
                             id = null,
                             displayName = getString(R.string.learning_category_all),
                             langFrom = null,
-                            langOn = null
+                            langOn = null,
+                            cardCount = totalCardCount
                         )
                     )
                     allCategories.forEach { cat ->
@@ -55,20 +57,16 @@ class ExamFragment : Fragment() {
                                 id = cat.id,
                                 displayName = cat.getCategory(),
                                 langFrom = cat.getLangFrom(),
-                                langOn = cat.getLangOn()
+                                langOn = cat.getLangOn(),
+                                cardCount = mFlashcardRepository.countFlashcardsByCategoryID(cat.id)
                             )
                         )
                     }
                 }
 
-                val roundsOptions = listOf(5, 10, 15, 25, 50).map {
-                    RoundsOption(value = it, label = it.toString())
-                }
-
                 ExamSetupScreen(
                     title = getString(R.string.exam_title),
                     categories = categoryItems,
-                    roundsOptions = roundsOptions,
                     onStartExam = { strictMode, categoryId, reversed, rounds ->
                         val flashcards = if (categoryId == null) {
                             mFlashcardRepository.getAllFlashcards()
@@ -78,6 +76,7 @@ class ExamFragment : Fragment() {
                         if (flashcards.isEmpty()) {
                             Toast.makeText(activity, R.string.exam_no_flashcards, Toast.LENGTH_LONG).show()
                         } else {
+                            val resolvedRounds = if (rounds == EXAM_ROUNDS_ALL) flashcards.size else minOf(rounds, flashcards.size)
                             val categoryName = if (categoryId == null) {
                                 getString(R.string.learning_category_all)
                             } else {
@@ -89,7 +88,7 @@ class ExamFragment : Fragment() {
                                 val to = if (reversed) category.getLangFrom() else category.getLangOn()
                                 "$from to $to"
                             } else null
-                            ChangeActivityManager(activity).goToExamCheck(flashcards, rounds, categoryName, languagePair)
+                            ChangeActivityManager(activity).goToExamCheck(flashcards, resolvedRounds, categoryName, languagePair)
                         }
                     }
                 )

@@ -10,6 +10,7 @@
     <string name="exam_tooltip_range">Pick which set of flashcards you want to be tested on.</string>
     <string name="exam_start">Go!</string>
     <string name="exam_rounds_label">Total number of rounds</string>
+    <string name="exam_rounds_all">All cards in set</string>
     <string name="exam_no_flashcards">No flashcards available. Add some first!</string>
 
     <string name="exam_range_dialog_title">Chose set to exam:</string>

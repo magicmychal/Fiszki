@@ -19,7 +19,7 @@ Fiszki nie zawierają gotowych zestawów fiszek. Zamiast tego aplikacja została
 ### Główne funkcje:
 - **Tworzenie własnych zestawów fiszek:** Buduj własne zestawy słownictwa lub pojęć.
 - **Tryb nauki:** Testuj się, korzystając z algorytmu FSRS (Free Spaced Repetition Scheduler), który optymalizuje powtarzanie kart, aby pomóc Ci szybciej zapamiętywać słowa. [Dowiedz się więcej o FSRS.]
-- **Tryb egzaminu:** Sprawdź się w surowszym trybie, w którym nie można natychmiast powtarzać słów. Wyniki są wyświetlane dopiero po ukończeniu określonej liczby fiszek.
+- **Tryb egzaminu:** Sprawdź swoją wiedzę w egzaminie bez powtórek. Karty są tasowane losowo, a każda pojawia się najwyżej raz. Wybierz liczbę rund (5, 10, 15, 25, 50) lub wybierz „Wszystkie fiszki w zestawie", aby zostać przetestowanym z każdej karty — to jest opcja domyślna. Dostępne opcje rund dostosowują się dynamicznie do liczby kart w wybranym zestawie. W przeciwieństwie do trybu nauki, egzamin nie korzysta z powtarzania rozłożonego w czasie, a wyniki są wyświetlane dopiero po zakończeniu sesji.
 
 ---
 

@@ -46,6 +46,21 @@ Gdy FSRS jest aktywny, procent bieglosci dla kazdego zestawu to **srednia odtwar
 
 ---
 
+## Algorytm egzaminu
+
+Tryb egzaminu uzywa oddzielnego algorytmu zaprojektowanego do testowania wiedzy bez powtorzen. Gdy rozpoczynasz egzamin:
+
+1. Wszystkie fiszki w wybranym zestawie sa **losowo tasowane**.
+2. Karty sa prezentowane **jedna po drugiej** w wylosowanej kolejnosci.
+3. **Zadna karta nie powtarza sie** w ramach jednej sesji egzaminu — kazda karta pojawia sie najwyzej raz.
+4. Egzamin konczy sie, gdy odpowiesz na wybrana liczbe rund lub gdy wszystkie karty zostana pokazane.
+
+Mozesz wybrac liczbe rund (5, 10, 15, 25 lub 50) albo wybrac **"Wszystkie fiszki w zestawie"**, aby zostac przetestowanym z kazdej karty. Dostepne opcje rund dostosowuja sie dynamicznie do liczby kart w wybranym zestawie. "Wszystkie fiszki w zestawie" jest domyslna opcja.
+
+W przeciwienstwie do trybu nauki, egzamin nie korzysta z powtarzania rozlozonego w czasie (FSRS) i nie aktualizuje danych pamieci kart. Jest to czysty test wiedzy.
+
+---
+
 ## Tradycyjny algorytm
 
 Tradycyjny algorytm uzywa prostego losowania opartego na priorytetach. Kazda karta ma priorytet (0-5). Poprawna odpowiedz zwieksza priorytet, co sprawia, ze karta pojawia sie rzadziej. Bledna odpowiedz zmniejsza priorytet, przez co karta pojawia sie czesciej.

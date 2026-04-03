@@ -19,7 +19,7 @@ Fiszki doesn’t come with pre-made flashcard sets. Instead, it’s designed for
 ### Key Features:
 - **Create Custom Flashcard Sets:** Build your own sets of vocabulary or concepts.
 - **Practice Mode:** Test yourself using the FSRS (Free Spaced Repetition Scheduler) algorithm, which optimizes card repetition to help you remember words faster. [Learn more about FSRS here.]
-- **Exam Mode:** Challenge yourself with a stricter mode where you can’t retry words immediately. Results are shown only after completing a set number of cards.
+- **Exam Mode:** Test your knowledge with a no-repeat exam. Cards are shuffled and each one appears at most once. Choose from preset round counts (5, 10, 15, 25, 50) or select "All cards in set" to be tested on every card — this is the default. The available round options adapt dynamically to the number of cards in the selected set. Unlike practice mode, the exam does not use spaced repetition and results are shown only after completing the session.
 
 ---
 

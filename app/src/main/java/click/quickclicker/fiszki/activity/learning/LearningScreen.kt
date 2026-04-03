@@ -57,7 +57,8 @@ data class PracticeCategoryItem(
     val id: Int?,
     val displayName: String,
     val langFrom: String?,
-    val langOn: String?
+    val langOn: String?,
+    val cardCount: Int = 0
 )
 
 @OptIn(ExperimentalLayoutApi::class, androidx.compose.ui.ExperimentalComposeUiApi::class)

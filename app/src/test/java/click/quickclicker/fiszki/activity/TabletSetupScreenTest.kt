@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import click.quickclicker.fiszki.activity.learning.PracticeCategoryItem
 import click.quickclicker.fiszki.activity.learning.PracticeSetupScreen
 import click.quickclicker.fiszki.activity.exam.ExamSetupScreen
-import click.quickclicker.fiszki.activity.exam.RoundsOption
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -37,13 +36,15 @@ class TabletSetupScreenTest {
             id = null,
             displayName = "All sets",
             langFrom = null,
-            langOn = null
+            langOn = null,
+            cardCount = 30
         ),
         PracticeCategoryItem(
             id = 1,
             displayName = "Spanish Basics",
             langFrom = "English",
-            langOn = "Spanish"
+            langOn = "Spanish",
+            cardCount = 20
         )
     )
 
@@ -99,10 +100,6 @@ class TabletSetupScreenTest {
                     ExamSetupScreen(
                         title = "Exam\ntime!",
                         categories = testCategories,
-                        roundsOptions = listOf(
-                            RoundsOption(5, "5"),
-                            RoundsOption(10, "10")
-                        ),
                         onStartExam = { _, _, _, _ -> },
                         modifier = Modifier.widthIn(max = 500.dp).testTag("exam_screen")
                     )
@@ -124,10 +121,6 @@ class TabletSetupScreenTest {
                 ExamSetupScreen(
                     title = "Exam\ntime!",
                     categories = testCategories,
-                    roundsOptions = listOf(
-                        RoundsOption(5, "5"),
-                        RoundsOption(10, "10")
-                    ),
                     onStartExam = { _, _, _, _ -> }
                 )
             }

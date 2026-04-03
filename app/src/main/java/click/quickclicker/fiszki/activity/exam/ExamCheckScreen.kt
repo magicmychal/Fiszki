@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import click.quickclicker.fiszki.HapticFeedback
 import click.quickclicker.fiszki.R
-import click.quickclicker.fiszki.algorithm.Algorithm
+import click.quickclicker.fiszki.algorithm.exam.ExamCardSelector
 import click.quickclicker.fiszki.dialogs.exam.ExamSummaryData
 import click.quickclicker.fiszki.model.category.CategoryRepository
 import click.quickclicker.fiszki.model.flashcard.Flashcard
@@ -57,9 +57,8 @@ fun ExamCheckScreen(
     val activity = context as? Activity
     val focusRequester = remember { FocusRequester() }
 
-    val algorithm = remember { Algorithm(context) }
+    val examSelector = remember { ExamCardSelector(flashcardsPool.take(totalRounds)) }
     val categoryRepository = remember { CategoryRepository(context) }
-    val pool = remember { ArrayList(flashcardsPool) }
     val goodAnswers = remember { mutableStateListOf<Flashcard>() }
     val badAnswers = remember { mutableStateListOf<ArrayList<*>>() }
 
@@ -76,7 +75,7 @@ fun ExamCheckScreen(
 
     var showExitDialog by remember { mutableStateOf(false) }
 
-    var currentFlashcard by remember { mutableStateOf(algorithm.drawCardAlgorithm(pool)) }
+    var currentFlashcard by remember { mutableStateOf(examSelector.selectNext()!!) }
     var currentCategory by remember {
         mutableStateOf(categoryRepository.getCategoryByID(currentFlashcard.categoryID)!!)
     }
@@ -98,8 +97,13 @@ fun ExamCheckScreen(
             finishExam()
             return
         }
+        val nextCard = examSelector.selectNext()
+        if (nextCard == null) {
+            finishExam()
+            return
+        }
         currentRound++
-        currentFlashcard = algorithm.drawCardAlgorithm(pool)
+        currentFlashcard = nextCard
         currentCategory = categoryRepository.getCategoryByID(currentFlashcard.categoryID)!!
         answerText = ""
     }

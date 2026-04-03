@@ -41,7 +41,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOWER_BOUND
 import click.quickclicker.fiszki.R
 import click.quickclicker.fiszki.activity.exam.ExamSetupScreen
-import click.quickclicker.fiszki.activity.exam.RoundsOption
+import click.quickclicker.fiszki.activity.exam.EXAM_ROUNDS_ALL
 import click.quickclicker.fiszki.activity.learning.PracticeCategoryItem
 import click.quickclicker.fiszki.activity.learning.PracticeSetupScreen
 import click.quickclicker.fiszki.activity.myWords.CategoryTabScreen
@@ -199,13 +199,15 @@ private fun TabContent(
             val categoryRepository = CategoryRepository(context)
             val flashcardRepository = FlashcardRepository(context)
             val allCategories = categoryRepository.getUserCategory()
+            val totalCardCount = flashcardRepository.countFlashcards()
             val categoryItems = buildList {
                 add(
                     PracticeCategoryItem(
                         id = null,
                         displayName = context.getString(R.string.learning_category_all),
                         langFrom = null,
-                        langOn = null
+                        langOn = null,
+                        cardCount = totalCardCount
                     )
                 )
                 allCategories.forEach { cat ->
@@ -214,13 +216,11 @@ private fun TabContent(
                             id = cat.id,
                             displayName = cat.getCategory(),
                             langFrom = cat.getLangFrom(),
-                            langOn = cat.getLangOn()
+                            langOn = cat.getLangOn(),
+                            cardCount = flashcardRepository.countFlashcardsByCategoryID(cat.id)
                         )
                     )
                 }
-            }
-            val roundsOptions = listOf(5, 10, 15, 25, 50).map {
-                RoundsOption(value = it, label = it.toString())
             }
 
             val contentModifier = if (isTablet) {
@@ -236,7 +236,6 @@ private fun TabContent(
                 ExamSetupScreen(
                     title = context.getString(R.string.exam_title),
                     categories = categoryItems,
-                    roundsOptions = roundsOptions,
                     onStartExam = { strictMode, categoryId, reversed, rounds ->
                         val flashcards = if (categoryId == null) {
                             flashcardRepository.getAllFlashcards()
@@ -246,6 +245,7 @@ private fun TabContent(
                         if (flashcards.isEmpty()) {
                             Toast.makeText(context, R.string.exam_no_flashcards, Toast.LENGTH_LONG).show()
                         } else if (activity != null) {
+                            val resolvedRounds = if (rounds == EXAM_ROUNDS_ALL) flashcards.size else minOf(rounds, flashcards.size)
                             val categoryName = if (categoryId == null) {
                                 context.getString(R.string.learning_category_all)
                             } else {
@@ -257,7 +257,7 @@ private fun TabContent(
                                 val to = if (reversed) category.getLangFrom() else category.getLangOn()
                                 "$from to $to"
                             } else null
-                            ChangeActivityManager(activity).goToExamCheck(flashcards, rounds, categoryName, languagePair)
+                            ChangeActivityManager(activity).goToExamCheck(flashcards, resolvedRounds, categoryName, languagePair)
                         }
                     },
                     modifier = contentModifier

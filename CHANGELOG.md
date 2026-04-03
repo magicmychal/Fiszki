@@ -7,6 +7,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
+- "All cards in set" option in exam setup, selected by default — tests every card in the chosen set
+- New no-repeat Exam Algorithm: cards are shuffled once and each card appears at most once per exam session
+
+### Changed
+- Exam round choices now adapt dynamically based on the number of cards in the selected set (capped at 50)
+- Exam no longer uses the practice/FSRS algorithm; it uses a dedicated shuffle-based card selector with no repetition
+
+## [2.8.0]
+
+### Added
 - Algorithm debug report shown after practice sessions when enabled in Settings, displaying per-card FSRS data (rating, difficulty, stability, retrievability, interval, reps, lapses) and session summary
 - "About the algorithm" page in Settings explaining how FSRS, ratings, card states, and mastery work
 - "About" link in Settings to view app info and credits
