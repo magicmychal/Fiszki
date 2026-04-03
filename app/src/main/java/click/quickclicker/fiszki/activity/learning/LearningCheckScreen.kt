@@ -31,6 +31,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PlatformImeOptions
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -290,11 +291,6 @@ fun LearningCheckScreen(
 
     val langFrom = if (reversed) currentCategory.getLangOn() else currentCategory.getLangFrom()
     val langOn = if (reversed) currentCategory.getLangFrom() else currentCategory.getLangOn()
-    val langText = if (langFrom.isNullOrEmpty() || langOn.isNullOrEmpty()) {
-        stringResource(R.string.learning_check_lang_translate)
-    } else {
-        "${stringResource(R.string.learning_check_lang_translate_1)} $langFrom ${stringResource(R.string.learning_check_lang_translate_2)} $langOn"
-    }
     val wordText = if (reversed) currentFlashcard.getTranslation() else currentFlashcard.getWord()
 
     fun handleFinish() {
@@ -380,7 +376,7 @@ fun LearningCheckScreen(
                         modifier = Modifier.padding(32.dp)
                     ) {
                         Text(
-                            text = langText.uppercase(),
+                            text = stringResource(R.string.learning_check_lang_translate).uppercase(),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             letterSpacing = 1.5.sp
@@ -436,7 +432,14 @@ fun LearningCheckScreen(
                         focusedIndicatorColor = MaterialTheme.colorScheme.primary,
                         unfocusedIndicatorColor = MaterialTheme.colorScheme.outlineVariant
                     ),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Done,
+                        autoCorrectEnabled = !strictMode,
+                        platformImeOptions = if (strictMode) PlatformImeOptions(
+                            privateImeOptions = "nm,noSuggestions"
+                        ) else null
+                    ),
                     keyboardActions = KeyboardActions(onDone = { doCheck() })
                 )
 

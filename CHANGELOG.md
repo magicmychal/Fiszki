@@ -13,6 +13,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Changed
 - Exam round choices now adapt dynamically based on the number of cards in the selected set (capped at 50)
 - Exam no longer uses the practice/FSRS algorithm; it uses a dedicated shuffle-based card selector with no repetition
+- Practice screen no longer shows redundant "Translate from X to Y" text above the word — the language pill below the word already shows the direction
+- Keyboard autocorrect and dictionary suggestions are now disabled in strict mode during practice; relaxed mode keeps them enabled
 
 ### Fixed
 - Practice mode now correctly rates a retried flashcard as Hard instead of Easy when the user answers wrong, retries, and then answers correctly
