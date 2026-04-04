@@ -6,10 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [2.8.1] - 2026-04-04
+
 ### Added
 - "All cards in set" option in exam setup, selected by default — tests every card in the chosen set
 - New no-repeat Exam Algorithm: cards are shuffled once and each card appears at most once per exam session
 - In-app language picker for Android 12 devices — tapping "Language" in Settings now shows a dialog to choose English, Polski, or System default
+- Compose previews to EditFlashcardActivity and AddFlashcardActivity
 
 ### Changed
 - Exam round choices now adapt dynamically based on the number of cards in the selected set (capped at 50)
@@ -17,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Practice screen no longer shows redundant "Translate from X to Y" text above the word — the language pill below the word already shows the direction
 - Keyboard autocorrect and dictionary suggestions are now disabled in strict mode during practice; relaxed mode keeps them enabled
 - Language setting now shows the currently selected language beneath the row
+- SessionTypeCard in learning screen now maintains consistent heights across columns
 
 ### Fixed
 - Practice mode now correctly rates a retried flashcard as Hard instead of Easy when the user answers wrong, retries, and then answers correctly
