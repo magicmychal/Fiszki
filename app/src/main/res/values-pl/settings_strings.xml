@@ -30,6 +30,7 @@
     <string name="settings_notification_days_everyday">Codziennie</string>
     <string name="settings_language">Język</string>
     <string name="settings_language_summary">Zmień język aplikacji</string>
+    <string name="settings_language_system_default">Domyślny systemowy</string>
     <string name="settings_permission_notifications">Wymagane uprawnienie do powiadomień</string>
     <string name="settings_permission_exact_alarm">Wymagane uprawnienie do dokładnych alarmów</string>
     <string name="settings_color_palette">Paleta kolorów</string>

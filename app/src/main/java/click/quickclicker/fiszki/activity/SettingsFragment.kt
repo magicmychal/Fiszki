@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -56,6 +57,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import androidx.core.os.LocaleListCompat
 import androidx.fragment.app.Fragment
 import click.quickclicker.fiszki.AlarmReceiver
 import click.quickclicker.fiszki.FiszkiApplication
@@ -63,6 +65,7 @@ import click.quickclicker.fiszki.LocalSharedPreferences
 import click.quickclicker.fiszki.NightModeController
 import click.quickclicker.fiszki.R
 import click.quickclicker.fiszki.activity.learning.RobotoSerifFamily
+import click.quickclicker.fiszki.dialogs.LanguagePickerDialogFragment
 import click.quickclicker.fiszki.dialogs.ReminderScheduleDialogFragment
 import click.quickclicker.fiszki.dialogs.csv.CsvImportBottomSheet
 import click.quickclicker.fiszki.model.category.CategoryRepository
@@ -81,6 +84,7 @@ class SettingsFragment : Fragment() {
     private var debugAlgorithmEnabled = mutableStateOf(false)
     private var diagnosticEnabled = mutableStateOf(false)
     private var versionName = mutableStateOf("")
+    private var currentLanguageTag = mutableStateOf("")
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -114,6 +118,7 @@ class SettingsFragment : Fragment() {
         diagnosticEnabled.value = prefs.diagnosticDataEnabled
         updateScheduleSubtitle()
         updateVersionName()
+        updateCurrentLanguageTag()
     }
 
     override fun onResume() {
@@ -142,6 +147,7 @@ class SettingsFragment : Fragment() {
         val debugAlgorithm by remember { debugAlgorithmEnabled }
         val diagnostic by remember { diagnosticEnabled }
         val version by remember { versionName }
+        val languageTag by remember { currentLanguageTag }
 
         Column(
             modifier = Modifier
@@ -302,7 +308,7 @@ class SettingsFragment : Fragment() {
             // Language
             SettingsRow(
                 title = stringResource(R.string.settings_language),
-                subtitle = stringResource(R.string.settings_language_summary),
+                subtitle = languageTag,
                 onClick = { openLanguageSettings() }
             )
 
@@ -609,9 +615,19 @@ class SettingsFragment : Fragment() {
                 data = Uri.parse("package:${ctx.packageName}")
             })
         } else {
-            startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                data = Uri.parse("package:${ctx.packageName}")
-            })
+            val currentLocales = AppCompatDelegate.getApplicationLocales()
+            val currentTag = if (currentLocales.isEmpty) "" else currentLocales.toLanguageTags()
+            val dialog = LanguagePickerDialogFragment.newInstance(currentTag)
+            dialog.onLanguageSelected = { tag ->
+                val localeList = if (tag.isEmpty()) {
+                    LocaleListCompat.getEmptyLocaleList()
+                } else {
+                    LocaleListCompat.forLanguageTags(tag)
+                }
+                AppCompatDelegate.setApplicationLocales(localeList)
+                // AppCompat recreates the activity after locale change
+            }
+            dialog.show(childFragmentManager, "language_picker")
         }
     }
 
@@ -655,6 +671,18 @@ class SettingsFragment : Fragment() {
             versionName.value = "VERSION V${info.versionName}".uppercase()
         } catch (_: PackageManager.NameNotFoundException) {
             versionName.value = ""
+        }
+    }
+
+    private fun updateCurrentLanguageTag() {
+        val currentLocales = AppCompatDelegate.getApplicationLocales()
+        currentLanguageTag.value = when {
+            currentLocales.isEmpty -> getString(R.string.settings_language_system_default)
+            else -> when (currentLocales.toLanguageTags()) {
+                "en" -> getString(R.string.settings_language_english)
+                "pl" -> getString(R.string.settings_language_polish)
+                else -> currentLocales.toLanguageTags()
+            }
         }
     }
 }

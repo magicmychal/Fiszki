@@ -31,6 +31,9 @@
     <string name="settings_notification_days_everyday">Every day</string>
     <string name="settings_language">Language</string>
     <string name="settings_language_summary">Change app language</string>
+    <string name="settings_language_system_default">System default</string>
+    <string name="settings_language_english" translatable="false">English</string>
+    <string name="settings_language_polish" translatable="false">Polski</string>
     <string name="settings_permission_notifications">Notification permission required</string>
     <string name="settings_permission_exact_alarm">Exact alarm permission required</string>
     <string name="settings_color_palette">Color palette</string>

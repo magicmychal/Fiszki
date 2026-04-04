@@ -17,8 +17,10 @@ import android.widget.Toast
 
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
@@ -33,6 +35,7 @@ import click.quickclicker.fiszki.ui.OrientationHelper
 import click.quickclicker.fiszki.activity.exam.ExamActivity
 import click.quickclicker.fiszki.activity.learning.LearningActivity
 import click.quickclicker.fiszki.activity.myWords.category.CategoryActivity
+import click.quickclicker.fiszki.dialogs.LanguagePickerDialogFragment
 import click.quickclicker.fiszki.dialogs.ReminderScheduleDialogFragment
 import click.quickclicker.fiszki.model.category.CategoryRepository
 import click.quickclicker.fiszki.model.flashcard.FlashcardRepository
@@ -43,6 +46,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var prefs: LocalSharedPreferences
     private lateinit var notificationSwitch: MaterialSwitch
     private lateinit var scheduleValue: TextView
+    private lateinit var languageValue: TextView
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -91,6 +95,7 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
         updateScheduleSubtitle()
+        updateLanguageSubtitle()
     }
 
     private fun handleWindowInsets() {
@@ -234,18 +239,49 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun buildLanguageRow() {
+        languageValue = findViewById(R.id.settings_language_value)
+        updateLanguageSubtitle()
+
         findViewById<View>(R.id.settings_language_row).setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                // API 33+: open system per-app language settings
                 val intent = Intent(Settings.ACTION_APP_LOCALE_SETTINGS).apply {
                     data = Uri.parse("package:$packageName")
                 }
                 startActivity(intent)
             } else {
-                // API 31-32: open general app settings as fallback
-                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                    data = Uri.parse("package:$packageName")
-                }
-                startActivity(intent)
+                // API 31-32: show in-app language picker dialog
+                showLanguagePickerDialog()
+            }
+        }
+    }
+
+    private fun showLanguagePickerDialog() {
+        val currentLocales = AppCompatDelegate.getApplicationLocales()
+        val currentTag = if (currentLocales.isEmpty) "" else currentLocales.toLanguageTags()
+
+        val dialog = LanguagePickerDialogFragment.newInstance(currentTag)
+        dialog.onLanguageSelected = { tag ->
+            val localeList = if (tag.isEmpty()) {
+                LocaleListCompat.getEmptyLocaleList()
+            } else {
+                LocaleListCompat.forLanguageTags(tag)
+            }
+            AppCompatDelegate.setApplicationLocales(localeList)
+            // Activity will be recreated by AppCompat after locale change
+        }
+        dialog.show(supportFragmentManager, "language_picker")
+    }
+
+    private fun updateLanguageSubtitle() {
+        val currentLocales = AppCompatDelegate.getApplicationLocales()
+        languageValue.text = if (currentLocales.isEmpty) {
+            getString(R.string.settings_language_system_default)
+        } else {
+            when (currentLocales.toLanguageTags()) {
+                "en" -> getString(R.string.settings_language_english)
+                "pl" -> getString(R.string.settings_language_polish)
+                else -> currentLocales.toLanguageTags()
             }
         }
     }
