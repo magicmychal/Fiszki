@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -129,7 +131,9 @@ fun PracticeSetupScreen(
                     )
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(IntrinsicSize.Max)
                     ) {
                         SessionTypeButton(
                             icon = Icons.Default.Bolt,
@@ -139,6 +143,7 @@ fun PracticeSetupScreen(
                             onClick = { strictMode = true },
                             modifier = Modifier
                                 .weight(1f)
+                                .fillMaxHeight()
                                 .sentryTag("button_strict_mode")
                         )
                         SessionTypeButton(
@@ -149,6 +154,7 @@ fun PracticeSetupScreen(
                             onClick = { strictMode = false },
                             modifier = Modifier
                                 .weight(1f)
+                                .fillMaxHeight()
                                 .sentryTag("button_relaxed_mode")
                         )
                     }
