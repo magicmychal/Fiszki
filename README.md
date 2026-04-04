@@ -5,165 +5,194 @@ Fiszki (Polish for "flashcards") is an Android flashcard learning application. I
 ## Features
 
 - **My Words** - Create and manage flashcards organized into sets with language pairs (e.g., English -> Polish)
-- **Learning Mode** - Study flashcards by set, language, or all at once with real-time feedback
-- **Exam Mode** - Test yourself with a configurable number of questions and review wrong answers
+- **Practice Mode** - Study flashcards by set, language, or all at once with real-time feedback and adaptive spaced repetition
+- **Exam Mode** - Test yourself with a configurable number of questions or all cards at once, then review wrong answers
 - **Notification Reminders** - Periodic notifications that prompt you to translate a random flashcard (configurable frequency: 1, 5, 15, 30, or 60 minutes)
 - **Night Mode** - Dark theme support toggled from the navigation drawer
 - **Statistics** - Track pass/fail stats per flashcard with the ability to reset
-- **Tutorial** - Sliding tutorial shown on first launch
 - **Localization** - Full English and Polish UI support
 
 ## How the Learning Algorithm Works
 
-Fiszki uses a practice system designed to help you remember flashcards through **active recall** and **adaptive repetition**. Here's how it works across all learning modes.
+Fiszki uses two learning algorithms that you can toggle between in Settings. Choose the one that works best for your learning style.
 
-### Priority System
+### FSRS (Free Spaced Repetition Scheduler) — Primary Algorithm
 
-Every flashcard has an internal **priority level** ranging from **0 to 5**. This number reflects how well you know the card:
+FSRS is a modern, scientifically-backed spaced repetition algorithm that schedules reviews at optimal intervals to maximize long-term retention with minimal effort.
 
-| Priority | Meaning |
-|----------|---------|
-| 0 | Brand-new or difficult — you've been getting it wrong |
-| 1–2 | Still learning — you've had a few correct answers |
-| 3–4 | Getting comfortable — you're answering correctly more often |
-| 5 | Well-known — you've answered correctly many times in a row |
+#### Card States
 
-- When you **answer correctly**, the card's priority goes **up by 1** (max 5).
-- When you **answer incorrectly**, the card's priority goes **down by 1** (min 0).
+Every flashcard has one of four states that track your learning progress:
 
-This means cards you struggle with stay at a low priority, while cards you've mastered gradually climb to the top. The system keeps track of this automatically — you don't need to do anything.
+| State | Meaning |
+|---|---|
+| **New** | Never reviewed. The card has no memory data yet. |
+| **Learning** | Being learned for the first time. You'll see it again soon. |
+| **Review** | Graduated to long-term memory. Intervals grow with each success. |
+| **Relearning** | Previously known but forgotten. Back to short intervals. |
 
-### How Cards Are Picked
+#### How Ratings Work
 
-During a practice or exam session, the app picks flashcards **randomly** from your selected pool (a specific set or all sets). Every card in the pool has an equal chance of appearing, so you can't predict what comes next. This keeps you on your toes and prevents you from memorising the order rather than the actual words.
+After each answer in practice mode, FSRS automatically assigns a rating based on your performance:
 
-### Strict Mode vs. Relaxed Mode
+| Rating | When it happens |
+|---|---|
+| **Easy** | Correct on 1st attempt, answered within 2 minutes, exact match |
+| **Good** | Correct on 1st attempt, but took longer or had minor typos |
+| **Hard** | Correct, but only after a retry (wrong answer followed by a correct one) |
+| **Again** | Skipped or gave up |
 
-Before starting a practice session, you can choose between two answer-checking modes:
+#### Key Concepts
 
-- **Strict mode (on by default)** — Your answer must match the translation **exactly**, including uppercase/lowercase letters and punctuation. This is ideal when precision matters (e.g., learning spelling).
-- **Relaxed mode** — The check ignores upper/lowercase differences and trailing dots. For example, "Hello" and "hello." would both be accepted. This is useful for casual practice when you care about knowing the word rather than exact formatting.
+**Stability** measures how long a memory lasts. Higher stability means you can wait longer before the next review. After a successful review, stability increases. After forgetting, it drops.
 
-### What Happens When You Answer
+**Difficulty** (1.0 - 10.0) represents how hard a card is for you personally. Cards you consistently get right become easier. Cards you struggle with become harder. Difficulty affects how fast stability grows.
 
-**Correct answer:**
-- A "Correct!" animation appears on screen
-- You feel a short, light vibration as confirmation
-- The flashcard's priority increases by 1
-- Your correct-answer counter for that card goes up
-- The next card is drawn automatically
+**Retrievability** is the probability that you can recall a card right now. It starts high after a review and decays over time following a forgetting curve. When retrievability drops to about 90%, it's time to review.
 
-**Wrong answer:**
-- A dialog shows you what you typed vs. the correct answer, with differences highlighted in colour
-- You feel a longer, stronger vibration so you notice the mistake
-- The flashcard's priority decreases by 1
-- Your wrong-answer counter for that card goes up
-- In learning mode, you can tap "Skip" to move on or "OK" to try a different card
-- In exam mode, you proceed to the next question automatically
+**Interval** is the number of days until the next scheduled review. It's calculated from stability and your desired retention rate (90% by default).
 
-### Learning Mode
+#### Mastery with FSRS
 
-Learning mode is an **open-ended practice session** — there's no fixed number of questions. You keep practising for as long as you want and can finish or skip at any time. Before starting, you choose:
+When FSRS is active, the mastery percentage for each set is the **average retrievability** across all cards. This tells you what percentage of the set you could recall right now. It naturally decays over time if you don't review, and increases after practice sessions.
 
-1. **Set** — practise cards from a single set or all sets at once
-2. **Language direction** — if a set has language pairs (e.g., English → Polish), you can reverse the direction to practise both ways
-3. **Strict/relaxed mode** — how strictly answers are checked
+### Legacy Algorithm
 
-A live status card shows your current correct and total counts so you can track your accuracy during the session.
+The legacy algorithm uses simple priority-based random selection. Each card has a priority level (0-5) that changes based on your answers:
+- Correct answer → priority increases (max 5)
+- Wrong answer → priority decreases (min 0)
+
+Cards with lower priority appear more often, helping you focus on words you struggle with. Mastery is calculated as your overall pass rate (correct answers / total attempts).
 
 ### Exam Mode
 
-Exam mode is a **fixed-length test**. You choose the number of questions (5, 10, 15, 25, or 50) before starting, along with the same set, direction, and strictness options as learning mode. The differences are:
-
-- There is **no skip button** — you must answer every question
-- If you try to leave early, the app asks you to confirm
-- At the end, you see a **summary screen** showing your score, the number of correct and wrong answers, and a detailed list of every mistake you made with the correct translations
-
-This makes exam mode ideal for testing yourself before a real test or measuring your progress over time.
-
-### Notification Reminders
-
-You can enable periodic notifications that pop up a random flashcard from your selected sets. When you tap the notification, you're taken to a quick single-card quiz. Your answer still updates the card's priority and statistics, so even a few seconds of practice throughout the day contributes to your learning.
-
-### Statistics
-
-Every flashcard tracks how many times you've answered it correctly and incorrectly. You can view these stats per card and reset them whenever you want (e.g., when you want a fresh start). This helps you identify which words are giving you the most trouble.
-
-### Tips for Effective Learning
-
-- **Practise regularly in short sessions** — multiple 5-minute sessions per day are more effective than one long session per week.
-- **Use notification reminders** — quick, random quizzes throughout the day reinforce your memory without effort.
-- **Practise in both directions** — if you're learning English → Polish, also try Polish → English to strengthen recall from both sides.
-- **Use strict mode for important exams** — it trains you to spell words correctly, not just recognise them.
-- **Check your statistics** — if a card has a high fail count, consider reviewing it separately or adding related cards to build context.
+Exam mode uses a dedicated algorithm that shuffles all cards in the selected set and presents them one by one without repetition — each card appears at most once per exam session. You choose to test yourself on 5, 10, 15, 25, 50 questions, or **all cards in the set** (default). Unlike practice mode, exams don't use spaced repetition and don't update card memory data — they're pure knowledge tests.
 
 ## Architecture
 
 The app follows an Android Activity-based architecture with Jetpack Compose as the primary UI toolkit. New screens are built entirely in Compose, while some legacy screens still use XML layouts (being migrated incrementally).
 
 ```
-eu.qm.fiszki/
+click.quickclicker.fiszki/
 ├── activity/                    # Activities (screens)
 │   ├── MainActivity.kt          # Main hub with 3 cards: My Words, Learning, Exam
-│   ├── SplashScreen.kt          # Launcher - routes to tutorial or main
-│   ├── CheckActivity.kt         # Notification-triggered flashcard challenge
+│   ├── SplashScreen.kt          # Launcher activity
+│   ├── NavHostActivity.kt       # Single-activity architecture with bottom navigation
+│   ├── NotificationLaunchActivity.kt # Trampoline for notification launches
+│   ├── AboutActivity.kt         # About & credits screen
+│   ├── AlgorithmInfoActivity.kt # Algorithm explanation screen
+│   ├── SettingsActivity.kt      # Settings (preferences, night mode, diagnostics)
+│   ├── CheckActivity.kt         # Quick notification quiz
 │   ├── ComposeTheme.kt          # FiszkiTheme — bridges XML themes to Compose MaterialTheme
 │   ├── CategoryColors.kt        # Set color definitions
+│   ├── AdaptiveNavHost.kt       # Tablet/phone responsive navigation
 │   ├── ChangeActivityManager.kt # Navigation helper with transitions
 │   ├── exam/                    # Exam flow
-│   │   ├── ExamActivity.kt      # Setup screen (ComposeView with ExamSetupScreen)
+│   │   ├── ExamActivity.kt      # Setup screen
 │   │   ├── ExamScreen.kt        # Compose UI: exam configuration
-│   │   └── ExamCheckActivity.kt # Answer checking (XML-based)
-│   ├── learning/                # Learning flow
-│   │   ├── LearningActivity.kt  # Setup screen (ComposeView with PracticeSetupScreen)
+│   │   ├── ExamCheckScreen.kt   # Answer checking (Compose)
+│   │   ├── ExamCheckActivity.kt # Host for answer checking
+│   │   ├── ExamBadAnswerActivity.kt # Wrong answer review
+│   │   └── ExamFragment.kt      # Tab fragment for exam in NavHostActivity
+│   ├── learning/                # Learning/practice flow
+│   │   ├── LearningActivity.kt  # Setup screen
 │   │   ├── LearningScreen.kt    # Compose UI: practice configuration
+│   │   ├── LearningCheckScreen.kt # Answer checking (Compose)
+│   │   ├── LearningCheckActivity.kt # Host for answer checking
+│   │   ├── BadAnswerDialog.kt   # Wrong answer retry/skip dialog
+│   │   ├── AlgorithmDebugReportScreen.kt # Debug info overlay
 │   │   ├── TitleFonts.kt        # Custom font definitions for Compose
-│   │   └── LearningCheckActivity.kt # Answer checking (XML-based)
-│   └── myWords/                 # Word management
-│       ├── category/            # CategoryActivity — set list (XML-based)
-│       └── flashcards/          # FlashcardsActivity — flashcard list (XML + Compose items)
-├── algorithm/                   # Flashcard selection logic
-│   ├── Algorithm.kt             # Card drawing (random selection)
+│   │   ├── LearningFragment.kt  # Tab fragment for practice in NavHostActivity
+│   │   └── LearningActivity.kt  # Legacy learning activity
+│   └── myWords/                 # Word & set management
+│       ├── CategoryTabScreen.kt # Main set/word view (Compose)
+│       ├── CategoryManagerSingleton.kt # Track selected set
+│       ├── FlashcardDetailFragment.kt # Detail pane (tablet split-view)
+│       ├── category/            # Set management
+│       │   ├── CategoryActivity.kt # Set list
+│       │   ├── CategoryFragment.kt # Set list fragment
+│       │   ├── CategoryShowAdapter.kt # Recycler adapter
+│       │   ├── CreateSetActivity.kt # Add new set
+│       │   └── EditSetActivity.kt # Edit set details
+│       └── flashcards/          # Flashcard management
+│           ├── FlashcardsActivity.kt # Flashcard list for a set
+│           ├── FlashcardShowAdapter.kt # Recycler with Compose items
+│           ├── AddFlashcardActivity.kt # Add flashcard
+│           ├── EditFlashcardActivity.kt # Edit flashcard
+│           └── SelectedFlashcardsSingleton.kt # Track multi-selected cards
+├── algorithm/                   # Flashcard selection & scheduling logic
+│   ├── Algorithm.kt             # Card drawing (random selection for legacy mode)
 │   ├── Drawer.kt                # Random number utility
-│   ├── MultiplierPoints.kt      # Priority weight calculation
-│   └── PriorityCount.kt        # Priority distribution counter
-├── database/ORM/                # Database layer
-│   ├── DBHelper.kt              # ORMLite database helper (SQLite)
-│   └── DBConfigUtility.kt       # ORM configuration
-├── dialogs/                     # Material dialogs for all interactions
-│   ├── category/                # Add/edit set dialogs
-│   ├── check/                   # Pass/fail/empty notification dialogs
-│   ├── exam/                    # Exam end, settings, range dialogs
-│   ├── flashcard/               # Add/edit/transform/statistic flashcard dialogs
-│   └── learning/                # Learning mode selection dialogs
+│   ├── MultiplierPoints.kt      # Priority weight calculation (legacy)
+│   ├── PriorityCount.kt         # Priority distribution counter (legacy)
+│   ├── CatcherFlashcardToAlgorithm.kt # Algorithm wrapper
+│   ├── fsrs/                    # FSRS (Free Spaced Repetition Scheduler)
+│   │   ├── FsrsModels.kt        # FsrsCard, FsrsState, FsrsRating enums
+│   │   ├── FsrsScheduler.kt     # FSRS v6 algorithm implementation
+│   │   ├── FsrsCardSelector.kt  # Card queue with retry logic
+│   │   └── FsrsRatingMapper.kt  # Derive rating from user behavior
+│   ├── exam/                    # Exam-specific card selection
+│   │   └── ExamCardSelector.kt  # Shuffle + no-repeat logic
+│   └── debug/                   # Debug/statistics
+│       └── SessionCardRecord.kt # Per-card session data for debug report
+├── database/                    # Database layer (Jetpack Room)
+│   ├── FiszkiDatabase.kt        # Room database singleton
+│   ├── FlashcardDao.kt          # Room DAO: flashcard queries
+│   └── CategoryDao.kt           # Room DAO: category/set queries
+├── model/                       # Data models
+│   ├── category/                # Set (Category) model
+│   │   ├── Category.kt          # Room entity
+│   │   ├── CategoryRepository.kt # DAO wrapper
+│   │   └── ValidationCategory.kt # Input validation
+│   └── flashcard/               # Flashcard model
+│       ├── Flashcard.kt         # Room entity with FSRS fields
+│       ├── FlashcardRepository.kt # DAO wrapper
+│       └── ValidationFlashcards.kt # Input validation
+├── dialogs/                     # Dialogs & sheets for interactions
+│   ├── Flashcard/               # Flashcard CRUD dialogs
+│   ├── category/                # Set CRUD dialogs
+│   ├── check/                   # Answer result dialogs
+│   ├── exam/                    # Exam-related dialogs
+│   ├── learning/                # Learning mode dialogs
+│   ├── information/             # Info dialogs
+│   ├── csv/                     # CSV import/export
+│   ├── ReminderScheduleDialog.kt # Notification schedule dialog
+│   └── ReminderScheduleDialogFragment.kt # Dialog fragment
 ├── drawer/                      # Navigation drawer (mikepenz MaterialDrawer)
 │   ├── DrawerMain.kt            # Drawer setup
-│   └── drawerItem/              # Individual drawer items (notifications, night mode, etc.)
+│   └── drawerItem/              # Individual drawer items (night mode, etc.)
 ├── listeners/                   # Click listeners for flashcard operations
-├── model/                       # Data models
-│   ├── category/                # Set model, repository, validation
-│   └── flashcard/               # Flashcard model, repository, validation
-├── tutorial/                    # Sliding tutorial pages
+├── settings/                    # Settings utilities
+│   └── ChoosenCategoryAdapter.kt # Adapter for set selection
+├── ui/                          # UI utilities & Compose helpers
+│   ├── BlobShape.kt             # Custom blob shape for animations
+│   ├── TabletContentWrapper.kt  # Responsive layout wrapper
+│   ├── OrientationHelper.kt     # Portrait locking on phones
+│   ├── CategoryFormComponents.kt # Reusable form components
+│   └── DiffHighlight.kt         # Diff highlighting for wrong answers
 ├── AlarmReceiver.kt             # Notification scheduling via AlarmManager
 ├── Alert.kt                     # Alert dialog builder utilities
-├── Checker.kt                   # String comparison utility
-├── HapticFeedback.kt            # Vibration feedback for correct/wrong answers
-├── LocalSharedPreferences.kt    # Notification preferences wrapper
+├── Checker.kt                   # String comparison utility (exact + relaxed)
+├── HapticFeedback.kt            # Vibration feedback (correct/wrong)
+├── LocalSharedPreferences.kt    # SharedPreferences wrapper
 ├── NightModeController.kt       # Theme switching (light/dark/yellow)
-└── Rules.kt                     # Flashcard validation rules
+├── Rules.kt                     # Flashcard validation rules
+└── FiszkiApplication.kt         # Application class
 ```
 
 ## Tech Stack
 
 - **Language**: Kotlin (JVM toolchain Java 11)
 - **Min SDK**: 31 (Android 12)
-- **Target SDK**: 35 (Android 15)
+- **Target SDK**: 36 (Android 16)
 - **UI**: Jetpack Compose (primary), AndroidX, Material Design 3
 - **Theming**: `FiszkiTheme` bridges XML theme attributes to Compose `MaterialTheme` for light/dark/yellow support
-- **Database**: SQLite via [ORMLite](https://ormlite.com/) 5.7
+- **Database**: SQLite via [Jetpack Room](https://developer.android.com/training/data-storage/room) 2.7.1 (compile-time verified queries)
+- **FSRS Algorithm**: FSRS v6 scheduler with 21 trained parameters from [open-spaced-repetition](https://github.com/open-spaced-repetition)
 - **Navigation Drawer**: [MaterialDrawer](https://github.com/mikepenz/MaterialDrawer) 8.4.5
-- **Dialogs**: [Material Dialogs](https://github.com/afollestad/material-dialogs) 0.9.6.0 (Jetifier-converted)
-- **Tutorial**: [Cleveroad SlidingTutorial](https://github.com/nickseven/SlidingTutorial) 1.0.6
+- **Navigation**: Material 3 Adaptive (responsive phone/tablet layouts)
+- **Markdown Rendering**: [JetBrains Markdown JVM](https://github.com/JetBrains/markdown) 0.7.3 (GFM with tables & links)
+- **Crash Reporting**: [Sentry Android SDK](https://github.com/getsentry/sentry-java) 8.33.0 (opt-in)
 - **Build**: Gradle with Android Gradle Plugin 9.1.0
 
 ## Data Model
@@ -175,9 +204,18 @@ eu.qm.fiszki/
 | word | The word to learn |
 | translation | The translation/answer |
 | categoryID | Foreign key to set |
-| priority | Learning priority (0-5), increases on correct answers |
+| priority | Learning priority (0-5) — legacy algorithm only |
 | staticPass | Count of correct answers |
 | staticFail | Count of wrong answers |
+| fsrsStability | Memory stability (FSRS) |
+| fsrsDifficulty | Card difficulty 1.0-10.0 (FSRS) |
+| fsrsElapsedDays | Days since last review (FSRS) |
+| fsrsScheduledDays | Days until next review (FSRS) |
+| fsrsReps | Number of repetitions (FSRS) |
+| fsrsLapses | Number of times forgotten (FSRS) |
+| fsrsState | Card state: New/Learning/Review/Relearning (FSRS) |
+| fsrsLastReview | Timestamp of last review (FSRS) |
+| fsrsLastRating | Last rating assigned: Again(1)/Hard(2)/Good(3)/Easy(4) (FSRS) |
 
 ### Set (Category)
 | Field | Description |
@@ -186,8 +224,9 @@ eu.qm.fiszki/
 | category | Set name |
 | langFrom | Source language |
 | langOn | Target language |
-| entryByUser | Whether created by user (vs system) |
-| choosen | Whether selected for notifications |
+| isEntryByUser | Whether created by user (vs system) |
+| isChosen | Whether selected for notifications |
+| color | Visual color identifier |
 
 ## Building
 
@@ -201,7 +240,7 @@ Unit tests run automatically before every `assembleDebug` — if any test fails,
 
 The project has two test suites: **unit tests** (no device needed) and **instrumented tests** (require an emulator or device).
 
-### Unit Tests (8 test classes)
+### Unit Tests (12 test classes)
 
 Run with:
 ```bash
@@ -213,11 +252,15 @@ Run with:
 | `CheckerTest` | Strict and relaxed answer matching |
 | `CheckerEditDistanceTest` | Levenshtein distance and diff alignment |
 | `FsrsSchedulerTest` | FSRS v6 state transitions, stability, intervals |
-| `FsrsRatingMapperTest` | Rating derivation from learning behavior |
+| `FsrsRatingMapperTest` | Rating derivation from learning behavior (including retries) |
 | `FsrsCardSelectorTest` | Queue logic, retry reinsertion, same-card avoidance |
+| `ExamCardSelectorTest` | Shuffle + no-repeat logic for exam mode |
 | `FlashcardModelTest` | Apostrophe encoding, priority clamping, stats, FSRS field roundtrip |
 | `CategoryModelTest` | Apostrophe encoding/decoding, null handling |
 | `AlgorithmTest` | Basic algorithm smoke test |
+| `TabletContentWrapperTest` | Responsive layout calculations |
+| `TabletSetupScreenTest` | Tablet-specific setup screen behavior |
+| `TabletCheckScreenTest` | Tablet-specific answer checking screen behavior |
 
 ### Instrumented Tests (3 test classes)
 
@@ -239,11 +282,10 @@ Fiszki builds on the following open-source projects and research:
 | Project | Use | License |
 |---------|-----|---------|
 | [FSRS (Free Spaced Repetition Scheduler)](https://github.com/open-spaced-repetition/fsrs-rs) | Spaced repetition algorithm — the FSRS v6 scheduler is ported from the reference Rust implementation | MIT |
-| [ORMLite](https://ormlite.com/) | SQLite ORM for Android | ISC |
+| [Jetpack Room](https://developer.android.com/training/data-storage/room) | SQLite ORM with compile-time query verification | Apache 2.0 |
 | [MaterialDrawer](https://github.com/mikepenz/MaterialDrawer) | Navigation drawer | Apache 2.0 |
-| [Material Dialogs](https://github.com/afollestad/material-dialogs) | Dialog framework | MIT |
-| [SlidingTutorial](https://github.com/nickseven/SlidingTutorial) | First-launch tutorial | MIT |
 | [Sentry Android SDK](https://github.com/getsentry/sentry-java) | Opt-in crash reporting and diagnostics | MIT |
+| [JetBrains Markdown JVM](https://github.com/JetBrains/markdown) | Markdown to HTML with GFM tables & link support | Apache 2.0 |
 | [Jetpack Compose](https://developer.android.com/jetpack/compose) | UI toolkit | Apache 2.0 |
 | [Google Fonts for Compose](https://developer.android.com/develop/ui/compose/text/fonts#downloadable) | Roboto Flex, Roboto Mono, Roboto Serif, Porter Sans Block | Apache 2.0 / OFL |
 

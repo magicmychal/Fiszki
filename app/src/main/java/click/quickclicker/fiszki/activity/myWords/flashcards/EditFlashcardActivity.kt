@@ -55,6 +55,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import click.quickclicker.fiszki.LocalSharedPreferences
@@ -519,3 +520,210 @@ private fun fsrsRatingLabel(rating: FsrsRating): String = when (rating) {
     FsrsRating.Good -> stringResource(R.string.debug_rating_good)
     FsrsRating.Easy -> stringResource(R.string.debug_rating_easy)
 }
+
+@Preview(showBackground = true, heightDp = 800)
+@Composable
+private fun EditFlashcardScreenPreview() {
+    FiszkiTheme {
+        EditFlashcardScreenPreviewContent()
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@Composable
+private fun EditFlashcardScreenPreviewContent() {
+    var word by rememberSaveable { mutableStateOf("Hello") }
+    var translation by rememberSaveable { mutableStateOf("Cześć") }
+    var showDeleteConfirm by rememberSaveable { mutableStateOf(false) }
+
+    val catContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh
+    val catPrimaryColor = MaterialTheme.colorScheme.primary
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "Edit Flashcard",
+                        fontFamily = RobotoSerifFamily,
+                        fontWeight = FontWeight.Bold,
+                        color = catPrimaryColor
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = { }) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = null,
+                            tint = catPrimaryColor
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = catContainerColor
+                )
+            )
+        }
+    ) { padding ->
+        val navBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+        Box(
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxSize(),
+            contentAlignment = Alignment.TopCenter
+        ) {
+            Column(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 24.dp)
+                    .padding(bottom = navBarPadding + 24.dp)
+                    .widthIn(max = 500.dp)
+            ) {
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = "EDIT YOUR WORD".uppercase(),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    letterSpacing = 1.5.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = "Make it",
+                    style = MaterialTheme.typography.headlineLarge,
+                    fontFamily = RobotoSerifFamily,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    text = "perfect",
+                    style = MaterialTheme.typography.headlineLarge,
+                    fontFamily = RobotoSerifFamily,
+                    fontStyle = FontStyle.Italic,
+                    color = MaterialTheme.colorScheme.primary
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = "Update your flashcard with the correct translation",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+
+                Spacer(modifier = Modifier.height(28.dp))
+
+                Text(
+                    text = "English",
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                FilledTextField(
+                    value = word,
+                    onValueChange = { word = it },
+                    placeholder = "",
+                    trailingIcon = {
+                        Icon(
+                            Icons.Default.Translate,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Text(
+                    text = "Polish",
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                FilledTextField(
+                    value = translation,
+                    onValueChange = { translation = it },
+                    placeholder = "",
+                    trailingIcon = {
+                        Icon(
+                            Icons.Default.Language,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Surface(
+                    shape = RoundedCornerShape(12.dp),
+                    color = MaterialTheme.colorScheme.surfaceContainerLow,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Row(modifier = Modifier.padding(14.dp)) {
+                        Text(
+                            text = "TIP",
+                            style = MaterialTheme.typography.labelMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.padding(start = 4.dp))
+                        Text(
+                            text = "Double-check spelling and capitalization",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(32.dp))
+
+                Button(
+                    onClick = { },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
+                    )
+                ) {
+                    Text(
+                        text = "SAVE CHANGES",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 1.sp
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                TextButton(
+                    onClick = { showDeleteConfirm = true },
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                ) {
+                    Icon(
+                        Icons.Default.Cancel,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.padding(start = 6.dp))
+                    Text(
+                        text = "DELETE WORD",
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 1.sp,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            }
+        }
+    }
+}
+
