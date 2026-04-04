@@ -51,10 +51,10 @@
     <string name="add_flashcard_tip_text">To make typing easier during practice, try to avoid special characters where possible.</string>
     <string name="add_flashcard_source_word_label">Source Word</string>
     <string name="add_flashcard_source_word_hint">e.g., Mama</string>
-    <string name="add_flashcard_source_word_helper">The word in the language you are learning.</string>
+    <string name="add_flashcard_source_word_helper">The word in your source language.</string>
     <string name="add_flashcard_translation_label">Translation</string>
     <string name="add_flashcard_translation_hint">e.g., Mother</string>
-    <string name="add_flashcard_translation_helper">The meaning in your native tongue.</string>
+    <string name="add_flashcard_translation_helper">The word in your target language.</string>
     <string name="add_flashcard_button">Add to Set</string>
 
     <string name="edit_flashcard_screen_title">Update Word</string>

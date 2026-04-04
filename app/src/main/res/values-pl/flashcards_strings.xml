@@ -51,10 +51,10 @@
     <string name="add_flashcard_tip_text">Aby ułatwić pisanie podczas ćwiczeń, unikaj znaków specjalnych, jeśli to możliwe.</string>
     <string name="add_flashcard_source_word_label">Słowo źródłowe</string>
     <string name="add_flashcard_source_word_hint">np. Mama</string>
-    <string name="add_flashcard_source_word_helper">Słowo w języku, którego się uczysz.</string>
+    <string name="add_flashcard_source_word_helper">Słowo w języku źródłowym. </string>
     <string name="add_flashcard_translation_label">Tłumaczenie</string>
     <string name="add_flashcard_translation_hint">np. Mother</string>
-    <string name="add_flashcard_translation_helper">Znaczenie w Twoim języku ojczystym.</string>
+    <string name="add_flashcard_translation_helper">Słowo w języku docelowym.</string>
     <string name="add_flashcard_button">Dodaj do zestawu</string>
 
     <string name="edit_flashcard_screen_title">Edytuj słowo</string>

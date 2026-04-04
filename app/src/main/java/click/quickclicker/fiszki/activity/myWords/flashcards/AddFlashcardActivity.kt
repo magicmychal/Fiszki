@@ -51,6 +51,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import click.quickclicker.fiszki.NightModeController
@@ -91,6 +92,181 @@ class AddFlashcardActivity : AppCompatActivity() {
     }
 }
 
+@Preview(showBackground = true, heightDp = 800)
+@Composable
+private fun AddFlashcardScreenPreview() {
+    FiszkiTheme {
+        AddFlashcardScreenPreviewContent()
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun AddFlashcardScreenPreviewContent() {
+    var word by rememberSaveable { mutableStateOf("") }
+    var translation by rememberSaveable { mutableStateOf("") }
+    val focusRequester = remember { FocusRequester() }
+
+    val catPrimaryColor = MaterialTheme.colorScheme.primary
+    val catContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "Add Flashcard",
+                        fontFamily = RobotoSerifFamily,
+                        fontWeight = FontWeight.Bold,
+                        color = catPrimaryColor
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = { }) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = null,
+                            tint = catPrimaryColor
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = catContainerColor
+                )
+            )
+        }
+    ) { padding ->
+        val navBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+        Box(
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxSize(),
+            contentAlignment = Alignment.TopCenter
+        ) {
+            Column(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 24.dp)
+                    .padding(bottom = navBarPadding + 24.dp)
+                    .widthIn(max = 500.dp)
+            ) {
+                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Text(
+                    text = "Add new",
+                    style = MaterialTheme.typography.headlineLarge,
+                    fontFamily = RobotoSerifFamily,
+                    fontStyle = FontStyle.Italic,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    text = "vocabulary",
+                    style = MaterialTheme.typography.headlineLarge,
+                    fontFamily = RobotoSerifFamily,
+                    fontWeight = FontWeight.Bold,
+                    fontStyle = FontStyle.Italic,
+                    color = MaterialTheme.colorScheme.primary
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Surface(
+                    shape = RoundedCornerShape(12.dp),
+                    color = MaterialTheme.colorScheme.surfaceContainerLow,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Row(modifier = Modifier.padding(14.dp)) {
+                        Text(
+                            text = "TIP",
+                            style = MaterialTheme.typography.labelMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.padding(start = 4.dp))
+                        Text(
+                            text = "Be specific and accurate with translations",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(28.dp))
+
+                Text(
+                    text = "English",
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                FilledTextField(
+                    value = word,
+                    onValueChange = { word = it },
+                    placeholder = "e.g. beautiful",
+                    modifier = Modifier.focusRequester(focusRequester)
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+                Text(
+                    text = "The word you want to learn",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Text(
+                    text = "Polish",
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                FilledTextField(
+                    value = translation,
+                    onValueChange = { translation = it },
+                    placeholder = "e.g. piękny"
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+                Text(
+                    text = "The translation",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+                )
+
+                Spacer(modifier = Modifier.height(32.dp))
+
+                Button(
+                    onClick = { },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
+                    )
+                ) {
+                    Text(
+                        text = "ADD TO SET",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 1.sp
+                    )
+                    Spacer(modifier = Modifier.padding(start = 8.dp))
+                    Icon(
+                        Icons.Default.AddBox,
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AddFlashcardScreen(
@@ -109,6 +285,13 @@ private fun AddFlashcardScreen(
     }
     val catContainerColor = Color(catColor.container or 0xFF000000.toInt())
     val catPrimaryColor = Color(catColor.primary or 0xFF000000.toInt())
+
+    val langFrom = remember(categoryId) {
+        categoryRepository.getCategoryByID(categoryId)?.getLangFrom()?.takeIf { it.isNotEmpty() }
+    }
+    val langOn = remember(categoryId) {
+        categoryRepository.getCategoryByID(categoryId)?.getLangOn()?.takeIf { it.isNotEmpty() }
+    }
 
     var word by rememberSaveable { mutableStateOf("") }
     var translation by rememberSaveable { mutableStateOf("") }
@@ -223,7 +406,7 @@ private fun AddFlashcardScreen(
 
                 // Source Word
                 Text(
-                    text = stringResource(R.string.add_flashcard_source_word_label),
+                    text = langFrom ?: stringResource(R.string.add_flashcard_source_word_label),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onSurface
@@ -246,7 +429,7 @@ private fun AddFlashcardScreen(
 
                 // Translation
                 Text(
-                    text = stringResource(R.string.add_flashcard_translation_label),
+                    text = langOn ?: stringResource(R.string.add_flashcard_translation_label),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onSurface
