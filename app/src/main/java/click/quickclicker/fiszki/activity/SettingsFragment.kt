@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -218,7 +219,9 @@ class SettingsFragment : Fragment() {
 
             // Schedule row
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(androidx.compose.foundation.layout.IntrinsicSize.Max),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Surface(
@@ -226,6 +229,7 @@ class SettingsFragment : Fragment() {
                     color = MaterialTheme.colorScheme.surfaceContainerLow,
                     modifier = Modifier
                         .weight(1f)
+                        .fillMaxHeight()
                         .clickable { showScheduleDialog() }
                 ) {
                     Column(modifier = Modifier.padding(20.dp)) {
@@ -250,6 +254,7 @@ class SettingsFragment : Fragment() {
                     color = MaterialTheme.colorScheme.surfaceContainerLow,
                     modifier = Modifier
                         .weight(1f)
+                        .fillMaxHeight()
                         .clickable { showScheduleDialog() }
                 ) {
                     Column(modifier = Modifier.padding(20.dp)) {
