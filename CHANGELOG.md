@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [2.10.0] - 2026-04-10
+
+### Added
+- Informational banners on the Anki import screen explaining how field mapping works, warning about unsupported audio/images, and noting that long sentences may be harder to study
+
+### Fixed
+- Fixed gap between border and fill color on selected mapping buttons in the Anki import screen
+- Reminder time and reminder days boxes in Settings now have matching heights
+
 ## [2.9.0] - 2026-04-10
 
 ### Added
