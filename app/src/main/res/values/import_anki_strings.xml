@@ -14,6 +14,12 @@
     <string name="import_anki_preview_count">Showing %1$d of %2$d rows</string>
     <string name="import_anki_smart_detection">Smart detection enabled</string>
     <string name="import_anki_smart_detection_desc">We\'ve automatically identified your language patterns. HTML tags have been stripped and spacing normalized.</string>
+    <string name="import_anki_media_notice">Audio and images not supported</string>
+    <string name="import_anki_media_notice_desc">Anki decks may contain audio, images, or video. These media files will not be imported — only the text content of each field is kept.</string>
+    <string name="import_anki_long_text_notice">Long sentences may be harder to study</string>
+    <string name="import_anki_long_text_notice_desc">If your Anki deck contains full sentences or paragraphs, they may be difficult to use as flashcards. Consider choosing shorter fields when possible.</string>
+    <string name="import_anki_how_it_works">How it works</string>
+    <string name="import_anki_how_it_works_desc">Each Anki field is shown below. Assign one field as the Source Word (front of your card) and one as the Translation (back). All other fields will be ignored. Scroll down to preview how your cards will look.</string>
     <string name="import_anki_complete">Complete Import</string>
     <string name="import_anki_back">Back</string>
     <string name="import_anki_success">Imported %d flashcards</string>

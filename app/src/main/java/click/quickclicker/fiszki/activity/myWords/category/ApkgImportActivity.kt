@@ -37,6 +37,8 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.MusicOff
+import androidx.compose.material.icons.automirrored.filled.Notes
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -65,6 +67,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -188,6 +191,7 @@ private fun ApkgImportScreen(
     }
 
     Scaffold(
+        contentWindowInsets = WindowInsets(0),
         topBar = {
             TopAppBar(
                 title = {
@@ -376,6 +380,8 @@ private fun ConfigureContent(
     val backIndex = mappings.indexOfFirst { it == FieldMapping.BACK }
     val isValid = frontIndex >= 0 && backIndex >= 0 && frontIndex != backIndex
 
+    val navBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -383,207 +389,253 @@ private fun ConfigureContent(
             .padding(horizontal = 24.dp)
             .widthIn(max = 500.dp)
     ) {
-        Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-        // Header
-        Text(
-            text = stringResource(R.string.import_anki_configure_title),
-            style = MaterialTheme.typography.headlineMedium,
-            fontFamily = RobotoSerifFamily,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = stringResource(R.string.import_anki_configure_subtitle),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-
-        // Note type selector (if multiple)
-        if (noteTypes.size > 1) {
-            Spacer(modifier = Modifier.height(20.dp))
+            // Header
             Text(
-                text = stringResource(R.string.import_anki_note_type),
-                style = MaterialTheme.typography.labelMedium,
-                fontWeight = FontWeight.SemiBold,
+                text = stringResource(R.string.import_anki_configure_title),
+                style = MaterialTheme.typography.headlineMedium,
+                fontFamily = RobotoSerifFamily,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = stringResource(R.string.import_anki_configure_subtitle),
+                style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
+
+            // How it works explanation
+            Spacer(modifier = Modifier.height(16.dp))
+            InfoBanner(
+                icon = Icons.Default.Info,
+                title = stringResource(R.string.import_anki_how_it_works),
+                description = stringResource(R.string.import_anki_how_it_works_desc),
+                containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f),
+                iconTint = MaterialTheme.colorScheme.primary
+            )
+
+            // Media notice
             Spacer(modifier = Modifier.height(8.dp))
-            noteTypes.forEachIndexed { index, noteType ->
-                val noteCount = result.notesByType[noteType.id]?.size ?: 0
-                Surface(
-                    onClick = { selectedNoteTypeIndex = index },
-                    shape = RoundedCornerShape(12.dp),
-                    color = if (index == selectedNoteTypeIndex)
-                        MaterialTheme.colorScheme.primaryContainer
-                    else
-                        MaterialTheme.colorScheme.surfaceContainerLow,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 2.dp)
-                ) {
-                    Row(
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
-                        verticalAlignment = Alignment.CenterVertically
+            InfoBanner(
+                icon = Icons.Default.MusicOff,
+                title = stringResource(R.string.import_anki_media_notice),
+                description = stringResource(R.string.import_anki_media_notice_desc),
+                containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.2f),
+                iconTint = MaterialTheme.colorScheme.error
+            )
+
+            // Long text notice
+            Spacer(modifier = Modifier.height(8.dp))
+            InfoBanner(
+                icon = Icons.AutoMirrored.Filled.Notes,
+                title = stringResource(R.string.import_anki_long_text_notice),
+                description = stringResource(R.string.import_anki_long_text_notice_desc),
+                containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.3f),
+                iconTint = MaterialTheme.colorScheme.secondary
+            )
+
+            // Note type selector (if multiple)
+            if (noteTypes.size > 1) {
+                Spacer(modifier = Modifier.height(20.dp))
+                Text(
+                    text = stringResource(R.string.import_anki_note_type),
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                noteTypes.forEachIndexed { index, noteType ->
+                    val noteCount = result.notesByType[noteType.id]?.size ?: 0
+                    Surface(
+                        onClick = { selectedNoteTypeIndex = index },
+                        shape = RoundedCornerShape(12.dp),
+                        color = if (index == selectedNoteTypeIndex)
+                            MaterialTheme.colorScheme.primaryContainer
+                        else
+                            MaterialTheme.colorScheme.surfaceContainerLow,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 2.dp)
                     ) {
-                        RadioButton(
-                            selected = index == selectedNoteTypeIndex,
-                            onClick = { selectedNoteTypeIndex = index }
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Column {
-                            Text(
-                                text = noteType.name,
-                                style = MaterialTheme.typography.bodyLarge,
-                                fontWeight = FontWeight.Medium
+                        Row(
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = index == selectedNoteTypeIndex,
+                                onClick = { selectedNoteTypeIndex = index }
                             )
-                            Text(
-                                text = "$noteCount ${if (noteCount == 1) "note" else "notes"}",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
-                }
-            }
-        }
-
-        // Field mapping
-        Spacer(modifier = Modifier.height(24.dp))
-        Text(
-            text = stringResource(R.string.import_anki_configure_title).uppercase(),
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.primary,
-            fontWeight = FontWeight.Bold,
-            letterSpacing = 1.5.sp
-        )
-        Spacer(modifier = Modifier.height(12.dp))
-
-        selectedNoteType.fieldNames.forEachIndexed { fieldIndex, fieldName ->
-            FieldMappingCard(
-                fieldName = fieldName,
-                mapping = mappings[fieldIndex],
-                onMappingChange = { newMapping ->
-                    mappings = mappings.toMutableList().apply {
-                        // If selecting FRONT or BACK, clear any other field with the same mapping
-                        if (newMapping == FieldMapping.FRONT || newMapping == FieldMapping.BACK) {
-                            for (i in indices) {
-                                if (i != fieldIndex && this[i] == newMapping) {
-                                    this[i] = FieldMapping.IGNORE
-                                }
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Column {
+                                Text(
+                                    text = noteType.name,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    fontWeight = FontWeight.Medium
+                                )
+                                Text(
+                                    text = "$noteCount ${if (noteCount == 1) "note" else "notes"}",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
                             }
                         }
-                        this[fieldIndex] = newMapping
                     }
                 }
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-        }
-
-        // Data preview
-        Spacer(modifier = Modifier.height(24.dp))
-        Text(
-            text = stringResource(R.string.import_anki_preview_title).uppercase(),
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.primary,
-            fontWeight = FontWeight.Bold,
-            letterSpacing = 1.5.sp
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = stringResource(R.string.import_anki_preview_count, minOf(3, notes.size), notes.size),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        Spacer(modifier = Modifier.height(12.dp))
-
-        notes.take(3).forEach { note ->
-            PreviewCard(
-                note = note,
-                fieldNames = selectedNoteType.fieldNames,
-                mappings = mappings
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-        }
-
-        // Smart detection banner
-        Spacer(modifier = Modifier.height(16.dp))
-        Surface(
-            shape = RoundedCornerShape(12.dp),
-            color = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.5f),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Row(
-                modifier = Modifier.padding(16.dp),
-                verticalAlignment = Alignment.Top
-            ) {
-                Icon(
-                    Icons.Default.AutoAwesome,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.tertiary,
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(12.dp))
-                Column {
-                    Text(
-                        text = stringResource(R.string.import_anki_smart_detection),
-                        style = MaterialTheme.typography.labelMedium,
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                    Spacer(modifier = Modifier.height(2.dp))
-                    Text(
-                        text = stringResource(R.string.import_anki_smart_detection_desc),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
             }
-        }
 
-        // Validation error
-        if (!isValid) {
-            Spacer(modifier = Modifier.height(12.dp))
+            // Field mapping
+            Spacer(modifier = Modifier.height(24.dp))
             Text(
-                text = stringResource(R.string.import_anki_error_no_mapping),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.error
+                text = stringResource(R.string.import_anki_configure_title).uppercase(),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 1.5.sp
             )
-        }
+            Spacer(modifier = Modifier.height(12.dp))
 
-        // Bottom actions
-        Spacer(modifier = Modifier.height(24.dp))
-        val navBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = navBarPadding + 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            TextButton(onClick = onBack) {
-                Text(stringResource(R.string.import_anki_back))
-            }
-            Button(
-                onClick = {
-                    if (isValid) {
-                        val count = onImport(notes, frontIndex, backIndex)
-                        onSuccess(count)
+            selectedNoteType.fieldNames.forEachIndexed { fieldIndex, fieldName ->
+                FieldMappingCard(
+                    fieldName = fieldName,
+                    mapping = mappings[fieldIndex],
+                    onMappingChange = { newMapping ->
+                        mappings = mappings.toMutableList().apply {
+                            // If selecting FRONT or BACK, clear any other field with the same mapping
+                            if (newMapping == FieldMapping.FRONT || newMapping == FieldMapping.BACK) {
+                                for (i in indices) {
+                                    if (i != fieldIndex && this[i] == newMapping) {
+                                        this[i] = FieldMapping.IGNORE
+                                    }
+                                }
+                            }
+                            this[fieldIndex] = newMapping
+                        }
                     }
-                },
-                enabled = isValid,
-                shape = RoundedCornerShape(50)
-            ) {
-                Icon(
-                    Icons.Default.CheckCircle,
-                    contentDescription = null,
-                    modifier = Modifier.size(18.dp)
                 )
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
+            // Data preview
+            Spacer(modifier = Modifier.height(24.dp))
+            Text(
+                text = stringResource(R.string.import_anki_preview_title).uppercase(),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 1.5.sp
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = stringResource(R.string.import_anki_preview_count, minOf(3, notes.size), notes.size),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+
+            notes.take(3).forEach { note ->
+                PreviewCard(
+                    note = note,
+                    fieldNames = selectedNoteType.fieldNames,
+                    mappings = mappings
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
+            // Smart detection banner
+            Spacer(modifier = Modifier.height(16.dp))
+            InfoBanner(
+                icon = Icons.Default.AutoAwesome,
+                title = stringResource(R.string.import_anki_smart_detection),
+                description = stringResource(R.string.import_anki_smart_detection_desc),
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.5f),
+                iconTint = MaterialTheme.colorScheme.tertiary
+            )
+
+            // Validation error
+            if (!isValid) {
+                Spacer(modifier = Modifier.height(12.dp))
                 Text(
-                    text = stringResource(R.string.import_anki_complete),
-                    fontWeight = FontWeight.Bold
+                    text = stringResource(R.string.import_anki_error_no_mapping),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
+
+            // Bottom actions
+            Spacer(modifier = Modifier.height(24.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = navBarPadding + 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TextButton(onClick = onBack) {
+                    Text(stringResource(R.string.import_anki_back))
+                }
+                Button(
+                    onClick = {
+                        if (isValid) {
+                            val count = onImport(notes, frontIndex, backIndex)
+                            onSuccess(count)
+                        }
+                    },
+                    enabled = isValid,
+                    shape = RoundedCornerShape(50)
+                ) {
+                    Icon(
+                        Icons.Default.CheckCircle,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = stringResource(R.string.import_anki_complete),
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+        }
+    }
+
+@Composable
+private fun InfoBanner(
+    icon: ImageVector,
+    title: String,
+    description: String,
+    containerColor: androidx.compose.ui.graphics.Color,
+    iconTint: androidx.compose.ui.graphics.Color
+) {
+    Surface(
+        shape = RoundedCornerShape(12.dp),
+        color = containerColor,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.Top
+        ) {
+            Icon(
+                icon,
+                contentDescription = null,
+                tint = iconTint,
+                modifier = Modifier.size(20.dp)
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+            Column {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Spacer(modifier = Modifier.height(2.dp))
+                Text(
+                    text = description,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
@@ -669,8 +721,7 @@ private fun MappingOption(
                 MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier
                 .padding(vertical = 10.dp)
-                .fillMaxWidth()
-                .then(Modifier),
+                .fillMaxWidth(),
             textAlign = TextAlign.Center
         )
     }

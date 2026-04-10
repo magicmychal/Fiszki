@@ -14,6 +14,12 @@
     <string name="import_anki_preview_count">Pokazano %1$d z %2$d wierszy</string>
     <string name="import_anki_smart_detection">Automatyczne wykrywanie</string>
     <string name="import_anki_smart_detection_desc">Automatycznie wykryliśmy wzorce językowe. Tagi HTML zostały usunięte, a odstępy znormalizowane.</string>
+    <string name="import_anki_media_notice">Brak obsługi audio i obrazów</string>
+    <string name="import_anki_media_notice_desc">Talie Anki mogą zawierać audio, obrazy lub wideo. Te pliki multimedialne nie zostaną zaimportowane — zachowana zostanie jedynie treść tekstowa każdego pola.</string>
+    <string name="import_anki_long_text_notice">Długie zdania mogą utrudniać naukę</string>
+    <string name="import_anki_long_text_notice_desc">Jeśli talia Anki zawiera pełne zdania lub akapity, mogą być trudne do wykorzystania jako fiszki. W miarę możliwości wybierz krótsze pola.</string>
+    <string name="import_anki_how_it_works">Jak to działa</string>
+    <string name="import_anki_how_it_works_desc">Poniżej wyświetlono każde pole Anki. Przypisz jedno pole jako Słowo źródłowe (przód fiszki), a drugie jako Tłumaczenie (tył). Pozostałe pola zostaną pominięte. Przewiń w dół, aby zobaczyć podgląd fiszek.</string>
     <string name="import_anki_complete">Zakończ import</string>
     <string name="import_anki_back">Wstecz</string>
     <string name="import_anki_success">Zaimportowano %d fiszek</string>
