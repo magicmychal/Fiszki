@@ -702,14 +702,11 @@ private fun MappingOption(
             MaterialTheme.colorScheme.primaryContainer
         else
             MaterialTheme.colorScheme.surface,
+        border = if (selected)
+            androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
+        else
+            null,
         modifier = modifier
-            .then(
-                if (selected) Modifier.border(
-                    1.dp,
-                    MaterialTheme.colorScheme.primary,
-                    RoundedCornerShape(8.dp)
-                ) else Modifier
-            )
     ) {
         Text(
             text = label,
