@@ -12,6 +12,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Draggable scroll indicator on the vocabulary deck screen for quickly jumping through long card lists
 - Review status indicator on each flashcard in the vocabulary deck — a small colored dot shows whether a card is new (gray), learning (amber), mastered (green), or needs relearning (red)
 
+### Changed
+- Practice reminder notification now opens the practice setup screen instead of jumping straight into a session
+- Notification titles and messages are now randomized from a pool of 10 varied messages, replacing the static "1 word to translate" text
+
 ### Fixed
 - Fixed crash when starting practice or exam with large decks (490+ cards) caused by exceeding Android's 1MB Intent size limit
 - SessionTypeCard buttons in learning and exam screens now maintain consistent heights across columns

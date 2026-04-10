@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="notification_title">1 word to translate</string>
-    <string name="notification_message">To achieve the best study results spend a second to translate
-                                        the word</string>
+    <!-- Kept for the notification channel name -->
+    <string name="notification_channel_name">Practice reminders</string>
+
+    <string-array name="notification_titles">
+        <item>Time to practice!</item>
+        <item>Ready for a quick review?</item>
+        <item>Daily practice reminder</item>
+        <item>Practice reminder</item>
+        <item>Your flashcards are waiting</item>
+        <item>Brain warm-up time</item>
+        <item>Your future self will thank you</item>
+        <item>Quick vocab check?</item>
+        <item>Flashcard o\'clock</item>
+        <item>Don\'t break the streak!</item>
+    </string-array>
+
+    <string-array name="notification_messages">
+        <item>A quick session keeps your vocabulary sharp.</item>
+        <item>Keep your streak going — practice your flashcards.</item>
+        <item>Spend a few minutes reviewing your flashcards.</item>
+        <item>Tap to start a practice session.</item>
+        <item>A short review goes a long way.</item>
+        <item>Just a few cards — you\'ve got this.</item>
+        <item>Small steps, big progress. Let\'s go!</item>
+        <item>Your words miss you. Come say hi.</item>
+        <item>Consistency beats intensity. Start now?</item>
+        <item>5 minutes today = words remembered tomorrow.</item>
+    </string-array>
+
     <string name="notification_on">Notifications enabled</string>
     <string name="notification_off">Notifications disabled</string>
-
 
 </resources>

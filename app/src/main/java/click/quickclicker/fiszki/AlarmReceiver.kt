@@ -85,6 +85,11 @@ class AlarmReceiver : BroadcastReceiver() {
         // Alarm fired — show notification, then schedule next
         createNotificationChannel(context)
 
+        val titles = context.resources.getStringArray(R.array.notification_titles)
+        val messages = context.resources.getStringArray(R.array.notification_messages)
+        val title = titles.random()
+        val message = messages.random()
+
         val icon = BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher)
         val pi = PendingIntent.getActivity(
             context, 69,
@@ -93,9 +98,9 @@ class AlarmReceiver : BroadcastReceiver() {
         val builder = NotificationCompat.Builder(context, CHANNEL_ID).apply {
             setLargeIcon(icon)
             setSmallIcon(R.mipmap.ic_stat_f)
-            setStyle(NotificationCompat.BigTextStyle().bigText(context.getString(R.string.notification_message)))
-            setContentTitle(context.getString(R.string.notification_title))
-            setContentText(context.getString(R.string.notification_message))
+            setStyle(NotificationCompat.BigTextStyle().bigText(message))
+            setContentTitle(title)
+            setContentText(message)
             setContentIntent(pi)
             setAutoCancel(true)
             setCategory(NotificationCompat.CATEGORY_REMINDER)
@@ -109,11 +114,9 @@ class AlarmReceiver : BroadcastReceiver() {
     private fun createNotificationChannel(context: Context) {
         val channel = NotificationChannel(
             CHANNEL_ID,
-            context.getString(R.string.notification_title),
+            context.getString(R.string.notification_channel_name),
             NotificationManager.IMPORTANCE_DEFAULT
-        ).apply {
-            description = context.getString(R.string.notification_message)
-        }
+        )
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         nm.createNotificationChannel(channel)
     }

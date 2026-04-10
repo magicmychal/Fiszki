@@ -1,15 +1,14 @@
 package click.quickclicker.fiszki.activity
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import click.quickclicker.fiszki.R
 import click.quickclicker.fiszki.ui.OrientationHelper
-import click.quickclicker.fiszki.model.flashcard.FlashcardRepository
 
 /**
  * Transparent trampoline activity launched from the daily reminder notification.
- * Loads all flashcards and immediately starts LearningCheckActivity, then finishes.
+ * Opens the main screen on the Practice tab so the user can choose what to study.
  */
 class NotificationLaunchActivity : AppCompatActivity() {
 
@@ -17,15 +16,11 @@ class NotificationLaunchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         OrientationHelper.lockPortraitOnPhone(this)
 
-        val cardCount = FlashcardRepository(this).countFlashcards()
-
-        if (cardCount == 0) {
-            Toast.makeText(this, R.string.settings_choose_category_empty, Toast.LENGTH_SHORT).show()
-            finish()
-            return
+        val intent = Intent(this, NavHostActivity::class.java).apply {
+            putExtra(NavHostActivity.EXTRA_TAB, R.id.nav_learning)
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
         }
-
-        ChangeActivityManager(this).goToLearningCheck(categoryId = null)
+        startActivity(intent)
         finish()
     }
 }

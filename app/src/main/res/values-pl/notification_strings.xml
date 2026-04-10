@@ -1,9 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="notification_title">Nowe słówko do zapamiętania</string>
-    <string name="notification_message">Aby uzyskać jak najlepszy efekt nauki, poświęć chwilę
-                                        na przetłumaczenie słówka</string>
+    <string name="notification_channel_name">Przypomnienia o nauce</string>
+
+    <string-array name="notification_titles">
+        <item>Czas na powtórkę!</item>
+        <item>Gotowy na szybki przegląd?</item>
+        <item>Codzienne przypomnienie</item>
+        <item>Przypomnienie o nauce</item>
+        <item>Twoje fiszki czekają</item>
+        <item>Rozgrzewka dla mózgu</item>
+        <item>Twoje przyszłe ja będzie wdzięczne</item>
+        <item>Szybki test słówek?</item>
+        <item>Pora na fiszki</item>
+        <item>Nie przerywaj serii!</item>
+    </string-array>
+
+    <string-array name="notification_messages">
+        <item>Krótka sesja utrzyma Twoje słownictwo w formie.</item>
+        <item>Nie przerywaj passy — przećwicz fiszki.</item>
+        <item>Poświęć kilka minut na powtórkę fiszek.</item>
+        <item>Kliknij, żeby rozpocząć sesję.</item>
+        <item>Krótka powtórka robi ogromną różnicę.</item>
+        <item>Tylko kilka fiszek — dasz radę!</item>
+        <item>Małe kroki, wielki postęp. Zaczynamy!</item>
+        <item>Twoje słówka za Tobą tęsknią. Zajrzyj do nich.</item>
+        <item>Regularność wygrywa z intensywnością. Zaczynasz?</item>
+        <item>5 minut dziś = słówka zapamiętane jutro.</item>
+    </string-array>
+
     <string name="notification_on">Powiadomienia włączone</string>
     <string name="notification_off">Powiadomienia wyłączone</string>
 
