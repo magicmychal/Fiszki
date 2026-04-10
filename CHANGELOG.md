@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [2.9.0] - 2026-04-10
+
 ### Added
 - Import Anki decks (.apkg) — select which fields map to front/back of flashcards, with data preview and smart field detection
 - Collapsing header on the vocabulary deck screen — deck name smoothly moves into the top bar when scrolling down and reappears when scrolling back up
@@ -19,7 +21,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Fixed
 - Fixed crash when starting practice or exam with large decks (490+ cards) caused by exceeding Android's 1MB Intent size limit
 - SessionTypeCard buttons in learning and exam screens now maintain consistent heights across columns
-
 
 ## [2.8.1] - 2026-04-04
 

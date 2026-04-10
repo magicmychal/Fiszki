@@ -19,8 +19,8 @@ android {
         applicationId 'click.quickclicker.fiszki'
         minSdk 31
         targetSdk 36
-        versionCode 29
-        versionName '2.8.1'
+        versionCode 30
+        versionName '2.9.0'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
