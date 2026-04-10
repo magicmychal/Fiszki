@@ -535,6 +535,7 @@ private fun SwipeToDeleteItem(
             categoryColor = Color(catColorPrimary or 0xFF000000.toInt()),
             useFsrs = useFsrs,
             lastRating = flashcard.fsrsLastRating,
+            fsrsState = flashcard.fsrsState,
             onClick = onEdit
         )
     }
@@ -548,6 +549,7 @@ private fun FlashcardListItemInline(
     categoryColor: Color,
     useFsrs: Boolean,
     lastRating: Int,
+    fsrsState: Int,
     onClick: () -> Unit
 ) {
     androidx.compose.material3.Surface(
@@ -561,9 +563,10 @@ private fun FlashcardListItemInline(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 18.dp),
+                .padding(start = 20.dp, end = 14.dp, top = 18.dp, bottom = 18.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            // Source word — equal weight, right-aligned text toward arrow
             Text(
                 text = word,
                 style = MaterialTheme.typography.titleMedium,
@@ -572,23 +575,46 @@ private fun FlashcardListItemInline(
                 color = MaterialTheme.colorScheme.primary,
                 maxLines = 2,
                 overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
-                modifier = Modifier.weight(0.35f, fill = false)
+                textAlign = androidx.compose.ui.text.style.TextAlign.End,
+                modifier = Modifier.weight(1f)
             )
+            // Arrow — centered between source word and translation
             Text(
                 text = "\u2192",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(horizontal = 12.dp)
+                modifier = Modifier.padding(horizontal = 10.dp)
             )
+            // Translation — equal weight, left-aligned
             Text(
                 text = translation,
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 2,
                 overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
-                modifier = Modifier.weight(0.45f)
+                modifier = Modifier.weight(1f)
             )
-            Spacer(modifier = Modifier.width(8.dp))
+            // FSRS state indicator — pinned to the right edge
+            val stateColor = fsrsStateColor(fsrsState)
+            Box(
+                modifier = Modifier
+                    .padding(start = 10.dp)
+                    .size(10.dp)
+                    .background(stateColor, RoundedCornerShape(3.dp))
+            )
         }
+    }
+}
+
+/** Maps FSRS state ordinal to a semantic color. */
+@Composable
+private fun fsrsStateColor(fsrsState: Int): Color {
+    // FsrsState: New=0, Learning=1, Review=2, Relearning=3
+    return when (fsrsState) {
+        0 -> MaterialTheme.colorScheme.outlineVariant          // New — neutral/gray
+        1 -> Color(0xFFF59E0B)                                  // Learning — amber
+        2 -> Color(0xFF22C55E)                                  // Review — green (mastered)
+        3 -> Color(0xFFEF4444)                                  // Relearning — red (forgotten)
+        else -> MaterialTheme.colorScheme.outlineVariant
     }
 }

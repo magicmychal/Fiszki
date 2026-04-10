@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Import Anki decks (.apkg) — select which fields map to front/back of flashcards, with data preview and smart field detection
 - Collapsing header on the vocabulary deck screen — deck name smoothly moves into the top bar when scrolling down and reappears when scrolling back up
 - Draggable scroll indicator on the vocabulary deck screen for quickly jumping through long card lists
+- Review status indicator on each flashcard in the vocabulary deck — a small colored dot shows whether a card is new (gray), learning (amber), mastered (green), or needs relearning (red)
 
 ### Fixed
 - Fixed crash when starting practice or exam with large decks (490+ cards) caused by exceeding Android's 1MB Intent size limit
