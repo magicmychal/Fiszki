@@ -575,7 +575,6 @@ private fun FlashcardListItemInline(
                 color = MaterialTheme.colorScheme.primary,
                 maxLines = 2,
                 overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
-                textAlign = androidx.compose.ui.text.style.TextAlign.End,
                 modifier = Modifier.weight(1f)
             )
             // Arrow — centered between source word and translation
