@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="import_anki_title">Import from Anki</string>
+    <string name="import_anki_loading">Analyzing your Anki deck\u2026</string>
+    <string name="import_anki_configure_title">Configure Your Cards</string>
+    <string name="import_anki_configure_subtitle">Select which fields represent the Front and Back of your flashcards.</string>
+    <string name="import_anki_field_front">Front</string>
+    <string name="import_anki_field_back">Back</string>
+    <string name="import_anki_field_ignore">Ignore</string>
+    <string name="import_anki_front_mapped">FRONT</string>
+    <string name="import_anki_back_mapped">BACK</string>
+    <string name="import_anki_ignored">IGNORED</string>
+    <string name="import_anki_preview_title">Data Preview</string>
+    <string name="import_anki_preview_count">Showing %1$d of %2$d rows</string>
+    <string name="import_anki_smart_detection">Smart detection enabled</string>
+    <string name="import_anki_smart_detection_desc">We\'ve automatically identified your language patterns. HTML tags have been stripped and spacing normalized.</string>
+    <string name="import_anki_complete">Complete Import</string>
+    <string name="import_anki_back">Back</string>
+    <string name="import_anki_success">Imported %d flashcards</string>
+    <string name="import_anki_error_parse">Could not read the Anki file</string>
+    <string name="import_anki_error_empty">No notes found in this deck</string>
+    <string name="import_anki_error_no_mapping">Please select one Front and one Back field</string>
+    <string name="import_anki_note_type">Note type</string>
+</resources>

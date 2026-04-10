@@ -39,6 +39,8 @@
     <string name="edit_set_import_csv_formats">formaty .csv, .xlsx</string>
     <string name="edit_set_export_csv">Eksportuj do CSV</string>
     <string name="edit_set_export_csv_subtitle">Pobierz kopię zapasową</string>
+    <string name="edit_set_import_anki">Importuj z Anki</string>
+    <string name="edit_set_import_anki_formats">format .apkg</string>
     <string name="edit_set_danger_zone">Strefa zagrożenia</string>
     <string name="edit_set_delete">Usuń ten zestaw</string>
     <string name="edit_set_save">Zapisz zmiany</string>

@@ -57,6 +57,9 @@
             android:name=".activity.myWords.category.EditSetActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".activity.myWords.category.ApkgImportActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".activity.myWords.flashcards.AddFlashcardActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material.icons.filled.School
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -99,6 +100,11 @@ class EditSetActivity : AppCompatActivity() {
             if (uri != null) importCsv(uri)
         }
 
+    private val apkgPickerLauncher =
+        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+            if (uri != null) launchApkgImport(uri)
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         NightModeController(this).useTheme()
@@ -140,11 +146,24 @@ class EditSetActivity : AppCompatActivity() {
                             arrayOf("text/csv", "text/comma-separated-values", "text/plain")
                         )
                     },
+                    onImportAnki = {
+                        apkgPickerLauncher.launch(
+                            arrayOf("application/zip", "application/octet-stream", "*/*")
+                        )
+                    },
                     onExportCsv = { exportCsv() },
                     onDelete = { showDeleteConfirmation() }
                 )
             }
         }
+    }
+
+    private fun launchApkgImport(uri: Uri) {
+        val intent = Intent(this, ApkgImportActivity::class.java).apply {
+            putExtra(ApkgImportActivity.EXTRA_URI, uri.toString())
+            putExtra(ApkgImportActivity.EXTRA_CATEGORY_ID, category.id)
+        }
+        startActivity(intent)
     }
 
     private fun saveCategory() {
@@ -334,6 +353,7 @@ private fun EditSetScreen(
     onClose: () -> Unit,
     onSave: () -> Unit,
     onImportCsv: () -> Unit,
+    onImportAnki: () -> Unit,
     onExportCsv: () -> Unit,
     onDelete: () -> Unit
 ) {
@@ -488,6 +508,17 @@ private fun EditSetScreen(
                 title = stringResource(R.string.edit_set_export_csv),
                 subtitle = stringResource(R.string.edit_set_export_csv_subtitle),
                 onClick = onExportCsv
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Import Anki card
+            CsvActionCard(
+                icon = Icons.Default.School,
+                iconContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                title = stringResource(R.string.edit_set_import_anki),
+                subtitle = stringResource(R.string.edit_set_import_anki_formats),
+                onClick = onImportAnki
             )
 
             // Danger Zone
