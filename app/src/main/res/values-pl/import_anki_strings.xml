@@ -3,12 +3,12 @@
     <string name="import_anki_title">Importuj z Anki</string>
     <string name="import_anki_loading">Analizowanie talii Anki\u2026</string>
     <string name="import_anki_configure_title">Skonfiguruj fiszki</string>
-    <string name="import_anki_configure_subtitle">Wybierz, które pola odpowiadają przodowi i tyłowi fiszek.</string>
-    <string name="import_anki_field_front">Przód</string>
-    <string name="import_anki_field_back">Tył</string>
+    <string name="import_anki_configure_subtitle">Wybierz, które pola odpowiadają słowu źródłowemu i tłumaczeniu fiszek.</string>
+    <string name="import_anki_field_front">Słowo źródłowe</string>
+    <string name="import_anki_field_back">Tłumaczenie</string>
     <string name="import_anki_field_ignore">Pomiń</string>
-    <string name="import_anki_front_mapped">PRZÓD</string>
-    <string name="import_anki_back_mapped">TYŁ</string>
+    <string name="import_anki_front_mapped">SŁOWO ŹRÓDŁOWE</string>
+    <string name="import_anki_back_mapped">TŁUMACZENIE</string>
     <string name="import_anki_ignored">POMINIĘTO</string>
     <string name="import_anki_preview_title">Podgląd danych</string>
     <string name="import_anki_preview_count">Pokazano %1$d z %2$d wierszy</string>
@@ -19,6 +19,6 @@
     <string name="import_anki_success">Zaimportowano %d fiszek</string>
     <string name="import_anki_error_parse">Nie można odczytać pliku Anki</string>
     <string name="import_anki_error_empty">Nie znaleziono notatek w tej talii</string>
-    <string name="import_anki_error_no_mapping">Wybierz jedno pole jako Przód i jedno jako Tył</string>
+    <string name="import_anki_error_no_mapping">Wybierz jedno pole jako Słowo źródłowe i jedno jako Tłumaczenie</string>
     <string name="import_anki_note_type">Typ notatki</string>
 </resources>

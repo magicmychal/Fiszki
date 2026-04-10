@@ -324,21 +324,19 @@ private fun AddFlashcardScreen(
                     Text(
                         text = stringResource(R.string.add_flashcard_screen_title),
                         fontFamily = RobotoSerifFamily,
-                        fontWeight = FontWeight.Bold,
-                        color = catPrimaryColor
+                        fontWeight = FontWeight.Bold
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = null,
-                            tint = catPrimaryColor
+                            contentDescription = null
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = catContainerColor
+                    containerColor = MaterialTheme.colorScheme.surface
                 )
             )
         }

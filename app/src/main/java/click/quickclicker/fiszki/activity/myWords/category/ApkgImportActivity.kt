@@ -6,6 +6,13 @@ import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,7 +38,6 @@ import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -54,6 +60,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -228,7 +239,11 @@ private fun LoadingContent() {
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            CircularProgressIndicator()
+            WavyCircularProgressIndicator(
+                modifier = Modifier.size(48.dp),
+                color = MaterialTheme.colorScheme.primary,
+                trackColor = MaterialTheme.colorScheme.surfaceContainerHighest
+            )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = stringResource(R.string.import_anki_loading),
@@ -236,6 +251,84 @@ private fun LoadingContent() {
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
+    }
+}
+
+@Composable
+private fun WavyCircularProgressIndicator(
+    modifier: Modifier = Modifier,
+    color: androidx.compose.ui.graphics.Color,
+    trackColor: androidx.compose.ui.graphics.Color
+) {
+    val infiniteTransition = rememberInfiniteTransition(label = "wavy")
+
+    val rotation by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1100, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "rotation"
+    )
+
+    val wavePhase by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = (2 * Math.PI).toFloat(),
+        animationSpec = infiniteRepeatable(
+            animation = tween(600, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "wave"
+    )
+
+    Canvas(modifier = modifier) {
+        val strokeWidth = size.minDimension * 0.1f
+        val radius = (size.minDimension - strokeWidth) / 2f
+        val center = Offset(size.width / 2f, size.height / 2f)
+        val waveAmplitude = strokeWidth * 0.8f
+        val arcSweep = 270f
+        val waveCount = 4
+
+        // Draw track — smooth wavy circle
+        val trackPath = Path()
+        val trackSteps = 240
+        for (i in 0..trackSteps) {
+            val fraction = i.toFloat() / trackSteps
+            val angleDeg = fraction * 360f
+            val angleRad = Math.toRadians(angleDeg.toDouble())
+            val wave = waveAmplitude * kotlin.math.sin(waveCount * fraction * 2.0 * Math.PI + wavePhase).toFloat()
+            val r = radius + wave
+            val x = center.x + r * kotlin.math.cos(angleRad).toFloat()
+            val y = center.y + r * kotlin.math.sin(angleRad).toFloat()
+            if (i == 0) trackPath.moveTo(x, y) else trackPath.lineTo(x, y)
+        }
+        trackPath.close()
+        drawPath(
+            path = trackPath,
+            color = trackColor,
+            style = Stroke(width = strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round)
+        )
+
+        // Draw active arc — smooth wavy segment
+        val activePath = Path()
+        val activeSteps = 180
+        for (i in 0..activeSteps) {
+            val fraction = i.toFloat() / activeSteps
+            val angleDeg = rotation + fraction * arcSweep
+            val globalFraction = (angleDeg % 360f) / 360f
+            val angleRad = Math.toRadians(angleDeg.toDouble())
+            val wave = waveAmplitude * kotlin.math.sin(waveCount * globalFraction * 2.0 * Math.PI + wavePhase).toFloat()
+            val r = radius + wave
+            val x = center.x + r * kotlin.math.cos(angleRad).toFloat()
+            val y = center.y + r * kotlin.math.sin(angleRad).toFloat()
+            if (i == 0) activePath.moveTo(x, y) else activePath.lineTo(x, y)
+        }
+        drawPath(
+            path = activePath,
+            color = color,
+            style = Stroke(width = strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round)
+        )
     }
 }
 

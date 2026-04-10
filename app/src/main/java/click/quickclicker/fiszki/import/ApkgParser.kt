@@ -223,6 +223,7 @@ class ApkgParser(private val context: Context) {
     }
 
     companion object {
+        private val SCRIPT_STYLE_REGEX = Regex("<(script|style)[^>]*>[\\s\\S]*?</\\1>", RegexOption.IGNORE_CASE)
         private val HTML_TAG_REGEX = Regex("<[^>]*>")
         private val ENTITY_MAP = mapOf(
             "&amp;" to "&",
@@ -238,6 +239,8 @@ class ApkgParser(private val context: Context) {
 
         fun stripHtml(input: String): String {
             var text = input
+            // Remove <script>...</script> and <style>...</style> blocks entirely
+            text = SCRIPT_STYLE_REGEX.replace(text, "")
             // Replace <br>, <br/>, <br /> with space
             text = text.replace(Regex("<br\\s*/?>", RegexOption.IGNORE_CASE), " ")
             // Remove all other HTML tags

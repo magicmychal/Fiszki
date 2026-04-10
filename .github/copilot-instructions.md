@@ -103,9 +103,19 @@ The codebase is actively migrating from XML layouts and Android drawables to Jet
 
 **Rule: All new UI must use Jetpack Compose.** When touching an existing XML-based screen, migrate it to Compose if the scope allows. Do not introduce new XML layouts or drawable XML files.
 
+## Terminology
+
+Consistent user-facing terminology across all screens:
+- **"set"** (not "category") — internal code identifiers still use "category" for historical reasons.
+- **"Source Word"** (EN) / **"Słowo źródłowe"** (PL) — the word the user wants to learn (the front of the flashcard). Use `R.string.add_flashcard_source_word_label` or equivalent phrasing. Never use "Front" in user-facing text.
+- **"Translation"** (EN) / **"Tłumaczenie"** (PL) — the translation/answer (the back of the flashcard). Use `R.string.add_flashcard_translation_label` or equivalent phrasing. Never use "Back" in user-facing text.
+- **"Ignore"** (EN) / **"Pomiń"** (PL) — for optional/skipped fields in import flows.
+
+When adding new screens or features that reference flashcard fields, always use "Source Word" and "Translation" — not "Front"/"Back", "Question"/"Answer", or "Word"/"Definition".
+
 ## Localization
 
-Supports English (default) and Polish (`values-pl/`). String resources split across feature-specific files (e.g. `learning_strings.xml`, `category_strings.xml`, `exam_strings.xml`). User-facing terminology uses "set" (not "category") — internal code identifiers still use "category" for historical reasons.
+Supports English (default) and Polish (`values-pl/`). String resources split across feature-specific files (e.g. `learning_strings.xml`, `category_strings.xml`, `exam_strings.xml`).
 
 ## Changelog
 

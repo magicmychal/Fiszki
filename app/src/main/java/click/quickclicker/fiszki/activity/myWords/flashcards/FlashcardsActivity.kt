@@ -178,12 +178,13 @@ private fun FlashcardsScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = catContainerColor,
-                    navigationIconContentColor = catPrimaryColor
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface
                 )
             )
         },
         floatingActionButton = {
+            val navBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
             FloatingActionButton(
                 onClick = {
                     context.startActivity(
@@ -191,6 +192,7 @@ private fun FlashcardsScreen(
                             .putExtra(AddFlashcardActivity.EXTRA_CATEGORY_ID, category.id)
                     )
                 },
+                modifier = Modifier.padding(bottom = navBarPadding),
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary,
                 shape = RoundedCornerShape(50)

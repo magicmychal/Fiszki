@@ -370,21 +370,19 @@ private fun EditSetScreen(
                     Text(
                         text = stringResource(R.string.edit_set_title),
                         fontFamily = RobotoSerifFamily,
-                        fontWeight = FontWeight.Bold,
-                        color = categoryPrimaryColor
+                        fontWeight = FontWeight.Bold
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = onClose) {
                         Icon(
                             Icons.Default.Close,
-                            contentDescription = null,
-                            tint = categoryPrimaryColor
+                            contentDescription = null
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = categoryContainerColor
+                    containerColor = MaterialTheme.colorScheme.surface
                 )
             )
         },

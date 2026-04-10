@@ -57,4 +57,22 @@ class ApkgParserTest {
     fun stripHtml_trimsResult() {
         assertEquals("hello", ApkgParser.stripHtml("  <p>hello</p>  "))
     }
+
+    @Test
+    fun stripHtml_removesScriptBlocks() {
+        assertEquals("hello world", ApkgParser.stripHtml("hello<script>alert('xss')</script> world"))
+        assertEquals("hello world", ApkgParser.stripHtml("hello<script type=\"text/javascript\">var x=1;</script> world"))
+    }
+
+    @Test
+    fun stripHtml_removesStyleBlocks() {
+        assertEquals("hello", ApkgParser.stripHtml("<style>.cls{color:red}</style>hello"))
+        assertEquals("text", ApkgParser.stripHtml("<STYLE>body{font-size:12px}</STYLE>text"))
+    }
+
+    @Test
+    fun stripHtml_handlesNestedHtmlInScripts() {
+        val input = "word<script>document.write('<b>injected</b>')</script> translation"
+        assertEquals("word translation", ApkgParser.stripHtml(input))
+    }
 }
