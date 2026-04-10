@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 - Import Anki decks (.apkg) — select which fields map to front/back of flashcards, with data preview and smart field detection
+- Collapsing header on the vocabulary deck screen — deck name smoothly moves into the top bar when scrolling down and reappears when scrolling back up
+- Draggable scroll indicator on the vocabulary deck screen for quickly jumping through long card lists
 
 ### Fixed
 - SessionTypeCard buttons in learning and exam screens now maintain consistent heights across columns
