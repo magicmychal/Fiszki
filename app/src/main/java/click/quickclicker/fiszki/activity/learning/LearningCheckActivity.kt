@@ -1,13 +1,12 @@
 package click.quickclicker.fiszki.activity.learning
 
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import click.quickclicker.fiszki.NightModeController
 import click.quickclicker.fiszki.activity.ChangeActivityManager
 import click.quickclicker.fiszki.activity.FiszkiTheme
-import click.quickclicker.fiszki.model.flashcard.Flashcard
+import click.quickclicker.fiszki.model.flashcard.FlashcardRepository
 import click.quickclicker.fiszki.ui.OrientationHelper
 import click.quickclicker.fiszki.ui.TabletContentWrapper
 
@@ -19,17 +18,29 @@ class LearningCheckActivity : AppCompatActivity() {
         window.isNavigationBarContrastEnforced = false
         OrientationHelper.lockPortraitOnPhone(this)
 
-        @Suppress("UNCHECKED_CAST")
-        val flashcardsPool = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getSerializableExtra(ChangeActivityManager.FLASHCARDS_KEY_INTENT, ArrayList::class.java)
-                as ArrayList<Flashcard>
-        } else {
-            @Suppress("DEPRECATION")
-            intent.getSerializableExtra(ChangeActivityManager.FLASHCARDS_KEY_INTENT)
-                as ArrayList<Flashcard>
-        }
         val strictMode = intent.getBooleanExtra(ChangeActivityManager.STRICT_MODE_KEY_INTENT, true)
         val reversed = intent.getBooleanExtra(ChangeActivityManager.REVERSED_KEY_INTENT, false)
+
+        val repo = FlashcardRepository(this)
+        val flashcardIds = intent.getIntArrayExtra(ChangeActivityManager.FLASHCARD_IDS_KEY_INTENT)
+        val flashcardsPool = if (flashcardIds != null) {
+            repo.getFlashcardsByIds(flashcardIds.toList())
+        } else {
+            val categoryId = intent.getIntExtra(
+                ChangeActivityManager.CATEGORY_ID_KEY_INTENT,
+                ChangeActivityManager.ALL_CATEGORIES
+            )
+            if (categoryId == ChangeActivityManager.ALL_CATEGORIES) {
+                repo.getAllFlashcards()
+            } else {
+                repo.getFlashcardsByCategoryID(categoryId)
+            }
+        }
+
+        if (flashcardsPool.isEmpty()) {
+            finish()
+            return
+        }
 
         setContent {
             FiszkiTheme {

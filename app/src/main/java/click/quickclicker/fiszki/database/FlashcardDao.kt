@@ -49,5 +49,8 @@ interface FlashcardDao {
 
     @Query("SELECT * FROM flashcard WHERE categoryID = :categoryID")
     fun getByCategoryID(categoryID: Int): List<Flashcard>
+
+    @Query("SELECT * FROM flashcard WHERE id IN (:ids)")
+    fun getByIds(ids: List<Int>): List<Flashcard>
 }
 

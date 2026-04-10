@@ -70,16 +70,16 @@ class LearningActivity : AppCompatActivity() {
                     categories = categoryItems,
                     modifier = Modifier.systemBarsPadding(),
                     onStartPractice = { strictMode, categoryId, reversed ->
-                        val flashcards = if (categoryId == null) {
-                            mFlashcardRepository.getAllFlashcards()
+                        val cardCount = if (categoryId == null) {
+                            mFlashcardRepository.countFlashcards()
                         } else {
-                            mFlashcardRepository.getFlashcardsByCategoryID(categoryId)
+                            mFlashcardRepository.countFlashcardsByCategoryID(categoryId)
                         }
-                        if (flashcards.isEmpty()) {
+                        if (cardCount == 0) {
                             Toast.makeText(this, R.string.learning_no_flashcards, Toast.LENGTH_LONG).show()
                         } else {
                             ChangeActivityManager(this).goToLearningCheck(
-                                flashcards = flashcards,
+                                categoryId = categoryId,
                                 strictMode = strictMode,
                                 reversed = reversed
                             )

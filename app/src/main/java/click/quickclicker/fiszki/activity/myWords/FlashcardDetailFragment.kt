@@ -119,11 +119,11 @@ class FlashcardDetailFragment : Fragment() {
         }
 
         view.findViewById<MaterialButton>(R.id.chip_start_review).setOnClickListener {
-            val flashcards = flashcardRepository.getFlashcardsByCategoryID(currentCategory.id)
-            if (flashcards.isEmpty()) {
+            val cardCount = flashcardRepository.countFlashcardsByCategoryID(currentCategory.id)
+            if (cardCount == 0) {
                 Toast.makeText(requireContext(), R.string.flashcard_empty_text, Toast.LENGTH_SHORT).show()
             } else {
-                ChangeActivityManager(requireActivity()).goToLearningCheck(flashcards)
+                ChangeActivityManager(requireActivity()).goToLearningCheck(categoryId = currentCategory.id)
             }
         }
 

@@ -68,15 +68,15 @@ class ExamFragment : Fragment() {
                     title = getString(R.string.exam_title),
                     categories = categoryItems,
                     onStartExam = { strictMode, categoryId, reversed, rounds ->
-                        val flashcards = if (categoryId == null) {
-                            mFlashcardRepository.getAllFlashcards()
+                        val cardCount = if (categoryId == null) {
+                            mFlashcardRepository.countFlashcards()
                         } else {
-                            mFlashcardRepository.getFlashcardsByCategoryID(categoryId)
+                            mFlashcardRepository.countFlashcardsByCategoryID(categoryId)
                         }
-                        if (flashcards.isEmpty()) {
+                        if (cardCount == 0) {
                             Toast.makeText(activity, R.string.exam_no_flashcards, Toast.LENGTH_LONG).show()
                         } else {
-                            val resolvedRounds = if (rounds == EXAM_ROUNDS_ALL) flashcards.size else minOf(rounds, flashcards.size)
+                            val resolvedRounds = if (rounds == EXAM_ROUNDS_ALL) cardCount else minOf(rounds, cardCount)
                             val categoryName = if (categoryId == null) {
                                 getString(R.string.learning_category_all)
                             } else {
@@ -88,7 +88,7 @@ class ExamFragment : Fragment() {
                                 val to = if (reversed) category.getLangFrom() else category.getLangOn()
                                 "$from to $to"
                             } else null
-                            ChangeActivityManager(activity).goToExamCheck(flashcards, resolvedRounds, categoryName, languagePair)
+                            ChangeActivityManager(activity).goToExamCheck(categoryId, resolvedRounds, categoryName, languagePair)
                         }
                     }
                 )

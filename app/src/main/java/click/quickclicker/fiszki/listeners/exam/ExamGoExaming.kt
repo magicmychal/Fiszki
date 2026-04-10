@@ -19,19 +19,16 @@ class ExamGoExaming(private val activity: Activity) : View.OnClickListener {
         getValueFromCards()
         if (checkChosen()) {
             repeat = repeatText.toInt()
-            val chosenFlashcard = FlashcardRepository(activity)
-                .getFlashcardsByCategoryID(
-                    CategoryRepository(activity).getCategoryByName(rangeText)!!.id
-                )
-            if (chosenFlashcard.isEmpty()) {
+            val category = CategoryRepository(activity).getCategoryByName(rangeText) ?: return
+            val cardCount = FlashcardRepository(activity).countFlashcardsByCategoryID(category.id)
+            if (cardCount == 0) {
                 Toast.makeText(activity, R.string.exam_range_empty_toast, Toast.LENGTH_LONG).show()
             } else {
-                val category = CategoryRepository(activity).getCategoryByName(rangeText)
-                val categoryName = category?.getCategory()
-                val languagePair = if (category != null && !category.getLangFrom().isNullOrEmpty() && !category.getLangOn().isNullOrEmpty()) {
+                val categoryName = category.getCategory()
+                val languagePair = if (!category.getLangFrom().isNullOrEmpty() && !category.getLangOn().isNullOrEmpty()) {
                     "${category.getLangFrom()} to ${category.getLangOn()}"
                 } else null
-                ChangeActivityManager(activity).goToExamCheck(chosenFlashcard, repeat, categoryName, languagePair)
+                ChangeActivityManager(activity).goToExamCheck(category.id, repeat, categoryName, languagePair)
             }
         }
     }

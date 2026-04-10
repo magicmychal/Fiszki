@@ -6,30 +6,47 @@ import click.quickclicker.fiszki.R
 import click.quickclicker.fiszki.activity.exam.ExamCheckActivity
 import click.quickclicker.fiszki.activity.exam.ExamBadAnswerActivity
 import click.quickclicker.fiszki.activity.learning.LearningCheckActivity
-import click.quickclicker.fiszki.model.flashcard.Flashcard
 
 class ChangeActivityManager(private val activity: Activity) {
 
     companion object {
-        const val FLASHCARDS_KEY_INTENT = "FLASHCARDS"
-        const val EXAM_REPEAT_KEY_INTENT = "REPEAT"
-        const val EXAM_BAD_ANSWER_KEY_INTENT = "RESULTS"
+        const val CATEGORY_ID_KEY_INTENT = "CATEGORY_ID"
+        const val FLASHCARD_IDS_KEY_INTENT = "FLASHCARD_IDS"
+        const val EXAM_ROUNDS_KEY_INTENT = "EXAM_ROUNDS"
+        const val EXAM_CATEGORY_NAME_KEY_INTENT = "EXAM_CATEGORY_NAME"
+        const val EXAM_LANGUAGE_PAIR_KEY_INTENT = "EXAM_LANGUAGE_PAIR"
         const val EXAM_SUMMARY_DATA_KEY_INTENT = "EXAM_SUMMARY_DATA"
         const val STRICT_MODE_KEY_INTENT = "STRICT_MODE"
         const val REVERSED_KEY_INTENT = "REVERSED"
+        /** Value indicating "all categories" (no specific category selected). */
+        const val ALL_CATEGORIES = -1
     }
 
     fun goToLearningCheck(
-        flashcards: ArrayList<Flashcard>,
+        categoryId: Int?,
         strictMode: Boolean = true,
         reversed: Boolean = false
     ) {
-        val goLearning = Intent(activity, LearningCheckActivity::class.java).apply {
-            putExtra(FLASHCARDS_KEY_INTENT, flashcards)
+        val intent = Intent(activity, LearningCheckActivity::class.java).apply {
+            putExtra(CATEGORY_ID_KEY_INTENT, categoryId ?: ALL_CATEGORIES)
             putExtra(STRICT_MODE_KEY_INTENT, strictMode)
             putExtra(REVERSED_KEY_INTENT, reversed)
         }
-        activity.startActivity(goLearning)
+        activity.startActivity(intent)
+    }
+
+    /** Launch practice with an explicit list of flashcard IDs (for multi-category selection). */
+    fun goToLearningCheckByIds(
+        flashcardIds: IntArray,
+        strictMode: Boolean = true,
+        reversed: Boolean = false
+    ) {
+        val intent = Intent(activity, LearningCheckActivity::class.java).apply {
+            putExtra(FLASHCARD_IDS_KEY_INTENT, flashcardIds)
+            putExtra(STRICT_MODE_KEY_INTENT, strictMode)
+            putExtra(REVERSED_KEY_INTENT, reversed)
+        }
+        activity.startActivity(intent)
     }
 
     fun exitLearningCheck() {
@@ -37,21 +54,35 @@ class ChangeActivityManager(private val activity: Activity) {
     }
 
     fun goToExamCheck(
-        flashcards: ArrayList<Flashcard>,
-        repeat: Int,
+        categoryId: Int?,
+        rounds: Int,
         categoryName: String? = null,
         languagePair: String? = null
     ) {
-        val bundle = ArrayList<Any?>().apply {
-            add(flashcards)
-            add(repeat)
-            add(categoryName)
-            add(languagePair)
+        val intent = Intent(activity, ExamCheckActivity::class.java).apply {
+            putExtra(CATEGORY_ID_KEY_INTENT, categoryId ?: ALL_CATEGORIES)
+            putExtra(EXAM_ROUNDS_KEY_INTENT, rounds)
+            putExtra(EXAM_CATEGORY_NAME_KEY_INTENT, categoryName)
+            putExtra(EXAM_LANGUAGE_PAIR_KEY_INTENT, languagePair)
         }
-        val goLearning = Intent(activity, ExamCheckActivity::class.java).apply {
-            putExtra(EXAM_REPEAT_KEY_INTENT, bundle)
+        activity.startActivity(intent)
+        activity.finish()
+    }
+
+    /** Launch exam with an explicit list of flashcard IDs (for single-category by name). */
+    fun goToExamCheckByIds(
+        flashcardIds: IntArray,
+        rounds: Int,
+        categoryName: String? = null,
+        languagePair: String? = null
+    ) {
+        val intent = Intent(activity, ExamCheckActivity::class.java).apply {
+            putExtra(FLASHCARD_IDS_KEY_INTENT, flashcardIds)
+            putExtra(EXAM_ROUNDS_KEY_INTENT, rounds)
+            putExtra(EXAM_CATEGORY_NAME_KEY_INTENT, categoryName)
+            putExtra(EXAM_LANGUAGE_PAIR_KEY_INTENT, languagePair)
         }
-        activity.startActivity(goLearning)
+        activity.startActivity(intent)
         activity.finish()
     }
 

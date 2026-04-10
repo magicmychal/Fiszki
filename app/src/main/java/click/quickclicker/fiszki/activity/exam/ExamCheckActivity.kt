@@ -1,15 +1,12 @@
 package click.quickclicker.fiszki.activity.exam
 
-import android.os.Build
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import click.quickclicker.fiszki.NightModeController
-import click.quickclicker.fiszki.R
 import click.quickclicker.fiszki.activity.ChangeActivityManager
 import click.quickclicker.fiszki.activity.FiszkiTheme
-import click.quickclicker.fiszki.model.flashcard.Flashcard
+import click.quickclicker.fiszki.model.flashcard.FlashcardRepository
 import click.quickclicker.fiszki.ui.OrientationHelper
 import click.quickclicker.fiszki.ui.TabletContentWrapper
 
@@ -21,18 +18,30 @@ class ExamCheckActivity : AppCompatActivity() {
         window.isNavigationBarContrastEnforced = false
         OrientationHelper.lockPortraitOnPhone(this)
 
-        @Suppress("UNCHECKED_CAST")
-        val extras = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getSerializableExtra(ChangeActivityManager.EXAM_REPEAT_KEY_INTENT, ArrayList::class.java) as ArrayList<*>
+        val totalRounds = intent.getIntExtra(ChangeActivityManager.EXAM_ROUNDS_KEY_INTENT, 10)
+        val categoryName = intent.getStringExtra(ChangeActivityManager.EXAM_CATEGORY_NAME_KEY_INTENT)
+        val languagePair = intent.getStringExtra(ChangeActivityManager.EXAM_LANGUAGE_PAIR_KEY_INTENT)
+
+        val repo = FlashcardRepository(this)
+        val flashcardIds = intent.getIntArrayExtra(ChangeActivityManager.FLASHCARD_IDS_KEY_INTENT)
+        val flashcardsPool = if (flashcardIds != null) {
+            repo.getFlashcardsByIds(flashcardIds.toList())
         } else {
-            @Suppress("DEPRECATION")
-            intent.getSerializableExtra(ChangeActivityManager.EXAM_REPEAT_KEY_INTENT) as ArrayList<*>
+            val categoryId = intent.getIntExtra(
+                ChangeActivityManager.CATEGORY_ID_KEY_INTENT,
+                ChangeActivityManager.ALL_CATEGORIES
+            )
+            if (categoryId == ChangeActivityManager.ALL_CATEGORIES) {
+                repo.getAllFlashcards()
+            } else {
+                repo.getFlashcardsByCategoryID(categoryId)
+            }
         }
-        @Suppress("UNCHECKED_CAST")
-        val flashcardsPool = extras[0] as ArrayList<Flashcard>
-        val totalRounds = extras[1] as Int
-        val categoryName = if (extras.size > 2) extras[2] as? String else null
-        val languagePair = if (extras.size > 3) extras[3] as? String else null
+
+        if (flashcardsPool.isEmpty()) {
+            finish()
+            return
+        }
 
         setContent {
             FiszkiTheme {

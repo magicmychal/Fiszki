@@ -70,6 +70,10 @@ class FlashcardRepository(context: Context) {
         return dao.countByCategoryID(categoryID)
     }
 
+    fun getFlashcardsByIds(ids: List<Int>): ArrayList<Flashcard> {
+        return ArrayList(dao.getByIds(ids))
+    }
+
     fun upFlashcardFailStatistic(flashcard: Flashcard) {
         flashcard.upStaticFail()
         dao.update(flashcard)

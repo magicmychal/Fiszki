@@ -17,15 +17,15 @@ class NotificationLaunchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         OrientationHelper.lockPortraitOnPhone(this)
 
-        val flashcards = FlashcardRepository(this).getAllFlashcards()
+        val cardCount = FlashcardRepository(this).countFlashcards()
 
-        if (flashcards.isEmpty()) {
+        if (cardCount == 0) {
             Toast.makeText(this, R.string.settings_choose_category_empty, Toast.LENGTH_SHORT).show()
             finish()
             return
         }
 
-        ChangeActivityManager(this).goToLearningCheck(flashcards)
+        ChangeActivityManager(this).goToLearningCheck(categoryId = null)
         finish()
     }
 }

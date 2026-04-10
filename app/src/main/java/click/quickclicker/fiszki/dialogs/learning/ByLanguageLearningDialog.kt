@@ -11,7 +11,6 @@ import click.quickclicker.fiszki.R
 import click.quickclicker.fiszki.activity.ChangeActivityManager
 import click.quickclicker.fiszki.model.category.Category
 import click.quickclicker.fiszki.model.category.CategoryRepository
-import click.quickclicker.fiszki.model.flashcard.Flashcard
 import click.quickclicker.fiszki.model.flashcard.FlashcardRepository
 
 class ByLanguageLearningDialog(private val mActivity: Activity) : MaterialAlertDialogBuilder(mActivity) {
@@ -65,15 +64,14 @@ class ByLanguageLearningDialog(private val mActivity: Activity) : MaterialAlertD
                     Toast.makeText(mActivity, R.string.learning_by_lang_tost_empty_chose, Toast.LENGTH_LONG).show()
                     return@setOnClickListener
                 }
-                val flashcards = ArrayList<Flashcard>()
-                for (cat in chosenCategories) {
-                    flashcards.addAll(mFlashcardRepository.getFlashcardsByCategoryID(cat.id))
-                }
-                if (flashcards.isEmpty()) {
+                val flashcardIds = chosenCategories.flatMap { cat ->
+                    mFlashcardRepository.getFlashcardsByCategoryID(cat.id).map { it.id }
+                }.toIntArray()
+                if (flashcardIds.isEmpty()) {
                     Toast.makeText(mActivity, R.string.learning_by_lang_tost_empty_chose, Toast.LENGTH_LONG).show()
                 } else {
                     dialog.dismiss()
-                    ChangeActivityManager(mActivity).goToLearningCheck(flashcards)
+                    ChangeActivityManager(mActivity).goToLearningCheckByIds(flashcardIds)
                 }
             }
         }

@@ -176,16 +176,16 @@ private fun TabContent(
                     title = context.getString(R.string.learning_title),
                     categories = categoryItems,
                     onStartPractice = { strictMode, categoryId, reversed ->
-                        val flashcards = if (categoryId == null) {
-                            flashcardRepository.getAllFlashcards()
+                        val cardCount = if (categoryId == null) {
+                            flashcardRepository.countFlashcards()
                         } else {
-                            flashcardRepository.getFlashcardsByCategoryID(categoryId)
+                            flashcardRepository.countFlashcardsByCategoryID(categoryId)
                         }
-                        if (flashcards.isEmpty()) {
+                        if (cardCount == 0) {
                             Toast.makeText(context, R.string.learning_no_flashcards, Toast.LENGTH_LONG).show()
                         } else if (activity != null) {
                             ChangeActivityManager(activity).goToLearningCheck(
-                                flashcards = flashcards,
+                                categoryId = categoryId,
                                 strictMode = strictMode,
                                 reversed = reversed
                             )
@@ -237,15 +237,15 @@ private fun TabContent(
                     title = context.getString(R.string.exam_title),
                     categories = categoryItems,
                     onStartExam = { strictMode, categoryId, reversed, rounds ->
-                        val flashcards = if (categoryId == null) {
-                            flashcardRepository.getAllFlashcards()
+                        val cardCount = if (categoryId == null) {
+                            flashcardRepository.countFlashcards()
                         } else {
-                            flashcardRepository.getFlashcardsByCategoryID(categoryId)
+                            flashcardRepository.countFlashcardsByCategoryID(categoryId)
                         }
-                        if (flashcards.isEmpty()) {
+                        if (cardCount == 0) {
                             Toast.makeText(context, R.string.exam_no_flashcards, Toast.LENGTH_LONG).show()
                         } else if (activity != null) {
-                            val resolvedRounds = if (rounds == EXAM_ROUNDS_ALL) flashcards.size else minOf(rounds, flashcards.size)
+                            val resolvedRounds = if (rounds == EXAM_ROUNDS_ALL) cardCount else minOf(rounds, cardCount)
                             val categoryName = if (categoryId == null) {
                                 context.getString(R.string.learning_category_all)
                             } else {
@@ -257,7 +257,7 @@ private fun TabContent(
                                 val to = if (reversed) category.getLangFrom() else category.getLangOn()
                                 "$from to $to"
                             } else null
-                            ChangeActivityManager(activity).goToExamCheck(flashcards, resolvedRounds, categoryName, languagePair)
+                            ChangeActivityManager(activity).goToExamCheck(categoryId, resolvedRounds, categoryName, languagePair)
                         }
                     },
                     modifier = contentModifier

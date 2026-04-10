@@ -64,16 +64,16 @@ class LearningFragment : Fragment() {
                     title = getString(R.string.learning_title),
                     categories = categoryItems,
                     onStartPractice = { strictMode, categoryId, reversed ->
-                        val flashcards = if (categoryId == null) {
-                            mFlashcardRepository.getAllFlashcards()
+                        val cardCount = if (categoryId == null) {
+                            mFlashcardRepository.countFlashcards()
                         } else {
-                            mFlashcardRepository.getFlashcardsByCategoryID(categoryId)
+                            mFlashcardRepository.countFlashcardsByCategoryID(categoryId)
                         }
-                        if (flashcards.isEmpty()) {
+                        if (cardCount == 0) {
                             Toast.makeText(activity, R.string.learning_no_flashcards, Toast.LENGTH_LONG).show()
                         } else {
                             ChangeActivityManager(activity).goToLearningCheck(
-                                flashcards = flashcards,
+                                categoryId = categoryId,
                                 strictMode = strictMode,
                                 reversed = reversed
                             )

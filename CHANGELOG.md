@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Draggable scroll indicator on the vocabulary deck screen for quickly jumping through long card lists
 
 ### Fixed
+- Fixed crash when starting practice or exam with large decks (490+ cards) caused by exceeding Android's 1MB Intent size limit
 - SessionTypeCard buttons in learning and exam screens now maintain consistent heights across columns
 
 
