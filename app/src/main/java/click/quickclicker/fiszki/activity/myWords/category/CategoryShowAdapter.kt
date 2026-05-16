@@ -66,8 +66,6 @@ class CategoryShowAdapter(
 
     override fun getItemCount(): Int = arrayList.size
 
-    override fun getItemViewType(position: Int): Int = position
-
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val card: MaterialCardView = itemView.findViewById(R.id.placeCard)
         val name: TextView = itemView.findViewById(R.id.category_name)
