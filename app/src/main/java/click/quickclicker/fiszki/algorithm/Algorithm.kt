@@ -27,6 +27,10 @@ class Algorithm(context: Context) {
         val maxRange = multiplierPoints[4]
         if (maxRange <= 0) return drawRandomAvoidingLast(flashcardPool)
 
+        // Pre-group flashcards by priority to avoid O(N) filtering inside the loop
+        // Priority 0 is treated as priority 1 as per existing logic
+        val groupedCards = flashcardPool.groupBy { if (it.priority == 0) 1 else it.priority }
+
         var drawnCard: Flashcard? = null
         var attempts = 0
         val maxAttempts = 10
@@ -41,8 +45,8 @@ class Algorithm(context: Context) {
                 else -> 5
             }
 
-            val cardsWithPriority = flashcardPool.filter { it.priority == selectedPriority || (it.priority == 0 && selectedPriority == 1) }
-            if (cardsWithPriority.isNotEmpty()) {
+            val cardsWithPriority = groupedCards[selectedPriority]
+            if (cardsWithPriority != null && cardsWithPriority.isNotEmpty()) {
                 val candidate = cardsWithPriority.random()
                 if (candidate.id != lastDrawnFlashcard?.id || flashcardPool.size <= 1) {
                     drawnCard = candidate
